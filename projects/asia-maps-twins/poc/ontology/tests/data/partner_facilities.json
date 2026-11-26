@@ -1,0 +1,26 @@
+[
+  {
+    "entity_id": "aaaaaaaa-0000-0000-0000-000000000001",
+    "code": "DL01", "name": "Đại lý mẫu 01", "facility_type": "agent",
+    "operated_by": "11111111-1111-1111-1111-111111111111",
+    "in_admin_unit": "22222222-2222-2222-2222-222222222222",
+    "location": "POINT(106.08 21.19)", "valid_from": "2025-09-01",
+    "source": "doi-tac-mau", "tenant_id": "hang-mau", "data_class": "public"
+  },
+  {
+    "entity_id": "aaaaaaaa-0000-0000-0000-000000000002",
+    "code": "DL02", "name": "Đại lý mẫu 02", "facility_type": "kiosk",
+    "operated_by": "11111111-1111-1111-1111-111111111111",
+    "in_admin_unit": "22222222-2222-2222-2222-222222222222",
+    "valid_from": "2025-09-01",
+    "source": "doi-tac-mau", "tenant_id": "hang-mau", "data_class": "public"
+  },
+  {
+    "entity_id": "aaaaaaaa-0000-0000-0000-000000000003",
+    "code": "DL03", "facility_type": "agent",
+    "operated_by": "11111111-1111-1111-1111-111111111111",
+    "in_admin_unit": "22222222-2222-2222-2222-222222222222",
+    "valid_from": "2025-09-01",
+    "source": "doi-tac-mau", "tenant_id": "hang-mau", "data_class": "public"
+  }
+]

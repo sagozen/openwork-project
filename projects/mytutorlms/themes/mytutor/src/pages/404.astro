@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import { translator } from '../i18n';
+import { pageContext } from '../lib/page-context';
+Astro.response.status = 404;
+const { locale } = await pageContext(Astro);
+const t = translator(locale);
+---
+<Base title={t('notFound.title')} localized><div class="narrow"><p class="eyebrow">{t('notFound.eyebrow')}</p><h1>{t('notFound.title')}</h1><p class="muted">{t('notFound.body')}</p><a class="button" href="/">{t('notFound.back')}</a></div></Base>

@@ -1,0 +1,105 @@
+/* SINH TỰ ĐỘNG từ pen-tokens.json bằng scripts/pen-tokens-to-css.mjs. Không sửa tay: sửa JSON rồi chạy `npm run tokens`. */
+@theme {
+  /* Biến pen.dev (GetVariables) */
+  --color-bg: #F4F5F7;
+  --color-surface: #FFFFFF;
+  --color-chrome: #0E1014;
+  --color-sidebar: #14161B;
+  --color-sidebar-hover: #22252D;
+  --color-sidebar-text: #9CA3B2;
+  --color-border: #E5E7EC;
+  --color-text: #14161B;
+  --color-text-2: #5B6170;
+  --color-text-3: #8A90A0;
+  --color-accent: #E0592A;
+  --color-accent-soft: #FDEEE7;
+  --color-green: #15803D;
+  --color-green-soft: #E7F6EC;
+  --color-amber: #B45309;
+  --color-amber-soft: #FEF3DF;
+  --color-red: #C62828;
+  --color-red-soft: #FDECEC;
+  --color-blue: #2563EB;
+  --color-blue-soft: #E8F0FE;
+  --color-ai: #7C3AED;
+  --color-ai-2: #E0592A;
+  --color-ai-soft: #F5F0FF;
+  --color-ai-line: #DCCFFC;
+  --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  /* Màu đặt tên thêm (dùng lặp trong khung) */
+  --color-divider: #F0F1F4;
+  --color-table-head: #FAFAFB;
+  --color-group-bg: #F6F7F9;
+  --color-group-line: #EDEFF2;
+  --color-muted-box: #F8F9FA;
+  --color-ai-foot: #FBFAFF;
+  --color-stage: #EEF0F3;
+  --color-board: #FBFAF8;
+  --color-disabled-bg: #F6F7F9;
+  --color-disabled-fg: #C9CED8;
+  --color-overlay: #0E1014A6;
+  --color-line-red: #F5C2C2;
+  --color-line-amber: #F6D9A8;
+  --color-line-blue: #C7D7FB;
+  --color-line-green: #CDEBD7;
+  --color-toggle-off: #D5D9E1;
+  --color-toggle-on-locked: #86C79C;
+  --color-chip-neutral: #F0F1F4;
+  --color-sidebar-section: #6B7280;
+  --color-sidebar-p2: #2B2F55;
+  --color-sidebar-p2-text: #A5B4FC;
+  --color-sidebar-badge-text: #C9CED8;
+  --color-chrome-text: #D5D9E1;
+  --color-chrome-icon: #9CA3B2;
+  --color-chrome-control: #C9CED8;
+  --color-chrome-hint: #7C8392;
+  --color-chrome-field: #1D2028;
+  --color-chrome-field-line: #2A2E38;
+  --color-chrome-btn: #1C1F26;
+  --color-sync-pill: #16241D;
+  --color-sync-dot: #34D399;
+  --color-sync-pill-offline: #2A1D12;
+  --color-sync-dot-offline: #F59E0B;
+  --color-sync-text: #A7F3D0;
+  --color-cloud-card: #18231E;
+  --color-cloud-icon: #1E3A2C;
+  --color-cloud-sub: #6EE7B7;
+  --color-avatar-admin: #3A2A22;
+  --color-avatar-admin-text: #F9B595;
+  --color-avatar-manager: #1E2A44;
+  --color-avatar-manager-text: #93C5FD;
+  --color-avatar-leader: #173225;
+  --color-avatar-leader-text: #86EFAC;
+  --color-avatar-staff: #3B2F14;
+  --color-avatar-staff-text: #FCD34D;
+  --color-avatar-vipo: #3D2A10;
+  --color-avatar-vipo-text: #FDBA74;
+  --color-avatar-locked: #2B2B2B;
+  --color-avatar-locked-text: #BFC5D0;
+  --color-avatar-ai: #2A2440;
+  --color-avatar-ai-text: #C4B5FD;
+
+  /* Bóng */
+  --shadow-window: 0 24px 60px #0E101433;
+  --shadow-auth: 0 8px 28px #0E10140F;
+  --shadow-dialog: 0 20px 50px #0E101440;
+  --shadow-popup: 0 12px 32px #0E101426;
+  --shadow-menu: 0 8px 24px #0E101424;
+  --shadow-toast: 0 8px 24px #0E101433;
+  --shadow-segment: 0 1px 3px #0E10141A;
+  --shadow-card: 0 4px 14px #0E10140D;
+  --shadow-ai-card: 0 10px 30px #7C3AED1F;
+
+  /* Bo góc (rounded-pen-8 ...) */
+  --radius-pen-4: 4px;
+  --radius-pen-5: 5px;
+  --radius-pen-6: 6px;
+  --radius-pen-7: 7px;
+  --radius-pen-8: 8px;
+  --radius-pen-10: 10px;
+  --radius-pen-12: 12px;
+  --radius-pen-14: 14px;
+  --radius-pen-16: 16px;
+}

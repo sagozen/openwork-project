@@ -1,0 +1,8 @@
+{
+  "name": "chatqa-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/chatqa/web",
+    "packages/ui-shell"
+  ]
+}

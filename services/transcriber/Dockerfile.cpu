@@ -1,0 +1,52 @@
+# CPU image for the VPS fallback worker.
+#
+# whisper.cpp is built without Vulkan (Zen 1 has no usable GPU path), ffmpeg and yt-dlp are
+# packaged, and the model is mounted from a volume so an image update never re-downloads it.
+#
+# Build:  docker build -f Dockerfile.cpu -t transcript-transcriber .
+# Run:    see deploy/docker-compose.vps.yml
+
+ARG WHISPER_CPP_VERSION=1.8.1
+
+FROM golang:1.26-bookworm AS build
+WORKDIR /src
+COPY go.mod ./
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/transcriber ./cmd/transcriber
+
+FROM debian:bookworm-slim AS whisper
+ARG WHISPER_CPP_VERSION
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends git cmake build-essential ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+RUN git clone --depth 1 --branch "v${WHISPER_CPP_VERSION}" https://github.com/ggml-org/whisper.cpp /whisper
+WORKDIR /whisper
+RUN cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_EXAMPLES=ON \
+  && cmake --build build --config Release -j"$(nproc)" --target whisper-cli
+
+FROM debian:bookworm-slim
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ffmpeg python3 python3-pip ca-certificates tini \
+  && pip3 install --no-cache-dir --break-system-packages "yt-dlp[default]" \
+  && rm -rf /var/lib/apt/lists/*
+
+# yt-dlp needs a JS runtime for YouTube extraction; deno is the one it enables by default.
+COPY --from=denoland/deno:bin-2.5.6 /deno /usr/local/bin/deno
+COPY --from=build /out/transcriber /usr/local/bin/transcriber
+COPY --from=whisper /whisper/build/bin/whisper-cli /usr/local/bin/whisper-cli
+
+ENV WHISPER_BIN=/usr/local/bin/whisper-cli \
+    WHISPER_MODEL=/models/ggml-large-v3-turbo-q5_0.bin \
+    WHISPER_THREADS=4 \
+    FFMPEG_BIN=/usr/bin/ffmpeg \
+    FFPROBE_BIN=/usr/bin/ffprobe \
+    YTDLP_BIN=/usr/local/bin/yt-dlp \
+    TRANSCRIBER_TEMP=/tmp/transcriber \
+    TRANSCRIBER_TIER=fallback \
+    CONCURRENCY=1 \
+    MAX_AUDIO_SECONDS=3600
+
+RUN mkdir -p /tmp/transcriber /models
+VOLUME ["/models"]
+WORKDIR /tmp/transcriber
+ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/transcriber"]

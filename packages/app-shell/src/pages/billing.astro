@@ -1,0 +1,87 @@
+---
+import { getWallet } from "@templatedesign/platform/credits";
+import { d1Db } from "@templatedesign/platform/db";
+import { runtimeEnv } from "@templatedesign/platform/runtime";
+import { currentPeriod } from "@templatedesign/platform/workspaces";
+import AdminLayout from "../layouts/AdminLayout.astro";
+import { planRows } from "../plan-view";
+
+const { workspace, member } = Astro.locals;
+if (!workspace) return new Response("Not found", { status: 404 });
+const db = d1Db(runtimeEnv().DB);
+const wallet = await getWallet(db, workspace.tenantId);
+const plans = planRows();
+const current = plans.find((plan) => plan.id === workspace.plan);
+const usage = await db.all<{ key: string; used: number }>(
+  "SELECT key, used FROM workspace_usage WHERE workspace_id = ? AND period = ?",
+  [workspace.id, currentPeriod()],
+);
+const used = new Map(usage.map((row) => [row.key, row.used]));
+const isOwner = member?.role === "owner";
+const expires = workspace.planExpiresAt ? new Date(workspace.planExpiresAt).toISOString().slice(0, 10) : null;
+---
+
+<AdminLayout title="Billing" current="/admin/billing">
+  <p>
+    Current plan: <strong>{current?.name ?? workspace.plan}</strong>
+    {expires && <span> · renews or ends on {expires}</span>}
+  </p>
+  <p>Credits available: <strong>{wallet.available.toLocaleString("en-US")}</strong> · <a href="/app/credits">Buy credits</a></p>
+
+  <h2 style="font-size:17px">Usage this month</h2>
+  <table style="border-collapse:collapse;width:100%;max-width:560px">
+    <tbody>
+      {(current?.features ?? []).map((feature) => (
+        <tr>
+          <td style="padding:6px 0;border-bottom:1px solid #f5f5f4">{feature.label}</td>
+          <td style="padding:6px 0;border-bottom:1px solid #f5f5f4;text-align:right">
+            {used.has(feature.key) ? `${used.get(feature.key)} of ${feature.value}` : feature.value}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2 style="font-size:17px;margin-top:28px">Plans</h2>
+  <div id="plans" data-endpoint={`/${workspace.slug}/admin/api/billing`} style="display:flex;gap:12px;flex-wrap:wrap">
+    {plans.map((plan) => (
+      <section style="background:#fff;border:1px solid #e7e5e4;border-radius:10px;padding:14px;min-width:220px">
+        <strong>{plan.name}</strong>
+        <div style="color:#57534e;margin-bottom:8px">{plan.priceCredits ? `${plan.priceCredits.toLocaleString("en-US")} credits / ${plan.periodDays} days` : "Free"}</div>
+        {isOwner && plan.id === workspace.plan && plan.priceCredits && <button data-upgrade={plan.id}>Renew</button>}
+        {isOwner && plan.id !== workspace.plan && plan.priceCredits && <button data-upgrade={plan.id}>Upgrade</button>}
+        {isOwner && plan.id === "free" && workspace.plan !== "free" && <button data-downgrade="1">Switch to Free</button>}
+        {plan.id === workspace.plan && !plan.priceCredits && <em>Current</em>}
+      </section>
+    ))}
+  </div>
+  {!isOwner && <p style="color:#78716c">Only the owner can change the plan.</p>}
+  <p id="billing-status" role="status" style="color:#78716c"></p>
+
+  <script>
+    const root = document.getElementById("plans") as HTMLElement;
+    const status = document.getElementById("billing-status") as HTMLElement;
+    async function send(body: unknown) {
+      status.textContent = "Working…";
+      const response = await fetch(root.dataset.endpoint as string, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-csrf-token": (window as unknown as { shellCsrf: () => string }).shellCsrf() },
+        body: JSON.stringify(body),
+      });
+      if (response.ok) return location.reload();
+      const problem = await response.json().catch(() => null);
+      status.innerHTML = "";
+      status.append(problem?.detail ?? "Could not change the plan.");
+      if (problem?.details?.topup_url) {
+        const link = document.createElement("a");
+        link.href = problem.details.topup_url;
+        link.textContent = " Buy credits";
+        status.append(link);
+      }
+    }
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-upgrade]")) {
+      button.addEventListener("click", () => send({ action: "upgrade", plan: button.dataset.upgrade }));
+    }
+    document.querySelector<HTMLButtonElement>("[data-downgrade]")?.addEventListener("click", () => send({ action: "downgrade" }));
+  </script>
+</AdminLayout>

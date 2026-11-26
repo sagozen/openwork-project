@@ -1,0 +1,56 @@
+---
+import { adminMetrics, getAdminSettings } from "@templatedesign/platform/admin";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { d1Db } from "@templatedesign/platform/db";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+const [metrics, settings] = await Promise.all([adminMetrics(db), getAdminSettings(db)]);
+const avg = metrics.avgDurationMs ? `${Math.round(metrics.avgDurationMs)} ms` : "—";
+---
+
+<AdminLayout title="Overview" current="/admin/">
+  <div class="w-admin__grid">
+    <div class="w-admin__metric"><strong>{metrics.tenants}</strong><span>Accounts</span></div>
+    <div class="w-admin__metric"><strong>{metrics.jobs24h}</strong><span>Jobs (24 h)</span></div>
+    <div class="w-admin__metric"><strong>{metrics.failures24h}</strong><span>Failures (24 h)</span></div>
+    <div class="w-admin__metric"><strong>{metrics.openReports}</strong><span>Open abuse reports</span></div>
+  </div>
+
+  <div class="w-card">
+    <h2>Now</h2>
+    <p>
+      {settings.pauseAdmission ? "Admission is <strong>paused</strong>." : "Admission is running."}
+      {settings.incidentActive ? " An incident banner is active." : " No incident banner."}
+      {settings.pauseWebhooks ? " Webhook delivery is paused." : ""}
+    </p>
+    <p class="td-muted">Queue: {metrics.queued} queued · {metrics.running} running · average terminal job {avg}</p>
+    <p>
+      <strong>Ledger check:</strong>
+      {metrics.ledgerMismatch === 0 ? <span class="td-badge td-badge--success">balanced</span> : <span class="td-badge td-badge--danger">mismatch {metrics.ledgerMismatch}</span>}
+      · {metrics.failedEmails} failed emails
+    </p>
+    <div class="w-admin__actions">
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/accounts/">Find an account</a>
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/jobs/">Jobs &amp; failures</a>
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/audit/">Audit log</a>
+    </div>
+  </div>
+
+  <div class="w-card">
+    <h2>Failures by code</h2>
+    {metrics.failureByCode.length === 0 ? (
+      <p class="td-muted">No failed jobs recorded.</p>
+    ) : (
+      <table class="td-table td-table--dense">
+        <thead><tr><th scope="col">Code</th><th scope="col" class="td-table__numeric">Count</th></tr></thead>
+        <tbody>
+          {metrics.failureByCode.map((row) => (
+            <tr><th scope="row"><code>{row.code}</code></th><td class="td-table__numeric">{row.count}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>

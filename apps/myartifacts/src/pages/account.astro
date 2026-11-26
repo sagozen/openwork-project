@@ -1,0 +1,48 @@
+---
+import { resolveAdmin } from "@templatedesign/platform/admin";
+import { agentConnectorUrl } from "@templatedesign/platform/agents";
+import { d1Db } from "@templatedesign/platform/db";
+import { listApiKeys } from "@templatedesign/platform/keys";
+import { AccountApp } from "../components/AccountApp.js";
+import SiteHeader from "../components/SiteHeader.astro";
+import Base from "../layouts/Base.astro";
+import { artifactDeps, listArtifacts, usage } from "../lib/artifacts/service";
+import type { Caller } from "../lib/auth/caller";
+import { SCOPE_READ, SCOPE_WRITE } from "../lib/auth/scopes";
+import "../lib/platform";
+import { runtimeEnv } from "../lib/runtime";
+import { listShares, shareDeps } from "../lib/shares/service";
+
+const { user, tenantId, csrfToken } = Astro.locals;
+if (!user || !tenantId) return Astro.redirect("/sign-in?next=%2Faccount");
+const env = runtimeEnv();
+const db = d1Db(env.DB);
+const caller: Caller = { tenantId, userId: user.id, scopes: [SCOPE_READ, SCOPE_WRITE], via: "session" };
+const deps = await artifactDeps(env);
+const [stored, files, shares, keys, admin] = await Promise.all([
+  usage(deps, caller),
+  listArtifacts(deps, caller, { limit: 50 }),
+  listShares(shareDeps(env), caller, { limit: 50 }),
+  listApiKeys(db, tenantId),
+  resolveAdmin(db, user, env),
+]);
+const { mcpUrl } = agentConnectorUrl(env);
+Astro.response.headers.set("cache-control", "private, no-store");
+---
+
+<Base title="Account" noindex>
+  <SiteHeader signedIn current="account" />
+  <main id="main">
+    <AccountApp
+      email={user.email}
+      mcpUrl={mcpUrl}
+      usage={stored}
+      files={files}
+      shares={shares}
+      keys={keys}
+      csrfToken={csrfToken ?? ""}
+      isAdmin={Boolean(admin)}
+      client:load
+    />
+  </main>
+</Base>

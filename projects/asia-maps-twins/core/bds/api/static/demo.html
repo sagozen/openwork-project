@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bản đồ số — Demo base</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --ink: #14181f; --muted: #667085; --line: #e4e7ec;
+    --brand: #c8102e; --car: #2563eb; --moto: #ea580c; --ok: #16a34a; --warn: #d97706; --bad: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+  .app { display: grid; grid-template-columns: 440px 1fr; height: 100vh; }
+  aside { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+  header { padding: 18px 20px 12px; border-bottom: 1px solid var(--line); }
+  header h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  header h1 span { color: var(--brand); }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+  .tabs { display: flex; gap: 4px; padding: 10px 14px 0; border-bottom: 1px solid var(--line); }
+  .tabs button { border: 0; background: none; padding: 9px 8px; font: inherit; font-size: 13px; font-weight: 500; color: var(--muted); white-space: nowrap;
+                 border-bottom: 2px solid transparent; cursor: pointer; }
+  .tabs button.on { color: var(--ink); border-color: var(--brand); }
+  .pane { display: none; padding: 16px 20px; overflow-y: auto; flex: 1; }
+  .pane.on { display: block; }
+  label.small { display: block; font-size: 12px; color: var(--muted); margin: 0 0 6px; font-weight: 500; }
+  .search { position: relative; }
+  input[type=text] { width: 100%; font: inherit; font-size: 15px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; outline: none; }
+  input[type=text]:focus { border-color: var(--ink); }
+  .dropdown { position: absolute; left: 0; right: 0; top: 46px; background: #fff; border: 1px solid var(--line); border-radius: 10px;
+              box-shadow: 0 10px 30px rgba(16,24,40,.12); z-index: 10; overflow: hidden; display: none; }
+  .dropdown .item { padding: 9px 12px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
+  .dropdown .item:hover, .dropdown .item.active { background: #f2f4f7; }
+  .dropdown .meta { padding: 6px 12px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); }
+  .chip { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; padding: 2px 6px; border-radius: 5px; background: #eef2f6; color: #475467; white-space: nowrap; }
+  .samples { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+  .samples button { font: inherit; font-size: 12px; border: 1px solid var(--line); background: #fff; padding: 5px 9px; border-radius: 999px; cursor: pointer; }
+  .samples button:hover { border-color: var(--ink); }
+  .btn { font: inherit; font-weight: 600; font-size: 14px; border: 0; border-radius: 10px; padding: 10px 14px; cursor: pointer; background: var(--ink); color: #fff; }
+  .btn.ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .card { border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-top: 14px; }
+  .card h3 { margin: 0 0 4px; font-size: 15px; }
+  .level { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px; color: #fff; }
+  .conf { margin: 12px 0 6px; }
+  .bar { position: relative; height: 10px; background: #eef2f6; border-radius: 999px; overflow: visible; }
+  .bar .fill { height: 100%; border-radius: 999px; }
+  .bar .tick { position: absolute; top: -3px; width: 2px; height: 16px; background: #98a2b3; }
+  .action { font-weight: 600; margin-top: 8px; font-size: 14px; }
+  dl { display: grid; grid-template-columns: 120px 1fr; gap: 5px 10px; margin: 12px 0 0; font-size: 13px; }
+  dt { color: var(--muted); } dd { margin: 0; }
+  .note { font-size: 12px; background: #fff7ed; color: #9a3412; border-radius: 8px; padding: 8px 10px; margin-top: 10px; }
+  .muted { color: var(--muted); font-size: 12px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .seg button { font: inherit; font-size: 13px; border: 0; background: #fff; padding: 8px 12px; cursor: pointer; }
+  .seg button.on { background: var(--ink); color: #fff; }
+  .stat { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+  .stat div { background: #f9fafb; border-radius: 10px; padding: 10px; }
+  .stat b { display: block; font-size: 20px; }
+  .stat span { font-size: 12px; color: var(--muted); }
+  .legend { display: flex; gap: 14px; font-size: 13px; margin-top: 8px; }
+  .legend i { display: inline-block; width: 18px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+  pre { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 10px; overflow: auto; max-height: 52vh; }
+  pre .k { color: #93c5fd; } pre .s { color: #fde68a; } pre .n { color: #86efac; }
+  code.url { display: block; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; background: #f2f4f7; padding: 8px 10px; border-radius: 8px; word-break: break-all; margin: 8px 0; }
+  #map { width: 100%; height: 100%; }
+  .stage { border-left: 3px solid var(--line); padding: 2px 0 2px 12px; margin: 14px 0; }
+  .stage h4 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .stage .num { display: inline-block; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; text-align: center; line-height: 18px; margin-right: 6px; }
+  .toks { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tok { border-radius: 6px; padding: 3px 6px 2px; font-size: 13px; color: #fff; line-height: 1.15; text-align: center; }
+  .tok small { display: block; font-size: 9px; opacity: .9; letter-spacing: .03em; }
+  table.cand { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.cand th, table.cand td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.cand tr.win td { background: #f0fdf4; font-weight: 600; }
+  .legend-tok { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; font-size: 11px; color: var(--muted); }
+  .legend-tok span::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; background: var(--c); vertical-align: -1px; }
+  .calib { display: grid; grid-template-columns: 70px 1fr 1fr 40px; gap: 4px 8px; align-items: center; font-size: 12px; margin-top: 8px; }
+  .calib .b { height: 8px; border-radius: 4px; }
+  .pin { width: 28px; height: 28px; border-radius: 50% 50% 50% 0; background: var(--brand); transform: rotate(-45deg); border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.3); }
+  .pin span { display: block; transform: rotate(45deg); color: #fff; font-weight: 700; font-size: 12px; text-align: center; line-height: 24px; }
+  .toast { position: absolute; right: 16px; top: 16px; background: rgba(20,24,31,.9); color: #fff; padding: 8px 12px; border-radius: 10px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <header>
+      <h1>Bản đồ số <span>·</span> Base</h1>
+      <p>Gợi ý địa chỉ · Phân giải địa chỉ · Khoảng cách thực tế — dữ liệu mở toàn quốc, tự host</p>
+    </header>
+    <nav class="tabs">
+      <button data-tab="addr" class="on">Địa chỉ</button>
+      <button data-tab="route">Khoảng cách</button>
+      <button data-tab="google">Chuẩn Google</button>
+      <button data-tab="nlp">Hiểu địa chỉ AI</button>
+    </nav>
+
+    <section class="pane on" id="pane-addr">
+      <label class="small">Địa chỉ mẫu</label>
+      <div class="samples" id="samples" style="margin-top:0"></div>
+      <label class="small">Gõ địa chỉ (có dấu, không dấu, viết tắt, địa chỉ cũ 3 cấp đều được)</label>
+      <div class="search" style="margin-bottom:12px">
+        <input type="text" id="q" placeholder="vd. 59 nguyen hue p ben nghe q1 tphcm" autocomplete="off">
+        <div class="dropdown" id="dd"></div>
+      </div>
+      <div class="row"><button class="btn" id="btn-geocode">Phân giải địa chỉ</button><span class="muted" id="geo-took"></span></div>
+      <div id="geo-result"></div>
+    </section>
+
+    <section class="pane" id="pane-route">
+      <p class="muted" style="margin-top:0">Bấm lên bản đồ để đặt điểm A, B (thêm điểm để đi qua nhiều chặng), hoặc chọn kịch bản có sẵn.</p>
+      <div class="row" style="margin-bottom:10px">
+        <div class="seg" id="vehicle">
+          <button data-v="motorbike" class="on">Xe máy</button><button data-v="car">Ô tô</button><button data-v="truck">Xe tải</button>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn" id="btn-route">Tính tuyến</button>
+        <button class="btn ghost" id="btn-compare">Xe máy vs ô tô</button>
+        <button class="btn ghost" id="btn-clear">Xoá điểm</button>
+      </div>
+      <div class="samples">
+        <button id="preset-hp">Hà Nội → Hải Phòng</button>
+        <button id="preset-hcm">Chợ Bến Thành → Sân bay Tân Sơn Nhất</button>
+      </div>
+      <div id="route-result"></div>
+      <div class="card">
+        <h3>Ma trận khoảng cách</h3>
+        <p class="muted" style="margin:4px 0 10px">Rải ngẫu nhiên 100 điểm trong khung bản đồ đang xem và tính 100 × 100 = 10.000 cặp theo đường thật.</p>
+        <button class="btn ghost" id="btn-matrix">Tính ma trận 100 × 100</button>
+        <div id="matrix-result"></div>
+      </div>
+    </section>
+
+    <section class="pane" id="pane-google">
+      <p class="muted" style="margin-top:0">Cùng đường dẫn, tham số và cấu trúc JSON với Google Maps Web Service API. Hệ thống đang gọi Google chỉ cần đổi host.</p>
+      <input type="text" id="gq" value="59 Nguyễn Huệ, P. Bến Nghé, Q.1, TP.HCM">
+      <div class="row" style="margin-top:10px">
+        <div class="seg" id="gapi">
+          <button data-api="geocode" class="on">Geocoding</button><button data-api="autocomplete">Autocomplete</button><button data-api="distancematrix">Distance Matrix</button>
+        </div>
+        <button class="btn" id="btn-google">Gọi</button>
+      </div>
+      <code class="url" id="gurl"></code>
+      <pre id="gjson">Bấm "Gọi" để xem phản hồi.</pre>
+    </section>
+    <section class="pane" id="pane-nlp">
+      <p class="muted" style="margin-top:0">Luật → cache → tagger học máy → mô hình quyết định; LLM chỉ chạy ngoài luồng để gán nhãn ca khó cho vòng học đêm.</p>
+      <div class="samples" id="nlp-samples" style="margin-top:0"></div>
+      <input type="text" id="nq" value="toa nha keangnam pham hung nam tu liem hn">
+      <div class="row" style="margin-top:10px"><button class="btn" id="btn-nlp">Phân tích từng tầng</button><span class="muted" id="nlp-took"></span></div>
+      <div id="nlp-result"></div>
+      <div class="card" id="ml-status"><h3>Trạng thái học máy</h3><p class="muted">Đang tải…</p></div>
+    </section>
+  </aside>
+  <main style="position:relative"><div id="map"></div><div class="toast" id="toast" hidden></div></main>
+</div>
+
+<script>
+const API = location.origin;
+const KEY = new URLSearchParams(location.search).get('key');
+const HEADERS = KEY ? { 'X-API-Key': KEY, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
+const SAMPLES = [
+  '59 nguyen hue p ben nghe q1 tphcm',
+  'so 12 ngo 34 pho hue phuong hai ba trung ha noi',
+  'Chợ Bến Thành, Phường Bến Thành, TP.HCM',
+  'Thôn Đông, xã Tân Lập, huyện Đan Phượng, Hà Nội',
+  'KCN Quế Võ, Bắc Ninh',
+];
+const KIND = { province: 'Tỉnh', ward: 'Xã/phường', street: 'Đường', place: 'Địa danh', address: 'Số nhà' };
+const LEVEL = {
+  ROOFTOP: 'Đúng số nhà', RANGE_INTERPOLATED: 'Nội suy số nhà', STREET: 'Trên đường', PLACE: 'Địa danh',
+  WARD_CENTROID: 'Tâm xã/phường', PROVINCE_CENTROID: 'Tâm tỉnh', NOT_FOUND: 'Không tìm thấy',
+};
+const ADMIN_SOURCE = {
+  new: 'Địa chỉ 2 cấp mới', legacy_converted: 'Địa chỉ cũ 3 cấp → đã chuyển sang đơn vị 2 cấp mới',
+  province_only: 'Chỉ nhận ra tỉnh', none: 'Không nhận ra đơn vị hành chính',
+};
+
+// ---------- bản đồ ----------
+const map = new maplibregl.Map({ container: 'map', style: 'https://tiles.openfreemap.org/styles/liberty',
+                                 center: [106.2, 16.2], zoom: 5.2 });
+map.addControl(new maplibregl.NavigationControl(), 'top-right');
+// Bản đồ nền mặc định hiện tên tiếng Anh; đổi sang tên địa phương (tiếng Việt có dấu).
+map.on('style.load', () => map.getStyle().layers
+  .filter(l => l.type === 'symbol' && l.layout && l.layout['text-field'])
+  .forEach(l => map.setLayoutProperty(l.id, 'text-field', ['coalesce', ['get', 'name:vi'], ['get', 'name']])));
+let resultMarker = null, routePoints = [], routeMarkers = [];
+const toast = (msg) => { const t = document.getElementById('toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 3500); };
+
+function pin(label, color) {
+  const el = document.createElement('div'); el.className = 'pin'; if (color) el.style.background = color;
+  el.innerHTML = `<span>${label}</span>`; return el;
+}
+function setLine(id, coords, color, width = 5) {
+  const data = { type: 'Feature', geometry: { type: 'LineString', coordinates: coords } };
+  if (map.getSource(id)) { map.getSource(id).setData(data); return; }
+  map.addSource(id, { type: 'geojson', data });
+  map.addLayer({ id, type: 'line', source: id, layout: { 'line-cap': 'round', 'line-join': 'round' },
+                 paint: { 'line-color': color, 'line-width': width, 'line-opacity': .9 } });
+}
+function clearLayer(id) { if (map.getLayer(id)) map.removeLayer(id); if (map.getSource(id)) map.removeSource(id); }
+function fitCoords(coords) {
+  const b = coords.reduce((b, c) => b.extend(c), new maplibregl.LngLatBounds(coords[0], coords[0]));
+  map.fitBounds(b, { padding: 80, duration: 900 });
+}
+function decodePolyline(str, precision = 6) {
+  let index = 0, lat = 0, lng = 0; const out = [], factor = 10 ** precision;
+  while (index < str.length) {
+    for (const k of [0, 1]) {
+      let shift = 0, result = 0, b;
+      do { b = str.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+      const d = result & 1 ? ~(result >> 1) : result >> 1;
+      if (k === 0) lat += d; else lng += d;
+    }
+    out.push([lng / factor, lat / factor]);
+  }
+  return out;
+}
+const fmtKm = (m) => m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1).replace('.', ',')} km`;
+const fmtMin = (s) => { const m = Math.max(1, Math.round(s / 60)); return m < 60 ? `${m} phút` : `${Math.floor(m / 60)} giờ ${m % 60} phút`; };
+
+// ---------- tab ----------
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('.pane').forEach(p => p.classList.toggle('on', p.id === 'pane-' + b.dataset.tab));
+  mode = b.dataset.tab;
+});
+let mode = 'addr';
+
+// ---------- gợi ý ----------
+const q = document.getElementById('q'), dd = document.getElementById('dd');
+let ddItems = [], ddActive = -1, timer;
+SAMPLES.forEach(s => { const b = document.createElement('button'); b.textContent = s;
+  b.onclick = () => { q.value = s; dd.style.display = 'none'; geocode(); }; document.getElementById('samples').append(b); });
+q.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(suggest, 120); });
+q.addEventListener('blur', () => setTimeout(() => dd.style.display = 'none', 150));  // bấm ra ngoài thì đóng danh sách
+q.addEventListener('focus', () => { if (ddItems.length && q.value.trim().length >= 2) renderDD(); });
+q.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { ddActive = Math.max(0, Math.min(ddItems.length - 1, ddActive + (e.key === 'ArrowDown' ? 1 : -1))); renderDD(); e.preventDefault(); }
+  if (e.key === 'Enter') { if (ddActive >= 0 && dd.style.display === 'block') pick(ddItems[ddActive]); else geocode(); }
+  if (e.key === 'Escape') dd.style.display = 'none';
+});
+async function suggest() {
+  const text = q.value.trim(); if (text.length < 2) { dd.style.display = 'none'; return; }
+  const p = new URLSearchParams({ q: text, limit: 8 });
+  if (map.getZoom() > 9) { const c = map.getCenter(); p.set('lat', c.lat); p.set('lon', c.lng); }
+  const r = await fetch(`${API}/v1/suggest?${p}`, { headers: HEADERS }).then(r => r.json());
+  ddItems = r.items || []; ddActive = -1; dd.dataset.took = r.took_ms; renderDD();
+}
+function renderDD() {
+  if (!ddItems.length) { dd.style.display = 'none'; return; }
+  dd.innerHTML = ddItems.map((it, i) => `<div class="item ${i === ddActive ? 'active' : ''}" data-i="${i}">
+      <span class="chip">${KIND[it.kind] || it.kind}</span><span>${it.label}</span></div>`).join('')
+    + `<div class="meta">${ddItems.length} gợi ý trong ${dd.dataset.took} ms · ${ddItems.length ? 'toàn quốc' : ''}</div>`;
+  dd.querySelectorAll('.item').forEach(el => el.onmousedown = () => pick(ddItems[+el.dataset.i]));
+  dd.style.display = 'block';
+}
+function pick(it) {
+  q.value = it.label; dd.style.display = 'none';
+  showPoint(it.lat, it.lon, it.kind === 'province' ? 9 : it.kind === 'ward' ? 13 : 16);
+  toast(`Đã chọn: ${KIND[it.kind]} — ${it.label}`);
+}
+function showPoint(lat, lon, zoom) {
+  resultMarker?.remove();
+  resultMarker = new maplibregl.Marker({ element: pin('●') }).setLngLat([lon, lat]).addTo(map);
+  map.flyTo({ center: [lon, lat], zoom, duration: 1200 });
+}
+
+// ---------- phân giải ----------
+document.getElementById('btn-geocode').onclick = geocode;
+async function geocode() {
+  const text = q.value.trim(); if (!text) return;
+  dd.style.display = 'none';
+  const r = await fetch(`${API}/v1/geocode?${new URLSearchParams({ address: text })}`, { headers: HEADERS }).then(r => r.json());
+  document.getElementById('geo-took').textContent = `${r.took_ms} ms`;
+  const box = document.getElementById('geo-result');
+  if (r.level === 'NOT_FOUND') { box.innerHTML = `<div class="card"><h3>Không tìm thấy</h3><p class="muted">Không nhận ra tỉnh/xã trong địa chỉ.</p></div>`; return; }
+  const c = r.confidence, color = c >= .7 ? 'var(--ok)' : c >= .5 ? 'var(--warn)' : 'var(--bad)';
+  const action = c >= .7 ? 'Tự động gán bưu cục, không cần xác nhận' : c >= .5 ? 'Gán bưu cục + bưu tá xác nhận khi phát' : 'Hỏi lại khách trước khi gán';
+  const comp = r.components, alleys = (comp.alleys || []).map(a => `${a[0]} ${a[1]}`).join(', ');
+  box.innerHTML = `<div class="card">
+    <span class="level" style="background:${color}">${LEVEL[r.level]}</span>
+    <h3 style="margin-top:8px">${[r.matched_name, r.admin.ward, r.admin.province].filter(Boolean).join(', ')}</h3>
+    <div class="conf"><div class="muted" style="margin-bottom:6px">Độ tin cậy <b style="color:var(--ink)">${c.toFixed(2)}</b></div>
+      <div class="bar"><div class="fill" style="width:${c * 100}%;background:${color}"></div>
+      <div class="tick" style="left:50%"></div><div class="tick" style="left:70%"></div></div></div>
+    <div class="action" style="color:${color}">→ ${action}</div>
+    <dl>
+      <dt>Đơn vị hành chính</dt><dd>${ADMIN_SOURCE[r.admin.source] || r.admin.source}</dd>
+      ${comp.house_no ? `<dt>Số nhà</dt><dd>${comp.house_no}</dd>` : ''}
+      ${alleys ? `<dt>Ngõ/hẻm</dt><dd>${alleys}</dd>` : ''}
+      ${comp.street ? `<dt>Đường (đã chuẩn hoá)</dt><dd>${comp.street}</dd>` : ''}
+      ${comp.hamlet ? `<dt>Thôn/xóm</dt><dd>${comp.hamlet}</dd>` : ''}
+      ${comp.place ? `<dt>Địa danh</dt><dd>${comp.place_type} ${comp.place}</dd>` : ''}
+      <dt>Nguồn khớp</dt><dd>${r.source}</dd>
+      <dt>Toạ độ</dt><dd>${r.lat.toFixed(6)}, ${r.lon.toFixed(6)}</dd>
+    </dl>
+    ${r.notes && r.notes.length ? `<div class="note">${r.notes.join(' · ')}</div>` : ''}
+  </div>`;
+  showPoint(r.lat, r.lon, { ROOFTOP: 17, RANGE_INTERPOLATED: 17, STREET: 15, PLACE: 16, WARD_CENTROID: 13, PROVINCE_CENTROID: 9 }[r.level]);
+}
+
+// ---------- khoảng cách ----------
+let vehicle = 'motorbike';
+document.querySelectorAll('#vehicle button').forEach(b => b.onclick = () => {
+  vehicle = b.dataset.v; document.querySelectorAll('#vehicle button').forEach(x => x.classList.toggle('on', x === b)); });
+map.on('click', e => { if (mode !== 'route') return; addPoint(e.lngLat.lat, e.lngLat.lng); });
+function addPoint(lat, lon) {
+  routePoints.push({ lat, lon });
+  routeMarkers.push(new maplibregl.Marker({ element: pin(String.fromCharCode(64 + routePoints.length)) }).setLngLat([lon, lat]).addTo(map));
+}
+function clearRoute() {
+  routePoints = []; routeMarkers.forEach(m => m.remove()); routeMarkers = [];
+  ['route-car', 'route-motorbike', 'route-truck', 'route-main'].forEach(clearLayer);
+  document.getElementById('route-result').innerHTML = '';
+}
+document.getElementById('btn-clear').onclick = clearRoute;
+async function routeFor(v) {
+  return fetch(`${API}/v1/route`, { method: 'POST', headers: HEADERS, body: JSON.stringify({ points: routePoints, vehicle: v }) }).then(r => r.json());
+}
+document.getElementById('btn-route').onclick = async () => {
+  if (routePoints.length < 2) return toast('Cần ít nhất 2 điểm');
+  ['route-car', 'route-motorbike'].forEach(clearLayer);
+  const t0 = performance.now(); const r = await routeFor(vehicle); const ms = Math.round(performance.now() - t0);
+  if (r.shape) { const coords = decodePolyline(r.shape); setLine('route-main', coords, vehicle === 'car' ? '#2563eb' : vehicle === 'truck' ? '#7c3aed' : '#ea580c'); fitCoords(coords); }
+  document.getElementById('route-result').innerHTML = `<div class="stat"><div><b>${fmtKm(r.distance_m)}</b><span>quãng đường</span></div>
+    <div><b>${fmtMin(r.duration_s)}</b><span>thời gian (${{ car: 'ô tô', motorbike: 'xe máy', truck: 'xe tải' }[vehicle]})</span></div></div>
+    <p class="muted">Nguồn: ${r.source} · ${ms} ms</p>`;
+};
+document.getElementById('btn-compare').onclick = compare;
+async function compare() {
+  if (routePoints.length < 2) return toast('Cần ít nhất 2 điểm');
+  clearLayer('route-main');
+  const [car, moto] = await Promise.all([routeFor('car'), routeFor('motorbike')]);
+  const all = [];
+  if (car.shape) { const c = decodePolyline(car.shape); setLine('route-car', c, '#2563eb', 6); all.push(...c); }
+  if (moto.shape) { const c = decodePolyline(moto.shape); setLine('route-motorbike', c, '#ea580c', 4); all.push(...c); }
+  if (all.length) fitCoords(all);
+  document.getElementById('route-result').innerHTML = `<div class="legend"><span><i style="background:#2563eb"></i>Ô tô</span><span><i style="background:#ea580c"></i>Xe máy</span></div>
+    <div class="stat"><div><b>${fmtKm(car.distance_m)}</b><span>ô tô · ${fmtMin(car.duration_s)}</span></div>
+    <div><b>${fmtKm(moto.distance_m)}</b><span>xe máy · ${fmtMin(moto.duration_s)}</span></div></div>
+    <p class="muted">Xe máy không được đi cao tốc nên tuyến khác ô tô.</p>`;
+}
+function preset(points, zoom) { clearRoute(); points.forEach(p => addPoint(...p)); compare(); }
+document.getElementById('preset-hp').onclick = () => preset([[21.0285, 105.8542], [20.8449, 106.6881]]);
+document.getElementById('preset-hcm').onclick = () => preset([[10.7725, 106.6980], [10.8131, 106.6660]]);
+
+document.getElementById('btn-matrix').onclick = async () => {
+  const b = map.getBounds(), pts = [];
+  for (let i = 0; i < 100; i++) pts.push({ lat: b.getSouth() + Math.random() * (b.getNorth() - b.getSouth()) * .8 + (b.getNorth() - b.getSouth()) * .1,
+                                           lon: b.getWest() + Math.random() * (b.getEast() - b.getWest()) * .8 + (b.getEast() - b.getWest()) * .1 });
+  const data = { type: 'FeatureCollection', features: pts.map(p => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lon, p.lat] } })) };
+  if (map.getSource('mx')) map.getSource('mx').setData(data);
+  else { map.addSource('mx', { type: 'geojson', data });
+         map.addLayer({ id: 'mx', type: 'circle', source: 'mx', paint: { 'circle-radius': 4, 'circle-color': '#c8102e', 'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5 } }); }
+  const t0 = performance.now();
+  const r = await fetch(`${API}/v1/matrix`, { method: 'POST', headers: HEADERS, body: JSON.stringify({ sources: pts, targets: pts, vehicle }) }).then(r => r.json());
+  const ms = Math.round(performance.now() - t0);
+  const fb = r.source.flat().filter(s => s === 'fallback').length;
+  const far = Math.max(...r.distance_m.flat());
+  document.getElementById('matrix-result').innerHTML = `<div class="stat"><div><b>10.000</b><span>cặp điểm</span></div><div><b>${ms} ms</b><span>tổng thời gian (máy chủ ${Math.round(r.took_ms)} ms)</span></div>
+    <div><b>${fb}</b><span>ô phải ước lượng</span></div><div><b>${fmtKm(far)}</b><span>cặp xa nhất</span></div></div>`;
+};
+
+// ---------- chuẩn Google ----------
+let gapi = 'geocode';
+document.querySelectorAll('#gapi button').forEach(b => b.onclick = () => {
+  gapi = b.dataset.api; document.querySelectorAll('#gapi button').forEach(x => x.classList.toggle('on', x === b));
+  const gq = document.getElementById('gq');
+  gq.value = { geocode: '59 Nguyễn Huệ, P. Bến Nghé, Q.1, TP.HCM', autocomplete: 'pho hue ha noi', distancematrix: '21.0285,105.8542 | 20.8449,106.6881' }[gapi];
+});
+document.getElementById('btn-google').onclick = async () => {
+  const v = document.getElementById('gq').value;
+  const p = gapi === 'geocode' ? { address: v } : gapi === 'autocomplete' ? { input: v } :
+            { origins: v.split('|')[0].trim(), destinations: v.split('|')[1].trim(), mode: 'driving' };
+  if (KEY) p.key = KEY;
+  const path = { geocode: 'geocode/json', autocomplete: 'place/autocomplete/json', distancematrix: 'distancematrix/json' }[gapi];
+  const url = `/maps/api/${path}?${new URLSearchParams(p)}`;
+  document.getElementById('gurl').textContent = `https://maps.googleapis.com${url}  →  ${API}${url}`;
+  const body = await fetch(API + url).then(r => r.json());
+  document.getElementById('gjson').innerHTML = highlight(JSON.stringify(body, null, 2));
+  const loc = body.results?.[0]?.geometry?.location; if (loc) showPoint(loc.lat, loc.lng, 16);
+};
+// ---------- hiểu địa chỉ (AI) ----------
+const TAG = { HOUSE: ['Số nhà', '#2563eb'], ALLEY: ['Ngõ/hẻm', '#7c3aed'], STREET: ['Đường', '#ea580c'], HAMLET: ['Thôn/xóm', '#16a34a'],
+  PLACE: ['Địa danh', '#db2777'], WARD: ['Xã/phường', '#0891b2'], DISTRICT: ['Quận/huyện', '#0e7490'], PROVINCE: ['Tỉnh', '#155e75'], O: ['Khác', '#98a2b3'] };
+const NLP_SAMPLES = ['toa nha keangnam pham hung nam tu liem hn', 'so 8 to hieu phuong nghia do ha noi',
+  'nha 15 ngach 5 ngo 102 truong chinh dong da ha noi', '59 nguyen hue p ben nghe q1 tphcm 0912345678', 'kcn que vo bac ninh'];
+NLP_SAMPLES.forEach(s => { const b = document.createElement('button'); b.textContent = s;
+  b.onclick = () => { document.getElementById('nq').value = s; explain(); }; document.getElementById('nlp-samples').append(b); });
+document.getElementById('btn-nlp').onclick = explain;
+const partsText = p => [p.house_no && `số ${p.house_no}`, ...(p.alleys || []).map(a => a.join(' ')), p.street && `đường ${p.street}`,
+  p.hamlet, p.place && `${p.place_type || ''} ${p.place}`.trim()].filter(Boolean).join(' · ') || '—';
+async function explain() {
+  const text = document.getElementById('nq').value.trim(); if (!text) return;
+  const r = await fetch(`${API}/v1/geocode/explain?${new URLSearchParams({ address: text })}`, { headers: HEADERS }).then(r => r.json());
+  document.getElementById('nlp-took').textContent = `${r.took_ms} ms`;
+  const t = r.trace, c = r.confidence, color = c >= .7 ? 'var(--ok)' : c >= .5 ? 'var(--warn)' : 'var(--bad)';
+  const toks = t.tagger ? t.tagger.tokens.map((tok, i) => { const lab = t.tagger.labels[i], [, col] = TAG[lab] || TAG.O;
+      return `<span class="tok" style="background:${col};opacity:${0.35 + 0.65 * t.tagger.probs[i]}">${tok}<small>${(TAG[lab] || TAG.O)[0]} ${(t.tagger.probs[i] * 100).toFixed(0)}%</small></span>`; }).join('')
+    : '<span class="muted">Chưa có mô hình — chạy <code>make learn</code></span>';
+  const rows = t.candidates.map(k => `<tr class="${k.parser === t.chosen ? 'win' : ''}"><td>${k.parser === 'rule' ? 'Luật' : 'Tagger ML'}</td>
+      <td>${partsText(k.parts)}</td><td>${LEVEL[k.level] || k.level}${k.matched_name ? `<br><span class="muted">${k.matched_name}</span>` : ''}</td>
+      <td>${k.probability != null ? k.probability.toFixed(2) : (k.heuristic_confidence ?? '').toString()}</td></tr>`).join('');
+  document.getElementById('nlp-result').innerHTML = `
+    <div class="stage"><h4><span class="num">1</span>Luật: chuẩn hoá + đơn vị hành chính</h4>
+      <code class="url" style="margin:0">${t.normalized}</code>
+      <div class="muted" style="margin-top:6px">${ADMIN_SOURCE[t.admin.source] || t.admin.source}: <b style="color:var(--ink)">${[t.admin.ward, t.admin.province].filter(Boolean).join(', ')}</b></div></div>
+    <div class="stage"><h4><span class="num">2</span>Cache</h4><div class="muted">Bỏ qua khi giải thích; với yêu cầu thường, địa chỉ đã gặp trả ngay từ bộ nhớ.</div></div>
+    <div class="stage"><h4><span class="num">3</span>Tagger học máy (CRF) — độ chắc ${t.tagger ? t.tagger.confidence.toFixed(2) : '—'}</h4><div class="toks">${toks}</div></div>
+    <div class="stage"><h4><span class="num">4</span>Ứng viên & mô hình quyết định</h4>
+      ${t.candidates.length === 1 ? '<div class="muted" style="margin-bottom:6px">Luật và tagger hiểu giống nhau → một ứng viên.</div>' : ''}
+      <table class="cand"><tr><th>Cách hiểu</th><th>Thành phần</th><th>Kết quả</th><th>${t.decision_model ? 'P(≤200 m)' : 'Tin cậy'}</th></tr>${rows}</table></div>
+    <div class="stage" style="border-color:${color}"><h4><span class="num">5</span>Kết quả</h4>
+      <b>${LEVEL[r.level]}</b> — ${[r.matched_name, r.admin.ward, r.admin.province].filter(Boolean).join(', ')}<br>
+      <span style="color:${color};font-weight:600">Độ tin cậy ${c.toFixed(2)} → ${c >= .7 ? 'tự gán bưu cục' : c >= .5 ? 'gán + bưu tá xác nhận' : 'hỏi lại khách'}</span>
+      ${c < .5 ? '<div class="note">Ca khó: đêm nay LLM sẽ gán nhãn địa chỉ này (đã che số điện thoại); nhãn được dùng để huấn luyện lại tagger.</div>' : ''}</div>
+    <div class="legend-tok">${Object.entries(TAG).map(([, [n, col]]) => `<span style="--c:${col}">${n}</span>`).join('')}</div>`;
+  if (r.lat) showPoint(r.lat, r.lon, { ROOFTOP: 17, RANGE_INTERPOLATED: 17, STREET: 15, PLACE: 16, WARD_CENTROID: 13, PROVINCE_CENTROID: 9 }[r.level]);
+}
+async function mlStatus() {
+  const s = await fetch(`${API}/v1/ml/status`, { headers: HEADERS }).then(r => r.json());
+  const tag = s.models.find(m => m.kind === 'tagger'), dec = s.models.find(m => m.kind === 'decision');
+  const box = document.getElementById('ml-status');
+  if (!tag && !dec) { box.innerHTML = '<h3>Trạng thái học máy</h3><p class="muted">Chưa huấn luyện. Chạy <code>make learn</code>.</p>'; return; }
+  const cal = dec ? dec.metrics.calibration_model.table : [];
+  const labelCounts = s.labels.length ? s.labels.map(l => `${l.source}/${l.status}: ${l.n}`).join(' · ') : 'chưa có';
+  box.innerHTML = `<h3>Trạng thái học máy</h3>
+    <dl>
+      <dt>Tagger</dt><dd>${tag ? `${tag.version}<br><span class="muted">tập thật: đúng phần dưới cấp xã ${(tag.metrics.gold.core_exact * 100).toFixed(0)}% · tổng hợp ${(tag.metrics.synth_test.core_exact * 100).toFixed(0)}%</span>` : '—'}</dd>
+      <dt>Quyết định</dt><dd>${dec ? `${dec.version}<br><span class="muted">trong 200 m: chỉ luật ${(dec.metrics.acc200_rule_only * 100).toFixed(1)}% → có ML ${(dec.metrics.acc200_chosen * 100).toFixed(1)}% · Brier ${dec.metrics.calibration_heuristic.brier} → ${dec.metrics.calibration_model.brier}</span>` : '—'}</dd>
+      <dt>Nhãn LLM/người</dt><dd>${labelCounts}</dd>
+      <dt>LLM</dt><dd>${s.llm_configured ? 'đã cấu hình' : 'chưa cấu hình (bước LLM được bỏ qua)'}</dd>
+      <dt>Cache</dt><dd>${s.cache.size} mục · tỉ lệ trúng ${s.cache.hit_ratio ?? '—'}</dd>
+    </dl>
+    ${cal.length ? `<div class="muted" style="margin-top:10px">Hiệu chỉnh: độ tin cậy dự đoán so với tỉ lệ đúng thật</div><div class="calib">
+      ${cal.map(b => `<span>${b.bin}</span><div class="b" style="width:${b.predicted * 100}%;background:#94a3b8"></div><div class="b" style="width:${b.actual * 100}%;background:var(--ok)"></div><span class="muted">${b.n}</span>`).join('')}
+      </div><div class="legend" style="font-size:11px"><span><i style="background:#94a3b8"></i>dự đoán</span><span><i style="background:var(--ok)"></i>thực tế</span></div>` : ''}`;
+}
+document.querySelector('[data-tab=nlp]').addEventListener('click', mlStatus);
+
+function highlight(json) {
+  return json.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/("(\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b-?\d+(\.\d+)?\b)/g,
+      m => /:$/.test(m) ? `<span class="k">${m}</span>` : /^"/.test(m) ? `<span class="s">${m}</span>` : `<span class="n">${m}</span>`);
+}
+</script>
+</body>
+</html>

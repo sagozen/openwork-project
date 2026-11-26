@@ -1,0 +1,10 @@
+{
+  "extends": "../platform/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@templatedesign/platform/*": ["../platform/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules"]
+}

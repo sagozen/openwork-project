@@ -1,0 +1,22 @@
+{
+  "case": "triage-selector-moved",
+  "source": "hand-written stand-in in the recorded format; replace by running cmd/agenteval -record against the Worker",
+  "replies": {
+    "triage": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "```json\n[\n {\n  \"flow\": \"05_profile/001_doi_mat_khau.yaml\",\n  \"platform\": \"android\",\n  \"category\": \"selector\",\n  \"evidence\": \"Nút lưu đổi id thành 'save_button' sau bản giao diện mới\",\n  \"confidence\": 0.7\n }\n]\n```"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,148 @@
+quarkus:
+  application:
+    name: astra
+  http:
+    port: 8080
+    static-resources:
+      caching-enabled: false            # the Desk is a few small files; always serve the deployed version
+    auth:
+      permission:
+        public:
+          paths: /q/*,/api/iam/config
+          policy: permit
+        api:
+          paths: /api/*,/mcp
+          policy: authenticated
+  redis:
+    hosts: ${ASTRA_REDIS_URL:redis://localhost:6379}   # TCC reservations (Counters)
+  datasource:
+    bms:                                  # BMS module schema for Seata AT branches; only with Seata enabled
+      db-kind: postgresql
+      active: ${ASTRA_SEATA_ENABLED:false}
+      username: ${ASTRA_BMS_DB_USER:astra_bms}
+      password: ${ASTRA_BMS_DB_PASSWORD:astra_bms}
+      jdbc:
+        url: ${ASTRA_BMS_DB_URL:jdbc:postgresql://localhost:5432/astra?currentSchema=bms}
+        max-size: 10
+    db-kind: postgresql
+    username: ${ASTRA_DB_USER:astra_app}     # non-superuser role; see deploy/docker/init/01-app-role.sql
+    password: ${ASTRA_DB_PASSWORD:astra_app}
+    jdbc:
+      # Per kernel instance. Size the total over all instances to about 2-3x the database's CPU threads:
+      # throughput peaked at 64 connections on 24 threads and fell beyond (docs/benchmark-doctype-jsonb-the-right-way.md).
+      min-size: ${ASTRA_DB_POOL_MIN:2}
+      max-size: ${ASTRA_DB_POOL_MAX:20}
+  flyway:
+    migrate-at-start: true
+    bms:                                  # BMS's own schema (astra-tx-seata/src/main/resources/db/bms)
+      migrate-at-start: true
+      locations: db/bms
+      schemas: bms
+  # Resource server: every /api call carries a Keycloak access token (Authorization Code + PKCE on mobile).
+  # Group paths /tenants/<tenant>/<role> and realm roles both become identity roles.
+  oidc:
+    auth-server-url: ${ASTRA_OIDC_URL:http://localhost:8180/auth/realms/astra}   # deploy/docker compose Keycloak
+    client-id: astra-server
+    application-type: service
+    token:
+      audience: astra-server
+      principal-claim: sub
+    roles:
+      role-claim-path: groups,realm_access/roles
+  keycloak:
+    devservices:
+      enabled: false
+    admin-client:                       # service account with user and group management roles only
+      server-url: ${ASTRA_KEYCLOAK_URL:http://localhost:8180/auth}
+      realm: astra
+      client-id: astra-server
+      client-secret: ${ASTRA_KEYCLOAK_CLIENT_SECRET:astra-server-local-secret}
+      grant-type: CLIENT_CREDENTIALS
+  log:
+    category:
+      # Seata logs a missing Spring configuration provider at ERROR even though plain-file configuration
+      # (astra-tx-seata registry.conf / file.conf) is what is used outside Spring.
+      "org.apache.seata.config.ConfigurationFactory":
+        level: FATAL
+      "io.astra":
+        level: INFO
+
+astra:
+  pod-name: ${POD_NAME:}                  # set by the Kubernetes downward API; the host name when empty
+  seata:
+    enabled: ${ASTRA_SEATA_ENABLED:false}
+    server: ${ASTRA_SEATA_SERVER:127.0.0.1:8091}
+    application-id: astra-server
+    tx-group: astra_tx_group
+  cdc:
+    replicas: replica_waybill:Waybill,replica_order:CustomerOrder   # replica table : source DocType (astra-cdc-rust/cdc-routes.yaml)
+  storage:
+    # Month boundaries of astra_doc_txn (DocTypes with partition: month) follow the business day, not UTC.
+    partition-time-zone: ${ASTRA_PARTITION_TZ:Asia/Ho_Chi_Minh}
+    months-ahead: 2                       # partitions created ahead of time; rows outside them go to the default partition
+  tenancy:
+    mode: ${ASTRA_TENANCY_MODE:multi}      # single | multi
+    default-tenant: default
+    # base-domain: astra.localhost         # enables tenant resolution from subdomains
+  iam:
+    realm: astra
+    # Issuer that clients see; behind an ingress it differs from the in-cluster auth-server-url.
+    issuer: ${ASTRA_OIDC_ISSUER:http://localhost:8180/auth/realms/astra}
+    tenant-roles: admin,editor,author,reader,sales,ops,care,accountant,hr,dispatcher,release-bot
+    self-join-role: reader
+    desk:
+      client-id: astra-desk               # browser Desk at /desk/, Authorization Code + PKCE
+    mobile:
+      client-id: astra-mobile
+      redirect-uri: io.astra.mobile:/oauthredirect
+
+# The JDBC URL is set only for dev and prod so that the test profile keeps Dev Services
+# (an automatic PostgreSQL container) enabled.
+"%dev":
+  quarkus:
+    datasource:
+      jdbc:
+        url: ${ASTRA_DB_URL:jdbc:postgresql://localhost:5432/astra}   # deploy/docker compose stack
+    live-reload:
+      # DocType YAML is read once at startup; without this, dev mode sees the edit but does not restart
+      watched-resources:
+        - META-INF/astra/doctypes/account.doctype.yaml
+        - META-INF/astra/doctypes/article.doctype.yaml
+        - META-INF/astra/doctypes/cod-remittance.doctype.yaml
+        - META-INF/astra/doctypes/customer-order.doctype.yaml
+        - META-INF/astra/doctypes/customer.doctype.yaml
+        - META-INF/astra/doctypes/pricing-rule.doctype.yaml
+        - META-INF/astra/doctypes/support-ticket.doctype.yaml
+        - META-INF/astra/doctypes/waybill.doctype.yaml
+
+"%prod":
+  quarkus:
+    datasource:
+      jdbc:
+        url: ${ASTRA_DB_URL:jdbc:postgresql://localhost:5432/astra}
+
+"%test":
+  astra:
+    pod-name: pod-a                        # rollout tests add a second pod by heartbeat
+    rollout:
+      every: "off"                         # tests run the rollout job by hand
+    jobs:
+      every: "off"                         # and the tenant jobs
+  quarkus:
+    redis:
+      devservices:
+        enabled: false
+    datasource:
+      bms:
+        devservices:
+          enabled: false
+      devservices:
+        enabled: true
+        image-name: pgvector/pgvector:pg16
+        db-name: astra
+        username: astra                        # container superuser, used only to bootstrap
+        password: astra
+        init-script-path: db/init-app-role.sql # creates astra_app, which the kernel connects as
+    # Tests inject identities with @TestSecurity; no identity provider is contacted.
+    oidc:
+      tenant-enabled: false

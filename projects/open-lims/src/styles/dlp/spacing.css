@@ -1,0 +1,48 @@
+/* Spacing, corner radius and stroke width.
+   Spacing ramp transcribed from the Fluent "Global" size collection (4px system).
+   Radius ramp is Fluent's; the brand aliases pick 6px / 8px per the brand brief
+   ("bo góc 6–8px, tránh bo quá tròn"). */
+
+:root {
+  /* Spacing ramp */
+  --spacing-none: 0px;
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-snudge: 6px;
+  --spacing-s: 8px;
+  --spacing-mnudge: 10px;
+  --spacing-m: 12px;
+  --spacing-l: 16px;
+  --spacing-xl: 20px;
+  --spacing-xxl: 24px;
+  --spacing-xxxl: 32px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 48px;
+  --spacing-6xl: 64px;
+
+  /* Corner radius ramp */
+  --radius-none: 0px;
+  --radius-small: 2px;
+  --radius-medium: 4px;
+  --radius-large: 6px;
+  --radius-xlarge: 8px;
+  --radius-xxlarge: 12px;
+  --radius-3xlarge: 16px;
+  --radius-circular: 9999px;
+
+  /* Brand-level radius aliases - what components actually use */
+  --radius-control: var(--radius-large); /* buttons, inputs, tags, menu items */
+  --radius-surface: var(--radius-xlarge); /* cards, dialogs, popovers, drawers */
+  --radius-inset: var(--radius-medium); /* thumbnails, swatches, inner chips */
+
+  /* Stroke width */
+  --stroke-width-thin: 1px;
+  --stroke-width-thick: 2px;
+  --stroke-width-thicker: 3px;
+  --stroke-width-thickest: 4px;
+
+  /* Standard control heights */
+  --control-height-small: 24px;
+  --control-height-medium: 32px;
+  --control-height-large: 40px;
+}

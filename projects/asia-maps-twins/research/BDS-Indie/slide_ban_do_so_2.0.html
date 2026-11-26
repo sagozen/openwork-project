@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bản đồ số 2.0 — Hệ thống phân giải địa chỉ logistics</title>
+<style>
+  :root {
+    --navy: #1B2A49;
+    --navy-2: #24355c;
+    --red: #E3000F;
+    --red-soft: #ffe5e7;
+    --ink: #141a26;
+    --muted: #5b6472;
+    --line: #e6e8ee;
+    --bg: #ffffff;
+    --panel: #f6f7fa;
+    --card: #ffffff;
+    --shadow: 0 18px 50px -20px rgba(20,26,38,.28);
+  }
+  html[data-theme="dark"] {
+    --navy: #0e1524;
+    --navy-2: #16223a;
+    --ink: #e8ebf2;
+    --muted: #9aa4b5;
+    --line: #24304a;
+    --bg: #0f1420;
+    --panel: #151d30;
+    --card: #1a2438;
+    --red-soft: #3a1820;
+    --shadow: 0 18px 50px -20px rgba(0,0,0,.6);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck { position: fixed; inset: 0; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(24px, 5vw, 80px);
+    opacity: 0; transform: translateY(16px);
+    pointer-events: none;
+    transition: opacity .45s ease, transform .45s ease;
+    overflow: auto;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .wrap { width: min(1180px, 100%); margin: auto; }
+
+  .eyebrow { text-transform: uppercase; letter-spacing: .18em; font-weight: 700; font-size: .78rem; color: var(--red); margin-bottom: 18px; }
+  h1 { font-size: clamp(2rem, 5.2vw, 4.1rem); line-height: 1.05; letter-spacing: -.02em; font-weight: 800; }
+  h2 { font-size: clamp(1.5rem, 3.4vw, 2.6rem); line-height: 1.12; letter-spacing: -.015em; font-weight: 800; }
+  .sub { font-size: clamp(1rem, 1.7vw, 1.3rem); color: var(--muted); margin-top: 18px; max-width: 720px; line-height: 1.55; }
+  .accent { color: var(--red); }
+
+  /* HERO */
+  .hero { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 60%, #2c4070 100%); color: #fff; }
+  .hero h1 { color: #fff; }
+  .hero .sub { color: rgba(255,255,255,.78); }
+  .hero .eyebrow { color: #ff8b93; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 28px; padding: 12px 20px; border-radius: 999px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+    color: #fff; font-weight: 600; font-size: .95rem; letter-spacing: .02em;
+  }
+  .badge b { color: #ff8b93; }
+
+  .qcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 42px; }
+  .qcard {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+    border-radius: 18px; padding: 26px 24px; backdrop-filter: blur(4px);
+  }
+  .qcard .n { font-size: .8rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #ff8b93; }
+  .qcard h3 { font-size: 1.5rem; margin: 10px 0 6px; color: #fff; }
+  .qcard p { color: rgba(255,255,255,.72); font-size: .98rem; line-height: 1.5; }
+
+  /* generic content slide */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 24px; box-shadow: var(--shadow);
+  }
+  .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .card p, .card li { color: var(--muted); font-size: .98rem; line-height: 1.55; }
+  .card ul { list-style: none; padding: 0; }
+  .card li { padding-left: 18px; position: relative; margin: 8px 0; }
+  .card li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; border-radius: 2px; background: var(--red); }
+
+  .statrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 28px 0; }
+  .stat { background: var(--panel); border-radius: 16px; padding: 26px; text-align: center; }
+  .stat .big { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; color: var(--red); line-height: 1; }
+  .stat .lbl { margin-top: 10px; color: var(--muted); font-size: .95rem; }
+
+  .big4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 30px; }
+  .b4 { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px 20px; text-align: center; box-shadow: var(--shadow); }
+  .b4 .v { font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 800; color: var(--navy); }
+  html[data-theme="dark"] .b4 .v { color: #fff; }
+  .b4 .t { margin-top: 8px; color: var(--muted); font-size: .92rem; line-height: 1.4; }
+
+  /* rule flow */
+  .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; margin: 28px 0; }
+  .step { flex: 1 1 150px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; text-align: center; box-shadow: var(--shadow); }
+  .step b { display: block; font-size: 1.05rem; margin-bottom: 6px; }
+  .step span { color: var(--muted); font-size: .86rem; line-height: 1.4; }
+  .arrow { align-self: center; color: var(--red); font-size: 1.3rem; font-weight: 800; }
+
+  /* architecture mini */
+  .arch { display: grid; gap: 10px; margin-top: 26px; }
+  .arch .row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; font-size: .9rem; font-weight: 600; text-align: center; box-shadow: var(--shadow); }
+  .box.dim { color: var(--muted); font-weight: 500; }
+  .box.red { border-color: var(--red); color: var(--red); }
+  .arch .conn { text-align: center; color: var(--muted); font-size: 1.1rem; line-height: 1; }
+
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px; }
+  .vs .old, .vs .new { border-radius: 18px; padding: 28px; }
+  .vs .old { background: var(--panel); border: 1px solid var(--line); }
+  .vs .new { background: var(--red-soft); border: 1px solid var(--red); }
+  .vs h3 { font-size: 1.05rem; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .06em; }
+  .vs .old h3 { color: var(--muted); }
+  .vs .new h3 { color: var(--red); }
+  .vs .amount { font-size: clamp(1.8rem, 3.6vw, 3rem); font-weight: 800; line-height: 1.1; }
+  .vs .old .amount { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 2px; }
+  .vs .new .amount { color: var(--red); }
+  .vs p { color: var(--muted); margin-top: 8px; font-size: .95rem; line-height: 1.5; }
+
+  .kpi-old { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: var(--red); font-size: 1.3rem; font-weight: 700; }
+  .kpi-new { list-style: none; margin-top: 16px; display: grid; gap: 10px; }
+  .kpi-new li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; font-weight: 600; box-shadow: var(--shadow); }
+  .kpi-new li::before { content: "✓  "; color: var(--red); font-weight: 800; }
+
+  .approve { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 24px; }
+  .approve .item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font-size: .95rem; box-shadow: var(--shadow); }
+  .approve .item b { color: var(--red); }
+
+  /* chrome / nav */
+  .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; }
+  .brand { font-weight: 800; letter-spacing: .04em; font-size: .9rem; color: var(--muted); }
+  .brand b { color: var(--red); }
+  .controls { display: flex; gap: 8px; align-items: center; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    width: 38px; height: 38px; border-radius: 10px; cursor: pointer; font-size: 1.05rem;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .btn:hover { border-color: var(--red); color: var(--red); }
+  .dots { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 20; display: flex; gap: 8px; }
+  .dot { width: 9px; height: 9px; border-radius: 999px; background: var(--line); cursor: pointer; transition: all .25s; }
+  .dot.active { background: var(--red); width: 26px; }
+  .counter { position: fixed; bottom: 20px; right: 24px; z-index: 20; color: var(--muted); font-size: .85rem; font-weight: 600; letter-spacing: .06em; }
+
+  @media (max-width: 760px) {
+    .grid2, .grid3, .qcards, .statrow, .big4, .vs, .approve { grid-template-columns: 1fr; }
+    .statrow, .big4 { grid-template-columns: repeat(2, 1fr); }
+    .arrow { display: none; }
+  }
+</style>
+</head>
+<body data-theme="light">
+<div class="topbar">
+  <div class="brand"><b>BẢN ĐỒ SỐ 2.0</b> · Hệ thống phân giải địa chỉ logistics</div>
+  <div class="controls">
+    <button class="btn" id="theme" title="Đổi giao diện">◐</button>
+    <button class="btn" id="prev" title="Trước">←</button>
+    <button class="btn" id="next" title="Sau">→</button>
+  </div>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide hero active">
+    <div class="wrap">
+      <div class="eyebrow">Đề án Bản đồ số 2.0</div>
+      <h1>Không xây bản đồ.<br>Xây hệ thống <span class="accent" style="color:#ff8b93">phân giải địa chỉ</span>.</h1>
+      <p class="sub">Trả lời 3 câu hỏi cho 100% đơn hàng — với độ tin cậy đo được mỗi ngày, tự cải thiện từ chính mỗi lần phát hàng.</p>
+      <div class="badge"><b>90 ngày</b> · 1 tỉnh pilot · <b>&lt;5%</b> chi phí Google</div>
+      <div class="qcards">
+        <div class="qcard"><div class="n">Câu 1</div><h3>Ở đâu?</h3><p>Địa chỉ → toạ độ + độ tin cậy + zone + bưu cục phục vụ.</p></div>
+        <div class="qcard"><div class="n">Câu 2</div><h3>Gõ gì?</h3><p>Gợi ý đúng top-3 khi khách đang nhập địa chỉ.</p></div>
+        <div class="qcard"><div class="n">Câu 3</div><h3>Bao xa?</h3><p>Ma trận khoảng cách / thời gian cho phân tuyến và tính giá.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 PROBLEM -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Vấn đề</div>
+      <h2>Đã làm nhiều quý, <span class="accent">chưa có kết quả đo được</span></h2>
+      <p class="sub">Đề án cũ đề xuất 12 tỷ làm giàu dữ liệu + tuyển 4 GIS, nhưng không chứng minh được đơn giao thành công hơn.</p>
+      <div class="statrow">
+        <div class="stat"><div class="big">12 tỷ</div><div class="lbl">ngân sách làm giàu dữ liệu</div></div>
+        <div class="stat"><div class="big">4 GIS</div><div class="lbl">nhân sự dự kiến tuyển mới</div></div>
+        <div class="stat"><div class="big">0</div><div class="lbl">kết quả đo được trên vận hành</div></div>
+      </div>
+      <div class="grid3">
+        <div class="card"><h3>Thước đo sai</h3><ul><li>"90% so Google" — Google cũng sai ở ngõ/hẻm/tổ/thôn VN.</li></ul></div>
+        <div class="card"><h3>Mua một lần rồi lỗi thời</h3><ul><li>Không vòng phản hồi → dữ liệu mua xong lại sai.</li></ul></div>
+        <div class="card"><h3>Scope quá rộng</h3><ul><li>Lidar, camera, thời tiết… không use case nào đi đến cùng.</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 REFRAME -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Đổi hướng</div>
+      <h2>Địa chỉ logistics = <span class="accent">điểm giao thành công</span>, không phải hình học</h2>
+      <p class="sub">Mỗi câu trả lời đều kèm <b>độ tin cậy (confidence)</b> để hệ thống hạ nguồn tự quyết định — tự gán, gắn cờ xác nhận, hay gọi điện.</p>
+      <div class="grid3" style="margin-top:30px">
+        <div class="card"><h3>≥ 0,70</h3><p>Tự động gán bưu cục / zone, không cần xác nhận.</p></div>
+        <div class="card"><h3>0,50 – 0,69</h3><p>Gán nhưng gắn cờ "bưu tá xác nhận khi phát" → sinh thêm nhãn.</p></div>
+        <div class="card"><h3>&lt; 0,50</h3><p>Gọi nguồn ngoài hoặc xác nhận bằng gọi điện / chat.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 HOW -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Cách làm mới</div>
+      <h2><span class="accent">Rule → Cache → AI quyết định → AI sinh</span></h2>
+      <div class="flow">
+        <div class="step"><b>Rule</b><span>chuẩn hoá + viết tắt, ~50 luật ổn định</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><b>Cache</b><span>Redis L1, trả về &lt;10 ms</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><b>AI quyết định</b><span>System One (Jev) tự host — xác suất hiệu chỉnh</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><b>AI sinh</b><span>LLM batch đêm, ngoài request path</span></div>
+      </div>
+      <div class="grid2" style="margin-top:26px">
+        <div class="card"><h3>Bưu tá = cảm biến</h3><p>Mỗi lần quét "phát thành công" kèm GPS là <b>1 nhãn đúng miễn phí</b> — đúng cách GrabMaps dùng GPS tài xế. Hệ thống tự cải thiện mỗi đêm.</p></div>
+        <div class="card"><h3>AI agent 24/7</h3><p>Agent lo nghiên cứu, code, retrain parser, benchmark, cảnh báo, báo cáo. <b>1 kỹ sư</b> chỉ duyệt PR ~30 phút/ngày.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ARCHITECTURE -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Kiến trúc</div>
+      <h2>Dữ liệu là trung tâm — <span class="accent">PostGIS nguồn sự thật duy nhất</span></h2>
+      <div class="arch">
+        <div class="row">
+          <div class="box dim">OMS</div><div class="box dim">App</div><div class="box dim">Web</div><div class="box dim">TMS</div><div class="box dim">Phân tuyến</div>
+        </div>
+        <div class="conn">▼</div>
+        <div class="row"><div class="box">API Gateway · khoá API · giới hạn tốc độ · request_id · audit</div></div>
+        <div class="conn">▼</div>
+        <div class="row">
+          <div class="box">/autocomplete<br><span style="font-weight:400;color:var(--muted)">OpenSearch</span></div>
+          <div class="box red">/geocode<br><span style="font-weight:400;color:var(--muted)">Parser → Resolver + conf</span></div>
+          <div class="box">/matrix<br><span style="font-weight:400;color:var(--muted)">OSRM</span></div>
+        </div>
+        <div class="conn">▼</div>
+        <div class="row">
+          <div class="box">Redis (cache L1)</div>
+          <div class="box">PostGIS — nguồn sự thật</div>
+          <div class="box dim">RTX 3090 · tagger + System One + LLM (batch đêm)</div>
+        </div>
+        <div class="conn">▲ nightly feedback · eval · retrain</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 RESULTS -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Kết quả cam kết</div>
+      <h2>Sau <span class="accent">90 ngày</span></h2>
+      <div class="big4">
+        <div class="b4"><div class="v">100%</div><div class="t">1 tỉnh pilot chạy nội bộ Autocomplete + Geocoding</div></div>
+        <div class="b4"><div class="v">≥ 90%</div><div class="t">độ chính xác trong bán kính 200 m, đo trên GPS phát thực</div></div>
+        <div class="b4"><div class="v">&lt; 5%</div><div class="t">chi phí vận hành so với Google tương đương</div></div>
+        <div class="b4"><div class="v">mỗi đêm</div><div class="t">tự cải thiện, không mua dữ liệu, không tuyển mới</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 COST -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Chi phí & nguồn lực</div>
+      <h2>Thấp hơn <span class="accent">~300 lần</span>, không tuyển thêm</h2>
+      <div class="vs">
+        <div class="old">
+          <h3>Đề xuất cũ</h3>
+          <div class="amount">12 tỷ + 4 GIS</div>
+          <p>mua 5 triệu địa chỉ/tháng · xác minh chéo Google · Lidar/camera/thời tiết.</p>
+        </div>
+        <div class="new">
+          <h3>Đề xuất này</h3>
+          <div class="amount">≈ 40 triệu / 90 ngày</div>
+          <p>1 kỹ sư + AI agent · dữ liệu mở + nhãn GPS phát · 1 máy 8c/32GB + RTX 3090 (đã có).</p>
+        </div>
+      </div>
+      <p class="sub" style="margin-top:22px">Tránh được <b class="accent">~13 tỷ/năm</b> chi phí trực tiếp + <b class="accent">~20 tỷ/năm</b> chi phí Google giảm dần theo độ phủ nội bộ.</p>
+    </div>
+  </section>
+
+  <!-- 8 KPI -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Chỉ số đo lường</div>
+      <h2>Đo bằng <span class="accent">kết quả vận hành</span>, không so Google</h2>
+      <p class="sub" style="margin-bottom:20px">Bỏ: <span class="kpi-old">"90% so Google"</span> — thước đo không gắn với đơn giao thành công.</p>
+      <ul class="kpi-new">
+        <li>Độ chính xác so GPS phát thực: ≥ 90% @200m, ≥ 70% @50m</li>
+        <li>Chi phí / 1 triệu yêu cầu: &lt; 5% Google</li>
+        <li>Phát thất bại do sai địa chỉ: giảm ≥ 20%</li>
+        <li>Autocomplete top-3: ≥ 85% · Tự cải thiện liên tục 8 tuần</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9 APPROVE -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="eyebrow">Đề nghị phê duyệt</div>
+      <h2>8 việc cần cấp ở <span class="accent">tuần 0</span></h2>
+      <div class="approve">
+        <div class="item"><b>1–2.</b> Quyền đọc log quét phát + bảng đơn hàng (điều kiện tiên quyết)</div>
+        <div class="item"><b>3.</b> 1 máy chủ 8 vCPU/32GB (RTX 3090 tự trang bị)</div>
+        <div class="item"><b>4.</b> Duyệt ~5 triệu/tháng công cụ AI</div>
+        <div class="item"><b>5.</b> Chốt tỉnh pilot</div>
+        <div class="item"><b>6.</b> Chốt bộ KPI mới thay "so Google"</div>
+        <div class="item"><b>7–8.</b> Đầu mối OMS (shadow tuần 6) + 2 bưu cục A/B (tuần 7)</div>
+      </div>
+      <p class="sub" style="margin-top:24px"><b class="accent">Báo cáo:</b> demo 15 phút thứ 6 · báo cáo tự động thứ 2 · go/no-go cuối tuần 3 & 6 · tổng kết tuần 12.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter"></div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dots = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  let i = 0;
+
+  slides.forEach((_, idx) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (idx === 0 ? ' active' : '');
+    d.onclick = () => go(idx);
+    dots.appendChild(d);
+  });
+
+  function go(n) {
+    i = (n + slides.length) % slides.length;
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    dots.querySelectorAll('.dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    slides[i].scrollTop = 0;
+  }
+
+  document.getElementById('next').onclick = () => go(i + 1);
+  document.getElementById('prev').onclick = () => go(i - 1);
+  document.getElementById('theme').onclick = () => {
+    const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = t;
+  };
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') go(i + 1);
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(i - 1);
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(slides.length - 1);
+  });
+  let ts = null;
+  document.addEventListener('touchstart', e => ts = e.touches[0].clientX, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (ts === null) return;
+    const dx = e.changedTouches[0].clientX - ts;
+    if (Math.abs(dx) > 50) dx < 0 ? go(i + 1) : go(i - 1);
+    ts = null;
+  });
+
+  go(0);
+</script>
+</body>
+</html>

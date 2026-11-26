@@ -1,0 +1,79 @@
+{
+  "name": "@templatedesign/platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Product-agnostic platform core: auth, tenancy, wallet, checkout, admin, webhooks, email and deletion",
+  "exports": {
+    ".": "./src/index.ts",
+    "./abuse": "./src/abuse.ts",
+    "./admin": "./src/admin.ts",
+    "./agents": "./src/agents.ts",
+    "./alerts": "./src/alerts.ts",
+    "./auth": "./src/auth.ts",
+    "./billing": "./src/billing.ts",
+    "./billing/paddle": "./src/billing/paddle.ts",
+    "./billing/signature": "./src/billing/signature.ts",
+    "./billing/stripe": "./src/billing/stripe.ts",
+    "./checkout": "./src/checkout.ts",
+    "./commerce-events": "./src/commerce-events.ts",
+    "./company": "./src/company.ts",
+    "./crm": "./src/crm.ts",
+    "./config": "./src/config.ts",
+    "./credits": "./src/credits.ts",
+    "./csrf": "./src/csrf.ts",
+    "./db": "./src/db.ts",
+    "./deletion": "./src/deletion.ts",
+    "./docs-markdown": "./src/docs-markdown.ts",
+    "./emails/send": "./src/emails/send.ts",
+    "./emails/templates": "./src/emails/templates.ts",
+    "./format": "./src/format.ts",
+    "./http": "./src/http.ts",
+    "./keys": "./src/keys.ts",
+    "./legacy-redirects": "./src/legacy-redirects.ts",
+    "./llm": "./src/llm/openrouter.ts",
+    "./owner": "./src/owner.ts",
+    "./payments": "./src/payments.ts",
+    "./principal": "./src/principal.ts",
+    "./rate-limit": "./src/rate-limit.ts",
+    "./reconcile": "./src/reconcile.ts",
+    "./reviewer": "./src/reviewer.ts",
+    "./runtime": "./src/runtime.ts",
+    "./tenancy": "./src/tenancy.ts",
+    "./types": "./src/types.ts",
+    "./webhooks": "./src/webhooks.ts",
+    "./workspaces": "./src/workspaces.ts",
+    "./warriorplus": "./src/warriorplus/index.ts",
+    "./csv": "./src/csv.ts"
+  },
+  "files": [
+    "src",
+    "migrations",
+    "sql"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test --test-concurrency=1 tests/*.test.ts",
+    "compose-migrations": "node scripts/compose-migrations.mjs"
+  },
+  "peerDependencies": {
+    "@templatedesign/contracts": "0.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261018.1",
+    "@types/node": "24.19.2",
+    "tsx": "4.20.6",
+    "typescript": "6.0.2"
+  },
+  "engines": {
+    "node": ">=24.21.0"
+  },
+  "dependencies": {
+    "@better-auth/core": "1.7.12",
+    "@better-auth/mcp": "1.7.12",
+    "@better-auth/oauth-provider": "1.7.12",
+    "better-auth": "1.7.12",
+    "better-call": "1.4.4"
+  }
+}

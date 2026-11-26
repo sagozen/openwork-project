@@ -1,0 +1,10 @@
+{
+  "$comment": "Mẫu tệp danh sách chống bán phá giá (.xlsx, một sheet) = đầu vào tab Chống bán phá giá của HS Desk (BR-tariff-apply-008). Cột nhận theo tiêu đề (không phân biệt hoa thường, dấu, khoảng trắng thừa). 'Mã HS' là tiền tố mã HS; giới hạn số chữ số của tiền tố nằm trong limits.json. Biểu không có cột mức thuế: mức do nhân sự điền theo nhà sản xuất. Khách đổi mẫu => tạo chong-ban-pha-gia.v2.json, giữ v1.",
+  "id": "chong-ban-pha-gia",
+  "version": 1,
+  "sheetCount": 1,
+  "columns": [
+    { "field": "prefix", "headers": ["Mã HS"], "required": true },
+    { "field": "note", "headers": ["Ghi chú"], "required": false }
+  ]
+}

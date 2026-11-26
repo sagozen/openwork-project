@@ -1,0 +1,24 @@
+node_modules/
+dist/
+build/
+.astro/
+.turbo/
+.wrangler/
+.output/
+.tanstack/
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.db
+*.db-shm
+*.db-wal
+coverage/
+test-results/
+playwright-report/
+.DS_Store
+# Local secrets: keep only the *.example templates
+.dev.vars
+.env
+.env.*
+!.env.example

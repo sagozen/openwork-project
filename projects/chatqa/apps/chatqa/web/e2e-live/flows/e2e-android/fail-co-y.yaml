@@ -1,0 +1,6 @@
+# Cố ý lỗi: chữ này không bao giờ có trong Cài đặt.
+appId: com.android.settings
+---
+- launchApp
+- assertVisible: "Chữ này không bao giờ có 12345"
+- stopApp

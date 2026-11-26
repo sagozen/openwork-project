@@ -1,0 +1,295 @@
+{
+  "$description": "Restaurant themes. A theme is a palette, a font pair and an identity; layout, spacing and radius are global td tokens. A record without a `tokens` file is identity-only: the picker shows it as coming soon and it can never be selected. The contrast pairs below are the ones the component kit renders, and every authored theme must pass all of them.",
+  "default": "thanh-vi",
+  "roles": [
+    "bg",
+    "surface",
+    "surface-2",
+    "line",
+    "ink",
+    "ink-2",
+    "ink-3",
+    "primary",
+    "primary-strong",
+    "primary-soft",
+    "accent",
+    "accent-soft",
+    "amber",
+    "amber-soft"
+  ],
+  "fonts": ["display", "ui"],
+  "tags": {
+    "ca-phe": "Cà phê",
+    "hai-san": "Hải sản",
+    "quan-nhau": "Quán nhậu"
+  },
+  "themes": [
+    {
+      "id": "thanh-vi",
+      "name": "Thanh Vị",
+      "description": "Giấy gạo, lá non. Sạch, nhẹ, tinh tế.",
+      "tags": [],
+      "scheme": "light",
+      "fonts": {
+        "display": "Lora",
+        "ui": "Be Vietnam Pro"
+      },
+      "swatch": {
+        "bg": "#F6F2E9",
+        "primary": "#2F5A3C"
+      },
+      "tokens": "thanh-vi.tokens.json",
+      "thumb": {
+        "bg": "#F6F2E9",
+        "line": "#B5573F",
+        "bar": "#2F5A3C"
+      },
+      "ink": "#1E2721"
+    },
+    {
+      "id": "ca-phe-sua",
+      "name": "Cà Phê Sữa",
+      "description": "Ấm, mộc, hợp quán sáng và cà phê.",
+      "tags": ["ca-phe"],
+      "scheme": "light",
+      "fonts": {
+        "display": "Fraunces",
+        "ui": "Inter"
+      },
+      "swatch": {
+        "bg": "#F3EADF",
+        "primary": "#6B4630"
+      },
+      "thumb": {
+        "bg": "#EFE6DA",
+        "line": "#C99A6B",
+        "bar": "#6B4A33"
+      },
+      "ink": "#1E2721"
+    },
+    {
+      "id": "bien-man",
+      "name": "Biển Mặn",
+      "description": "Trong trẻo, cho quán hải sản ven biển.",
+      "tags": ["hai-san"],
+      "scheme": "light",
+      "fonts": {
+        "display": "DM Serif Display",
+        "ui": "Manrope"
+      },
+      "swatch": {
+        "bg": "#EEF4F6",
+        "primary": "#1F5B78"
+      },
+      "thumb": {
+        "bg": "#EEF4F6",
+        "line": "#E07A5F",
+        "bar": "#1F4E6B"
+      },
+      "ink": "#1E2721"
+    },
+    {
+      "id": "pho-dem",
+      "name": "Phố Đêm",
+      "description": "Tối, nổi bật, cho quán nhậu, quán ốc.",
+      "tags": ["quan-nhau"],
+      "scheme": "dark",
+      "fonts": {
+        "display": "Space Grotesk",
+        "ui": "Space Grotesk"
+      },
+      "swatch": {
+        "bg": "#17161C",
+        "primary": "#F2B33D"
+      },
+      "thumb": {
+        "bg": "#15161A",
+        "line": "#E4572E",
+        "bar": "#F2C14E"
+      },
+      "ink": "#F4F1EA"
+    },
+    {
+      "id": "cho-que",
+      "name": "Chợ Quê",
+      "description": "Rực rỡ, vui mắt, cho quán đông khách.",
+      "tags": ["quan-nhau"],
+      "scheme": "light",
+      "fonts": {
+        "display": "Baloo 2",
+        "ui": "Nunito"
+      },
+      "swatch": {
+        "bg": "#FFF4E0",
+        "primary": "#C2410C"
+      },
+      "thumb": {
+        "bg": "#FFF4E0",
+        "line": "#F2A900",
+        "bar": "#C8102E"
+      },
+      "ink": "#1E2721"
+    },
+    {
+      "id": "toi-gian",
+      "name": "Tối Giản",
+      "description": "Trắng đen, chỉ có món ăn là nổi bật.",
+      "tags": ["ca-phe"],
+      "scheme": "light",
+      "fonts": {
+        "display": "Inter",
+        "ui": "Inter"
+      },
+      "swatch": {
+        "bg": "#FFFFFF",
+        "primary": "#111111"
+      },
+      "thumb": {
+        "bg": "#FFFFFF",
+        "line": "#9A9A9A",
+        "bar": "#111111"
+      },
+      "ink": "#1E2721"
+    }
+  ],
+  "contrast": [
+    {
+      "fg": "ink",
+      "bg": "bg",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink",
+      "bg": "surface",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink",
+      "bg": "surface-2",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink-2",
+      "bg": "bg",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink-2",
+      "bg": "surface",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink-2",
+      "bg": "surface-2",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink-3",
+      "bg": "surface-2",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink-3",
+      "bg": "bg",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "ink-3",
+      "bg": "surface",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "primary",
+      "bg": "bg",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "primary",
+      "bg": "surface",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "surface",
+      "bg": "primary",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "surface",
+      "bg": "primary-strong",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "primary-strong",
+      "bg": "primary-soft",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "primary-soft",
+      "bg": "primary-strong",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "primary-soft",
+      "bg": "primary",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "accent",
+      "bg": "bg",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "accent",
+      "bg": "surface",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "accent",
+      "bg": "accent-soft",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "surface",
+      "bg": "accent",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "amber",
+      "bg": "surface",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "amber",
+      "bg": "amber-soft",
+      "min": 4.5,
+      "kind": "text"
+    },
+    {
+      "fg": "primary",
+      "bg": "surface-2",
+      "min": 3,
+      "kind": "ui"
+    }
+  ]
+}

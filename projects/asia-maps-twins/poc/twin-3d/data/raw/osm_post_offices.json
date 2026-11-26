@@ -1,0 +1,7949 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-05-31T22:37:44Z",
+    "timestamp_areas_base": "2026-05-31T22:37:44Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 444394873,
+  "lat": 20.9835021,
+  "lon": 105.7922468,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Cục Văn Mỗ"
+  }
+},
+{
+  "type": "node",
+  "id": 446043806,
+  "lat": 20.7186703,
+  "lon": 105.3237720,
+  "tags": {
+    "amenity": "post_office",
+    "name": "bđ Cao Phong",
+    "note": "B$$u $$i$$$n Cao Phong"
+  }
+},
+{
+  "type": "node",
+  "id": 481836350,
+  "lat": 20.9344110,
+  "lon": 106.2491930,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Cẩm Giàng"
+  }
+},
+{
+  "type": "node",
+  "id": 481836364,
+  "lat": 21.0838600,
+  "lon": 106.3906450,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện văn hóa"
+  }
+},
+{
+  "type": "node",
+  "id": 668728501,
+  "lat": 18.6974483,
+  "lon": 105.4992435,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Nam Đàn"
+  }
+},
+{
+  "type": "node",
+  "id": 668769518,
+  "lat": 20.3849040,
+  "lon": 105.1003572,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 668807467,
+  "lat": 19.0515517,
+  "lon": 104.8809822,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 668996204,
+  "lat": 21.3072291,
+  "lon": 105.4054464,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 668996561,
+  "lat": 21.4037424,
+  "lon": 105.3156705,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 669002391,
+  "lat": 21.7297114,
+  "lon": 104.9615565,
+  "tags": {
+    "addr:city": "Yên Bình",
+    "addr:province": "Yên Bái",
+    "addr:street": "Đại Đồng",
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Yên Bình",
+    "name:en": "Post office of Yen Binh",
+    "name:fr": "Bureau de poste de Yen Binh"
+  }
+},
+{
+  "type": "node",
+  "id": 669245645,
+  "lat": 22.3358666,
+  "lon": 103.8432880,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 886005648,
+  "lat": 10.9455400,
+  "lon": 108.1972730,
+  "tags": {
+    "addr:housenumber": "53",
+    "addr:street": "Nguyễn Đình Chiểu",
+    "amenity": "post_office",
+    "note": "correct location and add address",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 980136803,
+  "lat": 10.5369500,
+  "lon": 106.4230190,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Đại Lý Bưu Điện Số 18 Tem Thư",
+    "name:en": "Post Office Branch No. 18"
+  }
+},
+{
+  "type": "node",
+  "id": 980137913,
+  "lat": 10.5093564,
+  "lon": 106.4666700,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Văn Hóa Xã Bình Quới",
+    "name:en": "Binh Quoi Culture Post Office"
+  }
+},
+{
+  "type": "node",
+  "id": 980138148,
+  "lat": 10.5391555,
+  "lon": 106.4143134,
+  "tags": {
+    "amenity": "post_office",
+    "name": "VNPT"
+  }
+},
+{
+  "type": "node",
+  "id": 1150960699,
+  "lat": 11.9405145,
+  "lon": 108.4370152,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Trung Tâm Thành Phố Đà Lạt",
+    "name:en": "Da Lat Central Post Office"
+  }
+},
+{
+  "type": "node",
+  "id": 1150964504,
+  "lat": 11.9496670,
+  "lon": 108.4641370,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Phan Chu Trinh"
+  }
+},
+{
+  "type": "node",
+  "id": 1152316047,
+  "lat": 11.9565756,
+  "lon": 108.4422227,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 1152319272,
+  "lat": 11.9370677,
+  "lon": 108.4381381,
+  "tags": {
+    "amenity": "post_office",
+    "name": "V. thông Lấm Đồng"
+  }
+},
+{
+  "type": "node",
+  "id": 1274146513,
+  "lat": 10.2904815,
+  "lon": 105.7672815,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Sa Đéc",
+    "operator": "Bưu điện Sa Đéc"
+  }
+},
+{
+  "type": "node",
+  "id": 1276258216,
+  "lat": 10.3849649,
+  "lon": 107.0642337,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Trần Phú"
+  }
+},
+{
+  "type": "node",
+  "id": 1276258447,
+  "lat": 10.5600446,
+  "lon": 107.5413003,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Bình Châu"
+  }
+},
+{
+  "type": "node",
+  "id": 1276315158,
+  "lat": 10.5027507,
+  "lon": 107.3333020,
+  "tags": {
+    "amenity": "post_office",
+    "name": "bưu điện Láng Dài"
+  }
+},
+{
+  "type": "node",
+  "id": 1433492138,
+  "lat": 16.2364307,
+  "lon": 108.0816339,
+  "tags": {
+    "amenity": "post_office",
+    "internet_access": "wlan",
+    "name": "Lang Co Post Office",
+    "name:de": "Vy Khang",
+    "operator": "VNPT",
+    "tourism": "motel"
+  }
+},
+{
+  "type": "node",
+  "id": 1612710712,
+  "lat": 10.9285850,
+  "lon": 108.1098413,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Tỉnh Bình Thuận"
+  }
+},
+{
+  "type": "node",
+  "id": 1706587531,
+  "lat": 10.7893633,
+  "lon": 106.7006324,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Việt Nam"
+  }
+},
+{
+  "type": "node",
+  "id": 1711396823,
+  "lat": 21.1383476,
+  "lon": 105.5067218,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Thị Xã Sơn Tây"
+  }
+},
+{
+  "type": "node",
+  "id": 1727574858,
+  "lat": 12.6803718,
+  "lon": 108.0331974,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Tỉnh Đắk Lắk"
+  }
+},
+{
+  "type": "node",
+  "id": 1755806889,
+  "lat": 20.9832502,
+  "lon": 105.8414593,
+  "tags": {
+    "addr:housenumber": "811",
+    "addr:street": "Đường Giải Phóng",
+    "amenity": "post_office",
+    "name": "Bưu điện Trung tâm 6 - Bưu điện TP. Hà Nội",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 1756260806,
+  "lat": 10.7483765,
+  "lon": 106.6812890,
+  "tags": {
+    "amenity": "post_office",
+    "designation": "370 Phạm Thế Hiển, 3, Quận 8, Ho Chi Minh City",
+    "name": "Bưu điện Dương Lân"
+  }
+},
+{
+  "type": "node",
+  "id": 1756985832,
+  "lat": 10.7427832,
+  "lon": 106.6707533,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Chánh Hưng"
+  }
+},
+{
+  "type": "node",
+  "id": 1776705335,
+  "lat": 10.0326478,
+  "lon": 105.7743897,
+  "tags": {
+    "addr:street": "1A, đường 3/2",
+    "amenity": "post_office",
+    "name": "Bưu điện Mậu Thân"
+  }
+},
+{
+  "type": "node",
+  "id": 1794262403,
+  "lat": 10.0687759,
+  "lon": 105.8208589,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Bình Minh"
+  }
+},
+{
+  "type": "node",
+  "id": 1797983686,
+  "lat": 10.1673146,
+  "lon": 106.0414930,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Tân Long"
+  }
+},
+{
+  "type": "node",
+  "id": 1798008951,
+  "lat": 10.2155556,
+  "lon": 105.6257566,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điên xã Vĩnh Thới"
+  }
+},
+{
+  "type": "node",
+  "id": 1798921456,
+  "lat": 10.3728215,
+  "lon": 105.4436762,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Long Xuyên"
+  }
+},
+{
+  "type": "node",
+  "id": 1805726426,
+  "lat": 10.2633886,
+  "lon": 105.5146805,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Thốt Nốt"
+  }
+},
+{
+  "type": "node",
+  "id": 1964117612,
+  "lat": 16.0669246,
+  "lon": 108.1500654,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Công Ty Lập Trình iPhone mobioneer.com"
+  }
+},
+{
+  "type": "node",
+  "id": 2070423566,
+  "lat": 12.2413545,
+  "lon": 109.1956767,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 2147654929,
+  "lat": 16.1015643,
+  "lon": 108.2477706,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 2297871686,
+  "lat": 21.0462468,
+  "lon": 105.8797466,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Cục Gia Lâm"
+  }
+},
+{
+  "type": "node",
+  "id": 2318283389,
+  "lat": 10.1636146,
+  "lon": 104.6131626,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Bình An"
+  }
+},
+{
+  "type": "node",
+  "id": 2341641889,
+  "lat": 10.7753551,
+  "lon": 106.6903474,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 2341698457,
+  "lat": 10.0651641,
+  "lon": 105.5644510,
+  "tags": {
+    "amenity": "post_office",
+    "name": "bưu điện huyện"
+  }
+},
+{
+  "type": "node",
+  "id": 2351840210,
+  "lat": 10.7395461,
+  "lon": 106.7052159,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 2399991773,
+  "lat": 10.2358492,
+  "lon": 106.3762164,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Tỉnh Bến Tre"
+  }
+},
+{
+  "type": "node",
+  "id": 2417300972,
+  "lat": 10.9745320,
+  "lon": 106.4968361,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Cục Củ Chi"
+  }
+},
+{
+  "type": "node",
+  "id": 2430704361,
+  "lat": 22.5343828,
+  "lon": 104.2905829,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Post Office Bac Ha"
+  }
+},
+{
+  "type": "node",
+  "id": 2447228396,
+  "lat": 20.8638579,
+  "lon": 106.6815380,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Trung Tâm Thành phố Hải Phòng",
+    "name:en": "Central Post Office Hai Phong"
+  }
+},
+{
+  "type": "node",
+  "id": 2452684393,
+  "lat": 20.2513215,
+  "lon": 105.9740173,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện tỉnh Ninh Bình",
+    "opening_hours": "Mo-Fr 07:00-18:00; Sa 08:00-13:00"
+  }
+},
+{
+  "type": "node",
+  "id": 2465527705,
+  "lat": 16.5119438,
+  "lon": 107.6001905,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 2487506785,
+  "lat": 20.8348002,
+  "lon": 106.7015022,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Công ty viễn thông FPT CN Hải Phòng"
+  }
+},
+{
+  "type": "node",
+  "id": 2487519668,
+  "lat": 20.8349273,
+  "lon": 106.6840793,
+  "tags": {
+    "amenity": "post_office",
+    "name": "bưu điện Dư Hàng Kênh"
+  }
+},
+{
+  "type": "node",
+  "id": 2487530693,
+  "lat": 20.8436170,
+  "lon": 106.6928356,
+  "tags": {
+    "amenity": "post_office",
+    "name": "VNPost - Hàng Kênh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "post_office": "bureau"
+  }
+},
+{
+  "type": "node",
+  "id": 2487786276,
+  "lat": 20.8897187,
+  "lon": 106.6743152,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện"
+  }
+},
+{
+  "type": "node",
+  "id": 2545040241,
+  "lat": 21.0325341,
+  "lon": 105.7984274,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Cầu Giấy",
+    "addr:housenumber": "165",
+    "addr:street": "Đường Cầu Giấy",
+    "addr:subdistrict": "Phường Quan Hoa",
+    "amenity": "post_office",
+    "name": "Bưu Điện Cầu Giấy"
+  }
+},
+{
+  "type": "node",
+  "id": 2587546400,
+  "lat": 22.2779044,
+  "lon": 103.9430939,
+  "tags": {
+    "amenity": "post_office",
+    "name": "VNPost",
+    "operator": "VNPost"
+  }
+},
+{
+  "type": "node",
+  "id": 2626620533,
+  "lat": 13.2061528,
+  "lon": 108.2072371,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 2628520041,
+  "lat": 16.4564614,
+  "lon": 107.5781724,
+  "tags": {
+    "amenity": "post_office",
+    "name": "VNPT",
+    "operator": "VNPT"
+  }
+},
+{
+  "type": "node",
+  "id": 2642414051,
+  "lat": 10.4843780,
+  "lon": 107.2148204,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Huyện Long Điền",
+    "name:en": "Long Dien District Post Office"
+  }
+},
+{
+  "type": "node",
+  "id": 2647223671,
+  "lat": 10.3491630,
+  "lon": 107.0818220,
+  "tags": {
+    "addr:housenumber": "173",
+    "addr:street": "Trương Công Định",
+    "amenity": "post_office",
+    "name": "Viettel"
+  }
+},
+{
+  "type": "node",
+  "id": 2669916356,
+  "lat": 10.3943390,
+  "lon": 107.2308130,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Long Hải"
+  }
+},
+{
+  "type": "node",
+  "id": 2671019358,
+  "lat": 10.6005200,
+  "lon": 107.0550280,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Phú Mỹ"
+  }
+},
+{
+  "type": "node",
+  "id": 2671067574,
+  "lat": 10.7740000,
+  "lon": 106.7704130,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Cát Lái"
+  }
+},
+{
+  "type": "node",
+  "id": 2672482990,
+  "lat": 10.8687520,
+  "lon": 106.8390200,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Long Phước"
+  }
+},
+{
+  "type": "node",
+  "id": 2758396214,
+  "lat": 10.6416397,
+  "lon": 107.1215377,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Hắc Dịch"
+  }
+},
+{
+  "type": "node",
+  "id": 2810708201,
+  "lat": 21.0261709,
+  "lon": 105.8536135,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "75B",
+    "addr:postcode": "11054",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Đinh Tiên Hoàng",
+    "addr:subdistrict": "Tràng Tiền",
+    "amenity": "post_office",
+    "name": "Bưu điện Quốc tế",
+    "name:en": "International Post Office",
+    "opening_hours": "Mo-Su 07:30-19:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 2850965126,
+  "lat": 10.6486904,
+  "lon": 107.2413527,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Huyện Châu Đức",
+    "name:id": "Kantor Pos Distrik Chau Duc",
+    "name:zh": "周德县邮政局"
+  }
+},
+{
+  "type": "node",
+  "id": 2888528101,
+  "lat": 21.1251023,
+  "lon": 105.3916692,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Tản Lĩnh",
+    "operator": "VNPT"
+  }
+},
+{
+  "type": "node",
+  "id": 2921240948,
+  "lat": 9.9373861,
+  "lon": 106.3419121,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Trà vinh"
+  }
+},
+{
+  "type": "node",
+  "id": 2927333801,
+  "lat": 10.7737854,
+  "lon": 106.7010467,
+  "tags": {
+    "amenity": "post_office",
+    "name": "bưu điện quận 1"
+  }
+},
+{
+  "type": "node",
+  "id": 2941533901,
+  "lat": 10.3993380,
+  "lon": 107.1161500,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 2947365733,
+  "lat": 10.3868790,
+  "lon": 106.9195200,
+  "tags": {
+    "amenity": "post_office",
+    "name:de": "Postfiliale"
+  }
+},
+{
+  "type": "node",
+  "id": 2985559633,
+  "lat": 16.4119160,
+  "lon": 107.6729830,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Hương Thuỷ"
+  }
+},
+{
+  "type": "node",
+  "id": 2991929933,
+  "lat": 10.8158710,
+  "lon": 106.6639180,
+  "tags": {
+    "amenity": "post_office",
+    "atm": "no",
+    "name": "VNPT"
+  }
+},
+{
+  "type": "node",
+  "id": 3020012288,
+  "lat": 10.8495292,
+  "lon": 106.7724282,
+  "tags": {
+    "addr:housenumber": "378",
+    "addr:street": "Võ Văn Ngân",
+    "amenity": "post_office",
+    "name": "Bưu Cục Bình Thọ",
+    "opening_hours": "Mo-Fr 07:00-19:00; Sa-Su 07:00-11:00,14:00-18:00"
+  }
+},
+{
+  "type": "node",
+  "id": 3129503337,
+  "lat": 11.5456036,
+  "lon": 106.0036893,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Tân Biên"
+  }
+},
+{
+  "type": "node",
+  "id": 3193946250,
+  "lat": 13.8019398,
+  "lon": 109.1477911,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Diêu Trì"
+  }
+},
+{
+  "type": "node",
+  "id": 3228071961,
+  "lat": 20.8418756,
+  "lon": 106.4721526,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Hà Đông"
+  }
+},
+{
+  "type": "node",
+  "id": 3235657597,
+  "lat": 10.7884323,
+  "lon": 106.6914510,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Tân Định",
+    "name:de": "Bưu điện Tân Định"
+  }
+},
+{
+  "type": "node",
+  "id": 3375790848,
+  "lat": 11.2885811,
+  "lon": 106.7937807,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Phú Giáo"
+  }
+},
+{
+  "type": "node",
+  "id": 3431205874,
+  "lat": 11.2871893,
+  "lon": 106.1287778,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Hòa Thành"
+  }
+},
+{
+  "type": "node",
+  "id": 3516472719,
+  "lat": 16.8207455,
+  "lon": 107.0976313,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 3725940476,
+  "lat": 20.7516099,
+  "lon": 106.6697225,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Kiến Thụy"
+  }
+},
+{
+  "type": "node",
+  "id": 3735530659,
+  "lat": 10.2987015,
+  "lon": 105.4626448,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Đại lý Viettel"
+  }
+},
+{
+  "type": "node",
+  "id": 4068098737,
+  "lat": 10.3756129,
+  "lon": 103.8523209,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4146792825,
+  "lat": 10.2158874,
+  "lon": 103.9597766,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4290034494,
+  "lat": 10.8468351,
+  "lon": 106.7867404,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4290624189,
+  "lat": 13.1682598,
+  "lon": 109.2884631,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4346611989,
+  "lat": 15.0138844,
+  "lon": 108.8696193,
+  "tags": {
+    "addr:street": "Quốc lộ 1A",
+    "amenity": "post_office",
+    "name:vi": "Quán Lát"
+  }
+},
+{
+  "type": "node",
+  "id": 4406493092,
+  "lat": 21.0314261,
+  "lon": 105.8509139,
+  "tags": {
+    "addr:housenumber": "66",
+    "addr:postcode": "11057",
+    "addr:street": "Phố Lương Văn Can",
+    "amenity": "post_office",
+    "name": "Bưu điện Lương Văn Can",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 4432269695,
+  "lat": 10.3557871,
+  "lon": 106.3775783,
+  "tags": {
+    "addr:housenumber": "12/8a",
+    "addr:street": "Nguyễn Văn Nguyễn",
+    "amenity": "post_office",
+    "name": "Ben xe duy quy",
+    "name:vi": "Ben xe duy quy"
+  }
+},
+{
+  "type": "node",
+  "id": 4439846690,
+  "lat": 15.4484348,
+  "lon": 108.3651882,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4441804790,
+  "lat": 10.8043593,
+  "lon": 106.6858636,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4458653490,
+  "lat": 13.8872703,
+  "lon": 109.1132247,
+  "tags": {
+    "addr:housenumber": "229",
+    "addr:postcode": "70000",
+    "addr:street": "Trần Phú",
+    "amenity": "post_office",
+    "name": "Bưu Điện Bình Định",
+    "name:en": "Binh Dinh Post Office"
+  }
+},
+{
+  "type": "node",
+  "id": 4471377890,
+  "lat": 10.3517627,
+  "lon": 106.3519609,
+  "tags": {
+    "addr:housenumber": "88/2a",
+    "addr:street": "Lê Thị Hồng Gấm",
+    "amenity": "post_office",
+    "name": "Nha",
+    "name:vi": "Nha"
+  }
+},
+{
+  "type": "node",
+  "id": 4496708795,
+  "lat": 20.6891784,
+  "lon": 106.4794559,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Vĩnh bảo",
+    "name:vi": "Vĩnh bảo"
+  }
+},
+{
+  "type": "node",
+  "id": 4504050690,
+  "lat": 20.3472833,
+  "lon": 105.8368116,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Vinaphone",
+    "name:vi": "Bưu điện Vinaphone"
+  }
+},
+{
+  "type": "node",
+  "id": 4511121041,
+  "lat": 21.3890357,
+  "lon": 103.0156442,
+  "tags": {
+    "amenity": "post_office",
+    "source": "GPS;photograph"
+  }
+},
+{
+  "type": "node",
+  "id": 4523492191,
+  "lat": 13.9486689,
+  "lon": 109.0755433,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Post Office",
+    "name:en": "Post office"
+  }
+},
+{
+  "type": "node",
+  "id": 4525955792,
+  "lat": 14.1706009,
+  "lon": 109.0500696,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Postoffice"
+  }
+},
+{
+  "type": "node",
+  "id": 4532521393,
+  "lat": 21.1870221,
+  "lon": 105.4386646,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Viettel Tây Đằng",
+    "name:vi": "Bưu điện viettel tây đằng"
+  }
+},
+{
+  "type": "node",
+  "id": 4536058095,
+  "lat": 21.0380589,
+  "lon": 105.8011330,
+  "tags": {
+    "addr:country": "VN",
+    "addr:street": "Ngõ 118 Nguyễn Khánh Toàn",
+    "amenity": "post_office",
+    "internet_access": "wlan",
+    "name": "VIETTEL POST"
+  }
+},
+{
+  "type": "node",
+  "id": 4539563027,
+  "lat": 10.8045981,
+  "lon": 105.3409749,
+  "tags": {
+    "amenity": "post_office",
+    "name": "bưu điện thị xã hồng ngự",
+    "name:vi": "bưu điện thị xã hồng ngự"
+  }
+},
+{
+  "type": "node",
+  "id": 4571873590,
+  "lat": 21.0254200,
+  "lon": 105.8535850,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "66",
+    "addr:street": "Phố Tràng Tiền",
+    "addr:subdistrict": "Tràng Tiền",
+    "amenity": "post_office",
+    "name": "Bưu điện Tràng Tiền",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 4580858690,
+  "lat": 12.2558986,
+  "lon": 109.1224119,
+  "tags": {
+    "amenity": "post_office",
+    "name": "KH3864",
+    "name:vi": "KH3864"
+  }
+},
+{
+  "type": "node",
+  "id": 4592172190,
+  "lat": 11.5809620,
+  "lon": 108.9740377,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Đài PT&TH Ninh Thuận",
+    "name:vi": "Đài PT&TH Ninh Thuận"
+  }
+},
+{
+  "type": "node",
+  "id": 4592626792,
+  "lat": 10.0357615,
+  "lon": 105.7863873,
+  "tags": {
+    "addr:housenumber": "2",
+    "addr:street": "Hòa Bình",
+    "amenity": "post_office",
+    "name:en": "Cần Thơ Post Office"
+  }
+},
+{
+  "type": "node",
+  "id": 4595313780,
+  "lat": 10.7713584,
+  "lon": 106.6967978,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Lê Lai"
+  }
+},
+{
+  "type": "node",
+  "id": 4597226090,
+  "lat": 13.7844112,
+  "lon": 109.2028214,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Trung tâm ĐH TT",
+    "name:vi": "Trung tâm ĐH TT"
+  }
+},
+{
+  "type": "node",
+  "id": 4599098524,
+  "lat": 10.7594523,
+  "lon": 106.6881804,
+  "tags": {
+    "addr:housenumber": "447B",
+    "addr:postcode": "710400",
+    "addr:street": "Đường Trần Hưng Ðạo",
+    "amenity": "post_office",
+    "name": "Bưu Điện Việt Nam - Trần Hưng Đạo",
+    "opening_hours": "Mo-Fr 07:30-07:30,13:30-18:00; Sa 08:00-12:00",
+    "phone": "02838365440"
+  }
+},
+{
+  "type": "node",
+  "id": 4609629494,
+  "lat": 11.2250032,
+  "lon": 108.7332241,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Trạm Viễn Thông Kios",
+    "name:vi": "Trạm Viễn Thông Kios"
+  }
+},
+{
+  "type": "node",
+  "id": 4609671891,
+  "lat": 11.2302970,
+  "lon": 108.7195095,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Tuy Phong",
+    "name:vi": "Bưu Điện Tuy Phong"
+  }
+},
+{
+  "type": "node",
+  "id": 4621952607,
+  "lat": 22.3789385,
+  "lon": 105.8952524,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Buu Dien Na Phac"
+  }
+},
+{
+  "type": "node",
+  "id": 4628452885,
+  "lat": 22.3359986,
+  "lon": 105.6571980,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Thon Na Co"
+  }
+},
+{
+  "type": "node",
+  "id": 4631079393,
+  "lat": 22.3187658,
+  "lon": 104.1872823,
+  "tags": {
+    "addr:postcode": "0203",
+    "addr:street": "Đường 19-5",
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4661784832,
+  "lat": 11.1781354,
+  "lon": 108.5745009,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Nhà nghỉ Hoàng Hoa 150k/đêm"
+  }
+},
+{
+  "type": "node",
+  "id": 4683710291,
+  "lat": 10.7106431,
+  "lon": 105.1204873,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Vietnam Post",
+    "name:en": "Vietnam Post",
+    "name:vi": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 4687989789,
+  "lat": 10.8539416,
+  "lon": 106.7683276,
+  "tags": {
+    "addr:housenumber": "102",
+    "addr:street": "Tô Vĩnh Diện",
+    "amenity": "post_office",
+    "name": "Bưu Điện Việt Nam"
+  }
+},
+{
+  "type": "node",
+  "id": 4688048191,
+  "lat": 11.5661177,
+  "lon": 108.9913590,
+  "tags": {
+    "addr:street": "16 tháng 4",
+    "amenity": "post_office",
+    "internet_access": "wlan",
+    "name": "bưu điện"
+  }
+},
+{
+  "type": "node",
+  "id": 4707997958,
+  "lat": 17.6114801,
+  "lon": 106.3055218,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện",
+    "name:en": "Post office",
+    "opening_hours": "Mo-Fr 09:00-17:00"
+  }
+},
+{
+  "type": "node",
+  "id": 4730048293,
+  "lat": 11.3079899,
+  "lon": 106.1482612,
+  "tags": {
+    "addr:street": "ĐT 781",
+    "amenity": "post_office",
+    "name": "Bưu Điện Bàu Năng",
+    "name:vi": "Bưu Điện Bàu Năng",
+    "opening_hours": "Mo-Su 09:00-18:00",
+    "operator": "Nhà Nước"
+  }
+},
+{
+  "type": "node",
+  "id": 4734461721,
+  "lat": 20.4907853,
+  "lon": 106.0060089,
+  "tags": {
+    "addr:street": "QL21, TT Bình Mỹ, Bình Lục, Hà Nam, Việt Nam",
+    "amenity": "post_office",
+    "name": "Bưu điện Bình Lục",
+    "name:en": "Binh Luc Post office"
+  }
+},
+{
+  "type": "node",
+  "id": 4734482024,
+  "lat": 21.0379952,
+  "lon": 105.8462541,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "16D",
+    "addr:street": "Phố Phùng Hưng",
+    "addr:subdistrict": "Hàng Mã",
+    "amenity": "post_office",
+    "name": "Bưu Cục Hàng Cót"
+  }
+},
+{
+  "type": "node",
+  "id": 4750745422,
+  "lat": 13.4545994,
+  "lon": 109.2205610,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Postoffice"
+  }
+},
+{
+  "type": "node",
+  "id": 4765823688,
+  "lat": 10.8781224,
+  "lon": 106.8070370,
+  "tags": {
+    "addr:housename": "A17",
+    "amenity": "post_office",
+    "name": "A7 Post Office",
+    "name:vi": "Bưu điện A7"
+  }
+},
+{
+  "type": "node",
+  "id": 4765894224,
+  "lat": 22.9471600,
+  "lon": 105.6787961,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 4771209947,
+  "lat": 22.8359434,
+  "lon": 106.5255876,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 4780494523,
+  "lat": 21.8531477,
+  "lon": 106.7596068,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 4791359421,
+  "lat": 20.7254226,
+  "lon": 106.5532206,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 4803308921,
+  "lat": 10.7625448,
+  "lon": 106.7103341,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Phẩm Viettel Quận 4"
+  }
+},
+{
+  "type": "node",
+  "id": 4809407186,
+  "lat": 10.8834690,
+  "lon": 106.7805918,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện KTX khu B",
+    "opening_hours": "Mo-Sa 08:00-17:00"
+  }
+},
+{
+  "type": "node",
+  "id": 4820446981,
+  "lat": 21.0090775,
+  "lon": 107.3360476,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Cọc 6"
+  }
+},
+{
+  "type": "node",
+  "id": 4820488631,
+  "lat": 10.7508884,
+  "lon": 106.5956450,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4820507422,
+  "lat": 10.7472333,
+  "lon": 106.5962232,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4838572321,
+  "lat": 12.4948351,
+  "lon": 109.1324553,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Ninh Hoà",
+    "name:vi": "Bưu Điện Ninh Hoà"
+  }
+},
+{
+  "type": "node",
+  "id": 4906972471,
+  "lat": 10.8722952,
+  "lon": 106.7990836,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Đại Lý Bưu Điện Tân Lập 3"
+  }
+},
+{
+  "type": "node",
+  "id": 4910066199,
+  "lat": 10.7872542,
+  "lon": 106.6638467,
+  "tags": {
+    "addr:street": "Đường Cách Mạng Tháng Tám",
+    "amenity": "post_office",
+    "name": "Bưu Điện Hoà Hưng"
+  }
+},
+{
+  "type": "node",
+  "id": 4924377821,
+  "lat": 16.4704047,
+  "lon": 107.5939342,
+  "tags": {
+    "addr:street": "Lê Lợi",
+    "amenity": "post_office",
+    "name:en": "Post office",
+    "opening_hours": "Mo-Sa 08:00-17:30"
+  }
+},
+{
+  "type": "node",
+  "id": 4930664012,
+  "lat": 10.7796973,
+  "lon": 106.6778899,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 4945035121,
+  "lat": 20.9139305,
+  "lon": 105.8521009,
+  "tags": {
+    "addr:street": "Khu Công Nghiệp Ngọc Hồi- Thanh Trì - Hà Nội",
+    "amenity": "post_office",
+    "contact:phone": "+84 24 3684 0271",
+    "contact:website": "https://hanoi.vnpt.vn/",
+    "internet_access": "wlan",
+    "name": "VNPT VINAPHONE KHU VỰC 6",
+    "name:en": "VNPT VINAPHONE ZONE 6",
+    "opening_hours": "Mo-Su 08:00-19:00",
+    "operator": "Phòng BHKV6 - TTKD VNPT HÀ NỘI"
+  }
+},
+{
+  "type": "node",
+  "id": 4956201522,
+  "lat": 12.1014038,
+  "lon": 109.1522654,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Tap hóa hòa tân hòa cam đức cam lâm"
+  }
+},
+{
+  "type": "node",
+  "id": 4961721021,
+  "lat": 11.9557715,
+  "lon": 108.4398700,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Cơm tấm Minh Phát",
+    "name:vi": "Cơm tấm Minh Phát"
+  }
+},
+{
+  "type": "node",
+  "id": 5004126121,
+  "lat": 10.9845511,
+  "lon": 108.1389771,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5038162521,
+  "lat": 20.3989473,
+  "lon": 106.2325606,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Dien xa",
+    "name:vi": "Dien xa"
+  }
+},
+{
+  "type": "node",
+  "id": 5041325821,
+  "lat": 10.1845212,
+  "lon": 106.2752021,
+  "tags": {
+    "amenity": "post_office",
+    "name": "vnpost mỏ cày bắc",
+    "name:vi": "vnpost mỏ cày bắc"
+  }
+},
+{
+  "type": "node",
+  "id": 5059894523,
+  "lat": 10.9966046,
+  "lon": 106.6502278,
+  "tags": {
+    "amenity": "post_office",
+    "name": "tap hoa sương",
+    "name:vi": "tap hoa sương"
+  }
+},
+{
+  "type": "node",
+  "id": 5077384325,
+  "lat": 10.3943633,
+  "lon": 106.2945385,
+  "tags": {
+    "amenity": "post_office",
+    "name": "cầu rựu",
+    "name:vi": "cầu rựu"
+  }
+},
+{
+  "type": "node",
+  "id": 5095404521,
+  "lat": 16.0597587,
+  "lon": 108.2114600,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5156418121,
+  "lat": 10.7586918,
+  "lon": 106.6874357,
+  "tags": {
+    "addr:housenumber": "447",
+    "addr:street": "Đường Trần Hưng Ðạo",
+    "amenity": "post_office",
+    "name": "Bưu Điện Việt Nam"
+  }
+},
+{
+  "type": "node",
+  "id": 5177506192,
+  "lat": 10.0431995,
+  "lon": 105.7658158,
+  "tags": {
+    "addr:city": "Cần Thơ",
+    "addr:country": "VN",
+    "addr:district": "Ninh Kiều",
+    "addr:housenumber": "98",
+    "addr:province": "Cần Thơ",
+    "addr:state": "VI",
+    "addr:street": "Mậu Thân",
+    "addr:subdistrict": "An Hòa",
+    "amenity": "post_office",
+    "name": "bưu điện An Hoà"
+  }
+},
+{
+  "type": "node",
+  "id": 5217861922,
+  "lat": 10.1927575,
+  "lon": 106.0132207,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5227642821,
+  "lat": 21.5500032,
+  "lon": 105.8462019,
+  "tags": {
+    "addr:housenumber": "1121",
+    "addr:postcode": "250000",
+    "addr:street": "Quốc lộ 3",
+    "amenity": "post_office",
+    "email": "nammyvantn@gmail.com",
+    "name": "Bưu Điện Phú Xá",
+    "name:en": "Phu Xa post office",
+    "opening_hours": "24/7",
+    "phone": "0941826262"
+  }
+},
+{
+  "type": "node",
+  "id": 5239480022,
+  "lat": 21.0307610,
+  "lon": 105.8560389,
+  "tags": {
+    "addr:housenumber": "18C",
+    "addr:street": "Phố Hàng Vôi",
+    "amenity": "post_office",
+    "name": "Bưu Cục EMS Tràng Tiền",
+    "name:en": "EMS Vietnam"
+  }
+},
+{
+  "type": "node",
+  "id": 5245624839,
+  "lat": 10.0317226,
+  "lon": 105.7528228,
+  "tags": {
+    "addr:full": "369, Nguyễn Văn Cừ nối dài, An Khánh, Cần Thơ, Việt Nam",
+    "amenity": "post_office",
+    "name": "Bưu điện An Khánh"
+  }
+},
+{
+  "type": "node",
+  "id": 5245639707,
+  "lat": 10.0238015,
+  "lon": 105.7931900,
+  "tags": {
+    "amenity": "post_office",
+    "name": "COÔNG TY VẬN CHUYỂN HÀNG HÓA"
+  }
+},
+{
+  "type": "node",
+  "id": 5245639716,
+  "lat": 10.0208724,
+  "lon": 105.7947457,
+  "tags": {
+    "amenity": "post_office",
+    "name": "TRUNG TÂM CHUYỂN PHÁT NHANH NHẬT TIẾN"
+  }
+},
+{
+  "type": "node",
+  "id": 5251409821,
+  "lat": 10.9296116,
+  "lon": 106.7331783,
+  "tags": {
+    "amenity": "post_office",
+    "name": "tan067-bdg"
+  }
+},
+{
+  "type": "node",
+  "id": 5253311321,
+  "lat": 10.0054127,
+  "lon": 105.7506528,
+  "tags": {
+    "addr:district": "Cai Rang",
+    "amenity": "post_office",
+    "name": "Bưu Điện Việt Nam"
+  }
+},
+{
+  "type": "node",
+  "id": 5253367695,
+  "lat": 9.4180224,
+  "lon": 105.6940810,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện TT Hưng Lợi"
+  }
+},
+{
+  "type": "node",
+  "id": 5281622724,
+  "lat": 21.0450690,
+  "lon": 105.8432765,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5296689023,
+  "lat": 21.0346495,
+  "lon": 105.7470280,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Xuân Phương",
+    "name:en": "Xuan Phuong Post Office",
+    "name:tr": "Xuan Phuong Postanesi"
+  }
+},
+{
+  "type": "node",
+  "id": 5304214121,
+  "lat": 21.3180123,
+  "lon": 105.4204340,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện thành phố Việt Trì"
+  }
+},
+{
+  "type": "node",
+  "id": 5342670325,
+  "lat": 18.1727548,
+  "lon": 105.7028997,
+  "tags": {
+    "addr:street": "Khoi 8 Street",
+    "amenity": "post_office",
+    "name:en": "Vietnam Post - Post Office",
+    "phone": "0393871211"
+  }
+},
+{
+  "type": "node",
+  "id": 5355808621,
+  "lat": 20.2169778,
+  "lon": 105.9398556,
+  "tags": {
+    "addr:street": "Bich Dong",
+    "amenity": "post_office",
+    "name:en": "Vietnam Post",
+    "opening_hours": "Mo-Su 07:30-17:00",
+    "phone": "0303618010"
+  }
+},
+{
+  "type": "node",
+  "id": 5375599817,
+  "lat": 10.3444263,
+  "lon": 105.6807104,
+  "tags": {
+    "addr:district": "huyện Lấp Vò",
+    "addr:province": "Đồng Tháp",
+    "addr:subdistrict": "xã Long Hưng A",
+    "amenity": "post_office",
+    "opening_hours": "Mo-Fr 08:00-17:00"
+  }
+},
+{
+  "type": "node",
+  "id": 5392315627,
+  "lat": 22.8176570,
+  "lon": 104.9807394,
+  "tags": {
+    "addr:housenumber": "13",
+    "addr:postcode": "311000",
+    "addr:street": "National Highway 2",
+    "amenity": "post_office",
+    "name": "Bưu điện Thành phố Hà Giang",
+    "name:en": "Vietnam Post",
+    "opening_hours": "Mo-Su 09:00-17:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "phone": "02193866486"
+  }
+},
+{
+  "type": "node",
+  "id": 5392338022,
+  "lat": 22.8328517,
+  "lon": 104.9878376,
+  "tags": {
+    "addr:housenumber": "10",
+    "addr:street": "Nguyen Viet Xuan",
+    "amenity": "post_office",
+    "name": "Buu Dien Viet Nam",
+    "name:en": "Vietnam Post",
+    "opening_hours": "Mo-Su 09:00-17:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "phone": "02193875559"
+  }
+},
+{
+  "type": "node",
+  "id": 5418380438,
+  "lat": 9.1954171,
+  "lon": 105.1735337,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5474893221,
+  "lat": 13.9196665,
+  "lon": 109.0912181,
+  "tags": {
+    "amenity": "post_office",
+    "name": "vnpt đập đá"
+  }
+},
+{
+  "type": "node",
+  "id": 5485727933,
+  "lat": 21.0264169,
+  "lon": 105.8228123,
+  "tags": {
+    "addr:street": "Giảng Võ",
+    "amenity": "post_office",
+    "name": "Bưu Cục Giảng Võ",
+    "source": "grab_hanoi_2018_t3"
+  }
+},
+{
+  "type": "node",
+  "id": 5485799797,
+  "lat": 20.9740337,
+  "lon": 105.8357819,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàng Mai",
+    "addr:street": "Nguyễn Cảnh Dị",
+    "addr:subdistrict": "Đại Kim",
+    "amenity": "post_office",
+    "name": "ViettelPost",
+    "source": "grab_hanoi_2018_t5"
+  }
+},
+{
+  "type": "node",
+  "id": 5601137001,
+  "lat": 10.3485137,
+  "lon": 107.0766379,
+  "tags": {
+    "addr:housenumber": "56",
+    "addr:street": "Trưng Trắc",
+    "amenity": "post_office",
+    "name": "Bưu cục Phường 1",
+    "name:en": "Vietnam Post - Ward 1 Post office",
+    "name:id": "Kantor Pos Kelurahan 1",
+    "operator": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 5619500019,
+  "lat": 10.5419314,
+  "lon": 107.0728466,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5621239024,
+  "lat": 23.3762193,
+  "lon": 105.3046109,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5666266723,
+  "lat": 12.6341250,
+  "lon": 108.0097001,
+  "tags": {
+    "addr:housenumber": "1111",
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 5672638337,
+  "lat": 10.5851653,
+  "lon": 107.0526440,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Thị xã Phú Mỹ",
+    "name:en": "Phu My Post Office",
+    "name:id": "Kantor Pos Kota Phu My",
+    "name:ru": "Почтовое отделение Фуми",
+    "name:zh": "富美市社邮政局"
+  }
+},
+{
+  "type": "node",
+  "id": 5774263253,
+  "lat": 12.4120084,
+  "lon": 107.5804888,
+  "tags": {
+    "addr:postcode": "641970",
+    "addr:street": "Quoc lo 14C",
+    "amenity": "post_office",
+    "name": "Bưu điện xã Thuận An",
+    "name:en": "Post office in Thuan An Commune",
+    "opening_hours": "Mo-Sa 07:00-20:00",
+    "phone": "02613741574"
+  }
+},
+{
+  "type": "node",
+  "id": 5792283616,
+  "lat": 21.6240461,
+  "lon": 107.7182543,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện"
+  }
+},
+{
+  "type": "node",
+  "id": 5808318653,
+  "lat": 10.2577949,
+  "lon": 105.2684949,
+  "tags": {
+    "amenity": "post_office",
+    "name": "CJUA BS NHA TRO 9 LIEU"
+  }
+},
+{
+  "type": "node",
+  "id": 5833876385,
+  "lat": 11.5655098,
+  "lon": 108.9954149,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Ninh Thuan Post Office",
+    "opening_hours": "Mo-Su 06:00-21:00",
+    "phone": "+84 123 405 1981"
+  }
+},
+{
+  "type": "node",
+  "id": 6055031730,
+  "lat": 11.9138181,
+  "lon": 109.1370658,
+  "tags": {
+    "addr:housenumber": "245",
+    "addr:street": "Nguyễn Trọng Kỷ",
+    "amenity": "post_office",
+    "name": "Cam Ranh Post Office",
+    "opening_hours": "Mo-Sa 07:00-18:00, Su 07:30-18:00"
+  }
+},
+{
+  "type": "node",
+  "id": 6124351866,
+  "lat": 21.5497320,
+  "lon": 105.8465492,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Vietnam post"
+  }
+},
+{
+  "type": "node",
+  "id": 6160555408,
+  "lat": 21.7572450,
+  "lon": 103.0903236,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Mường Chà"
+  }
+},
+{
+  "type": "node",
+  "id": 6243824286,
+  "lat": 13.7689074,
+  "lon": 109.2195250,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 6303376368,
+  "lat": 20.9567520,
+  "lon": 107.0500879,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2025-03-15",
+    "name": "Bưu điện Hạ Long"
+  }
+},
+{
+  "type": "node",
+  "id": 6315390385,
+  "lat": 10.7866719,
+  "lon": 106.6718059,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Cục Viettel"
+  }
+},
+{
+  "type": "node",
+  "id": 6315688293,
+  "lat": 10.7975252,
+  "lon": 106.6675483,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Chi Nhánh Bưu Chính Viettel"
+  }
+},
+{
+  "type": "node",
+  "id": 6320447985,
+  "lat": 15.8792848,
+  "lon": 108.3360052,
+  "tags": {
+    "addr:city": "Hội An",
+    "addr:housenumber": "495",
+    "addr:street": "Của Đại",
+    "amenity": "post_office",
+    "brand": "DHL",
+    "brand:wikidata": "Q489815",
+    "name": "DHL"
+  }
+},
+{
+  "type": "node",
+  "id": 6346457447,
+  "lat": 20.9454795,
+  "lon": 105.8733014,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Yên Mỹ",
+    "opening_hours": "Mo-Su 08:00-21:00",
+    "operator": "Goverment"
+  }
+},
+{
+  "type": "node",
+  "id": 6397856486,
+  "lat": 16.0686655,
+  "lon": 108.2228129,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 6426231532,
+  "lat": 13.9581323,
+  "lon": 108.8282680,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Đồng Phó"
+  }
+},
+{
+  "type": "node",
+  "id": 6433691144,
+  "lat": 14.0556124,
+  "lon": 108.7914174,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Văn Hóa Xã Vĩnh Quang"
+  }
+},
+{
+  "type": "node",
+  "id": 6437377428,
+  "lat": 14.1707401,
+  "lon": 109.0599083,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Văn Hóa Xã Mỹ Quang"
+  }
+},
+{
+  "type": "node",
+  "id": 6516239487,
+  "lat": 20.9799614,
+  "lon": 105.7486076,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Dương Nội"
+  }
+},
+{
+  "type": "node",
+  "id": 6544889748,
+  "lat": 10.8936186,
+  "lon": 106.3086872,
+  "tags": {
+    "addr:district": "Đức Huệ",
+    "addr:province": "Long An",
+    "addr:street": "ĐT.839",
+    "addr:subdistrict": "Đông Thành",
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Đức Huệ",
+    "opening_hours": "Mo-Su 08:00-16:30"
+  }
+},
+{
+  "type": "node",
+  "id": 6545302895,
+  "lat": 10.8672136,
+  "lon": 106.6265235,
+  "tags": {
+    "addr:city": "Tp. Hồ Chí Minh",
+    "addr:district": "Quận 12",
+    "addr:street": "Tân Chánh Hiệp 10",
+    "addr:subdistrict": "Phường Tân Chhánh Hiệp",
+    "amenity": "post_office",
+    "name": "Bưu Cục Tân Chánh Hiệp",
+    "name:en": "Tan Chanh Hiep Post Office"
+  }
+},
+{
+  "type": "node",
+  "id": 6703296169,
+  "lat": 22.2823929,
+  "lon": 103.4025840,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Văn hóa xã Nậm Tăm"
+  }
+},
+{
+  "type": "node",
+  "id": 6707397286,
+  "lat": 21.0348514,
+  "lon": 105.8261919,
+  "tags": {
+    "addr:housenumber": "155C",
+    "addr:street": "Đội Cấn",
+    "amenity": "post_office",
+    "name": "Bưu Điện Trung Tâm 4",
+    "operator": "VNPT"
+  }
+},
+{
+  "type": "node",
+  "id": 6875375587,
+  "lat": 20.3497121,
+  "lon": 106.1104867,
+  "tags": {
+    "amenity": "post_office",
+    "operator": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 6944194285,
+  "lat": 22.2347459,
+  "lon": 104.4768771,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 6984192287,
+  "lat": 22.4306358,
+  "lon": 106.4319528,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 6989719316,
+  "lat": 10.6353417,
+  "lon": 107.0474258,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu cục Viettel Phú Hà"
+  }
+},
+{
+  "type": "node",
+  "id": 7040081085,
+  "lat": 21.0271277,
+  "lon": 105.8541885,
+  "tags": {
+    "amenity": "post_office",
+    "brand": "DHL",
+    "brand:wikidata": "Q489815",
+    "name": "DHL",
+    "name:en": "DHL"
+  }
+},
+{
+  "type": "node",
+  "id": 7048100585,
+  "lat": 10.1804612,
+  "lon": 104.0462488,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 7085982999,
+  "lat": 15.7423387,
+  "lon": 108.3594046,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 7086035887,
+  "lat": 15.7436908,
+  "lon": 108.3579220,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vittel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 7099261008,
+  "lat": 10.4999269,
+  "lon": 107.1293035,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 7161584345,
+  "lat": 20.3947288,
+  "lon": 106.1185380,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 7166243687,
+  "lat": 20.2589252,
+  "lon": 106.1191551,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 7178787481,
+  "lat": 21.0379903,
+  "lon": 105.8487138,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Phường Hoàn Kiếm",
+    "addr:housenumber": "18",
+    "addr:postcode": "11058",
+    "addr:province": "Thành phố Hà Nội",
+    "addr:street": "Phố Đồng Xuân",
+    "amenity": "post_office",
+    "name": "Bưu điện Đồng Xuân"
+  }
+},
+{
+  "type": "node",
+  "id": 7178789277,
+  "lat": 21.1117148,
+  "lon": 105.8767858,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 7178811275,
+  "lat": 21.1004035,
+  "lon": 105.8853485,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 7183898787,
+  "lat": 10.0218409,
+  "lon": 104.0174325,
+  "tags": {
+    "addr:housenumber": "157",
+    "addr:street": "Nguyễn Văn Cừ",
+    "amenity": "post_office",
+    "name": "Bưu Điện An Thới",
+    "name:en": "Post office",
+    "name:ru": "Почтовое отделение",
+    "opening_hours": "Mo-Su 06:30-18:00"
+  }
+},
+{
+  "type": "node",
+  "id": 7183907685,
+  "lat": 10.0265638,
+  "lon": 104.0168467,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Chuyển Phát Nhanh Viettel"
+  }
+},
+{
+  "type": "node",
+  "id": 7216615996,
+  "lat": 21.3354403,
+  "lon": 107.0079791,
+  "tags": {
+    "amenity": "post_office",
+    "name": "3 hộp táu"
+  }
+},
+{
+  "type": "node",
+  "id": 7216616586,
+  "lat": 21.3429445,
+  "lon": 106.9594921,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Sau chốt Đường Việt"
+  }
+},
+{
+  "type": "node",
+  "id": 7216616787,
+  "lat": 21.3556172,
+  "lon": 106.9513110,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện",
+    "name:en": "UBND Xã An Lạc"
+  }
+},
+{
+  "type": "node",
+  "id": 7353510354,
+  "lat": 10.3603084,
+  "lon": 107.0826673,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu cục 5 Tầng",
+    "name:en": "Nam Tang Post Office",
+    "name:id": "Kantor Pos Nam Tang",
+    "name:ru": "Почтовое отделение Нам-Танга",
+    "name:zh": "五层邮政局",
+    "operator": "VietnamPost"
+  }
+},
+{
+  "type": "node",
+  "id": 7409549830,
+  "lat": 20.9488979,
+  "lon": 105.7070441,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Chương Mỹ",
+    "addr:province": "Việt Nam",
+    "addr:street": "Phượng Nghĩa",
+    "addr:subdistrict": "Phụng Châu",
+    "amenity": "post_office",
+    "name": "Bưu Điện Phụng Châu"
+  }
+},
+{
+  "type": "node",
+  "id": 7416168633,
+  "lat": 10.4136183,
+  "lon": 107.2001240,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Viettel Phước Thiện"
+  }
+},
+{
+  "type": "node",
+  "id": 7475283685,
+  "lat": 12.2180498,
+  "lon": 109.1941925,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Lazada",
+    "name:ru": "Лазада интернет магазин"
+  }
+},
+{
+  "type": "node",
+  "id": 7612528481,
+  "lat": 21.0065216,
+  "lon": 105.8353822,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Đống Đa",
+    "addr:housenumber": "135",
+    "addr:street": "Phố Lương Định Của",
+    "addr:subdistrict": "Kim Liên",
+    "amenity": "post_office",
+    "name": "Bưu điện Kim Liên",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 7856211553,
+  "lat": 21.0329252,
+  "lon": 105.8562032,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "783",
+    "addr:street": "Đường Hồng Hà",
+    "amenity": "post_office",
+    "name": "Bưu Cục Giao Dịch EMS Hồng Hà"
+  }
+},
+{
+  "type": "node",
+  "id": 7856211555,
+  "lat": 21.0278903,
+  "lon": 105.8424213,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "22",
+    "addr:postcode": "11060",
+    "addr:street": "Phố Cửa Nam",
+    "amenity": "post_office",
+    "name": "Bưu điện Cửa Nam",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 7856350176,
+  "lat": 21.0084292,
+  "lon": 105.8510034,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hai Bà Trưng",
+    "addr:housenumber": "393",
+    "addr:street": "Đường Trần Khát Chân",
+    "amenity": "post_office",
+    "name": "Bưu Điện Trần Khát Chân"
+  }
+},
+{
+  "type": "node",
+  "id": 7856350177,
+  "lat": 21.0089127,
+  "lon": 105.8643299,
+  "tags": {
+    "addr:housenumber": "116",
+    "addr:street": "Đường Trần Khát Chân",
+    "amenity": "post_office",
+    "name": "Bưu Cục Giao Dịch EMS Hai Bà Trưng 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7856383102,
+  "lat": 21.0103393,
+  "lon": 105.8464544,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hai Bà Trưng",
+    "addr:housenumber": "2",
+    "addr:street": "Phố Vân Hồ 3",
+    "addr:subdistrict": "Lê Đại Hành",
+    "amenity": "post_office",
+    "fixme": "There should be a correct location for this post office",
+    "name": "Bưu Cục Vân Hồ"
+  }
+},
+{
+  "type": "node",
+  "id": 7856383103,
+  "lat": 21.0131152,
+  "lon": 105.8535445,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Nguyễn Công Trứ"
+  }
+},
+{
+  "type": "node",
+  "id": 7856383104,
+  "lat": 21.0132818,
+  "lon": 105.8577703,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hai Bà Trưng",
+    "addr:housenumber": "114",
+    "addr:street": "Phố Lò Đúc",
+    "addr:subdistrict": "Bạch Đằng",
+    "amenity": "post_office",
+    "name": "Bưu Điện Lò Đúc"
+  }
+},
+{
+  "type": "node",
+  "id": 7856383105,
+  "lat": 21.0185045,
+  "lon": 105.8509390,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 7856622549,
+  "lat": 21.0037079,
+  "lon": 105.8478062,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hai Bà Trưng",
+    "addr:street": "Phố Tạ Quang Bửu",
+    "addr:subdistrict": "Phường Bách Khoa",
+    "amenity": "post_office",
+    "name": "Bưu cục Bách Khoa"
+  }
+},
+{
+  "type": "node",
+  "id": 7856622550,
+  "lat": 20.9956981,
+  "lon": 105.8500913,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hai Bà Trưng",
+    "addr:housenumber": "1",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Minh Khai",
+    "addr:subdistrict": "Trương Định",
+    "amenity": "post_office",
+    "name": "Bưu Cục Chợ Mơ"
+  }
+},
+{
+  "type": "node",
+  "id": 7856622551,
+  "lat": 21.0025185,
+  "lon": 105.8672343,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hai Bà Trưng",
+    "addr:housenumber": "69",
+    "addr:street": "Phố Lạc Trung",
+    "addr:subdistrict": "Vĩnh Tuy",
+    "amenity": "post_office",
+    "name": "Bưu Cục KHL Hai Bà Trưng"
+  }
+},
+{
+  "type": "node",
+  "id": 7856622552,
+  "lat": 21.1992779,
+  "lon": 105.4234842,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Ba Vì"
+  }
+},
+{
+  "type": "node",
+  "id": 7856622554,
+  "lat": 21.0071157,
+  "lon": 105.8211615,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Đống Đa",
+    "addr:housenumber": "35",
+    "addr:street": "Phố Thái Thịnh",
+    "addr:subdistrict": "Thịnh Quang",
+    "amenity": "post_office",
+    "name": "Bưu điện Đống Đa",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 7856622555,
+  "lat": 21.0284652,
+  "lon": 105.8319705,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Đống Đa",
+    "addr:housenumber": "19",
+    "addr:street": "Phố Cát Linh",
+    "addr:subdistrict": "Cát Linh",
+    "amenity": "post_office",
+    "name": "Bưu Cục EMS Cát Linh",
+    "operator": "Bưu điện Trung tâm 3"
+  }
+},
+{
+  "type": "node",
+  "id": 7858023069,
+  "lat": 20.7907454,
+  "lon": 106.0469077,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu cục Trương Xá",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 7858023070,
+  "lat": 20.7541319,
+  "lon": 105.9878878,
+  "tags": {
+    "addr:district": "Kim Động",
+    "addr:postcode": "162300",
+    "addr:province": "Hưng Yên",
+    "addr:subdistrict": "Thọ Vinh",
+    "amenity": "post_office",
+    "name": "Bưu cục Thọ Vinh",
+    "operator": "Bưu điện Huyện Kim Động"
+  }
+},
+{
+  "type": "node",
+  "id": 7858023071,
+  "lat": 20.7257268,
+  "lon": 105.9935572,
+  "tags": {
+    "addr:district": "Kim Động",
+    "addr:postcode": "162330",
+    "addr:province": "Hưng Yên",
+    "addr:subdistrict": "Đức Hợp",
+    "amenity": "post_office",
+    "name": "Bưu cục Đức Hợp",
+    "operator": "Bưu điện Huyện Kim Động"
+  }
+},
+{
+  "type": "node",
+  "id": 7858023072,
+  "lat": 20.7402107,
+  "lon": 106.0930240,
+  "tags": {
+    "addr:postcode": "162220",
+    "amenity": "post_office",
+    "name": "Bưu điện Văn hóa xã Vũ Xá",
+    "operator": "Bưu điện Huyện Kim Động"
+  }
+},
+{
+  "type": "node",
+  "id": 7884264502,
+  "lat": 21.0212675,
+  "lon": 105.5507693,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 7893470209,
+  "lat": 20.9304682,
+  "lon": 105.7173654,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Biên Giang"
+  }
+},
+{
+  "type": "node",
+  "id": 8361003166,
+  "lat": 21.0888885,
+  "lon": 105.7854675,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 8363303883,
+  "lat": 21.0696153,
+  "lon": 105.7779461,
+  "tags": {
+    "addr:street": "Đường Cổ Nhuế",
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 8709095325,
+  "lat": 21.0190068,
+  "lon": 105.8081382,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Đống Đa",
+    "addr:housenumber": "95",
+    "addr:street": "Đường Nguyễn Chí Thanh",
+    "addr:subdistrict": "Láng Hạ",
+    "amenity": "post_office",
+    "name": "Bưu điện Láng Trung",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 9042218607,
+  "lat": 20.9798928,
+  "lon": 105.7747903,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Vạn Phúc"
+  }
+},
+{
+  "type": "node",
+  "id": 9416913317,
+  "lat": 20.6326223,
+  "lon": 106.0782966,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Điểm BĐVHX Hồng Nam",
+    "official_name": "Điểm Bưu điện Văn hoá xã Hồng Nam"
+  }
+},
+{
+  "type": "node",
+  "id": 9416913318,
+  "lat": 20.6377615,
+  "lon": 106.0591921,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Điểm BĐVHX Quảng Châu",
+    "official_name": "Điểm Bưu điện Văn hoá xã Quảng Châu"
+  }
+},
+{
+  "type": "node",
+  "id": 9416913319,
+  "lat": 20.7014113,
+  "lon": 106.0288402,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Điểm BĐVHX Phú Cường"
+  }
+},
+{
+  "type": "node",
+  "id": 9420107280,
+  "lat": 21.0352365,
+  "lon": 105.8200541,
+  "tags": {
+    "addr:housenumber": "218",
+    "addr:street": "Phố Đội Cấn",
+    "amenity": "post_office",
+    "name": "Bưu Điện Cống Vị",
+    "operator": "Bưu điện Trung tâm 1"
+  }
+},
+{
+  "type": "node",
+  "id": 9420364736,
+  "lat": 21.0377555,
+  "lon": 105.8106089,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Đốc Ngữ"
+  }
+},
+{
+  "type": "node",
+  "id": 9420432152,
+  "lat": 21.0113430,
+  "lon": 105.8244412,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Đống Đa",
+    "addr:housenumber": "47",
+    "addr:street": "Phố Đặng Tiến Đông",
+    "addr:subdistrict": "Quang Trung",
+    "amenity": "post_office",
+    "name": "Bưu cục Đặng Tiến Đông",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 9420432154,
+  "lat": 20.9973974,
+  "lon": 105.8267585,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Thanh Xuân",
+    "addr:housenumber": "185",
+    "addr:street": "Phố Nguyễn Ngọc Nại",
+    "addr:subdistrict": "Khương Mai",
+    "amenity": "post_office",
+    "name": "Bưu Điện Khương Mai",
+    "name:en": "Khuong Mai Post Office",
+    "name:tr": "Khuong Mai Postanesi",
+    "operator": "Bưu điện Trung tâm 3"
+  }
+},
+{
+  "type": "node",
+  "id": 9420438149,
+  "lat": 20.9910172,
+  "lon": 105.8019257,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Thanh Xuân",
+    "addr:subdistrict": "Thanh Xuân Bắc",
+    "amenity": "post_office",
+    "name": "Bưu Điện Thanh Xuân Bắc",
+    "operator": "Bưu điện Trung tâm 3"
+  }
+},
+{
+  "type": "node",
+  "id": 9420438150,
+  "lat": 20.9976955,
+  "lon": 105.8134581,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Thanh Xuân",
+    "addr:housenumber": "20",
+    "addr:street": "Đường Khương Đình",
+    "addr:subdistrict": "Khương Đình",
+    "amenity": "post_office",
+    "name": "Bưu Điện Khương Đình",
+    "operator": "Bưu điện Trung tâm 3"
+  }
+},
+{
+  "type": "node",
+  "id": 9420492209,
+  "lat": 21.0458700,
+  "lon": 105.7911700,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Cầu Giấy",
+    "addr:housenumber": "393",
+    "addr:street": "Đường Hoàng Quốc Việt",
+    "addr:subdistrict": "Nghĩa Tân",
+    "amenity": "post_office",
+    "name": "Bưu Điện Hoàng Quốc Việt",
+    "operator": "Bưu điện Trung tâm 3"
+  }
+},
+{
+  "type": "node",
+  "id": 9420492210,
+  "lat": 21.0442446,
+  "lon": 105.7945201,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Cầu Giấy",
+    "addr:subdistrict": "Nghĩa Tân",
+    "amenity": "post_office",
+    "name": "Bưu điện Nghĩa Tân",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 9420492211,
+  "lat": 21.0455958,
+  "lon": 105.7992800,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Cầu Giấy",
+    "addr:housenumber": "8",
+    "addr:street": "Phố Hoàng Sâm",
+    "addr:subdistrict": "Nghĩa Đô",
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 9422173848,
+  "lat": 21.0511524,
+  "lon": 105.8389528,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Tây Hồ",
+    "addr:housenumber": "16A",
+    "addr:street": "Phố Yên Phụ",
+    "amenity": "post_office",
+    "name": "Bưu Điện Yên Phụ"
+  }
+},
+{
+  "type": "node",
+  "id": 9422173849,
+  "lat": 21.0480822,
+  "lon": 105.8742480,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Long Biên",
+    "addr:housenumber": "366",
+    "addr:street": "Phố Ngọc Lâm",
+    "addr:subdistrict": "Ngọc Lâm",
+    "amenity": "post_office",
+    "name": "Bưu Điện Ngọc Lâm"
+  }
+},
+{
+  "type": "node",
+  "id": 9422173850,
+  "lat": 20.9887678,
+  "lon": 105.8468175,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàng Mai",
+    "addr:housenumber": "12",
+    "addr:street": "Phố Nguyễn An Ninh",
+    "addr:subdistrict": "Tương Mai",
+    "amenity": "post_office",
+    "name": "Bưu điện Việt Nam",
+    "name:en": "Vietnam Post",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 9676253786,
+  "lat": 20.8567184,
+  "lon": 106.6806562,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 9683330882,
+  "lat": 20.9697129,
+  "lon": 105.8268207,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàng Mai",
+    "addr:province": "Hà Nội",
+    "addr:subdistrict": "Đại Kim",
+    "amenity": "post_office",
+    "name": "Bưu Điện Việt Nam",
+    "name:en": "Vietnam Post",
+    "opening_hours": "Mo-Sa 07:30-18:00; Su 08:00-17:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "phone": "+84 243 641 4342",
+    "website": "https://vnpost.vn/"
+  }
+},
+{
+  "type": "node",
+  "id": 9791862120,
+  "lat": 21.0260817,
+  "lon": 105.8537314,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "75B",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Đinh Tiên Hoàng",
+    "addr:subdistrict": "Tràng Tiền",
+    "amenity": "post_office",
+    "name": "Bưu điện Trung tâm 1",
+    "opening_hours": "Mo-Su 07:30-19:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 10100871478,
+  "lat": 12.2695754,
+  "lon": 109.0334105,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 10100880682,
+  "lat": 12.3153350,
+  "lon": 108.9804938,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 10159262918,
+  "lat": 10.7589445,
+  "lon": 106.6993037,
+  "tags": {
+    "amenity": "post_office",
+    "name": "CDEK",
+    "name:ru": "Сдэк нужно звонить",
+    "website": "https://cdek.vn/"
+  }
+},
+{
+  "type": "node",
+  "id": 10181794617,
+  "lat": 21.0371665,
+  "lon": 105.8479847,
+  "tags": {
+    "amenity": "post_office",
+    "name:en": "Cdek",
+    "name:ru": "Сдэк"
+  }
+},
+{
+  "type": "node",
+  "id": 10183444561,
+  "lat": 21.3188941,
+  "lon": 105.2863491,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Lâm Thao"
+  }
+},
+{
+  "type": "node",
+  "id": 10209306814,
+  "lat": 17.3652284,
+  "lon": 106.7309441,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện xã Hải Ninh"
+  }
+},
+{
+  "type": "node",
+  "id": 10248628298,
+  "lat": 21.0416739,
+  "lon": 105.7821546,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Quận Cầu Giấy",
+    "addr:housenumber": "243",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Trần Quốc Hoàn",
+    "addr:subdistrict": "Phường Dịch Vọng Hậu",
+    "amenity": "post_office",
+    "name": "AAL Express",
+    "operator": "AAL Express JSC",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 10292275617,
+  "lat": 10.8666346,
+  "lon": 106.7562653,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post",
+    "operator": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 10295208809,
+  "lat": 15.8797632,
+  "lon": 108.3317429,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Vietnam Post",
+    "opening_hours": "Su 07:30-16:30; Mo-Sa 06:30-19:00",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10585498316,
+  "lat": 10.5045256,
+  "lon": 107.1708784,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel post"
+  }
+},
+{
+  "type": "node",
+  "id": 10846733402,
+  "lat": 21.0484811,
+  "lon": 105.8079641,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:country": "VN",
+    "addr:district": "Tây Hồ",
+    "addr:housenumber": "552",
+    "addr:province": "Hà Nội",
+    "addr:street": "Đường Thụy Khuê",
+    "addr:subdistrict": "Bưởi",
+    "amenity": "post_office",
+    "brand": "Vietnam Post",
+    "name": "Bưu Điện Yên Thái",
+    "name:vi": "Bưu điện Yên Thái",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 10848062753,
+  "lat": 21.0482088,
+  "lon": 105.8095512,
+  "tags": {
+    "amenity": "post_office",
+    "brand": "Giaohangtietkiem.vn",
+    "name": "Giao hàng Tiết kiệm",
+    "name:en": "Giaohangtietkiem",
+    "operator": "Giao hàng Tiết kiệm",
+    "website": "https://giaohangtietkiem.vn/"
+  }
+},
+{
+  "type": "node",
+  "id": 10928131012,
+  "lat": 8.9976012,
+  "lon": 105.1964936,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 10932654397,
+  "lat": 10.5060875,
+  "lon": 104.7990132,
+  "tags": {
+    "amenity": "post_office",
+    "name": "BĐVH xã Vĩnh Gia"
+  }
+},
+{
+  "type": "node",
+  "id": 11048925238,
+  "lat": 10.5460758,
+  "lon": 106.4401605,
+  "tags": {
+    "addr:city": "Tân An",
+    "addr:district": "Xã Nhơn Thạnh Trung",
+    "addr:housenumber": "ĐT833",
+    "addr:province": "Long An",
+    "amenity": "post_office",
+    "name": "Bưu điện Việt Nam"
+  }
+},
+{
+  "type": "node",
+  "id": 11052249150,
+  "lat": 20.1282031,
+  "lon": 105.6652238,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Thạch Thành"
+  }
+},
+{
+  "type": "node",
+  "id": 11096772605,
+  "lat": 10.7810437,
+  "lon": 106.6031788,
+  "tags": {
+    "addr:housenumber": "114",
+    "addr:street": "Gò Xoài",
+    "amenity": "post_office",
+    "name": "Bưu điện VNPost",
+    "name:en": "Vnpost"
+  }
+},
+{
+  "type": "node",
+  "id": 11097000951,
+  "lat": 10.5641352,
+  "lon": 106.5723745,
+  "tags": {
+    "addr:district": "Cần Đước",
+    "addr:province": "Long An",
+    "addr:street": "ĐT. 830",
+    "addr:subdistrict": "Tân Trạch",
+    "amenity": "post_office",
+    "name": "Điểm Bưu Điện Văn Hóa Xã Tân Trạch"
+  }
+},
+{
+  "type": "node",
+  "id": 11119569172,
+  "lat": 11.5946572,
+  "lon": 106.3300825,
+  "tags": {
+    "addr:district": "Tân Châu",
+    "addr:province": "Tây Ninh",
+    "addr:street": "ĐT.795",
+    "addr:subdistrict": "Suối Ngô",
+    "amenity": "post_office",
+    "name": "Bưu cục Suối Ngô"
+  }
+},
+{
+  "type": "node",
+  "id": 11162919538,
+  "lat": 10.8041805,
+  "lon": 106.7365903,
+  "tags": {
+    "addr:housenumber": "109",
+    "addr:street": "109 Xuân Thủy",
+    "amenity": "post_office",
+    "brand": "DHL",
+    "brand:wikidata": "Q489815",
+    "name": "DHL Express Service Point"
+  }
+},
+{
+  "type": "node",
+  "id": 11195832337,
+  "lat": 10.8160653,
+  "lon": 106.3969334,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Chú Công"
+  }
+},
+{
+  "type": "node",
+  "id": 11212149507,
+  "lat": 21.0095505,
+  "lon": 105.8355154,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:housenumber": "20B7",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Phạm Ngọc Thạch",
+    "amenity": "post_office",
+    "brand": "DHL",
+    "brand:wikidata": "Q489815",
+    "name": "DHL",
+    "opening_hours": "Mo-Sa 08:00-12:00,13:00-18:00",
+    "operator:type": "private",
+    "operator:wikidata": "Q489815",
+    "payment:cards": "yes",
+    "payment:cash": "yes",
+    "phone": "+84 24 3775 6937"
+  }
+},
+{
+  "type": "node",
+  "id": 11263842275,
+  "lat": 21.0152833,
+  "lon": 105.8327861,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Đống Đa",
+    "addr:housenumber": "189",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Xã Đàn",
+    "addr:subdistrict": "Nam Đồng",
+    "amenity": "post_office",
+    "name": "Chuyển phát nhanh Văn Minh"
+  }
+},
+{
+  "type": "node",
+  "id": 11285982899,
+  "lat": 21.0266979,
+  "lon": 105.8536733,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "75",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Đinh Tiên Hoàng",
+    "addr:subdistrict": "Tràng Tiền",
+    "amenity": "post_office",
+    "contact:email": "cskh.bdhn@vnpost.vn",
+    "contact:fax": "+84 24 3824 3973",
+    "contact:phone": "+84 24 3825 4403",
+    "contact:website": "http://hanoi.vnpost.vn/",
+    "name": "Bưu điện Thành phố Hà Nội",
+    "name:en": "Hanoi Post",
+    "opening_hours": "Mo-Su 07:30-19:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 11345910304,
+  "lat": 10.8431899,
+  "lon": 106.8388714,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 11373966083,
+  "lat": 10.7906235,
+  "lon": 106.6616901,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Điểm chuyển phát Viettel"
+  }
+},
+{
+  "type": "node",
+  "id": 11461525769,
+  "lat": 21.0248007,
+  "lon": 105.8560267,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hoàn Kiếm",
+    "addr:housenumber": "22",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Tràng Tiền",
+    "addr:subdistrict": "Tràng Tiền",
+    "amenity": "post_office",
+    "name": "Bưu cục Giao dịch EMS Hoàn Kiếm",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 11528311804,
+  "lat": 11.5497561,
+  "lon": 109.0262967,
+  "tags": {
+    "addr:city": "Phan Rang- Tháp Chàm",
+    "addr:district": "Đông Hải",
+    "addr:province": "Ninh Thuận",
+    "addr:street": "Hải Thượng Lãn Ông",
+    "amenity": "post_office",
+    "name": "Bưu Điện Văn Hóa Xã Đông Hải"
+  }
+},
+{
+  "type": "node",
+  "id": 11564316606,
+  "lat": 21.0439306,
+  "lon": 105.7860537,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Quận Cầu Giấy",
+    "addr:housenumber": "73",
+    "addr:province": "Hà Nội",
+    "addr:street": "Đường Đặng Thùy Trâm",
+    "addr:subdistrict": "Phường Dịch Vọng Hậu",
+    "amenity": "post_office",
+    "name": "247Express",
+    "operator": "247Express"
+  }
+},
+{
+  "type": "node",
+  "id": 11568907802,
+  "lat": 21.0438508,
+  "lon": 105.7857060,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Quận Cầu Giấy",
+    "addr:housenumber": "42",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Đặng Thùy Trâm",
+    "addr:subdistrict": "Phường Dịch Vọng Hậu",
+    "amenity": "post_office",
+    "name": "Viettel Post",
+    "operator": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 11571556924,
+  "lat": 21.0438806,
+  "lon": 105.7847432,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Quận Cầu Giấy",
+    "addr:housenumber": "51",
+    "addr:province": "Hà Nội",
+    "addr:street": "Ngõ 3 Phạm Tuấn Tài",
+    "addr:subdistrict": "Phường Dịch Vọng Hậu",
+    "amenity": "post_office",
+    "name": "J&T Express"
+  }
+},
+{
+  "type": "node",
+  "id": 11625869100,
+  "lat": 20.2201478,
+  "lon": 106.1876087,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Điểm Bưu điện văn hóa thị trấn Liễu Đề",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 11662103423,
+  "lat": 16.4333604,
+  "lon": 107.7847850,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 11671747143,
+  "lat": 20.8662804,
+  "lon": 106.6949813,
+  "tags": {
+    "addr:city": "Thành phố Hải Phòng",
+    "addr:district": "Quận Ngô Quyền",
+    "addr:housenumber": "29",
+    "addr:street": "Phố Nguyễn Trãi",
+    "addr:subdistrict": "Phường Máy Tơ",
+    "amenity": "post_office",
+    "name": "Bưu cục Giao Hành Nhanh"
+  }
+},
+{
+  "type": "node",
+  "id": 11671755979,
+  "lat": 20.8653477,
+  "lon": 106.6951773,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post Máy Tơ"
+  }
+},
+{
+  "type": "node",
+  "id": 11672848994,
+  "lat": 21.0097723,
+  "lon": 105.8503157,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Hai Bà Trưng",
+    "addr:housenumber": "16",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Lê Đại Hành",
+    "addr:subdistrict": "Lê Đại Hành",
+    "amenity": "post_office",
+    "name": "Viettel Post",
+    "phone": "+84352036739",
+    "website": "https://viettelpost.com.vn/"
+  }
+},
+{
+  "type": "node",
+  "id": 11767984169,
+  "lat": 11.9263191,
+  "lon": 106.5182903,
+  "tags": {
+    "amenity": "post_office",
+    "name": "BPC704R14",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 11843665982,
+  "lat": 10.3758064,
+  "lon": 103.8522202,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện VNPT xã Gành Dầu"
+  }
+},
+{
+  "type": "node",
+  "id": 11932334201,
+  "lat": 10.2351727,
+  "lon": 104.0012115,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện VHX Bến Tràm"
+  }
+},
+{
+  "type": "node",
+  "id": 12069657459,
+  "lat": 15.8858997,
+  "lon": 108.3504401,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post",
+    "opening_hours": "Mo-Sa 07:00-19:00; Su 07:00-17:30",
+    "phone": "19008095",
+    "website": "https://viettel.com.vn/"
+  }
+},
+{
+  "type": "node",
+  "id": 12082718342,
+  "lat": 21.0336270,
+  "lon": 105.8338256,
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Phường Ba Đình",
+    "addr:housenumber": "5",
+    "addr:postcode": "10199",
+    "addr:province": "Thành phố Hà Nội",
+    "addr:street": "Phố Ông Ích Khiêm",
+    "amenity": "post_office",
+    "government": "communications",
+    "name": "Bưu điện CP16",
+    "name:en": "CP16 Postal office",
+    "operator": "Cục Bưu điện Trung ương"
+  }
+},
+{
+  "type": "node",
+  "id": 12334721780,
+  "lat": 21.1857214,
+  "lon": 106.0704799,
+  "tags": {
+    "addr:city": "Bac Ninh",
+    "addr:district": "Thành phố Bắc Ninh",
+    "addr:housenumber": "5",
+    "addr:province": "Bắc Ninh",
+    "addr:street": "Đường Lê Văn Thịnh",
+    "addr:subdistrict": "Suoi Hoa",
+    "amenity": "post_office",
+    "name": "ViettelPost - Bưu cục Suối Hoa - BNH"
+  }
+},
+{
+  "type": "node",
+  "id": 12573565234,
+  "lat": 10.7600330,
+  "lon": 106.6254276,
+  "tags": {
+    "addr:city": "Hồ Chí MInh",
+    "addr:district": "Quận 6",
+    "addr:housenumber": "178A1",
+    "addr:street": "Tân Hòa Đông",
+    "addr:subdistrict": "Phường 14",
+    "amenity": "post_office",
+    "name": "BƯU ĐIỆN TÂN HOÀ ĐÔNG",
+    "opening_hours": "Mo-Fr 07:30-17:00"
+  }
+},
+{
+  "type": "node",
+  "id": 12595113904,
+  "lat": 12.2428708,
+  "lon": 109.1869360,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel post"
+  }
+},
+{
+  "type": "node",
+  "id": 12759142701,
+  "lat": 11.9546059,
+  "lon": 108.4306292,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 12782159301,
+  "lat": 12.0627181,
+  "lon": 108.1484744,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 12922613801,
+  "lat": 11.9743181,
+  "lon": 108.4404992,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 13063414801,
+  "lat": 11.9573144,
+  "lon": 108.4278134,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13086486306,
+  "lat": 22.4073540,
+  "lon": 103.7889023,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 13088593632,
+  "lat": 20.9394093,
+  "lon": 106.0024657,
+  "tags": {
+    "addr:province": "Hưng Yên",
+    "addr:street": "Đường Tô Hiệu",
+    "addr:subdistrict": "xã Nghĩa Trụ",
+    "amenity": "post_office",
+    "name": "Bưu điện xã Nghĩa Trụ",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 13091510827,
+  "lat": 15.8782259,
+  "lon": 108.3369389,
+  "tags": {
+    "addr:housenumber": "231",
+    "addr:street": "Nguyễn Duy Hiệu",
+    "amenity": "post_office",
+    "name": "Đại Nam",
+    "phone": "+845103958666"
+  }
+},
+{
+  "type": "node",
+  "id": 13165329242,
+  "lat": 20.9898192,
+  "lon": 106.0499306,
+  "tags": {
+    "addr:district": "Xã Lạc Đạo",
+    "addr:postcode": "17000",
+    "addr:province": "Hưng Yên",
+    "addr:street": "ĐT281",
+    "addr:subdistrict": "Thôn Đông Mai",
+    "amenity": "post_office",
+    "brand": "Vn Post",
+    "level": "1",
+    "name": "Bưu Điện Xã Chỉ Đạo",
+    "opening_hours": "Mon-sat 06:00-17:00",
+    "operator": "Vn Post",
+    "payment:MB_Bank": "yes",
+    "payment:account_cards": "yes",
+    "payment:app": "yes",
+    "payment:cards": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13190967305,
+  "lat": 20.9926237,
+  "lon": 106.0666897,
+  "tags": {
+    "addr:district": "Xã Đại Đồng",
+    "addr:province": "Hưng Yên",
+    "addr:street": "Đh.15",
+    "addr:subdistrict": "Thôn Lộng Thượng",
+    "amenity": "post_office",
+    "branch": "Đại Đồng",
+    "internet_access": "yes",
+    "internet_access:fee": "no",
+    "level": "3",
+    "name": "Giaohangnhanh",
+    "note": "Giao siêu nhanh, Giá siêu tốt",
+    "operator": "GiaoHangNhanh",
+    "payment:MB_Bank": "yes",
+    "payment:account_cards": "yes",
+    "payment:app": "yes",
+    "payment:cards": "yes",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "phone": "1900 636677",
+    "polling_station": "no",
+    "website": "https://www.ghn.vn",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13284616828,
+  "lat": 20.9413793,
+  "lon": 105.9582490,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Cục Nghĩa Trụ",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 13327837212,
+  "lat": 23.1303511,
+  "lon": 105.0854315,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 13359804540,
+  "lat": 10.7552229,
+  "lon": 106.6694100,
+  "tags": {
+    "addr:housenumber": "137",
+    "addr:street": "Đường Nguyễn Tri Phương",
+    "amenity": "post_office",
+    "name": "VNPost Nguyễn Tri Phương",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 13388264301,
+  "lat": 20.7307590,
+  "lon": 107.0481898,
+  "tags": {
+    "addr:housenumber": "18",
+    "addr:street": "Phố Cát Bà",
+    "amenity": "post_office",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13403881616,
+  "lat": 20.9466952,
+  "lon": 106.0043271,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post Minh Huy",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 13412478401,
+  "lat": 16.4745043,
+  "lon": 107.6003130,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13420733802,
+  "lat": 16.0755705,
+  "lon": 108.2418124,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13422219302,
+  "lat": 11.8404525,
+  "lon": 106.5862784,
+  "tags": {
+    "amenity": "post_office",
+    "name": "LNI508S"
+  }
+},
+{
+  "type": "node",
+  "id": 13447462401,
+  "lat": 10.3444829,
+  "lon": 107.0810695,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13455789985,
+  "lat": 12.2560745,
+  "lon": 109.0980181,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Diên Khánh"
+  }
+},
+{
+  "type": "node",
+  "id": 13465330001,
+  "lat": 20.1521612,
+  "lon": 105.6469318,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 13468098258,
+  "lat": 10.7554453,
+  "lon": 106.5902102,
+  "tags": {
+    "addr:district": "Phường Tân Tạo",
+    "addr:housenumber": "27",
+    "addr:street": "Đường Lộ Tẻ",
+    "alt_name": "Bưu điện Bình Chánh;Bưu điện Thành phố Hồ Chí Minh",
+    "amenity": "post_office",
+    "check_date": "2026-01-01",
+    "name": "Bưu điện Bà Hom",
+    "old_addr:district": "Phường Bình Tân",
+    "old_addr:subdistrict": "Phường Tân Tạo A",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "post_office": "bureau",
+    "postal_code": "763200"
+  }
+},
+{
+  "type": "node",
+  "id": 13483050279,
+  "lat": 21.1630639,
+  "lon": 106.0616715,
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Bắc Ninh",
+    "addr:housenumber": "400",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Nguyễn Quyền",
+    "addr:subdistrict": "Phường Võ Cường",
+    "amenity": "post_office",
+    "name": "Viettel Post Bưu cục Đại Phúc - BNH"
+  }
+},
+{
+  "type": "node",
+  "id": 13483070101,
+  "lat": 11.8363890,
+  "lon": 108.2903857,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-01-25"
+  }
+},
+{
+  "type": "node",
+  "id": 13503110201,
+  "lat": 14.5112956,
+  "lon": 107.9222297,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-01-27",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13503140301,
+  "lat": 14.7058555,
+  "lon": 107.6872711,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-01-27",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13506137401,
+  "lat": 11.8093600,
+  "lon": 108.2237590,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-01-28",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13506167001,
+  "lat": 11.7799489,
+  "lon": 108.2615463,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-01-28",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13546019380,
+  "lat": 16.0868515,
+  "lon": 108.2404477,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-02-12",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "node",
+  "id": 13575063129,
+  "lat": 13.7689155,
+  "lon": 109.2207563,
+  "tags": {
+    "addr:city": "Quy Nhơn",
+    "addr:district": "Thành phố Quy Nhơn",
+    "addr:housenumber": "2",
+    "addr:postcode": "55111",
+    "addr:province": "Tỉnh Bình Định",
+    "addr:street": "Trần Thị Kỷ",
+    "addr:subdistrict": "Lý Thường Kiệt",
+    "amenity": "post_office",
+    "name": "Bưu điện trung tâm Quy Nhơn",
+    "opening_hours": "Mo-Su 07:30-22:30"
+  }
+},
+{
+  "type": "node",
+  "id": 13584856702,
+  "lat": 11.5423337,
+  "lon": 107.8116950,
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "node",
+  "id": 13589733534,
+  "lat": 21.0931466,
+  "lon": 105.9410961,
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Lý Huệ Tông",
+    "addr:subdistrict": "Phường Đình Bảng",
+    "amenity": "post_office",
+    "name": "Viettel Post Bưu cục Long Vỹ - BNH"
+  }
+},
+{
+  "type": "node",
+  "id": 13589733535,
+  "lat": 21.1133009,
+  "lon": 105.9516470,
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:housenumber": "263",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Trần Phú",
+    "addr:subdistrict": "Phường Đình Bảng",
+    "amenity": "post_office",
+    "name": "Viettel Post Bưu cục Đồng Nguyên - BNH"
+  }
+},
+{
+  "type": "node",
+  "id": 13589733536,
+  "lat": 21.1006482,
+  "lon": 105.9631717,
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Phố Đào Cam Mộc",
+    "addr:subdistrict": "Phường Đình Bảng",
+    "amenity": "post_office",
+    "name": "Viettel Post Bưu cục Từ Sơn - BNH"
+  }
+},
+{
+  "type": "node",
+  "id": 13589733537,
+  "lat": 21.1009447,
+  "lon": 105.9624088,
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:province": "Bac Ninh",
+    "addr:subdistrict": "Phường Đình Bảng",
+    "amenity": "post_office",
+    "name": "Viettel Post Bưu cục Kho vùng BNH1"
+  }
+},
+{
+  "type": "node",
+  "id": 13589733538,
+  "lat": 21.1838605,
+  "lon": 106.0667918,
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Bắc Ninh",
+    "addr:housenumber": "387",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Ngô Gia Tự",
+    "addr:subdistrict": "Phường Tiền Ninh Vệ",
+    "amenity": "post_office",
+    "name": "Viettel Post Bưu cục Suối Hoa - BNH"
+  }
+},
+{
+  "type": "node",
+  "id": 13605081338,
+  "lat": 12.2573257,
+  "lon": 109.1071553,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Ngã ba Thành"
+  }
+},
+{
+  "type": "node",
+  "id": 13632874306,
+  "lat": 21.1428055,
+  "lon": 105.8453090,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viettel post"
+  }
+},
+{
+  "type": "node",
+  "id": 13633478901,
+  "lat": 11.8797090,
+  "lon": 108.2018970,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-03-10",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13640062501,
+  "lat": 14.5063838,
+  "lon": 107.9228247,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-03-12",
+    "name": "Viettel Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13757881501,
+  "lat": 12.1806672,
+  "lon": 108.1379657,
+  "tags": {
+    "amenity": "post_office",
+    "check_date": "2026-04-24",
+    "name": "Vietnam Post"
+  }
+},
+{
+  "type": "node",
+  "id": 13873148714,
+  "lat": 12.2728866,
+  "lon": 109.2019962,
+  "tags": {
+    "amenity": "post_office",
+    "name": "СДЭК"
+  }
+},
+{
+  "type": "way",
+  "id": 39514793,
+  "center": {
+    "lat": 10.7799812,
+    "lon": 106.7000211
+  },
+  "tags": {
+    "addr:city": "Ho Chi Minh City",
+    "addr:housenumber": "2",
+    "addr:street": "Công trường Công xã Paris",
+    "amenity": "post_office",
+    "atm": "yes",
+    "building": "yes",
+    "building:colour": "#e1cb8c",
+    "height": "13.5",
+    "heritage": "yes",
+    "historic": "heritage",
+    "int_name": "Saigon Central Post Office",
+    "name": "Bưu điện Trung tâm Sài Gòn",
+    "name:ar": "مكتب البريد المركزي سايجون",
+    "name:be": "Цэнтральнае паштовае аддзяленне Сайгон",
+    "name:de": "Saigon Zentrales Postamt",
+    "name:en": "Saigon Central Post Office",
+    "name:es": "Oficina de Correos Central de Saigón",
+    "name:fr": "Poste centrale de Saïgon",
+    "name:id": "Kantor Pos Pusat Saigon",
+    "name:ja": "サイゴン中央郵便局",
+    "name:ko": "중앙우체국",
+    "name:ms": "Pejabat Pos Pusat Saigon",
+    "name:nl": "Centrale Postkantoor",
+    "name:ru": "Центральное почтовое отделение Сайгона",
+    "name:uk": "Центральне поштове відділення Сайгона",
+    "name:vi": "Bưu điện Trung tâm Sài Gòn",
+    "name:vi-Hani": "郵電中心柴棍",
+    "name:zh": "西贡中心邮政局",
+    "name:zh-Hant": "西貢中心郵政局",
+    "official_name": "Bưu điện Trung tâm Thành phố Hồ Chí Minh",
+    "official_name:en": "Ho Chi Minh City Central Post Office",
+    "old_name": "Saigon Post Office",
+    "opening_hours": "Mo-Su 07:00-22:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "start_date": "1891",
+    "tourism": "attraction",
+    "wikidata": "Q2227270",
+    "wikimedia_commons": "Category:Saigon Central Post Office",
+    "wikipedia": "en:Saigon Central Post Office"
+  }
+},
+{
+  "type": "way",
+  "id": 118950661,
+  "center": {
+    "lat": 10.3511601,
+    "lon": 107.0887911
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "height": "10",
+    "name": "Bưu điện Trung tâm Bà Rịa - Vũng Tàu",
+    "name:en": "Vietnam Post - Vung Tau Central Post Office",
+    "name:id": "Kantor Pos Vung Tau",
+    "name:zh": "头顿市邮政局",
+    "operator": "VNPT"
+  }
+},
+{
+  "type": "way",
+  "id": 161869918,
+  "center": {
+    "lat": 20.0931685,
+    "lon": 106.0895786
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện huyện Kim Sơn"
+  }
+},
+{
+  "type": "way",
+  "id": 185789929,
+  "center": {
+    "lat": 13.7689785,
+    "lon": 109.2207623
+  },
+  "tags": {
+    "addr:city": "Quy Nhơn",
+    "addr:district": "Thành phố Quy Nhơn",
+    "addr:housenumber": "2",
+    "addr:postcode": "55111",
+    "addr:province": "Tỉnh Bình Định",
+    "addr:street": "Trần Thị Kỷ",
+    "addr:subdistrict": "Lý Thường Kiệt",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện trung tâm Quy Nhơn",
+    "opening_hours": "Mo-Su 07:30-22:30"
+  }
+},
+{
+  "type": "way",
+  "id": 197690916,
+  "center": {
+    "lat": 10.8035318,
+    "lon": 106.6580360
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu cục chuyển phát nhanh"
+  }
+},
+{
+  "type": "way",
+  "id": 220550023,
+  "center": {
+    "lat": 10.7566904,
+    "lon": 106.7228785
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Tân Thuận Post Office"
+  }
+},
+{
+  "type": "way",
+  "id": 225519382,
+  "center": {
+    "lat": 9.2867295,
+    "lon": 105.7233381
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Bạc Liêu"
+  }
+},
+{
+  "type": "way",
+  "id": 225529366,
+  "center": {
+    "lat": 10.7126444,
+    "lon": 106.7373168
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Quận 7"
+  }
+},
+{
+  "type": "way",
+  "id": 228979911,
+  "center": {
+    "lat": 12.6797072,
+    "lon": 108.0440189
+  },
+  "tags": {
+    "addr:housenumber": "1",
+    "addr:street": "Nơ Trang Long",
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "7",
+    "name": "Bưu điện tỉnh Đăk Lăk"
+  }
+},
+{
+  "type": "way",
+  "id": 232496559,
+  "center": {
+    "lat": 13.0869602,
+    "lon": 109.3071066
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "4",
+    "name": "Bưu điện Tuy Hòa",
+    "name:en": "Central Post office"
+  }
+},
+{
+  "type": "way",
+  "id": 238292835,
+  "center": {
+    "lat": 15.8800470,
+    "lon": 108.3317528
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Hội An",
+    "name:en": "Hoi An Post Office"
+  }
+},
+{
+  "type": "way",
+  "id": 239809463,
+  "center": {
+    "lat": 12.6772801,
+    "lon": 108.0435381
+  },
+  "tags": {
+    "addr:housenumber": "6",
+    "addr:street": "Lê Duẩn",
+    "alt_name": "VNPT Đăk Lăk",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "TT Viễn thông Nam BMT",
+    "official_name": "Trung tâm Viễn thông Nam Buôn Ma Thuột",
+    "operator": "VNPT",
+    "phone": "+845003912020",
+    "website": "http://www.vnptdaklak.vn/"
+  }
+},
+{
+  "type": "way",
+  "id": 239976499,
+  "center": {
+    "lat": 16.4648520,
+    "lon": 107.5903012
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Buu dien hue",
+    "name:en": "Vietnam Post"
+  }
+},
+{
+  "type": "way",
+  "id": 241066575,
+  "center": {
+    "lat": 13.9081064,
+    "lon": 108.9184780
+  },
+  "tags": {
+    "addr:street": "Quang Trung",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Tây Sơn"
+  }
+},
+{
+  "type": "way",
+  "id": 241740163,
+  "center": {
+    "lat": 12.6827105,
+    "lon": 108.0352576
+  },
+  "tags": {
+    "addr:housenumber": "286",
+    "addr:street": "Phan Bội Châu",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Phan Bội Châu"
+  }
+},
+{
+  "type": "way",
+  "id": 242194243,
+  "center": {
+    "lat": 20.8616770,
+    "lon": 106.7147269
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Vạn Mỹ"
+  }
+},
+{
+  "type": "way",
+  "id": 242226546,
+  "center": {
+    "lat": 20.8639736,
+    "lon": 106.6816283
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Hải Phòng"
+  }
+},
+{
+  "type": "way",
+  "id": 253056196,
+  "center": {
+    "lat": 10.4978957,
+    "lon": 107.1682013
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Bà Rịa",
+    "name:en": "Ba Ria Post Office",
+    "name:id": "Kantor Pos Ba Ria",
+    "name:ru": "почтовое отделение Бариа",
+    "name:zh": "巴地邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 258862550,
+  "center": {
+    "lat": 10.7233276,
+    "lon": 106.8850402
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Nhơn Trạch"
+  }
+},
+{
+  "type": "way",
+  "id": 259046005,
+  "center": {
+    "lat": 10.4899933,
+    "lon": 107.2693024
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Đất Đỏ",
+    "name:en": "Dat Do Post Office",
+    "operator": "Vietnam Post"
+  }
+},
+{
+  "type": "way",
+  "id": 264451936,
+  "center": {
+    "lat": 10.9814158,
+    "lon": 106.6673028
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Tỉnh Bình Dương",
+    "name:en": "Binh Duong Province Post Office",
+    "name:vi": "Bưu điện Tỉnh Bình Dương"
+  }
+},
+{
+  "type": "way",
+  "id": 266761688,
+  "center": {
+    "lat": 10.3531203,
+    "lon": 106.3660740
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Mỹ Tho"
+  }
+},
+{
+  "type": "way",
+  "id": 268014943,
+  "center": {
+    "lat": 10.3573178,
+    "lon": 106.3613317
+  },
+  "tags": {
+    "addr:city": "Mỹ Tho",
+    "addr:street": "Nam Kỳ Khởi Nghĩa",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Tiền Giang - Maritime Bank",
+    "name:en": "Tiền Giang Post Office",
+    "name:vi": "Bưu Điện Tiền Giang"
+  }
+},
+{
+  "type": "way",
+  "id": 271395197,
+  "center": {
+    "lat": 10.5968041,
+    "lon": 107.1262540
+  },
+  "tags": {
+    "addr:street": "Đường Hắc Dịch-Tóc Tiên-Châu Pha",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện xã Tóc Tiên"
+  }
+},
+{
+  "type": "way",
+  "id": 293087652,
+  "center": {
+    "lat": 10.8508084,
+    "lon": 106.7550875
+  },
+  "tags": {
+    "addr:housenumber": "128A",
+    "addr:street": "Kha Vạn Cân",
+    "alt_name": "Bưu điện Trung tâm Thủ Đức",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Thủ Đức",
+    "opening_hours": "06:30-20:00",
+    "operator": "VNPT"
+  }
+},
+{
+  "type": "way",
+  "id": 294196034,
+  "center": {
+    "lat": 10.7873125,
+    "lon": 106.9489600
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Huyện Long Thành"
+  }
+},
+{
+  "type": "way",
+  "id": 323266098,
+  "center": {
+    "lat": 11.0614935,
+    "lon": 106.7978027
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Tân Uyên"
+  }
+},
+{
+  "type": "way",
+  "id": 334515080,
+  "center": {
+    "lat": 11.0844221,
+    "lon": 106.2657784
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Gò Dầu"
+  }
+},
+{
+  "type": "way",
+  "id": 338134193,
+  "center": {
+    "lat": 10.6572466,
+    "lon": 106.1815689
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Thạnh Hóa"
+  }
+},
+{
+  "type": "way",
+  "id": 366061811,
+  "center": {
+    "lat": 16.6930183,
+    "lon": 107.3900867
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu Điện Xã Điền Môn"
+  }
+},
+{
+  "type": "way",
+  "id": 366664390,
+  "center": {
+    "lat": 10.7500103,
+    "lon": 106.6592778
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Quận 5"
+  }
+},
+{
+  "type": "way",
+  "id": 368542283,
+  "center": {
+    "lat": 21.3547824,
+    "lon": 107.5876088
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Đầm Hà"
+  }
+},
+{
+  "type": "way",
+  "id": 368602083,
+  "center": {
+    "lat": 21.0266181,
+    "lon": 107.3687617
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Cửa Ông"
+  }
+},
+{
+  "type": "way",
+  "id": 372305003,
+  "center": {
+    "lat": 10.7963105,
+    "lon": 106.6813462
+  },
+  "tags": {
+    "addr:street": "Huỳnh Văn Bánh",
+    "amenity": "post_office",
+    "building": "yes",
+    "internet_access": "wlan",
+    "name": "Bưu điện quận Phú Nhuận"
+  }
+},
+{
+  "type": "way",
+  "id": 405256219,
+  "center": {
+    "lat": 21.1823083,
+    "lon": 106.0648419
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Bắc Ninh",
+    "addr:housenumber": "413",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Ngô Gia Tự",
+    "addr:subdistrict": "Phường Tiền Ninh Vệ",
+    "amenity": "post_office",
+    "building": "apartments",
+    "building:levels": "2",
+    "name": "Bưu điện Thành phố Bắc Ninh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 410145935,
+  "center": {
+    "lat": 21.1158365,
+    "lon": 105.9564637
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:housenumber": "319",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Trần Phú",
+    "addr:subdistrict": "Phường Đông Ngàn",
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "2",
+    "name": "Bưu điện Thành phố Từ Sơn"
+  }
+},
+{
+  "type": "way",
+  "id": 411389989,
+  "center": {
+    "lat": 22.4925164,
+    "lon": 103.9680714
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện thành phố Lào Cai"
+  }
+},
+{
+  "type": "way",
+  "id": 416500571,
+  "center": {
+    "lat": 21.1237607,
+    "lon": 105.9988211
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Tiên Du",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường KCN Tiên Sơn",
+    "addr:subdistrict": "KCN Tiên Sơn",
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "3",
+    "name": "BD Bưu cục KCN Tiên Sơn"
+  }
+},
+{
+  "type": "way",
+  "id": 416630526,
+  "center": {
+    "lat": 21.1475250,
+    "lon": 105.9766109
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Phố Ngô Thầm",
+    "addr:subdistrict": "Phường Tam Sơn",
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "3",
+    "name": "Bưu điện phường Tam Sơn"
+  }
+},
+{
+  "type": "way",
+  "id": 416920111,
+  "center": {
+    "lat": 21.1529860,
+    "lon": 106.1517630
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thị xã Quế Võ",
+    "addr:province": "Bắc Ninh",
+    "addr:street": "Đường Trần Hưng Đạo",
+    "addr:subdistrict": "Phường Phố Mới",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện thị xã Quế Võ"
+  }
+},
+{
+  "type": "way",
+  "id": 419360410,
+  "center": {
+    "lat": 21.0167095,
+    "lon": 106.2016312
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Lương Tài",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Lý Thái Tổ",
+    "addr:subdistrict": "Thị trấn Thứa",
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "2",
+    "name": "Bưu điện huyện Lương Tài"
+  }
+},
+{
+  "type": "way",
+  "id": 419402268,
+  "center": {
+    "lat": 21.1998966,
+    "lon": 105.9182905
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "apartments",
+    "building:levels": "3",
+    "name": "Bưu điện văn hóa xã Hòa Tiến"
+  }
+},
+{
+  "type": "way",
+  "id": 425182810,
+  "center": {
+    "lat": 15.1225454,
+    "lon": 108.8016025
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Quảng Ngãi"
+  }
+},
+{
+  "type": "way",
+  "id": 442679226,
+  "center": {
+    "lat": 10.0195522,
+    "lon": 105.7869756
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Vietnampost"
+  }
+},
+{
+  "type": "way",
+  "id": 454819115,
+  "center": {
+    "lat": 21.1586483,
+    "lon": 106.1157126
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thị xã Quế Võ",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Trần Hưng Đạo",
+    "addr:subdistrict": "Phường Phương Liễu",
+    "amenity": "post_office",
+    "name": "BD Bưu cục KCN Quế Võ"
+  }
+},
+{
+  "type": "way",
+  "id": 461374093,
+  "center": {
+    "lat": 10.7544314,
+    "lon": 106.6433469
+  },
+  "tags": {
+    "addr:city": "Ho Chi Minh City",
+    "addr:district": "11",
+    "addr:housenumber": "244",
+    "addr:street": "Minh Phụng",
+    "addr:subdistrict": "16",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Quận 11"
+  }
+},
+{
+  "type": "way",
+  "id": 495488246,
+  "center": {
+    "lat": 10.9819926,
+    "lon": 106.6672725
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Viễn Thông Bình Dương"
+  }
+},
+{
+  "type": "way",
+  "id": 503727665,
+  "center": {
+    "lat": 12.2540384,
+    "lon": 109.1961855
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Tỉnh Khánh Hòa",
+    "name:en": "Khanh Hoa Province Post Office",
+    "operator": "Bưu điện Việt Nam"
+  }
+},
+{
+  "type": "way",
+  "id": 521220498,
+  "center": {
+    "lat": 12.6630023,
+    "lon": 108.0327851
+  },
+  "tags": {
+    "addr:housenumber": "8/2",
+    "addr:street": "Giải Phóng",
+    "amenity": "post_office",
+    "name": "Trung tâm Khai thác Vận chuyển",
+    "operator": "Bưu điện Tỉnh Đăk Lăk"
+  }
+},
+{
+  "type": "way",
+  "id": 527710969,
+  "center": {
+    "lat": 21.0666777,
+    "lon": 105.8034487
+  },
+  "tags": {
+    "amenity": "post_office"
+  }
+},
+{
+  "type": "way",
+  "id": 542725594,
+  "center": {
+    "lat": 11.9474808,
+    "lon": 108.4600611
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "2",
+    "name": "Bưu điện Lâm Đồng"
+  }
+},
+{
+  "type": "way",
+  "id": 543811305,
+  "center": {
+    "lat": 10.0326337,
+    "lon": 105.7741115
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Mậu Thân",
+    "name:vi": "Bưu điện Mậu Thân",
+    "opening_hours": "07:30-11:30,13:00-18:00"
+  }
+},
+{
+  "type": "way",
+  "id": 544336110,
+  "center": {
+    "lat": 13.3061519,
+    "lon": 109.2140881
+  },
+  "tags": {
+    "addr:district": "Tuy An",
+    "addr:province": "Phú Yên",
+    "addr:subdistrict": "Chí Thạnh",
+    "amenity": "post_office",
+    "building": "yes",
+    "building:levels": "3",
+    "name": "Bưu điện huyện Tuy An"
+  }
+},
+{
+  "type": "way",
+  "id": 557164415,
+  "center": {
+    "lat": 18.3421190,
+    "lon": 105.8929062
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Đại lý Bưu điện Tx. Hà Tĩnh"
+  }
+},
+{
+  "type": "way",
+  "id": 569352592,
+  "center": {
+    "lat": 10.4878844,
+    "lon": 107.2478378
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện xã An Nhứt"
+  }
+},
+{
+  "type": "way",
+  "id": 574069660,
+  "center": {
+    "lat": 10.6883786,
+    "lon": 107.4988386
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện xã Hoà Hiệp",
+    "name:en": "Hoa Hiep Post Office",
+    "name:id": "Kantor Pos Komune Hoa Hiep",
+    "name:zh": "和协社邮局"
+  }
+},
+{
+  "type": "way",
+  "id": 585207944,
+  "center": {
+    "lat": 14.3539852,
+    "lon": 108.0072062
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "source": "bing"
+  }
+},
+{
+  "type": "way",
+  "id": 592139706,
+  "center": {
+    "lat": 20.8162806,
+    "lon": 105.3425055
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Hoà Bình"
+  }
+},
+{
+  "type": "way",
+  "id": 595471593,
+  "center": {
+    "lat": 15.5785411,
+    "lon": 108.4747756
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Quảng Nam"
+  }
+},
+{
+  "type": "way",
+  "id": 616916945,
+  "center": {
+    "lat": 21.1102258,
+    "lon": 106.3889806
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Chí Linh"
+  }
+},
+{
+  "type": "way",
+  "id": 622734445,
+  "center": {
+    "lat": 15.8874735,
+    "lon": 107.4913467
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Tây Giang",
+    "name:en": "Tay Giang District Post Office"
+  }
+},
+{
+  "type": "way",
+  "id": 623106382,
+  "center": {
+    "lat": 15.9293984,
+    "lon": 107.5347366
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện xã Bhalêê"
+  }
+},
+{
+  "type": "way",
+  "id": 624211517,
+  "center": {
+    "lat": 15.9222519,
+    "lon": 107.6495682
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Đông Giang"
+  }
+},
+{
+  "type": "way",
+  "id": 625869628,
+  "center": {
+    "lat": 21.1127901,
+    "lon": 106.3318450
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Phả Lại"
+  }
+},
+{
+  "type": "way",
+  "id": 656960005,
+  "center": {
+    "lat": 11.5380398,
+    "lon": 106.9004723
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Bình Phước"
+  }
+},
+{
+  "type": "way",
+  "id": 663150691,
+  "center": {
+    "lat": 10.8720322,
+    "lon": 105.4647264
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện huyện Tân Hồng",
+    "name:en": "Tan Hong District Post Office",
+    "name:zh": "新鸿县邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 663777703,
+  "center": {
+    "lat": 11.1110750,
+    "lon": 106.1790851
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Bến Cầu"
+  }
+},
+{
+  "type": "way",
+  "id": 664557294,
+  "center": {
+    "lat": 11.3138911,
+    "lon": 106.0973934
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện tỉnh Tây Ninh"
+  }
+},
+{
+  "type": "way",
+  "id": 666456000,
+  "center": {
+    "lat": 11.3810423,
+    "lon": 106.2250535
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Dương Minh Châu"
+  }
+},
+{
+  "type": "way",
+  "id": 668231174,
+  "center": {
+    "lat": 9.6020076,
+    "lon": 105.9739967
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Sóc Trăng",
+    "operator": "VNPost"
+  }
+},
+{
+  "type": "way",
+  "id": 669499480,
+  "center": {
+    "lat": 9.8132392,
+    "lon": 105.8199732
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện thị xã Ngã Bảy"
+  }
+},
+{
+  "type": "way",
+  "id": 670905319,
+  "center": {
+    "lat": 9.7805263,
+    "lon": 105.7372760
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện huyện Phụng Hiệp"
+  }
+},
+{
+  "type": "way",
+  "id": 671362964,
+  "center": {
+    "lat": 10.3880869,
+    "lon": 105.4326504
+  },
+  "tags": {
+    "addr:housenumber": "1169",
+    "addr:street": "Trần Hưng Đạo",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Trung tâm thành phố Long Xuyên",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 674228541,
+  "center": {
+    "lat": 20.9521248,
+    "lon": 107.0858210
+  },
+  "tags": {
+    "addr:housenumber": "539",
+    "addr:postcode": "01000",
+    "addr:street": "Lê Thánh Tông",
+    "amenity": "post_office",
+    "building": "yes",
+    "check_date": "2025-03-15",
+    "name": "Bưu điện tỉnh Quảng Ninh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 675996008,
+  "center": {
+    "lat": 20.9600308,
+    "lon": 107.1541159
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Hà Tu",
+    "office": "Vietnam Post"
+  }
+},
+{
+  "type": "way",
+  "id": 683137801,
+  "center": {
+    "lat": 10.3830883,
+    "lon": 105.4399585
+  },
+  "tags": {
+    "addr:housenumber": "11-13",
+    "addr:street": "Ngô Gia Tự",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện 3 Mỹ Long",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 683697152,
+  "center": {
+    "lat": 10.7643276,
+    "lon": 106.7073978
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Quận 4"
+  }
+},
+{
+  "type": "way",
+  "id": 684391469,
+  "center": {
+    "lat": 10.0173591,
+    "lon": 105.0798949
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Kiên Giang"
+  }
+},
+{
+  "type": "way",
+  "id": 685445093,
+  "center": {
+    "lat": 9.9844493,
+    "lon": 105.1023483
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Kiên Giang"
+  }
+},
+{
+  "type": "way",
+  "id": 685454266,
+  "center": {
+    "lat": 14.1071170,
+    "lon": 108.7852715
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Vĩnh Thạnh"
+  }
+},
+{
+  "type": "way",
+  "id": 685457124,
+  "center": {
+    "lat": 14.0973221,
+    "lon": 108.7862106
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Huyện Vĩnh Thạnh"
+  }
+},
+{
+  "type": "way",
+  "id": 686120842,
+  "center": {
+    "lat": 9.9094199,
+    "lon": 105.3139417
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Giồng Riềng"
+  }
+},
+{
+  "type": "way",
+  "id": 686360811,
+  "center": {
+    "lat": 14.3642381,
+    "lon": 108.9671366
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Huyện Hoài Ân"
+  }
+},
+{
+  "type": "way",
+  "id": 686401377,
+  "center": {
+    "lat": 14.0370423,
+    "lon": 108.8184509
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Văn Hóa Xã Vĩnh Hòa"
+  }
+},
+{
+  "type": "way",
+  "id": 686432632,
+  "center": {
+    "lat": 22.1915337,
+    "lon": 102.4606017
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Mường Nhé"
+  }
+},
+{
+  "type": "way",
+  "id": 689473006,
+  "center": {
+    "lat": 11.8415489,
+    "lon": 106.9959442
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thị xã Phước Long"
+  }
+},
+{
+  "type": "way",
+  "id": 692141956,
+  "center": {
+    "lat": 10.7827459,
+    "lon": 106.7587311
+  },
+  "tags": {
+    "addr:city": "TP. Hồ Chí Minh",
+    "addr:district": "TP. Thủ Đức",
+    "addr:housenumber": "316",
+    "addr:street": "Đường Nguyễn Thị Đinh",
+    "addr:subdistrict": "phường Thạnh Mỹ Lợi",
+    "amenity": "post_office",
+    "brand": "VinMart",
+    "brand:wikidata": "Q60245505",
+    "brand:wikipedia": "vi:VinMart",
+    "building": "yes",
+    "name": "ViettelPost"
+  }
+},
+{
+  "type": "way",
+  "id": 692586115,
+  "center": {
+    "lat": 22.0229561,
+    "lon": 103.1576447
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thị xã Mường Lay"
+  }
+},
+{
+  "type": "way",
+  "id": 694051915,
+  "center": {
+    "lat": 22.6026379,
+    "lon": 103.1660421
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục cửa khẩu Ma Lù Thàng"
+  }
+},
+{
+  "type": "way",
+  "id": 705445541,
+  "center": {
+    "lat": 22.3859702,
+    "lon": 103.4692766
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Lai Châu",
+    "name:en": "Lai Chau Province Post Office",
+    "name:id": "Kantor Pos Provinsi Lai Chau",
+    "name:zh": "莱州省邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 713668293,
+  "center": {
+    "lat": 22.3225589,
+    "lon": 103.6225125
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện huyện Tam Đường",
+    "name:id": "Kantor Pos Distrik Tam Duong",
+    "name:zh": "三塘县邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 718394392,
+  "center": {
+    "lat": 21.8422532,
+    "lon": 106.7575855
+  },
+  "tags": {
+    "addr:housenumber": "12",
+    "addr:street": "Hùng Vương",
+    "amenity": "post_office",
+    "building": "yes",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 726864919,
+  "center": {
+    "lat": 10.8121187,
+    "lon": 107.2271187
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Cẩm Mỹ"
+  }
+},
+{
+  "type": "way",
+  "id": 734151505,
+  "center": {
+    "lat": 10.4505010,
+    "lon": 107.2818685
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện xã Phước Hội"
+  }
+},
+{
+  "type": "way",
+  "id": 737008872,
+  "center": {
+    "lat": 10.4282702,
+    "lon": 107.2926413
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục thị trấn Phước Hải"
+  }
+},
+{
+  "type": "way",
+  "id": 748981318,
+  "center": {
+    "lat": 10.5359306,
+    "lon": 107.4034511
+  },
+  "tags": {
+    "addr:housenumber": "250",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Huyện Xuyên Mộc",
+    "name:en": "Xuyen Moc Post Office",
+    "name:id": "川木耳邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 750565561,
+  "center": {
+    "lat": 10.7928417,
+    "lon": 106.7071895
+  },
+  "tags": {
+    "addr:district": "Bình Thạnh",
+    "addr:housenumber": "23",
+    "addr:street": "Xô Viết Nghệ Tĩnh",
+    "addr:subdistrict": "Phường 17",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Thị Nghè",
+    "name:vi": "Bưu điện Thị Nghè"
+  }
+},
+{
+  "type": "way",
+  "id": 751277610,
+  "center": {
+    "lat": 8.6841471,
+    "lon": 106.6072350
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Huyện Côn Đảo",
+    "name:en": "Con Dao District Post Office",
+    "name:id": "Kantor Pos Distrik Con Dao",
+    "name:zh": "昆岛县邮政局",
+    "operator": "Vietnam Post"
+  }
+},
+{
+  "type": "way",
+  "id": 754264540,
+  "center": {
+    "lat": 10.4127070,
+    "lon": 106.9619215
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Huyện Cần Giờ"
+  }
+},
+{
+  "type": "way",
+  "id": 763352687,
+  "center": {
+    "lat": 20.8135493,
+    "lon": 105.6453714
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Miếu Môn"
+  }
+},
+{
+  "type": "way",
+  "id": 768696793,
+  "center": {
+    "lat": 20.6859430,
+    "lon": 105.7442506
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Mỹ Đức",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 799841605,
+  "center": {
+    "lat": 10.7336474,
+    "lon": 107.1837734
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục xã Cù Bị",
+    "name:en": "Cu Bi Commune Post Office",
+    "name:id": "Kantor Pos Komune Cu Bi",
+    "name:zh": "劬备社邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 808321434,
+  "center": {
+    "lat": 10.7648053,
+    "lon": 106.7034397
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Khánh Hội",
+    "name:en": "Khanh Hoi Post Office",
+    "name:id": "Kantor Pos Khanh Hoi",
+    "name:zh": "庆辉邮局"
+  }
+},
+{
+  "type": "way",
+  "id": 809380990,
+  "center": {
+    "lat": 20.6379169,
+    "lon": 106.5439339
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện xã Cổ Am"
+  }
+},
+{
+  "type": "way",
+  "id": 812514200,
+  "center": {
+    "lat": 20.6435070,
+    "lon": 106.5403505
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Nam Am"
+  }
+},
+{
+  "type": "way",
+  "id": 835941294,
+  "center": {
+    "lat": 11.1499217,
+    "lon": 106.8442579
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Huyện Bắc Tân Uyên"
+  }
+},
+{
+  "type": "way",
+  "id": 841717603,
+  "center": {
+    "lat": 23.2778938,
+    "lon": 105.3616478
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Đồng Văn",
+    "name:en": "Dong Van District Post Office",
+    "name:id": "Kantor Pos Distrik Dong Van",
+    "name:vi": "Bưu điện huyện Đồng Văn",
+    "name:zh": "同文县邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 853096738,
+  "center": {
+    "lat": 22.8285066,
+    "lon": 104.9836890
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Hà Giang"
+  }
+},
+{
+  "type": "way",
+  "id": 858175503,
+  "center": {
+    "lat": 20.9399660,
+    "lon": 106.3302405
+  },
+  "tags": {
+    "amenity": "post_office",
+    "brand": "Vietnam Post",
+    "building": "yes",
+    "check_date": "2025-02-14",
+    "name": "Bưu điện tỉnh Hải Dương",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 862425600,
+  "center": {
+    "lat": 15.3740423,
+    "lon": 109.1117709
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "VNPost"
+  }
+},
+{
+  "type": "way",
+  "id": 866849196,
+  "center": {
+    "lat": 16.6279833,
+    "lon": 106.7387894
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Hướng Hóa",
+    "name:en": "Huong Hoa District Post Office",
+    "name:id": "Kantor Pos Distrik Huong Hoa",
+    "name:zh": "向化县邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 874998873,
+  "center": {
+    "lat": 21.0398786,
+    "lon": 105.7648852
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện Nam Từ Liêm"
+  }
+},
+{
+  "type": "way",
+  "id": 886906298,
+  "center": {
+    "lat": 20.2912469,
+    "lon": 106.3343235
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Xuân Trường"
+  }
+},
+{
+  "type": "way",
+  "id": 888611650,
+  "center": {
+    "lat": 21.6239190,
+    "lon": 105.8437770
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Đồng Hỷ",
+    "name:en": "Dong Hy District Post Office"
+  }
+},
+{
+  "type": "way",
+  "id": 907370033,
+  "center": {
+    "lat": 20.9719910,
+    "lon": 107.7659111
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Cô Tô"
+  }
+},
+{
+  "type": "way",
+  "id": 923758556,
+  "center": {
+    "lat": 21.0309440,
+    "lon": 105.9414754
+  },
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Gia Lâm",
+    "addr:housenumber": "111",
+    "addr:province": "Hà Nội",
+    "addr:street": "Đường Cổ Bi",
+    "addr:subdistrict": "Cổ Bi",
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện Việt Nam",
+    "name:en": "Vietnam Post",
+    "name:vi": "Bưu điện Việt Nam",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 947778232,
+  "center": {
+    "lat": 21.0581980,
+    "lon": 105.8902513
+  },
+  "tags": {
+    "addr:housenumber": "79",
+    "addr:street": "Đường Ngô Gia Tự",
+    "amenity": "post_office",
+    "name": "Bưu điện Trung tâm 5",
+    "operator": "Bưu điện thành phố Hà Nội"
+  }
+},
+{
+  "type": "way",
+  "id": 951945610,
+  "center": {
+    "lat": 21.0816473,
+    "lon": 105.3294075
+  },
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Ba Vì",
+    "addr:subdistrict": "Ba Vì",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Ba Vì",
+    "operator": "Bưu điện huyện Ba Vì"
+  }
+},
+{
+  "type": "way",
+  "id": 953222518,
+  "center": {
+    "lat": 10.1151836,
+    "lon": 105.2835570
+  },
+  "tags": {
+    "addr:city": "Huyện Tân Hiệp",
+    "addr:district": "Thị Trấn Tân Hiệp",
+    "addr:province": "Kiên Giang",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Tân Hiệp"
+  }
+},
+{
+  "type": "way",
+  "id": 964416087,
+  "center": {
+    "lat": 21.1802357,
+    "lon": 106.0719619
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Bắc Ninh",
+    "addr:housenumber": "16",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Lý Thái Tổ",
+    "addr:subdistrict": "Phường Suối Hoa",
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện tỉnh Bắc Ninh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 965945333,
+  "center": {
+    "lat": 21.0149128,
+    "lon": 105.7995466
+  },
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Cầu Giấy",
+    "addr:housenumber": "50",
+    "addr:province": "Hà Nội",
+    "addr:street": "Phố Lưu Quang Vũ",
+    "addr:subdistrict": "Trung Hòa",
+    "amenity": "post_office",
+    "building": "yes",
+    "description": "Central Post Office 3 Trung Hoà",
+    "name": "Bưu điện Trung tâm Cầu Giấy",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 966335080,
+  "center": {
+    "lat": 10.9534597,
+    "lon": 107.0035874
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "layer": "1",
+    "name": "Bưu điện Trảng Bom"
+  }
+},
+{
+  "type": "way",
+  "id": 970273069,
+  "center": {
+    "lat": 21.5420473,
+    "lon": 107.8799399
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện xã Hải Đông",
+    "name:id": "Kantor Pos Komune Hai Dong",
+    "name:vi": "Bưu điện xã Hải Đông",
+    "name:zh": "海东社邮政局",
+    "operator": "Vietnam Post"
+  }
+},
+{
+  "type": "way",
+  "id": 971390929,
+  "center": {
+    "lat": 21.5294728,
+    "lon": 107.9682865
+  },
+  "tags": {
+    "addr:housenumber": "1",
+    "addr:street": "Hùng Vương",
+    "amenity": "post_office",
+    "building": "public",
+    "building:levels": "5",
+    "name": "Bưu điện thành phố Móng Cái",
+    "name:en": "Mong Cai City Post Office",
+    "name:ja": "モンカイ郵便局",
+    "name:zh": "芒街市邮政局"
+  }
+},
+{
+  "type": "way",
+  "id": 972290643,
+  "center": {
+    "lat": 10.9476805,
+    "lon": 106.8161262
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Quang Vinh"
+  }
+},
+{
+  "type": "way",
+  "id": 972772678,
+  "center": {
+    "lat": 10.9364634,
+    "lon": 106.8703881
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện Khu công nghiệp Biên Hòa"
+  }
+},
+{
+  "type": "way",
+  "id": 973977738,
+  "center": {
+    "lat": 19.8084698,
+    "lon": 105.7772456
+  },
+  "tags": {
+    "addr:city": "Thanh Hóa",
+    "addr:housenumber": "33",
+    "addr:postcode": "440000",
+    "addr:province": "Thanh Hóa",
+    "addr:street": "Quốc lộ 1",
+    "addr:subdistrict": "Điện Biên",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Thanh Hóa"
+  }
+},
+{
+  "type": "way",
+  "id": 974063116,
+  "center": {
+    "lat": 21.0730295,
+    "lon": 105.8045750
+  },
+  "tags": {
+    "addr:city": "Hanoi",
+    "addr:street": "Plutus Street",
+    "addr:subdistrict": "Ciputra",
+    "amenity": "post_office",
+    "brand": "Vietnam Post",
+    "building": "yes",
+    "name": "Bưu điện Ciputra",
+    "name:en": "Ciputra Post Office",
+    "name:tr": "Ciputra Postanesi",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 974063613,
+  "center": {
+    "lat": 18.6704879,
+    "lon": 105.6840644
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Nghệ An"
+  }
+},
+{
+  "type": "way",
+  "id": 974877066,
+  "center": {
+    "lat": 20.6554535,
+    "lon": 106.0568417
+  },
+  "tags": {
+    "addr:city": "Hưng Yên",
+    "addr:province": "Hưng Yên",
+    "addr:street": "Chùa Chuông",
+    "addr:subdistrict": "Hiến Nam",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Hưng Yên",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 976026438,
+  "center": {
+    "lat": 10.9555455,
+    "lon": 106.8144732
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện tỉnh Đồng Nai",
+    "opening_hours": "Mo-Sa 07:00-19:00; Su,PH 07:30-11:30,13:30-17:30",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 976033133,
+  "center": {
+    "lat": 10.9625597,
+    "lon": 106.8557077
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Tân Hiệp",
+    "opening_hours": "08:00-18:00"
+  }
+},
+{
+  "type": "way",
+  "id": 983780609,
+  "center": {
+    "lat": 10.9287512,
+    "lon": 106.8205809
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Chợ Đồn"
+  }
+},
+{
+  "type": "way",
+  "id": 985095334,
+  "center": {
+    "lat": 20.7407735,
+    "lon": 106.0587857
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Kim Động",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 985502974,
+  "center": {
+    "lat": 10.9120231,
+    "lon": 106.8280403
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Tân Vạn"
+  }
+},
+{
+  "type": "way",
+  "id": 985785774,
+  "center": {
+    "lat": 10.9051460,
+    "lon": 106.8484283
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Long Bình Tân"
+  }
+},
+{
+  "type": "way",
+  "id": 985826876,
+  "center": {
+    "lat": 11.0111857,
+    "lon": 106.8406225
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Thạnh Phú"
+  }
+},
+{
+  "type": "way",
+  "id": 988592583,
+  "center": {
+    "lat": 11.0880474,
+    "lon": 107.0341617
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện huyện Vĩnh Cửu"
+  }
+},
+{
+  "type": "way",
+  "id": 993384208,
+  "center": {
+    "lat": 10.9778715,
+    "lon": 106.8487578
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Trảng Dài"
+  }
+},
+{
+  "type": "way",
+  "id": 1001066372,
+  "center": {
+    "lat": 21.0810676,
+    "lon": 106.5152353
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện thị xã Đông Triều"
+  }
+},
+{
+  "type": "way",
+  "id": 1004634391,
+  "center": {
+    "lat": 10.9620434,
+    "lon": 106.7900034
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Bửu Long"
+  }
+},
+{
+  "type": "way",
+  "id": 1006711200,
+  "center": {
+    "lat": 10.8932307,
+    "lon": 106.8643787
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện An Hòa"
+  }
+},
+{
+  "type": "way",
+  "id": 1014974120,
+  "center": {
+    "lat": 10.5169313,
+    "lon": 108.9318453
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện huyện Phú Quý"
+  }
+},
+{
+  "type": "way",
+  "id": 1015372582,
+  "center": {
+    "lat": 10.5049102,
+    "lon": 108.9519085
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Tam Thanh"
+  }
+},
+{
+  "type": "way",
+  "id": 1019379155,
+  "center": {
+    "lat": 20.5430427,
+    "lon": 105.9121545
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1021010394,
+  "center": {
+    "lat": 20.6468532,
+    "lon": 106.0539725
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện Phố Hiến"
+  }
+},
+{
+  "type": "way",
+  "id": 1021010400,
+  "center": {
+    "lat": 20.6744466,
+    "lon": 106.0586440
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Chợ Gạo",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1021010401,
+  "center": {
+    "lat": 20.6812999,
+    "lon": 106.0788440
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Trung Nghĩa"
+  }
+},
+{
+  "type": "way",
+  "id": 1021010407,
+  "center": {
+    "lat": 20.6372074,
+    "lon": 106.0865749
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Điểm BĐVHX Phương Chiểu"
+  }
+},
+{
+  "type": "way",
+  "id": 1021370764,
+  "center": {
+    "lat": 21.0288446,
+    "lon": 105.8407582
+  },
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Quận Ba Đình",
+    "addr:housenumber": "49",
+    "addr:street": "Phố Nguyễn Thái Học",
+    "amenity": "post_office",
+    "building": "yes",
+    "contact:phone": "+84 24 3831 3366",
+    "name": "Bưu điện Nguyễn Thái Học",
+    "name:en": "Nguyen Thai Hoc Post Office",
+    "name:tr": "Nguyen Thai Hoc Postanesi",
+    "operator": "Bưu điện Trung tâm 1"
+  }
+},
+{
+  "type": "way",
+  "id": 1021404967,
+  "center": {
+    "lat": 21.0440396,
+    "lon": 105.8366116
+  },
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Phường Ba Đình",
+    "addr:housenumber": "1",
+    "addr:province": "Thành phố Hà Nội",
+    "addr:street": "Phố Trấn Vũ",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thanh Niên",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1025703507,
+  "center": {
+    "lat": 10.2568043,
+    "lon": 105.5925557
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Xã Lai Vung",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1027598487,
+  "center": {
+    "lat": 10.9377402,
+    "lon": 106.8045084
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Hóa An"
+  }
+},
+{
+  "type": "way",
+  "id": 1027598490,
+  "center": {
+    "lat": 10.9689675,
+    "lon": 106.8895266
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Hố Nai"
+  }
+},
+{
+  "type": "way",
+  "id": 1030050836,
+  "center": {
+    "lat": 21.3077341,
+    "lon": 105.5936054
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Vĩnh Phúc"
+  }
+},
+{
+  "type": "way",
+  "id": 1031630797,
+  "center": {
+    "lat": 10.9462660,
+    "lon": 106.8569308
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Tam Hiệp"
+  }
+},
+{
+  "type": "way",
+  "id": 1034867369,
+  "center": {
+    "lat": 20.1076314,
+    "lon": 106.1175750
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Kim Sơn"
+  }
+},
+{
+  "type": "way",
+  "id": 1035046949,
+  "center": {
+    "lat": 21.4565639,
+    "lon": 105.6456636
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Tam Đảo"
+  }
+},
+{
+  "type": "way",
+  "id": 1040467292,
+  "center": {
+    "lat": 20.9895454,
+    "lon": 105.8076340
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "import": "grabremote",
+    "name": "Bưu Cục Hạ Đình"
+  }
+},
+{
+  "type": "way",
+  "id": 1042360268,
+  "center": {
+    "lat": 10.8672363,
+    "lon": 106.9708491
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Long Đức"
+  }
+},
+{
+  "type": "way",
+  "id": 1042360270,
+  "center": {
+    "lat": 10.8554026,
+    "lon": 106.9275262
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Tam Phước"
+  }
+},
+{
+  "type": "way",
+  "id": 1042360274,
+  "center": {
+    "lat": 10.8899972,
+    "lon": 106.8967567
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Phước Tân"
+  }
+},
+{
+  "type": "way",
+  "id": 1042360278,
+  "center": {
+    "lat": 10.9344674,
+    "lon": 106.8298300
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Văn hóa Hiệp Hoà"
+  }
+},
+{
+  "type": "way",
+  "id": 1042360280,
+  "center": {
+    "lat": 10.9570486,
+    "lon": 106.7830540
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Văn hóa Tân Hạnh"
+  }
+},
+{
+  "type": "way",
+  "id": 1052442934,
+  "center": {
+    "lat": 10.9667897,
+    "lon": 106.8529097
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Tân Tiến",
+    "opening_hours": "Mo-Sa 07:00-11:30,13:30-18:00; PH closed"
+  }
+},
+{
+  "type": "way",
+  "id": 1065564923,
+  "center": {
+    "lat": 10.9987578,
+    "lon": 106.8066869
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Tân Bình",
+    "operator": "VNPost"
+  }
+},
+{
+  "type": "way",
+  "id": 1074817053,
+  "center": {
+    "lat": 10.9816048,
+    "lon": 106.7989702
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Bình Hòa"
+  }
+},
+{
+  "type": "way",
+  "id": 1075250732,
+  "center": {
+    "lat": 11.0881555,
+    "lon": 107.1833870
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Phú Cường"
+  }
+},
+{
+  "type": "way",
+  "id": 1079049759,
+  "center": {
+    "lat": 22.6652034,
+    "lon": 106.2580647
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Cao Bằng"
+  }
+},
+{
+  "type": "way",
+  "id": 1084373318,
+  "center": {
+    "lat": 10.8892421,
+    "lon": 106.5957828
+  },
+  "tags": {
+    "addr:district": "Hóc Môn",
+    "addr:housenumber": "57/7",
+    "addr:province": "Hồ Chí Minh",
+    "addr:street": "Đường Lý Nam Đế",
+    "addr:subdistrict": "TT. Hóc Môn",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Hóc Môn"
+  }
+},
+{
+  "type": "way",
+  "id": 1088700437,
+  "center": {
+    "lat": 22.1483632,
+    "lon": 105.8358777
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Bắc Kạn"
+  }
+},
+{
+  "type": "way",
+  "id": 1099761804,
+  "center": {
+    "lat": 11.0431079,
+    "lon": 106.8207653
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Bình Lợi"
+  }
+},
+{
+  "type": "way",
+  "id": 1100821518,
+  "center": {
+    "lat": 20.4313664,
+    "lon": 106.1612721
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu Điện Tỉnh Nam Định"
+  }
+},
+{
+  "type": "way",
+  "id": 1102740716,
+  "center": {
+    "lat": 9.0257745,
+    "lon": 105.2103840
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Tạ An Khương Nam"
+  }
+},
+{
+  "type": "way",
+  "id": 1138068447,
+  "center": {
+    "lat": 10.9041167,
+    "lon": 106.6998243
+  },
+  "tags": {
+    "addr:district": "Thuận An",
+    "addr:housenumber": "7",
+    "addr:province": "Bình Dương",
+    "addr:street": "Phan Đình Phùng",
+    "addr:subdistrict": "Lái Thiêu",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thuận An"
+  }
+},
+{
+  "type": "way",
+  "id": 1154164281,
+  "center": {
+    "lat": 10.4466061,
+    "lon": 106.3432117
+  },
+  "tags": {
+    "addr:city": "Thị trấn Tân Hiệp",
+    "addr:district": "Châu Thành",
+    "addr:province": "Tiền Giang",
+    "addr:subdistrict": "Tân Hiệp",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Châu Thành"
+  }
+},
+{
+  "type": "way",
+  "id": 1168580666,
+  "center": {
+    "lat": 20.9877374,
+    "lon": 105.8317600
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Định Công"
+  }
+},
+{
+  "type": "way",
+  "id": 1189323834,
+  "center": {
+    "lat": 10.6864489,
+    "lon": 107.7531178
+  },
+  "tags": {
+    "addr:city": "Phường Tân An",
+    "addr:district": "La Gi",
+    "addr:housenumber": "16",
+    "addr:province": "Bình Thuận",
+    "addr:street": "Nguyễn Huệ",
+    "addr:subdistrict": "Tân An",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thị xã La Gi"
+  }
+},
+{
+  "type": "way",
+  "id": 1190955082,
+  "center": {
+    "lat": 10.1620154,
+    "lon": 105.9219505
+  },
+  "tags": {
+    "addr:city": "Long Hồ",
+    "addr:district": "Phú Quới",
+    "addr:postcode": "85216",
+    "addr:province": "Vĩnh Long",
+    "addr:street": "Đường Huyện 23B",
+    "addr:subdistrict": "Phú Long A",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Điểm bưu điện Văn hóa xã Phú Quới"
+  }
+},
+{
+  "type": "way",
+  "id": 1199769966,
+  "center": {
+    "lat": 21.2888829,
+    "lon": 105.4022343
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Vietnam Post",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1204592845,
+  "center": {
+    "lat": 17.3660218,
+    "lon": 106.6359304
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1219698169,
+  "center": {
+    "lat": 10.6960916,
+    "lon": 106.5948542
+  },
+  "tags": {
+    "addr:city": "Thị trấn Tân Túc",
+    "addr:district": "Bình Chánh",
+    "addr:province": "Hồ Chí Minh",
+    "addr:street": "Nguyễn Hữu Trí",
+    "addr:subdistrict": "Tân Túc",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Bình Chánh"
+  }
+},
+{
+  "type": "way",
+  "id": 1220667775,
+  "center": {
+    "lat": 21.0173743,
+    "lon": 105.9323077
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Việt Nam",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1222669613,
+  "center": {
+    "lat": 18.7958461,
+    "lon": 105.7267600
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1227308458,
+  "center": {
+    "lat": 21.0217262,
+    "lon": 105.9374893
+  },
+  "tags": {
+    "addr:housenumber": "197",
+    "addr:postcode": "131000",
+    "addr:street": "Đường Nguyễn Đức Thuận",
+    "alt_name": "Bưu cục Trâu Quỳ",
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu cục Gia Lâm",
+    "operator": "Bưu điện Trung tâm 5"
+  }
+},
+{
+  "type": "way",
+  "id": 1231794774,
+  "center": {
+    "lat": 21.0374125,
+    "lon": 105.7665554
+  },
+  "tags": {
+    "addr:housenumber": "14",
+    "addr:street": "Phố Nguyễn Cơ Thạch",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Mỹ Đình 2"
+  }
+},
+{
+  "type": "way",
+  "id": 1235777136,
+  "center": {
+    "lat": 21.0404355,
+    "lon": 105.8470411
+  },
+  "tags": {
+    "addr:city": "Hà Nội",
+    "addr:district": "Phường Ba Đình",
+    "addr:housenumber": "8",
+    "addr:province": "Thành phố Hà Nội",
+    "addr:street": "Phố Quán Thánh",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Quán Thánh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1236192820,
+  "center": {
+    "lat": 20.9979239,
+    "lon": 105.8092415
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thanh Xuân",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1236192822,
+  "center": {
+    "lat": 20.9734088,
+    "lon": 105.7783508
+  },
+  "tags": {
+    "addr:housenumber": "4",
+    "addr:street": "Đường Quang Trung",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Hà Đông",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1236491877,
+  "center": {
+    "lat": 21.0151861,
+    "lon": 105.8349485
+  },
+  "tags": {
+    "addr:housenumber": "40",
+    "addr:street": "Phố Trung Phụng",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Xã Đàn",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1236753274,
+  "center": {
+    "lat": 21.5933669,
+    "lon": 105.8406661
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện tỉnh Thái Nguyên"
+  }
+},
+{
+  "type": "way",
+  "id": 1236881278,
+  "center": {
+    "lat": 10.5499489,
+    "lon": 105.4024508
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Chợ Mới",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1238602263,
+  "center": {
+    "lat": 20.7085030,
+    "lon": 106.0532420
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Dốc Lã",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1238602264,
+  "center": {
+    "lat": 20.6496503,
+    "lon": 106.0572326
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1250240957,
+  "center": {
+    "lat": 20.2229958,
+    "lon": 106.1820800
+  },
+  "tags": {
+    "addr:postcode": "07400",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Nghĩa Hưng",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1255430105,
+  "center": {
+    "lat": 11.1847406,
+    "lon": 107.5583664
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Bưu điện Huyện Đức Linh",
+    "operator": "Vietnam Post"
+  }
+},
+{
+  "type": "way",
+  "id": 1267912606,
+  "center": {
+    "lat": 20.9454432,
+    "lon": 105.8452026
+  },
+  "tags": {
+    "addr:housenumber": "5-7",
+    "addr:postcode": "12500",
+    "addr:street": "Đường Nguyễn Bặc",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Thanh Trì",
+    "opening_hours": "Mo-Sa 07:30-12:00,13:30-19:00; Su,PH 08:00-12:00,13:30-18:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "phone": "+84 024 3861 5218"
+  }
+},
+{
+  "type": "way",
+  "id": 1267912610,
+  "center": {
+    "lat": 20.9177718,
+    "lon": 105.8667536
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Đông Mỹ",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1267912611,
+  "center": {
+    "lat": 20.8695933,
+    "lon": 105.8653620
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Thường Tín",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1267913616,
+  "center": {
+    "lat": 20.9240304,
+    "lon": 105.7051649
+  },
+  "tags": {
+    "addr:postcode": "13400",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Chương Mỹ",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1269068039,
+  "center": {
+    "lat": 21.2262024,
+    "lon": 105.7626616
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1270647768,
+  "center": {
+    "lat": 21.6689449,
+    "lon": 105.4270343
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "bưu điện xã Tân Thanh (điểm tại xã Kháng Nhật cũ)"
+  }
+},
+{
+  "type": "way",
+  "id": 1270837180,
+  "center": {
+    "lat": 12.9925358,
+    "lon": 109.3309946
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Buw điện Thị xã Đông Hòa"
+  }
+},
+{
+  "type": "way",
+  "id": 1271977348,
+  "center": {
+    "lat": 21.1862420,
+    "lon": 105.7214049
+  },
+  "tags": {
+    "addr:postcode": "12500",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu diện Trung tâm Mê Linh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1272771553,
+  "center": {
+    "lat": 21.1413942,
+    "lon": 105.8462513
+  },
+  "tags": {
+    "addr:housenumber": "9",
+    "addr:street": "Đường Cao Lỗ",
+    "amenity": "post_office",
+    "branch": "Bưu điện huyện Đông Anh",
+    "building": "yes",
+    "name": "Bưu cục Đông Anh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1290811162,
+  "center": {
+    "lat": 22.1441867,
+    "lon": 105.2725290
+  },
+  "tags": {
+    "addr:housenumber": "34",
+    "addr:street": "Đường Ba Đình",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Chiêm Hóa",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1290811164,
+  "center": {
+    "lat": 22.1899465,
+    "lon": 105.3297898
+  },
+  "tags": {
+    "addr:postcode": "22351",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Đầm Hồng",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "phone": "+84 0207 3853102"
+  }
+},
+{
+  "type": "way",
+  "id": 1290811165,
+  "center": {
+    "lat": 22.3527310,
+    "lon": 105.3856368
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Na Hang",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1290811184,
+  "center": {
+    "lat": 22.5107645,
+    "lon": 105.4805239
+  },
+  "tags": {
+    "addr:postcode": "22451",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Yên Hoa",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "phone": "+84 0207 3560988"
+  }
+},
+{
+  "type": "way",
+  "id": 1302177947,
+  "center": {
+    "lat": 10.7763059,
+    "lon": 106.6574200
+  },
+  "tags": {
+    "amenity": "post_office",
+    "landuse": "commercial",
+    "name": "Trung tâm Khai thác vận chuyển - Bưu điện Thành phố Hồ Chí Minh",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1302177949,
+  "center": {
+    "lat": 10.7763985,
+    "lon": 106.6567256
+  },
+  "tags": {
+    "addr:housenumber": "270 bis",
+    "addr:street": "Đường Lý Thường Kiệt",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Phú Thọ",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1306624216,
+  "center": {
+    "lat": 10.7739690,
+    "lon": 106.7704690
+  },
+  "tags": {
+    "addr:city": "Phường Cát Lái",
+    "addr:district": "Thủ Đức",
+    "addr:housenumber": "711",
+    "addr:province": "Hồ Chí Minh",
+    "addr:street": "Đường Nguyễn Thị Định",
+    "addr:subdistrict": "Cát Lái",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Cát Lái"
+  }
+},
+{
+  "type": "way",
+  "id": 1311009353,
+  "center": {
+    "lat": 20.7921425,
+    "lon": 106.0556760
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Nghĩa Dân",
+    "opening_hours": "Mo-Sa 07:30-10:30,13:00-16:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "phone": "+84 0221 3820000"
+  }
+},
+{
+  "type": "way",
+  "id": 1318588365,
+  "center": {
+    "lat": 21.0319294,
+    "lon": 105.7653878
+  },
+  "tags": {
+    "addr:housenumber": "19",
+    "addr:street": "Phố Nguyễn Cơ Thạch",
+    "amenity": "post_office",
+    "building": "university",
+    "name": "Bưu điện Mỹ Đình 2",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1327816701,
+  "center": {
+    "lat": 23.1641251,
+    "lon": 105.4096040
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Mèo Vạc",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1340344169,
+  "center": {
+    "lat": 10.7462339,
+    "lon": 106.6280180
+  },
+  "tags": {
+    "addr:housenumber": "899",
+    "addr:street": "Đường Hậu Giang",
+    "amenity": "post_office",
+    "boundary": "postal_code",
+    "name": "Bưu Điện Việt Nam",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791",
+    "postal_code": "71910"
+  }
+},
+{
+  "type": "way",
+  "id": 1342055081,
+  "center": {
+    "lat": 13.9616348,
+    "lon": 107.8437249
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1342055082,
+  "center": {
+    "lat": 13.9616898,
+    "lon": 107.8433662
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "VNPT",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1355610496,
+  "center": {
+    "lat": 11.9470675,
+    "lon": 108.4906970
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Tự Phước",
+    "operator": "VNPost"
+  }
+},
+{
+  "type": "way",
+  "id": 1358136060,
+  "center": {
+    "lat": 10.5398940,
+    "lon": 106.4086037
+  },
+  "tags": {
+    "addr:city": "Phường 1",
+    "addr:district": "Thành phố Tân An",
+    "addr:province": "Tỉnh Long An",
+    "addr:street": "Quốc lộ 1",
+    "addr:subdistrict": "Phường 1",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thành phố Tân An"
+  }
+},
+{
+  "type": "way",
+  "id": 1382705134,
+  "center": {
+    "lat": 20.8824294,
+    "lon": 105.5483761
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Khu công nghiệp Lương Sơn",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1383095118,
+  "center": {
+    "lat": 10.6022352,
+    "lon": 106.4021816
+  },
+  "tags": {
+    "addr:city": "Thị trấn Thủ Thừa",
+    "addr:district": "Huyện Thủ Thừa",
+    "addr:province": "Tỉnh Long An",
+    "addr:subdistrict": "Thị trấn Thủ Thừa",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thủ Thừa"
+  }
+},
+{
+  "type": "way",
+  "id": 1384030438,
+  "center": {
+    "lat": 22.6653152,
+    "lon": 106.2578288
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1396125906,
+  "center": {
+    "lat": 18.6975283,
+    "lon": 105.6747511
+  },
+  "tags": {
+    "addr:city": "Thành phố Vinh",
+    "addr:housenumber": "51",
+    "addr:province": "Nghệ An",
+    "addr:street": "Mai Hắc Đế",
+    "addr:subdistrict": "Phường Quán Bàu",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu cục Quán Bàu",
+    "opening_hours": "Mo-Fr 07:30-17:00",
+    "operator": "Bưu điện Việt Nam"
+  }
+},
+{
+  "type": "way",
+  "id": 1396552658,
+  "center": {
+    "lat": 20.2711111,
+    "lon": 106.2777317
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện"
+  }
+},
+{
+  "type": "way",
+  "id": 1396613548,
+  "center": {
+    "lat": 13.6998409,
+    "lon": 108.0748002
+  },
+  "tags": {
+    "addr:housenumber": "723",
+    "addr:province": "Gia Lai",
+    "addr:street": "Đường Hùng Vương",
+    "addr:subdistrict": "Xã Chư Sê",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Xã Chư Sê"
+  }
+},
+{
+  "type": "way",
+  "id": 1424048513,
+  "center": {
+    "lat": 20.9393873,
+    "lon": 106.0024724
+  },
+  "tags": {
+    "addr:province": "Hưng Yên",
+    "addr:street": "Đường Tô Hiệu",
+    "addr:subdistrict": "Nghĩa Trụ",
+    "amenity": "post_office",
+    "building": "yes",
+    "opening_hours": "Mo-Sa 07:00-20:00",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1424920038,
+  "center": {
+    "lat": 21.0516315,
+    "lon": 106.0936219
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thị xã Thuận Thành",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Siêu Loại",
+    "addr:subdistrict": "Phường Hồ",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Thị xã Thuận Thành"
+  }
+},
+{
+  "type": "way",
+  "id": 1429284886,
+  "center": {
+    "lat": 20.9927311,
+    "lon": 106.0650604
+  },
+  "tags": {
+    "addr:district": "Xã Đại Đồng",
+    "addr:province": "Hưng Yên",
+    "amenity": "post_office",
+    "building": "yes",
+    "genus:en": "Đại Đồng Commune Post Office",
+    "name": "Bưu Điện Xã Đại Đồng",
+    "operator": "Vn Post"
+  }
+},
+{
+  "type": "way",
+  "id": 1447891820,
+  "center": {
+    "lat": 20.9414043,
+    "lon": 105.9582317
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1457214643,
+  "center": {
+    "lat": 10.7538701,
+    "lon": 106.6649790
+  },
+  "tags": {
+    "addr:housenumber": "646M",
+    "addr:street": "Đường Nguyễn Trãi",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "DHL",
+    "operator": "DHL"
+  }
+},
+{
+  "type": "way",
+  "id": 1461459946,
+  "center": {
+    "lat": 20.9466982,
+    "lon": 106.0043091
+  },
+  "tags": {
+    "amenity": "post_office",
+    "brand": "Viettel Store",
+    "building": "yes",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1472988304,
+  "center": {
+    "lat": 15.7732773,
+    "lon": 108.1089652
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name:en": "Mỹ Sơn Post Office",
+    "wikidata": "Q137948064"
+  }
+},
+{
+  "type": "way",
+  "id": 1474196370,
+  "center": {
+    "lat": 21.1419492,
+    "lon": 106.0570885
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Bắc Ninh",
+    "addr:housenumber": "41",
+    "addr:province": "Bắc Ninh",
+    "addr:street": "Đường Nguyễn Thủ Tiệp",
+    "addr:subdistrict": "Phường Khắc Niệm",
+    "amenity": "post_office",
+    "building": "apartments",
+    "building:levels": "3",
+    "name": "Bưu điện phường Khắc Niệm"
+  }
+},
+{
+  "type": "way",
+  "id": 1475181250,
+  "center": {
+    "lat": 21.1942274,
+    "lon": 106.0171084
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Yên Phong",
+    "addr:province": "Bac Ninh",
+    "addr:subdistrict": "Xã Đông Phong",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện VHX Đông Phong"
+  }
+},
+{
+  "type": "way",
+  "id": 1476203004,
+  "center": {
+    "lat": 21.1662038,
+    "lon": 106.0000851
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Tiên Du",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường tỉnh 276",
+    "addr:subdistrict": "Xã Phú Lâm",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện VHX Phú Lâm"
+  }
+},
+{
+  "type": "way",
+  "id": 1477399104,
+  "center": {
+    "lat": 21.1990695,
+    "lon": 105.9237911
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Yên Phong",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường tỉnh 286",
+    "addr:subdistrict": "Xã Yên Phụ",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện VHX Yên Phụ"
+  }
+},
+{
+  "type": "way",
+  "id": 1478877787,
+  "center": {
+    "lat": 21.1526062,
+    "lon": 105.9293621
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Đàm Thận Huy",
+    "addr:subdistrict": "Phường Hương Mạc",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện phường Hương Mạc"
+  }
+},
+{
+  "type": "way",
+  "id": 1480749968,
+  "center": {
+    "lat": 20.9225554,
+    "lon": 105.9636540
+  },
+  "tags": {
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Tân Tiến"
+  }
+},
+{
+  "type": "way",
+  "id": 1482911808,
+  "center": {
+    "lat": 21.0895145,
+    "lon": 106.2108530
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Gia Bình",
+    "addr:province": "Bac Ninh",
+    "addr:subdistrict": "Xã Đại Lai",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện văn hóa xã Đại Lai"
+  }
+},
+{
+  "type": "way",
+  "id": 1483453198,
+  "center": {
+    "lat": 21.1324645,
+    "lon": 106.2304416
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thị xã Quế Võ",
+    "addr:province": "Bac Ninh",
+    "addr:subdistrict": "Xã Ngọc Xá",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện Văn hóa xã Ngọc Xá"
+  }
+},
+{
+  "type": "way",
+  "id": 1486338923,
+  "center": {
+    "lat": 20.9859811,
+    "lon": 106.0397255
+  },
+  "tags": {
+    "addr:district": "Xã Lạc Đạo",
+    "addr:province": "Hưng Yên",
+    "addr:street": "Đường tỉnh 385",
+    "addr:subdistrict": "Thôn Nghĩa Lộ",
+    "amenity": "post_office",
+    "building": "yes",
+    "fax": "+84 335 279 111",
+    "mobile": "+84 335 279 111",
+    "name": "Viettel Post Bưu cục Chỉ Đạo - HYN",
+    "nohousenumber": "yes",
+    "operator": "Viettel Post",
+    "payment:MB_Bank": "yes",
+    "payment:app": "yes",
+    "payment:cash": "yes",
+    "payment:contactless": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:electronic_purses": "yes",
+    "payment:qr_code": "yes",
+    "payment:v_pay": "yes",
+    "phone": "+84 335 279 111",
+    "post_office": "bureau",
+    "roof:shape": "gabled",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "way",
+  "id": 1486542409,
+  "center": {
+    "lat": 21.0021695,
+    "lon": 105.9666725
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Việt Nam",
+    "operator": "Vietnam Post",
+    "operator:wikidata": "Q112150791"
+  }
+},
+{
+  "type": "way",
+  "id": 1489079983,
+  "center": {
+    "lat": 21.0817021,
+    "lon": 106.0065391
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Tiên Du",
+    "addr:province": "Bac Ninh",
+    "addr:subdistrict": "Xã Tri Phương",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện VHX Tri Phương"
+  }
+},
+{
+  "type": "way",
+  "id": 1489080735,
+  "center": {
+    "lat": 21.1937080,
+    "lon": 106.1078629
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Bắc Ninh",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Chu Huân",
+    "addr:subdistrict": "Phường Kim Chân",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện VH Kim Chân"
+  }
+},
+{
+  "type": "way",
+  "id": 1489160282,
+  "center": {
+    "lat": 21.0527532,
+    "lon": 106.1714595
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Gia Bình",
+    "addr:housenumber": "146",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Nguyễn Văn Cừ",
+    "addr:subdistrict": "Thị trấn Gia Bình",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện huyện Gia Bình"
+  }
+},
+{
+  "type": "way",
+  "id": 1491569295,
+  "center": {
+    "lat": 21.1434223,
+    "lon": 106.0190906
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Huyện Tiên Du",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Hai Bà Trưng",
+    "addr:subdistrict": "Thị trấn Lim",
+    "amenity": "post_office",
+    "building": "yes",
+    "landuse": "commercial",
+    "name": "Bưu điện huyện Tiên Du"
+  }
+},
+{
+  "type": "way",
+  "id": 1493915077,
+  "center": {
+    "lat": 21.1142269,
+    "lon": 105.9294443
+  },
+  "tags": {
+    "addr:city": "Bắc Ninh",
+    "addr:district": "Thành phố Từ Sơn",
+    "addr:province": "Bac Ninh",
+    "addr:street": "Đường Lý Thường Kiệt",
+    "addr:subdistrict": "Phường Châu Khê",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Bưu điện phường Châu Khê"
+  }
+},
+{
+  "type": "way",
+  "id": 1498116338,
+  "center": {
+    "lat": 11.0756344,
+    "lon": 106.6905322
+  },
+  "tags": {
+    "amenity": "post_office",
+    "name": "Bưu điện Phú Chánh"
+  }
+}
+
+  ]
+}

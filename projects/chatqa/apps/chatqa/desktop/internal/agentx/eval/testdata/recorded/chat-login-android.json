@@ -1,0 +1,44 @@
+{
+  "case": "chat-login-android",
+  "source": "hand-written stand-in in the recorded format; replace by running cmd/agenteval -record against the Worker",
+  "replies": {
+    "coordinator": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "functionCall": {
+                "id": "t1",
+                "name": "transfer_to_agent",
+                "args": {
+                  "agent_name": "plan_and_run"
+                }
+              }
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1500,
+          "candidatesTokenCount": 40
+        }
+      }
+    ],
+    "planner": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "{\"flows\": [{\"app\": \"mexpress\", \"flow\": \"01_auth/01_login.yaml\", \"reason\": \"Người dùng nói login\"}], \"platforms\": [\"android\"]}"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "name": "TranscriptAnything — transcribe a link",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-200, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1b2c3d4-0002-4000-8000-000000000002",
+              "name": "link",
+              "type": "string",
+              "value": "https://www.youtube.com/watch?v=VIDEO_ID"
+            },
+            {
+              "id": "a1b2c3d4-0003-4000-8000-000000000003",
+              "name": "apiBase",
+              "type": "string",
+              "value": "https://transcriptanything.zhst.app"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0004-4000-8000-000000000004",
+      "name": "Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [20, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Input').item.json.apiBase }}/api/v1/transcriptions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Idempotency-Key",
+              "value": "={{ 'n8n-' + $execution.id }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ link: $('Input').item.json.link, options: { summary: { preset: 'bullets' } } }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "id": "a1b2c3d4-0005-4000-8000-000000000005",
+      "name": "Create transcription",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [260, 0],
+      "notes": "Credential: HTTP Header Auth, name Authorization, value Bearer tt_live_…"
+    },
+    {
+      "parameters": {
+        "amount": 30,
+        "unit": "seconds"
+      },
+      "id": "a1b2c3d4-0006-4000-8000-000000000006",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [500, 0],
+      "webhookId": "a1b2c3d4-0006-4000-8000-000000000006"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Input').item.json.apiBase }}/api/v1/transcriptions/{{ $('Create transcription').item.json.transcription.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0007-4000-8000-000000000007",
+      "name": "Poll status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [740, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a1b2c3d4-0008-4000-8000-000000000008",
+              "leftValue": "={{ $json.transcription.status }}",
+              "rightValue": "succeeded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0009-4000-8000-000000000009",
+      "name": "Done?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [980, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Input').item.json.apiBase }}/api/v1/transcriptions/{{ $json.transcription.id }}/result?format=srt",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "a1b2c3d4-000a-4000-8000-00000000000a",
+      "name": "Download SRT",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1240, -120]
+    },
+    {
+      "parameters": {
+        "amount": 20,
+        "unit": "seconds"
+      },
+      "id": "a1b2c3d4-000b-4000-8000-00000000000b",
+      "name": "Wait again",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1240, 120],
+      "webhookId": "a1b2c3d4-000b-4000-8000-00000000000b"
+    },
+    {
+      "parameters": {
+        "content": "## TranscriptAnything\n\n1. **Input** holds the public link.\n2. **Create transcription** posts it with an `Idempotency-Key`.\n3. **Wait** → **Poll status** until `succeeded` (replace polling with a `transcription.completed` webhook for production).\n4. **Download SRT** returns the file as text; switch `format` to `txt`, `vtt` or `json`.\n\nCredential: *HTTP Header Auth* with `Authorization: Bearer tt_live_…` (Developers → API keys).\n\nFree tier: media ≤ 3 minutes. Longer media needs credits and an account with headroom under the monthly cap.",
+        "height": 320,
+        "width": 420,
+        "color": 4
+      },
+      "id": "a1b2c3d4-000c-4000-8000-00000000000c",
+      "name": "Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, -360]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [[{ "node": "Input", "type": "main", "index": 0 }]]
+    },
+    "Input": {
+      "main": [[{ "node": "Create transcription", "type": "main", "index": 0 }]]
+    },
+    "Create transcription": {
+      "main": [[{ "node": "Wait", "type": "main", "index": 0 }]]
+    },
+    "Wait": {
+      "main": [[{ "node": "Poll status", "type": "main", "index": 0 }]]
+    },
+    "Poll status": {
+      "main": [[{ "node": "Done?", "type": "main", "index": 0 }]]
+    },
+    "Done?": {
+      "main": [
+        [{ "node": "Download SRT", "type": "main", "index": 0 }],
+        [{ "node": "Wait again", "type": "main", "index": 0 }]
+      ]
+    },
+    "Wait again": {
+      "main": [[{ "node": "Poll status", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "transcriptanything-template"
+  }
+}

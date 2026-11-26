@@ -1,0 +1,42 @@
+---
+import { requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { WorkersPanel } from "../../components/WorkersPanel.js";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { listWorkers } from "../../lib/images/workers";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+try {
+  await requireAdmin(db, Astro.locals.user, runtimeEnv(), "admin");
+} catch {
+  return Astro.redirect("/admin/");
+}
+const workers = (await listWorkers(db)).map((worker) => ({
+  id: worker.id,
+  name: worker.name,
+  version: worker.version,
+  engine: worker.capabilities.engine ?? null,
+  kinds: (worker.capabilities.kinds ?? ["generate", "edit"]).join(" + "),
+  lastHeartbeatAt: worker.lastHeartbeatAt,
+  disabled: worker.disabled,
+  online: worker.online,
+}));
+const lane = await db.all<{ provider: string; state: string; count: number }>(
+  "SELECT provider, state, COUNT(*) AS count FROM image_jobs WHERE state IN ('queued', 'running') GROUP BY provider, state",
+);
+---
+
+<AdminLayout title="Workers" current="/admin/workers/">
+  <WorkersPanel workers={workers} csrfToken={Astro.locals.csrfToken ?? ""} client:load />
+  <div class="w-card">
+    <h2>Open jobs by lane</h2>
+    {lane.length === 0 ? <p class="td-muted">Nothing is queued or running.</p> : (
+      <table class="td-table td-table--dense">
+        <thead><tr><th scope="col">Lane</th><th scope="col">State</th><th scope="col" class="td-table__numeric">Jobs</th></tr></thead>
+        <tbody>{lane.map((row) => <tr><th scope="row">{row.provider}</th><td>{row.state}</td><td class="td-table__numeric">{row.count}</td></tr>)}</tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>

@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import Learning from '../components/Learning';
+import Dashboard from '../components/Dashboard';
+import UpgradeBanner from '../components/UpgradeBanner';
+import { translator } from '../i18n';
+import { pageContext } from '../lib/page-context';
+// An account session sees its dashboard; a 0.2 invitation session keeps its
+// classroom and is offered an account; anyone else signs in.
+const { locale, session } = await pageContext(Astro);
+if (!session) return Astro.redirect('/sign-in');
+const t = translator(locale);
+---
+<Base title={t('shell.myLearning')} privatePage referrerPolicy="strict-origin-when-cross-origin" localized>
+  {session === 'account' ? <Dashboard client:load locale={locale} /> : <><div class="container"><UpgradeBanner client:load locale={locale} /></div><Learning client:load locale={locale} /></>}
+  <noscript><p class="narrow">{t('classroom.noScript')}</p></noscript>
+</Base>

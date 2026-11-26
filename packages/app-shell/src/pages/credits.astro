@@ -1,0 +1,82 @@
+---
+import { platformConfig } from "@templatedesign/platform/config";
+import { getWallet } from "@templatedesign/platform/credits";
+import { CSRF_COOKIE } from "@templatedesign/platform/csrf";
+import { d1Db } from "@templatedesign/platform/db";
+import { runtimeEnv } from "@templatedesign/platform/runtime";
+
+const { user, tenantId } = Astro.locals;
+if (!user || !tenantId) return Astro.redirect("/auth/sign-in?next=/app/credits");
+const config = platformConfig();
+const wallet = await getWallet(d1Db(runtimeEnv().DB), tenantId);
+const paymentId = Astro.url.searchParams.get("payment");
+const cancelled = Astro.url.searchParams.get("checkout") === "cancelled";
+const packs = config.packs;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Credits · {config.brand.name}</title>
+  </head>
+  <body style="font:16px/1.5 system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px;color:#1c1917">
+    <h1>Credits</h1>
+    <p>Available: <strong id="available">{wallet.available.toLocaleString("en-US")}</strong></p>
+    {cancelled && <p style="color:#78716c">Checkout was cancelled. No charge was made.</p>}
+    <p id="payment-status" data-payment={paymentId ?? ""} role="status" style="color:#15803d"></p>
+
+    {packs.length === 0 && <p>Credit packs are not available yet.</p>}
+    <div style="display:grid;gap:12px">
+      {packs.map((pack) => (
+        <section style="background:#fff;border:1px solid #e7e5e4;border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <span><strong>{pack.name.en}</strong><br />{pack.credits.toLocaleString("en-US")} credits</span>
+          <button data-pack={pack.id}>${(pack.priceCents / 100).toFixed(2)}</button>
+        </section>
+      ))}
+    </div>
+    <p id="error" role="alert" style="color:#b91c1c"></p>
+    <p><a href="/app">Back to your sites</a></p>
+
+    <script define:vars={{ csrfCookie: CSRF_COOKIE }}>
+      const token = () => {
+        const match = document.cookie.split("; ").find((part) => part.startsWith(`${csrfCookie}=`));
+        return match ? decodeURIComponent(match.slice(csrfCookie.length + 1)) : "";
+      };
+      const error = document.getElementById("error");
+      for (const button of document.querySelectorAll("[data-pack]")) {
+        button.addEventListener("click", async () => {
+          error.textContent = "";
+          const response = await fetch("/api/shell/checkout", {
+            method: "POST",
+            headers: { "content-type": "application/json", "x-csrf-token": token(), "idempotency-key": crypto.randomUUID() },
+            body: JSON.stringify({ pack_id: button.dataset.pack }),
+          });
+          const body = await response.json().catch(() => ({}));
+          if (response.ok && body.url) location.href = body.url;
+          else error.textContent = body.detail ?? "Checkout is not available right now.";
+        });
+      }
+
+      // After returning from the provider, wait for the signed webhook to credit the account.
+      const status = document.getElementById("payment-status");
+      const payment = status.dataset.payment;
+      if (payment) {
+        status.textContent = "Confirming your payment…";
+        let tries = 0;
+        const poll = async () => {
+          const response = await fetch(`/api/shell/checkout?payment=${encodeURIComponent(payment)}`);
+          const body = await response.json().catch(() => ({}));
+          if (body.status === "paid" || body.status === "succeeded" || body.paid_at) {
+            status.textContent = `${body.credits} credits added.`;
+            setTimeout(() => location.assign("/app/credits"), 1200);
+          } else if (tries++ < 20) setTimeout(poll, 1500);
+          else status.textContent = "Still confirming. Your credits will appear shortly.";
+        };
+        poll();
+      }
+    </script>
+  </body>
+</html>

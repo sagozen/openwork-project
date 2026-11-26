@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://templatedesign.zhst.app/contracts/job-create.schema.json",
+  "title": "Create render job",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["template_id", "input"],
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "Library slug or private tpl_ ID."
+    },
+    "template_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Omit to use the template's default version. Jobs always pin an immutable version."
+    },
+    "input": {
+      "type": "object",
+      "description": "Must validate against the pinned version's input schema. Data only; never code."
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": { "enum": ["pdf"], "default": "pdf" },
+        "max_pages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Reserved credits = max_pages; charged = actual pages."
+        }
+      }
+    },
+    "retention_seconds": {
+      "enum": [3600, 86400, 604800, 2592000],
+      "default": 3600,
+      "description": "Output retention. Share links can never outlive this."
+    },
+    "metadata": {
+      "type": "object",
+      "maxProperties": 10,
+      "description": "Echoed in the job and webhooks; never rendered."
+    }
+  },
+  "x-td-idempotency": {
+    "header": "Idempotency-Key",
+    "required": true,
+    "retentionDays": 30,
+    "sameBody": "replay original response with Idempotent-Replayed: true",
+    "differentBody": "409 idempotency_conflict"
+  }
+}

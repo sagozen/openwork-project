@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import { translator } from '../i18n';
+import { pluginCall } from '../lib/lms';
+import { pageContext } from '../lib/page-context';
+import type { CourseSummary } from '@mytutor/plugin-mytutor-lms/model';
+const { locale } = await pageContext(Astro);
+const t = translator(locale);
+const result = await pluginCall<CourseSummary[]>(Astro.locals, Astro.url, 'catalog');
+const courses = result.ok ? result.data : [];
+if (!result.ok) Astro.response.status = 503;
+---
+<Base title={t('home.pageTitle')} localized>
+  <div class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">{t('home.hero.eyebrow')}</p>
+        <h1 id="hero-title">{t('home.hero.titlePrefix')}<br /><em>{t('home.hero.titleAccent')}</em></h1>
+        <p>{t('home.hero.lead')}</p>
+        <div class="actions"><a class="button" href="#courses">{t('home.hero.explore')} <span aria-hidden="true">↓</span></a><a class="text-link" href="/learn">{t('home.hero.continue')}</a></div>
+        <p class="hero-note">{t('home.hero.note')}</p>
+      </div>
+      <aside class="workbook" aria-label={t('home.aside.aria')}>
+        <div class="workbook-top"><span>{t('home.aside.topLeft')}</span><span>{t('home.aside.topRight')}</span></div>
+        <h2>{t('home.aside.title')}</h2>
+        <ol><li><span>01</span>{t('home.aside.step1')}</li><li><span>02</span>{t('home.aside.step2')}</li><li><span>03</span>{t('home.aside.step3')}</li></ol>
+        <p class="workbook-bottom">{t('home.aside.bottom')}</p>
+      </aside>
+    </section>
+    <section class="section" id="courses" aria-labelledby="courses-title">
+      <div class="section-heading"><div><p class="eyebrow">{t('home.courses.eyebrow')}</p><h2 id="courses-title">{t('home.courses.title')}</h2></div><p>{t('home.courses.subtitle')}</p></div>
+      {!result.ok ? <div class="notice error" role="alert"><p>{result.error.message}</p><a href="/">{t('common.tryAgain')}</a></div> : courses.length ? <div class="course-grid">{courses.map((course, index) => <article class="course-card">
+        <div class="course-art" aria-hidden="true"><p>{t('home.courses.cardLabel')}</p><span class="course-number">{String(index + 1).padStart(2, '0')}</span></div>
+        <div class="course-card-body"><div class="course-meta"><span>{t('home.courses.lessons', { count: course.lessonCount })}</span><span>{t('home.courses.minutes', { count: course.durationMinutes })}</span><span>{t('home.courses.enrollment')}</span></div><h3>{course.title}</h3><p>{course.summary}</p><a class="text-link" href={`/courses/${encodeURIComponent(course.id)}`}>{t('home.courses.viewCourse')} <span aria-hidden="true">↗</span></a></div>
+      </article>)}</div> : <div class="empty"><p class="eyebrow">{t('home.courses.empty.eyebrow')}</p><h3>{t('home.courses.empty.title')}</h3><p>{t('home.courses.empty.body')}</p><a class="text-link" href="/join">{t('home.courses.empty.action')} →</a></div>}
+    </section>
+    <section class="section approach" aria-labelledby="approach-title"><div><p class="eyebrow">{t('home.approach.eyebrow')}</p><h2 id="approach-title">{t('home.approach.title')}</h2></div><dl class="approach-list"><div><dt>01</dt><dd><strong>{t('home.approach.item1.title')}</strong><p>{t('home.approach.item1.body')}</p></dd></div><div><dt>02</dt><dd><strong>{t('home.approach.item2.title')}</strong><p>{t('home.approach.item2.body')}</p></dd></div><div><dt>03</dt><dd><strong>{t('home.approach.item3.title')}</strong><p>{t('home.approach.item3.body')}</p></dd></div></dl></section>
+    <section class="invitation-banner"><div><h2>{t('home.banner.title')}</h2><p>{t('home.banner.body')}</p></div><div class="actions"><a class="button" href="/sign-in">{t('home.banner.signIn')} <span aria-hidden="true">↗</span></a><a class="text-link" href="/join">{t('home.banner.action')}</a></div></section>
+  </div>
+</Base>

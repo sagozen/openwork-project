@@ -1,0 +1,293 @@
+---
+import { type AbuseBlockRow, abuseOverview, getAbuseBlock } from "@templatedesign/platform/abuse";
+import { requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { runtimeEnv } from "../../lib/runtime";
+
+const env = runtimeEnv();
+const db = d1Db(env.DB);
+await requireAdmin(db, Astro.locals.user, env, "support");
+const now = Date.now();
+const overview = await abuseOverview(db, now);
+const targetId = Astro.url.searchParams.get("block")?.slice(0, 128) ?? "";
+const target = targetId ? await getAbuseBlock(db, targetId) : null;
+
+function isActive(block: AbuseBlockRow): boolean {
+  return !block.released_at && (block.blocked_until === null || Date.parse(block.blocked_until) > now);
+}
+
+function state(block: AbuseBlockRow): string {
+  if (block.released_at) return "released";
+  return isActive(block) ? "active" : "expired";
+}
+
+function when(iso: string | null): string {
+  if (!iso) return "until released";
+  const date = new Date(iso);
+  return Number.isFinite(date.getTime()) ? `${date.toISOString().slice(0, 16).replace("T", " ")} UTC` : "—";
+}
+
+function reasonLabel(reason: string): string {
+  if (reason === "too_many_jobs") return "too many jobs";
+  if (reason === "too_many_rate_limited") return "too many rate-limited requests";
+  return reason;
+}
+
+function detail(block: AbuseBlockRow): string {
+  try {
+    const parsed = JSON.parse(block.detail_json) as { count?: number; limit?: number };
+    return typeof parsed.count === "number" ? `${parsed.count} in the hour (limit ${parsed.limit ?? "?"})` : "";
+  } catch {
+    return "";
+  }
+}
+
+const accountLink = (tenantId: string) => `/admin/accounts/?q=${encodeURIComponent(tenantId)}`;
+---
+
+<AdminLayout title="Abuse" current="/admin/abuse/">
+  <p class="td-muted">
+    A tenant, guest or IP that creates more than 120 jobs, or hits a rate limit more than 30 times, in one clock hour
+    is blocked from creating jobs for 60 minutes. Its queued jobs are cancelled (holds and free slots are released;
+    jobs a worker is already running finish) and operators get one email. Every action here is audited.
+  </p>
+
+  {targetId && !target && (
+    <div class="w-card confirm"><p>Block <code>{targetId}</code> was not found.</p></div>
+  )}
+
+  {target && (
+    <section class="w-card confirm" aria-labelledby="confirm-title">
+      <h2 id="confirm-title">Review block for {target.subject_kind} <code>{target.subject_id}</code></h2>
+      <p>
+        {reasonLabel(target.reason)}{detail(target) ? ` · ${detail(target)}` : ""} · {target.source} · until
+        {" "}{when(target.blocked_until)} · {target.cancelled_jobs} queued jobs cancelled · status <strong>{state(target)}</strong>
+      </p>
+      {target.released_at ? (
+        <p class="td-muted">Released {when(target.released_at)}. Nothing else to do.</p>
+      ) : (
+        <div class="actions">
+          <button type="button" class="td-btn td-btn--primary td-btn--sm" data-block={target.id} data-action="release">Release</button>
+          <button type="button" class="td-btn td-btn--secondary td-btn--sm" data-block={target.id} data-action="extend">Extend 24 h</button>
+          <button type="button" class="td-btn td-btn--secondary td-btn--sm" data-block={target.id} data-action="permanent">Block until released</button>
+          {target.subject_kind === "tenant" && (
+            <a class="td-btn td-btn--tertiary td-btn--sm" href={accountLink(target.subject_id)}>Suspend account…</a>
+          )}
+        </div>
+      )}
+    </section>
+  )}
+
+  <section class="w-card">
+    <h2>Active blocks</h2>
+    <div class="td-table-wrap">
+      <table class="td-table td-table--dense">
+        <thead>
+          <tr><th scope="col">Subject</th><th scope="col">Reason</th><th scope="col">Source</th><th scope="col">Until</th><th scope="col">Cancelled</th><th scope="col">Created</th><th scope="col">Actions</th></tr>
+        </thead>
+        <tbody>
+          {overview.active.length === 0 && <tr><td colspan="7" class="td-muted">No subject is blocked.</td></tr>}
+          {overview.active.map((block) => (
+            <tr id={`block-${block.id}`} class={block.id === targetId ? "is-target" : ""}>
+              <th scope="row">{block.subject_kind} <code>{block.subject_id}</code></th>
+              <td>{reasonLabel(block.reason)}<br /><span class="td-muted">{detail(block)}</span></td>
+              <td>{block.source}</td>
+              <td>{when(block.blocked_until)}</td>
+              <td>{block.cancelled_jobs}</td>
+              <td>{when(block.created_at)}</td>
+              <td class="actions">
+                <button type="button" class="td-btn td-btn--tertiary td-btn--sm" data-block={block.id} data-action="release">Release</button>
+                <button type="button" class="td-btn td-btn--tertiary td-btn--sm" data-block={block.id} data-action="extend">Extend 24 h</button>
+                {block.blocked_until !== null && (
+                  <button type="button" class="td-btn td-btn--tertiary td-btn--sm" data-block={block.id} data-action="permanent">Until released</button>
+                )}
+                {block.subject_kind === "tenant" && <a class="td-btn td-btn--tertiary td-btn--sm" href={accountLink(block.subject_id)}>Account</a>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="w-card">
+    <h2>Top job creators this hour</h2>
+    <div class="td-table-wrap">
+      <table class="td-table td-table--dense">
+        <thead>
+          <tr><th scope="col">Subject</th><th scope="col">Jobs</th><th scope="col">Actions</th></tr>
+        </thead>
+        <tbody>
+          {overview.topCreators.length === 0 && <tr><td colspan="3" class="td-muted">No job created this hour.</td></tr>}
+          {overview.topCreators.map((creator) => (
+            <tr>
+              <th scope="row">{creator.kind} <code>{creator.id}</code></th>
+              <td>{creator.jobs}</td>
+              <td class="actions">
+                <button type="button" class="td-btn td-btn--tertiary td-btn--sm" data-subject-kind={creator.kind} data-subject-id={creator.id} data-minutes="60">Block 1 h</button>
+                <button type="button" class="td-btn td-btn--tertiary td-btn--sm" data-subject-kind={creator.kind} data-subject-id={creator.id} data-minutes="1440">Block 24 h</button>
+                {creator.kind === "tenant" && <a class="td-btn td-btn--tertiary td-btn--sm" href={accountLink(creator.id)}>Account</a>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <form id="manual-block" class="block-form">
+      <label class="td-field__label" for="block-kind">Subject</label>
+      <select class="td-input" id="block-kind" name="kind">
+        <option value="tenant">tenant</option>
+        <option value="guest">guest</option>
+        <option value="ip">ip</option>
+      </select>
+      <label class="td-field__label" for="block-id">ID</label>
+      <input class="td-input" id="block-id" name="id" required maxlength="128" placeholder="tenant ID, guest ID or IP" />
+      <label class="td-field__label" for="block-reason">Reason</label>
+      <input class="td-input" id="block-reason" name="reason" required maxlength="500" placeholder="Why this subject is blocked" />
+      <div class="actions">
+        <button class="td-btn td-btn--primary td-btn--sm" type="submit" value="60">Block 1 h</button>
+        <button class="td-btn td-btn--secondary td-btn--sm" type="submit" value="1440">Block 24 h</button>
+        <span class="form-status td-muted" id="block-status" hidden></span>
+      </div>
+    </form>
+  </section>
+
+  <section class="w-card">
+    <h2>Recent blocks</h2>
+    <div class="td-table-wrap">
+      <table class="td-table td-table--dense">
+        <thead>
+          <tr><th scope="col">Subject</th><th scope="col">Reason</th><th scope="col">Source</th><th scope="col">Until</th><th scope="col">Status</th><th scope="col">Created</th></tr>
+        </thead>
+        <tbody>
+          {overview.recent.length === 0 && <tr><td colspan="6" class="td-muted">No block yet.</td></tr>}
+          {overview.recent.map((block) => (
+            <tr class={block.id === targetId ? "is-target" : ""}>
+              <th scope="row">{block.subject_kind} <code>{block.subject_id}</code></th>
+              <td>{reasonLabel(block.reason)}</td>
+              <td>{block.source}</td>
+              <td>{when(block.blocked_until)}</td>
+              <td>{state(block)}{block.released_at ? ` ${when(block.released_at)}` : ""}</td>
+              <td>{when(block.created_at)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script is:inline>
+    const csrf = document.cookie.match(/(?:^|; )td_csrf=([^;]+)/)?.[1] ?? "";
+    const headers = { "content-type": "application/json", "x-csrf-token": decodeURIComponent(csrf) };
+
+    async function send(url, method, payload) {
+      const response = await fetch(url, { method, headers, body: JSON.stringify(payload) });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.detail ?? body.title ?? `status ${response.status}`);
+      return body;
+    }
+
+    function done() {
+      // Drop ?block= so the confirm panel does not reappear for a handled block.
+      window.location.href = window.location.pathname;
+    }
+
+    document.querySelectorAll("[data-block][data-action]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+        try {
+          await send(`/api/v1/admin/abuse/${encodeURIComponent(button.getAttribute("data-block"))}`, "PATCH", {
+            action: button.getAttribute("data-action"),
+            reason: "abuse page",
+          });
+          done();
+        } catch (error) {
+          button.disabled = false;
+          alert(`Not saved: ${error.message}`);
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-subject-kind]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+        try {
+          await send("/api/v1/admin/abuse", "POST", {
+            kind: button.getAttribute("data-subject-kind"),
+            id: button.getAttribute("data-subject-id"),
+            minutes: Number(button.getAttribute("data-minutes")),
+            reason: "Blocked from top job creators",
+          });
+          done();
+        } catch (error) {
+          button.disabled = false;
+          alert(`Not blocked: ${error.message}`);
+        }
+      });
+    });
+
+    document.getElementById("manual-block")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const status = document.getElementById("block-status");
+      const data = new FormData(form);
+      status.hidden = false;
+      status.classList.remove("bad");
+      status.textContent = "Blocking…";
+      try {
+        await send("/api/v1/admin/abuse", "POST", {
+          kind: data.get("kind"),
+          id: String(data.get("id") ?? "").trim(),
+          minutes: Number(event.submitter?.value ?? 60),
+          reason: String(data.get("reason") ?? "").trim(),
+        });
+        done();
+      } catch (error) {
+        status.classList.add("bad");
+        status.textContent = `Not blocked: ${error.message}`;
+      }
+    });
+
+    document.querySelector(".is-target")?.scrollIntoView({ block: "center" });
+  </script>
+
+  <style>
+    .confirm {
+      border-color: #a8442a;
+      background: color-mix(in srgb, #a8442a 8%, transparent);
+    }
+    .confirm h2 {
+      margin-top: 0;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    tr.is-target {
+      outline: 2px solid #a8442a;
+      outline-offset: -2px;
+    }
+    .block-form {
+      display: grid;
+      grid-template-columns: 120px minmax(200px, 1fr);
+      gap: 10px 16px;
+      align-items: center;
+      margin-top: 16px;
+    }
+    .block-form .actions {
+      grid-column: 1 / -1;
+    }
+    .form-status.bad {
+      color: #a8442a;
+    }
+    @media (max-width: 720px) {
+      .block-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</AdminLayout>

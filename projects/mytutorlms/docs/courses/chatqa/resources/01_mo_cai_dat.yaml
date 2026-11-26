@@ -1,0 +1,7 @@
+# Flow mẫu: mở app Cài đặt của Android, chờ màn hình ổn định, chụp ảnh.
+# Dùng để so với flow AI viết ở bài "Nhờ AI viết và chạy flow đầu tiên".
+appId: com.android.settings
+---
+- launchApp
+- waitForAnimationToEnd
+- takeScreenshot: man-hinh-cai-dat

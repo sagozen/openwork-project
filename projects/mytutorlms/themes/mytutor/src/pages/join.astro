@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import Join from '../components/Join';
+import { translator } from '../i18n';
+import { pageContext } from '../lib/page-context';
+const { locale } = await pageContext(Astro);
+const t = translator(locale);
+---
+<Base title={t('join.pageTitle')} privatePage localized><Join client:load locale={locale} /><noscript><p class="narrow">{t('join.noScript')}</p></noscript></Base>

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://templatedesign.zhst.app/contracts/job.schema.json",
+  "title": "Render job",
+  "type": "object",
+  "required": ["id", "status", "livemode", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^job_[A-Za-z0-9_]+$" },
+    "status": { "enum": ["queued", "running", "succeeded", "failed", "cancelled"] },
+    "livemode": { "type": "boolean" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "started_at": { "type": ["string", "null"], "format": "date-time" },
+    "finished_at": { "type": ["string", "null"], "format": "date-time" },
+    "template_id": { "type": "string" },
+    "template_version": { "type": "integer", "minimum": 1 },
+    "pages": { "type": ["integer", "null"], "minimum": 0, "maximum": 50 },
+    "credits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reserved": { "type": "integer", "minimum": 0 },
+        "charged": { "type": "integer", "minimum": 0 },
+        "released": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "output_id": { "type": ["string", "null"] },
+    "delete_at": { "type": ["string", "null"], "format": "date-time" },
+    "error": { "oneOf": [{ "$ref": "problem.schema.json" }, { "type": "null" }] }
+  }
+}

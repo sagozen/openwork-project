@@ -1,0 +1,20 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import Base from "./Base.astro";
+
+interface Props {
+  title: string;
+  updated: string;
+}
+const { title, updated } = Astro.props;
+---
+
+<Base title={title}>
+  <SiteHeader signedIn={Boolean(Astro.locals.user)} />
+  <main id="main" class="w-legal">
+    <h1>{title}</h1>
+    <p class="td-muted">Last updated {updated}</p>
+    <slot />
+    <p><a href="/legal/terms">Terms</a> · <a href="/legal/privacy">Privacy</a> · <a href="/">Home</a></p>
+  </main>
+</Base>

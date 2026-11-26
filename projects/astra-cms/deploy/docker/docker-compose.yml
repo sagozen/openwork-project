@@ -1,0 +1,75 @@
+# Local infrastructure for `./mvnw quarkus:dev`. Redis is part of the target stack
+# (L2 cache, TCC) and is provisioned now so later phases need no compose changes.
+# Keycloak runs in dev mode on http://localhost:8180/auth with the Astra realm imported and the
+# login theme mounted, so theme edits show on reload without rebuilding the image.
+name: astra
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    command: ["postgres", "-c", "wal_level=logical", "-c", "max_replication_slots=10", "-c", "max_wal_senders=10"]
+    environment:
+      POSTGRES_DB: astra
+      POSTGRES_USER: astra
+      POSTGRES_PASSWORD: astra
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro   # creates the non-superuser application role
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U astra -d astra"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Rust CDC worker: WAL of astra_doc -> replica tables + sync watermark. Needs the kernel's schema and
+  # scripts/cdc-setup.sh compose; it retries until both are there. Start with: docker compose up -d cdc
+  cdc:
+    build: ../../astra-cdc-rust
+    image: astra/cdc:dev
+    environment:
+      DATABASE_URL: postgres://astra_cdc:astra_cdc@postgres:5432/astra
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles: ["cdc"]
+
+  # Apache Seata transaction coordinator. Start with: docker compose --profile seata up -d seata
+  # and run the kernel with ASTRA_SEATA_ENABLED=true.
+  seata:
+    image: apache/seata-server:2.6.0.jdk25
+    environment:
+      SEATA_IP: 127.0.0.1
+    ports:
+      - "8091:8091"
+      - "7091:7091"
+    profiles: ["seata"]
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  keycloak:
+    image: astra/keycloak:dev
+    build: ../keycloak
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_DB: dev-file
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HEALTH_ENABLED: "true"
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: astra-local-admin
+    ports:
+      - "8180:8080"
+    volumes:
+      - ../keycloak/themes/astra:/opt/keycloak/themes/astra:ro
+
+volumes:
+  pgdata:
+  redisdata:

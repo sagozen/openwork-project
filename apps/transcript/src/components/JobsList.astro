@@ -1,0 +1,73 @@
+---
+import type { Locale } from "@templatedesign/platform/types";
+import { Badge } from "@templatedesign/ui";
+import type { JobView } from "../lib/jobs";
+import { formatDuration } from "../lib/pricing-core";
+
+interface Props {
+  jobs: JobView[];
+  locale: Locale;
+  emptyHint?: string;
+}
+
+const { jobs, locale, emptyHint } = Astro.props;
+const vi = locale === "vi";
+
+const statusTone = (status: string): "neutral" | "success" | "warning" | "danger" | "info" => {
+  if (status === "succeeded") return "success";
+  if (status === "failed" || status === "expired") return "danger";
+  if (status === "queued" || status === "leased") return "info";
+  if (status === "preview_ready" || status === "awaiting_confirmation") return "warning";
+  return "neutral";
+};
+
+const statusLabel = (status: string) => {
+  const map: Record<string, [string, string]> = {
+    queued: ["queued", "đang chờ"],
+    leased: ["running", "đang xử lý"],
+    preview_ready: ["ready", "sẵn sàng"],
+    awaiting_confirmation: ["confirm", "chờ xác nhận"],
+    succeeded: ["done", "xong"],
+    failed: ["failed", "lỗi"],
+    cancelled: ["cancelled", "đã huỷ"],
+    expired: ["expired", "hết hạn"],
+  };
+  const entry = map[status] ?? [status, status];
+  return vi ? entry[1] : entry[0];
+};
+---
+
+{jobs.length === 0 ? (
+  <p class="ta-muted">{emptyHint ?? (vi ? "Chưa có bản ghi nào." : "No transcriptions yet.")}</p>
+) : (
+  <div class="ta-tablewrap">
+    <table class="td-table">
+      <thead>
+        <tr>
+          <th scope="col">{vi ? "Tên" : "Name"}</th>
+          <th scope="col">{vi ? "Trạng thái" : "Status"}</th>
+          <th scope="col">{vi ? "Độ dài" : "Length"}</th>
+          <th scope="col">{vi ? "Credit" : "Credits"}</th>
+          <th scope="col">{vi ? "Nguồn" : "Source"}</th>
+          <th scope="col">{vi ? "Tạo lúc" : "Created"}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {jobs.map((job) => (
+          <tr>
+            <th scope="row">
+              <a href={`/?job=${encodeURIComponent(job.id)}`}>
+                {job.title ?? job.sourceRef.slice(0, 60)}
+              </a>
+            </th>
+            <td><Badge tone={statusTone(job.status)}>{statusLabel(job.status)}</Badge></td>
+            <td>{job.durationSeconds ? formatDuration(job.durationSeconds) : "—"}</td>
+            <td>{job.free ? (vi ? "miễn phí" : "free") : (job.chargedCredits || job.credits || 0)}</td>
+            <td>{job.sourceKind}</td>
+            <td>{new Date(job.createdAt).toISOString().replace("T", " ").slice(0, 16)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}

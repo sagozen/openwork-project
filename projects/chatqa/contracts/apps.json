@@ -1,0 +1,13 @@
+{
+  "$comment": "NGUỒN DUY NHẤT danh mục app (module). Go (internal/modules), Worker (env.ts) và Web (modules/registry.ts) đọc/kiểm tra theo file này - contract test sẽ fail nếu lệch. Mỗi app thuộc 1 sản phẩm (products.json); số app (no) đánh riêng theo sản phẩm. Thêm app mới: xem docs/ADD_APP.md",
+  "apps": [
+    { "product": "hsdesk", "code": "quote", "no": 1, "name": "Báo giá", "group": "flow", "phase": 1, "status": "active" },
+    { "product": "hsdesk", "code": "lot", "no": 2, "name": "Gộp lô", "group": "flow", "phase": 1, "status": "active" },
+    { "product": "hsdesk", "code": "check", "no": 3, "name": "Kiểm tra & khai báo", "group": "flow", "phase": 1, "status": "active" },
+    { "product": "hsdesk", "code": "teach", "no": 4, "name": "Sổ dạy AI", "group": "knowledge", "phase": 1, "status": "active" },
+    { "product": "hsdesk", "code": "cnroad", "no": 5, "name": "Hàng đường bộ Trung Quốc", "group": "flow", "phase": 2, "status": "hidden" },
+    { "product": "chatqa", "code": "cqs.tower", "no": 1, "name": "Điều phối", "group": "flow", "phase": 1, "status": "planned" },
+    { "product": "chatqa", "code": "cqs.test", "no": 2, "name": "Kiểm thử", "group": "flow", "phase": 1, "status": "planned" },
+    { "product": "chatqa", "code": "cqs.monitor", "no": 3, "name": "Giám sát", "group": "flow", "phase": 1, "status": "planned" }
+  ]
+}

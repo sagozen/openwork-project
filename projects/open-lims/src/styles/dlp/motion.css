@@ -1,0 +1,33 @@
+/* Motion - short and functional only. Per the brand brief: 100–200ms, used purely
+   to acknowledge an interaction. No entrance choreography, no bounce, no parallax. */
+
+:root {
+  --duration-ultra-fast: 50ms; /* @kind other */
+  --duration-faster: 100ms; /* @kind other */
+  --duration-fast: 150ms; /* @kind other */
+  --duration-normal: 200ms; /* @kind other */
+  --duration-slow: 300ms; /* @kind other */
+
+  --curve-accelerate: cubic-bezier(0.7, 0, 1, 0.5); /* @kind other */
+  --curve-decelerate: cubic-bezier(0.1, 0.9, 0.2, 1); /* @kind other */
+  --curve-easy-ease: cubic-bezier(0.33, 0, 0.67, 1); /* @kind other */
+  --curve-linear: cubic-bezier(0, 0, 1, 1); /* @kind other */
+
+  /* Named roles */
+  --motion-hover:
+    background-color var(--duration-faster) var(--curve-easy-ease),
+    border-color var(--duration-faster) var(--curve-easy-ease),
+    color var(--duration-faster) var(--curve-easy-ease);
+  --motion-expand: var(--duration-normal) var(--curve-decelerate);
+  --motion-exit: var(--duration-fast) var(--curve-accelerate);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-ultra-fast: 1ms; /* @kind other */
+    --duration-faster: 1ms; /* @kind other */
+    --duration-fast: 1ms; /* @kind other */
+    --duration-normal: 1ms; /* @kind other */
+    --duration-slow: 1ms; /* @kind other */
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "case": "triage-data-missing-order",
+  "source": "hand-written stand-in in the recorded format; replace by running cmd/agenteval -record against the Worker",
+  "replies": {
+    "triage": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "```json\n[\n {\n  \"flow\": \"03_tracking/001_tra_cuu.yaml\",\n  \"platform\": \"android\",\n  \"category\": \"data\",\n  \"evidence\": \"Mã vận đơn trong biến ORDER_CODE không tồn tại trên môi trường test\",\n  \"confidence\": 0.75\n }\n]\n```"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ]
+  }
+}

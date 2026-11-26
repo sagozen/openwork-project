@@ -1,0 +1,145 @@
+---
+import { getAdminSettings, getAdminSettingValue, listAudit, requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { AdminSettingsForm } from "../../components/AdminSettingsForm.js";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { PRICING } from "../../lib/pricing-core";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+let allowed = true;
+try {
+  await requireAdmin(db, Astro.locals.user, runtimeEnv(), "admin");
+} catch {
+  allowed = false;
+}
+if (!allowed) return Astro.redirect("/admin");
+
+const [settings, recent, cap, freeBudget, freeWait, starvation, freeMb, paidMb, fallback] = await Promise.all([
+  getAdminSettings(db),
+  listAudit(db, 10),
+  getAdminSettingValue<number>(db, "transcript.monthly_cap_minutes"),
+  getAdminSettingValue<number>(db, "transcript.free_queue_minutes_per_day"),
+  getAdminSettingValue<number>(db, "transcript.free_queue_max_wait_seconds"),
+  getAdminSettingValue<number>(db, "transcript.free_starvation_seconds"),
+  getAdminSettingValue<number>(db, "transcript.max_upload_mb_free"),
+  getAdminSettingValue<number>(db, "transcript.max_upload_mb_paid"),
+  getAdminSettingValue<number>(db, "transcript.fallback_after_seconds"),
+]);
+
+const product = [
+  {
+    key: "transcript.monthly_cap_minutes",
+    label: "Paid minutes per account per month",
+    value: cap ?? PRICING.monthlyCapMinutes,
+    hint: "Enforced with an atomic reservation at probe time; a tenant override wins.",
+  },
+  {
+    key: "transcript.free_queue_minutes_per_day",
+    label: "Free minutes accepted per day (queue guard)",
+    value: freeBudget ?? PRICING.freeQueueMinutesPerDay,
+    hint: "When this many free minutes are already accepted, new free jobs get 'busy, try later'.",
+  },
+  {
+    key: "transcript.free_queue_max_wait_seconds",
+    label: "Maximum wait for a free job (seconds)",
+    value: freeWait ?? PRICING.freeQueueMaxWaitSeconds,
+    hint: "Free jobs older than this stop accepting new free work until the queue clears.",
+  },
+  {
+    key: "transcript.max_upload_mb_free",
+    label: "Upload limit without credits (MB)",
+    value: freeMb ?? PRICING.maxUploadMbFree,
+    hint: "Guests and accounts with no paid credits.",
+  },
+  {
+    key: "transcript.max_upload_mb_paid",
+    label: "Upload limit with credits (MB)",
+    value: paidMb ?? PRICING.maxUploadMbPaid,
+    hint: "Signed-in accounts that can pay for a job.",
+  },
+  {
+    key: "transcript.free_starvation_seconds",
+    label: "Free-job ageing before it outranks paid work (seconds)",
+    value: starvation ?? PRICING.freeStarvationSeconds,
+    hint: "Paid work goes first, but a free job older than this jumps the queue so it cannot starve.",
+  },
+  {
+    key: "transcript.fallback_after_seconds",
+    label: "Fallback threshold (seconds)",
+    value: fallback ?? PRICING.fallbackAfterSeconds,
+    hint: "The VPS may take a job that has waited longer than this even while the GPU is online.",
+  },
+];
+---
+
+<AdminLayout title="Quotas" current="/admin/quotas/">
+  <p class="td-muted">
+    Global values apply on the next admission or reset without a deploy. Tenant overrides are set from an account page.
+  </p>
+  <AdminSettingsForm mode="quotas" settings={settings} csrfToken={Astro.locals.csrfToken ?? ""} client:load />
+
+  <section class="w-card">
+    <h2>Transcription limits</h2>
+    <p class="td-muted">Product values. Each one is read on every admission, so a change needs no deploy.</p>
+    <div class="ta-formgrid">
+      {product.map((item) => (
+        <label class="td-field">
+          <span class="td-field__label">{item.label}</span>
+          <input
+            class="td-input"
+            type="number"
+            min="0"
+            step="1"
+            data-setting={item.key}
+            value={item.value}
+          />
+          <span class="td-field__hint">{item.hint}</span>
+        </label>
+      ))}
+      <label class="td-field">
+        <span class="td-field__label">Reason (audited)</span>
+        <input class="td-input" id="quota-reason" placeholder="Why are these values changing?" />
+      </label>
+    </div>
+    <button class="td-btn td-btn--primary" type="button" id="save-product-quotas">Save transcription limits</button>
+    <p class="td-muted" id="quota-status" role="status"></p>
+  </section>
+
+  <div class="w-card">
+    <h2>Recent changes</h2>
+    <ul>
+      {recent
+        .filter((row) => row.action === "admin.setting.updated")
+        .map((row) => (
+          <li><code>{row.action}</code> · {row.reason ?? "—"} · {new Date(row.created_at).toISOString()}</li>
+        ))}
+    </ul>
+  </div>
+
+  <script is:inline>
+    const csrf = decodeURIComponent(document.cookie.match(/(?:^|; )td_csrf=([^;]+)/)?.[1] ?? "");
+    document.getElementById("save-product-quotas")?.addEventListener("click", async () => {
+      const reason = document.getElementById("quota-reason").value.trim();
+      const status = document.getElementById("quota-status");
+      if (!reason) {
+        status.textContent = "A reason is required; it is written to the append-only audit log.";
+        return;
+      }
+      status.textContent = "Saving…";
+      for (const input of document.querySelectorAll("[data-setting]")) {
+        const response = await fetch("/api/v1/admin/settings", {
+          method: "PATCH",
+          headers: { "content-type": "application/json", "x-csrf-token": csrf },
+          body: JSON.stringify({ key: input.dataset.setting, value: Number(input.value), reason }),
+        });
+        if (!response.ok) {
+          status.textContent = `Could not update ${input.dataset.setting}.`;
+          return;
+        }
+      }
+      status.textContent = "Saved.";
+      window.setTimeout(() => window.location.reload(), 800);
+    });
+  </script>
+</AdminLayout>

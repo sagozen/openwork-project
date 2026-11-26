@@ -1,0 +1,19 @@
+---
+const { workspace, brand } = Astro.locals;
+if (!workspace || !brand) return new Response("Not found", { status: 404 });
+const logoUrl = brand.logoKey ? `/${brand.logoKey}` : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{brand.displayName}</title>
+  </head>
+  <body style="font:16px/1.5 system-ui,sans-serif;max-width:640px;margin:48px auto;padding:0 16px">
+    {logoUrl && <img src={logoUrl} alt="" width="72" height="72" style="object-fit:contain" />}
+    <h1>{brand.displayName}</h1>
+    {workspace.plan === "free" && <p style="color:#78716c;font-size:13px">Powered by Ota</p>}
+  </body>
+</html>

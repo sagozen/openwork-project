@@ -1,0 +1,12 @@
+{
+  "$comment": "Mẫu tệp danh sách chống bán phá giá v2 (.xlsx, một sheet) = đầu vào tab Chống bán phá giá của HS Desk (BR-tariff-apply-008). Thêm hai cột tuỳ chọn so với v1: 'Mức %' (mức thuế cố định theo văn bản, vd 35,2; trống = mức theo nhà sản xuất, nhân sự điền tay) và 'Văn bản' (số quyết định). Mã khớp mà có mức thì app tự điền mức đó, nhân sự vẫn điền tay đè được (vd 0 khi hàng được loại trừ). 'Ghi chú' hiện trên Khối Thuế của mặt hàng (phạm vi, loại trừ). Tệp v1 (chỉ Mã HS, Ghi chú) vẫn đọc được. Cột nhận theo tiêu đề (không phân biệt hoa thường, dấu, khoảng trắng thừa).",
+  "id": "chong-ban-pha-gia",
+  "version": 2,
+  "sheetCount": 1,
+  "columns": [
+    { "field": "prefix", "headers": ["Mã HS"], "required": true },
+    { "field": "note", "headers": ["Ghi chú"], "required": false },
+    { "field": "rate", "headers": ["Mức %", "Mức thuế", "Thuế suất"], "required": false },
+    { "field": "doc", "headers": ["Văn bản", "Căn cứ"], "required": false }
+  ]
+}

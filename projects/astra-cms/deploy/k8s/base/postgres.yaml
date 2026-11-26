@@ -1,0 +1,123 @@
+# Demo-grade PostgreSQL. Production uses an operator (CloudNativePG, Patroni) or a managed service.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: astra-db
+type: Opaque
+stringData:
+  # Bootstrap superuser (never used by the kernel)
+  superuser: astra
+  superuser-password: astra-local-demo
+  # Application role created by the init script; subject to row-level security
+  username: astra_app
+  password: astra_app
+  url: jdbc:postgresql://postgres:5432/astra
+  # Replication role of the CDC worker, created by deploy/cdc/cdc-setup.sql (scripts/cdc-setup.sh)
+  cdc-url: postgres://astra_cdc:astra_cdc@postgres:5432/astra
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+data:
+  01-app-role.sql: |
+    CREATE ROLE astra_app LOGIN PASSWORD 'astra_app' NOSUPERUSER NOBYPASSRLS NOCREATEDB NOCREATEROLE NOINHERIT;
+    GRANT CONNECT ON DATABASE astra TO astra_app;
+    GRANT USAGE, CREATE ON SCHEMA public TO astra_app;
+    -- Leakproof accessor for projected fields (deploy/db/05-astra-field.sql); needs a superuser.
+    CREATE SCHEMA astra_ext;
+    GRANT USAGE ON SCHEMA astra_ext TO astra_app;
+    CREATE FUNCTION astra_ext.astra_field(jsonb, text) RETURNS text
+        LANGUAGE internal IMMUTABLE STRICT PARALLEL SAFE LEAKPROOF AS 'jsonb_object_field_text';
+    GRANT EXECUTE ON FUNCTION astra_ext.astra_field(jsonb, text) TO astra_app;
+    -- Tenants that have documents, for the kernel's storage maintenance (backfilling a materialised column, moving
+    -- documents into the month-partitioned table). Row-level security hides other tenants from astra_app, so this
+    -- runs as its owner, the superuser; it returns tenant identifiers only. Skip scan over the leading tenant_id of
+    -- the unique (tenant_id, doctype, name) index: one index probe per tenant.
+    CREATE OR REPLACE FUNCTION astra_ext.tenants() RETURNS SETOF text
+        LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $fn$
+    DECLARE tbl text;
+    BEGIN
+        FOREACH tbl IN ARRAY ARRAY['public.astra_doc', 'public.astra_doc_txn'] LOOP
+            IF to_regclass(tbl) IS NOT NULL THEN
+                RETURN QUERY EXECUTE format(
+                    'WITH RECURSIVE s(t) AS ((SELECT tenant_id FROM %s ORDER BY tenant_id LIMIT 1) UNION ALL '
+                    || 'SELECT (SELECT tenant_id FROM %s WHERE tenant_id > s.t ORDER BY tenant_id LIMIT 1) FROM s WHERE s.t IS NOT NULL) '
+                    || 'SELECT t FROM s WHERE t IS NOT NULL', tbl, tbl);
+            END IF;
+        END LOOP;
+    END $fn$;
+    REVOKE EXECUTE ON FUNCTION astra_ext.tenants() FROM PUBLIC;
+    GRANT EXECUTE ON FUNCTION astra_ext.tenants() TO astra_app;
+  03-bms.sql: |
+    CREATE ROLE astra_bms LOGIN PASSWORD 'astra_bms' NOSUPERUSER NOBYPASSRLS NOCREATEDB NOCREATEROLE;
+    GRANT CONNECT ON DATABASE astra TO astra_bms;
+    CREATE SCHEMA bms AUTHORIZATION astra_bms;
+  02-keycloak.sql: |
+    CREATE ROLE keycloak LOGIN PASSWORD 'keycloak-local';
+    CREATE DATABASE keycloak OWNER keycloak;
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: pgvector/pgvector:pg16
+          # Logical decoding for the Rust CDC worker (deploy/k8s/base/cdc.yaml).
+          args: ["-c", "wal_level=logical", "-c", "max_replication_slots=10", "-c", "max_wal_senders=10"]
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: astra
+            - name: POSTGRES_USER
+              valueFrom: { secretKeyRef: { name: astra-db, key: superuser } }
+            - name: POSTGRES_PASSWORD
+              valueFrom: { secretKeyRef: { name: astra-db, key: superuser-password } }
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "astra", "-d", "astra"]
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: init
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+      volumes:
+        - name: init
+          configMap:
+            name: postgres-init
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 2Gi

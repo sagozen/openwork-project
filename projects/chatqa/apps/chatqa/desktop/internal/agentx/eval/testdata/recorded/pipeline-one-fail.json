@@ -1,0 +1,54 @@
+{
+  "case": "pipeline-one-fail",
+  "source": "hand-written stand-in in the recorded format; replace by running cmd/agenteval -record against the Worker",
+  "replies": {
+    "planner": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "{\"flows\": [{\"app\": \"mexpress\", \"flow\": \"01_auth/01_login.yaml\", \"reason\": \"Đổi đăng nhập\"}, {\"app\": \"mexpress\", \"flow\": \"03_tracking/001_tra_cuu.yaml\", \"reason\": \"Đổi tra cứu\"}], \"platforms\": [\"android\"]}"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ],
+    "triage": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "```json\n[\n {\n  \"flow\": \"03_tracking/001_tra_cuu.yaml\",\n  \"platform\": \"android\",\n  \"category\": \"selector\",\n  \"evidence\": \"Ô tìm kiếm đổi id, flow tìm 'search_box'\",\n  \"confidence\": 0.8\n }\n]\n```"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ],
+    "reporter": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "Báo cáo sau deploy: đăng nhập đạt; tra cứu vận đơn lỗi trên Android (selector: ô tìm kiếm đổi id)."
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ]
+  }
+}

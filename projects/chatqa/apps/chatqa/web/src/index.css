@@ -1,0 +1,115 @@
+/* Giao diện dùng chung (Tailwind, token pen.dev, phông) nằm ở packages/ui-shell; Tailwind quét thêm mã nguồn ở đó. */
+@import '../../../../packages/ui-shell/src/index.css';
+@source '../../../../packages/ui-shell/src';
+
+/*
+ * Bộ màu Viettel cho ChatQASoftware.
+ * - Đỏ Viettel (PMS 185C) #E4002B cho thanh tiêu đề, nút, liên kết, tab đang mở; logo dùng #EE0033 đúng mã thương hiệu.
+ * - Navy #0A1F44 cho sidebar: nền tối đủ tương phản với chữ trắng, làm nổi sắc đỏ.
+ * - Đỏ lỗi hạ xuống #B42318 (gạch nung) để không lẫn với đỏ thương hiệu khi màn kiểm thử hiện pass/fail.
+ * Mọi mã màu khác (xanh lá, hổ phách, xanh dương, tím AI) giữ nguyên nghĩa trạng thái của ui-shell.
+ */
+:root {
+  /* Màu nhấn */
+  --color-accent: #e4002b;
+  --color-accent-soft: #ffe9ed;
+  /* Đỏ đậm cho chữ nhỏ trên nền accent-soft: #e4002b trên #ffe9ed chỉ đạt 4.2:1, #c40022 đạt 5.6:1. */
+  --color-accent-ink: #c40022;
+  --color-brand-50: #fff0f2;
+  --color-brand-100: #ffd6dd;
+  --color-brand-500: #ee0033;
+  --color-brand-600: #e4002b;
+  --color-brand-700: #c40022;
+
+  /* Nền, chữ, viền */
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-text: #101c30;
+  --color-text-2: #58637a;
+  /* Chữ phụ 11–12px: #5f6b7e đạt ≥4.6:1 trên mọi nền dùng trong app (WCAG AA). Bản gốc #8791a6 chỉ đạt 2.7–3.2:1. */
+  --color-text-3: #5f6b7e;
+  --color-border: #e4e8ef;
+  --color-divider: #eff2f6;
+  --color-table-head: #f8f9fc;
+  --color-group-bg: #f5f7fa;
+  --color-group-line: #eaeef4;
+  --color-muted-box: #f7f8fb;
+  --color-chip-neutral: #eef1f6;
+  --color-disabled-bg: #f4f6f9;
+  --color-disabled-fg: #c3cad6;
+  --color-stage: #eef1f5;
+
+  /* Thanh tiêu đề đỏ + sidebar navy */
+  --color-chrome: #e4002b;
+  --color-sidebar: #0b2244;
+  --color-sidebar-hover: #17335f;
+  --color-sidebar-text: #a7b8d4;
+  --color-sidebar-section: #7d93b5;
+  --color-sidebar-badge-text: #ccd9ec;
+  --color-sidebar-p2: #233a63;
+  --color-sidebar-p2-text: #9fc2ff;
+  --color-chrome-text: #ffffff;
+  --color-chrome-icon: #ffd3dc;
+  --color-chrome-control: #ffffff;
+  --color-chrome-hint: #ffc0cb;
+  --color-chrome-field: #c6002a;
+  --color-chrome-field-line: #ff96a8;
+  --color-chrome-btn: #c6002a;
+
+  /* Xanh "đạt" đậm hơn để chữ 10.5px trên nền green-soft đạt 4.5:1 (bản gốc 4.49). */
+  --color-green: #146c34;
+
+  /* Đỏ lỗi tách khỏi đỏ thương hiệu */
+  --color-red: #b42318;
+  --color-red-soft: #feecea;
+  --color-line-red: #f4c7c2;
+}
+
+/* Thanh tiêu đề Viettel: đỏ chuyển sắc nhẹ, dải đỏ đậm 2px dưới chân (chỉ app này gắn data-shell-chrome). */
+[data-shell-chrome] {
+  background-image: linear-gradient(100deg, #f5224a 0%, #e4002b 45%, #d10029 100%);
+  box-shadow: inset 0 -2px 0 #b30024;
+}
+
+/* Tab app đang mở: viên navy nên icon trắng cho rõ (icon tab mặc định lấy màu nhấn). */
+[data-shell-chrome] [aria-current='page'] .text-accent {
+  color: #fff;
+}
+
+/* Chọn chữ trên nền sáng dùng sắc hồng nhạt của thương hiệu thay vì xanh mặc định của trình duyệt. */
+::selection {
+  background: #ffd6dd;
+  color: #101c30;
+}
+
+/*
+ * Vòng focus dùng chung: mọi phần tử bấm được đều thấy rõ khi đi bằng bàn phím, không phụ thuộc
+ * viền mặc định của trình duyệt (nhiều nút trong app đặt outline-none cho ô nhập).
+ */
+:is(button, a[href], summary, [role='button'], [role='option'], [role='tab'], [role='switch'], [role='checkbox'], [tabindex]:not([tabindex='-1'])):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Thanh tiêu đề đỏ: vòng focus màu nhấn sẽ chìm vào nền, dùng vòng trắng. */
+[data-shell-chrome] :is(button, a[href], [role='button'], [role='tab']):focus-visible {
+  outline-color: #fff;
+}
+
+/* Ô nhập đặt outline-none (Tailwind) vẫn phải có vòng focus; ưu tiên cao hơn lớp outline-none. */
+.outline-none:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+/* Tôn trọng người dùng giảm chuyển động: tắt quay/trượt, giữ trạng thái cuối. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

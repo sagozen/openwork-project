@@ -1,0 +1,69 @@
+---
+import { type AdminActor, auditAdmin, requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { runtimeEnv } from "../lib/runtime";
+import Base from "./Base.astro";
+
+interface Props {
+  title: string;
+  current: string;
+}
+
+const { title, current } = Astro.props;
+const db = d1Db(runtimeEnv().DB);
+let actor: AdminActor;
+try {
+  actor = await requireAdmin(db, Astro.locals.user, runtimeEnv(), "support");
+} catch {
+  return Astro.redirect(Astro.locals.user ? "/" : "/sign-in?next=%2Fadmin");
+}
+await auditAdmin(db, actor, "admin.page.view", "admin_page", current, null, { role: actor.role });
+
+const baseNav = [
+  { href: "/admin/", label: "Overview" },
+  { href: "/admin/accounts/", label: "Accounts" },
+  { href: "/admin/jobs/", label: "Image jobs" },
+  { href: "/admin/audit/", label: "Audit log" },
+];
+const adminNav = [
+  { href: "/admin/workers/", label: "Workers" },
+  { href: "/admin/settings/", label: "Settings" },
+  { href: "/admin/roles/", label: "Roles" },
+];
+const nav = actor.role === "admin" ? [...baseNav, ...adminNav] : baseNav;
+---
+
+<Base title={`${title} · Admin`} noindex>
+  <div class="w-admin">
+    <aside class="w-admin__side">
+      <a class="td-logo" href="/admin/">
+        <span class="td-logo__seal" aria-hidden="true">IF</span>
+        <span class="td-logo__word">Admin</span>
+      </a>
+      <p class="w-admin__role">Signed in as <strong>{actor.role}</strong><br /><span>{actor.email}</span></p>
+      <nav aria-label="Admin">
+        {nav.map((item) => (
+          <a href={item.href} class={current === item.href ? "is-current" : ""}>{item.label}</a>
+        ))}
+      </nav>
+      <a class="w-admin__exit" href="/account">← Back to app</a>
+      <button class="w-admin__exit" type="button" id="admin-signout">Sign out</button>
+    </aside>
+    <div class="w-admin__main">
+      <header class="w-admin__top">
+        <div>
+          <p class="td-eyebrow">Operations console</p>
+          <h1>{title}</h1>
+        </div>
+        <span class="w-admin__badge">{actor.role}</span>
+      </header>
+      <main id="main"><slot /></main>
+    </div>
+  </div>
+  <script>
+    document.getElementById("admin-signout")?.addEventListener("click", async () => {
+      await fetch("/api/auth/sign-out", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" });
+      window.location.href = "/";
+    });
+  </script>
+</Base>

@@ -1,0 +1,93 @@
+/* Global colour tokens - layer 1 of the two-layer model.
+   Raw values only; nothing here describes usage. Components must never
+   reference these directly - use the alias tokens in semantic.css.
+
+   Neutral ramp: transcribed verbatim from the Fluent "Colors/Neutral/Grey" collection.
+   Navy + Gold ramps: Đa Liên Phát brand ramps built out from the brief's
+   Operational primary #174A6E / #123D5B and Brand gold #B88927 / #D6AD4C. */
+
+:root {
+  /* ---------- Neutral (Grey NN = NN% lightness, Fluent naming) ---------- */
+  --color-neutral-white: #ffffff;
+  --color-neutral-grey-98: rgb(250, 250, 250);
+  --color-neutral-grey-96: rgb(245, 245, 245);
+  --color-neutral-grey-94: rgb(240, 240, 240);
+  --color-neutral-grey-92: rgb(235, 235, 235);
+  --color-neutral-grey-90: rgb(230, 230, 230);
+  --color-neutral-grey-88: rgb(224, 224, 224);
+  --color-neutral-grey-84: rgb(214, 214, 214);
+  --color-neutral-grey-82: rgb(209, 209, 209);
+  --color-neutral-grey-78: rgb(199, 199, 199);
+  --color-neutral-grey-74: rgb(189, 189, 189);
+  --color-neutral-grey-68: rgb(173, 173, 173);
+  --color-neutral-grey-62: rgb(158, 158, 158);
+  --color-neutral-grey-56: rgb(143, 143, 143);
+  --color-neutral-grey-50: rgb(128, 128, 128);
+  --color-neutral-grey-46: rgb(117, 117, 117);
+  --color-neutral-grey-38: rgb(97, 97, 97);
+  --color-neutral-grey-34: rgb(87, 87, 87);
+  --color-neutral-grey-26: rgb(66, 66, 66);
+  --color-neutral-grey-20: rgb(51, 51, 51);
+  --color-neutral-grey-16: rgb(41, 41, 41);
+  --color-neutral-grey-14: rgb(36, 36, 36);
+  --color-neutral-grey-12: rgb(31, 31, 31);
+  --color-neutral-grey-10: rgb(26, 26, 26);
+  --color-neutral-black: #000000;
+
+  /* ---------- Navy (operational) - 80 is the primary ---------- */
+  --color-navy-10: #04101a;
+  --color-navy-20: #071b29;
+  --color-navy-30: #092536;
+  --color-navy-40: #0c2f44;
+  --color-navy-50: #0f3852;
+  --color-navy-60: #123d5b;
+  --color-navy-70: #15466a;
+  --color-navy-80: #174a6e;
+  --color-navy-90: #1e5f8c;
+  --color-navy-100: #2a76aa;
+  --color-navy-110: #3d8cc0;
+  --color-navy-120: #5ca2d0;
+  --color-navy-130: #82badf;
+  --color-navy-140: #a8d0ea;
+  --color-navy-150: #cbe3f3;
+  --color-navy-160: #e8f1f8;
+
+  /* ---------- Gold (brand) - 80 is the mark colour, 100 the highlight ---------- */
+  --color-gold-10: #1b1305;
+  --color-gold-20: #2e200a;
+  --color-gold-30: #402c0d;
+  --color-gold-40: #533911;
+  --color-gold-50: #664614;
+  --color-gold-60: #7a551a;
+  --color-gold-70: #96701f;
+  --color-gold-80: #b88927;
+  --color-gold-90: #c89a38;
+  --color-gold-100: #d6ad4c;
+  --color-gold-110: #deb964;
+  --color-gold-120: #e5c67f;
+  --color-gold-130: #ebd49b;
+  --color-gold-140: #f1e2b8;
+  --color-gold-150: #f7eed6;
+  --color-gold-160: #fbf7ec;
+
+  /* ---------- Semantic source colours ---------- */
+  --color-success-shade: #0b5f47;
+  --color-success: #107c5c;
+  --color-success-tint: #dff3ec;
+  --color-success-border: #96d9c4;
+
+  --color-warning-shade: #a85c05;
+  --color-warning: #d97706;
+  --color-warning-tint: #fdf1e0;
+  --color-warning-border: #f2c68a;
+
+  --color-danger-shade: #99263a;
+  --color-danger: #c4314b;
+  --color-danger-tint: #fbe9ec;
+  --color-danger-border: #eeaab4;
+
+  --color-info-shade: #1e627e;
+  --color-info: #287da1;
+  --color-info-tint: #e6f2f7;
+  --color-info-border: #a6cfdf;
+}

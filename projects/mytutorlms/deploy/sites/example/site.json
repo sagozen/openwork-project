@@ -1,0 +1,15 @@
+{
+  "siteId": "example",
+  "canonicalOrigin": "https://learn.example.com",
+  "cloudflare": {
+    "workerName": "mytutor-example",
+    "d1DatabaseName": "mytutor-example",
+    "d1DatabaseId": "00000000-0000-0000-0000-000000000000",
+    "r2Bucket": "mytutor-example-media",
+    "backupBucket": "mytutor-example-backup",
+    "analyticsDataset": "mytutor_example_ux"
+  },
+  "node": {
+    "dataDir": "/var/lib/mytutor/example"
+  }
+}

@@ -1,0 +1,67 @@
+---
+import { d1Db } from "@templatedesign/platform/db";
+import { runtimeEnv } from "@templatedesign/platform/runtime";
+import { requireMember } from "@templatedesign/platform/workspaces";
+import AdminLayout from "../layouts/AdminLayout.astro";
+
+const { workspace, user } = Astro.locals;
+if (!workspace || !user) return new Response("Not found", { status: 404 });
+const db = d1Db(runtimeEnv().DB);
+try {
+  await requireMember(db, workspace, user.id, ["admin"]);
+} catch {
+  return new Response("Only the owner or an admin can manage members.", { status: 403 });
+}
+const members = await db.all<{ user_id: string; role: string; email: string; name: string }>(
+  `SELECT m.user_id, m.role, u.email, u.name FROM workspace_members m
+     JOIN "user" u ON u.id = m.user_id WHERE m.workspace_id = ? ORDER BY m.created_at`,
+  [workspace.id],
+);
+---
+
+<AdminLayout title="Members" current="/admin/members">
+  <table style="border-collapse:collapse;width:100%;max-width:640px">
+    <thead><tr><th align="left">Name</th><th align="left">Email</th><th align="left">Role</th><th></th></tr></thead>
+    <tbody>
+      {members.map((member) => (
+        <tr>
+          <td>{member.name}</td>
+          <td>{member.email}</td>
+          <td>{member.role}</td>
+          <td>{member.role !== "owner" && <button type="button" data-remove={member.user_id}>Remove</button>}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <form id="member-form" data-endpoint={`/${workspace.slug}/admin/api/members`} style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap">
+    <input name="email" type="email" placeholder="Email of an existing account" required style="padding:8px;min-width:260px" />
+    <input name="role" placeholder="Role (admin, staff...)" value="staff" required pattern="[a-z][a-z\-]{1,23}" style="padding:8px" />
+    <button type="submit" style="padding:8px 14px">Add</button>
+  </form>
+  <p id="member-status" role="status" style="color:#78716c"></p>
+
+  <script>
+    const status = document.getElementById("member-status") as HTMLElement;
+    const csrf = () => (window as unknown as { shellCsrf: () => string }).shellCsrf();
+    const headers = () => ({ "content-type": "application/json", "x-csrf-token": csrf() });
+
+    const endpoint = (document.getElementById("member-form") as HTMLElement).dataset.endpoint as string;
+
+    async function send(method: string, body: unknown) {
+      const response = await fetch(endpoint, { method, headers: headers(), body: JSON.stringify(body) });
+      if (response.ok) return location.reload();
+      const problem = await response.json().catch(() => null);
+      status.textContent = problem?.detail ?? "Could not save.";
+    }
+
+    document.getElementById("member-form")?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target as HTMLFormElement);
+      send("POST", { email: data.get("email"), role: data.get("role") });
+    });
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-remove]")) {
+      button.addEventListener("click", () => send("DELETE", { userId: button.dataset.remove }));
+    }
+  </script>
+</AdminLayout>

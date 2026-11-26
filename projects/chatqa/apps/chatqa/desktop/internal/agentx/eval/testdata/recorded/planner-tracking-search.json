@@ -1,0 +1,22 @@
+{
+  "case": "planner-tracking-search",
+  "source": "hand-written stand-in in the recorded format; replace by running cmd/agenteval -record against the Worker",
+  "replies": {
+    "planner": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "{\"flows\": [{\"app\": \"mexpress\", \"flow\": \"03_tracking/001_tra_cuu.yaml\", \"reason\": \"Đổi tra cứu vận đơn theo mã\"}], \"platforms\": []}"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ]
+  }
+}

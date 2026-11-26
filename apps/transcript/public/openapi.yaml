@@ -1,0 +1,208 @@
+openapi: 3.1.0
+info:
+  title: TranscriptAnything API
+  version: "1.0"
+  description: >
+    Link-first transcription. Create a job from a public link or an uploaded file, poll it, then
+    download the transcript as JSON, TXT, SRT or VTT. Media up to 3 minutes is free; longer media
+    costs 3 credits per started minute. Word timestamps add 1 credit per minute, summaries add 5
+    credits, and API jobs add 2 credits.
+  contact:
+    url: https://transcriptanything.zhst.app/docs/api
+servers:
+  - url: https://transcriptanything.zhst.app
+security:
+  - apiKey: []
+paths:
+  /api/v1/transcriptions:
+    post:
+      summary: Create a transcription
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                link: { type: string, format: uri }
+                upload_id: { type: string }
+                probe_id: { type: string, description: Confirm a previewed job }
+                items:
+                  type: array
+                  maxItems: 50
+                  items:
+                    type: object
+                    properties:
+                      url: { type: string, format: uri }
+                      title: { type: string }
+                      duration_seconds: { type: number }
+                confirm_above: { type: integer, minimum: 0 }
+                options: { $ref: "#/components/schemas/Options" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/JobEnvelope" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "402": { $ref: "#/components/responses/Problem" }
+        "429": { $ref: "#/components/responses/Problem" }
+    get:
+      summary: List transcriptions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Job" }
+  /api/v1/transcriptions/{id}:
+    get:
+      summary: Job status and price
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/JobEnvelope" }
+        "404": { $ref: "#/components/responses/Problem" }
+  /api/v1/transcriptions/{id}/cancel:
+    post:
+      summary: Cancel a job (idempotent)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: OK }
+  /api/v1/transcriptions/{id}/result:
+    get:
+      summary: Download a transcript
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+        - in: query
+          name: format
+          schema: { type: string, enum: [json, txt, srt, vtt], default: json }
+        - in: query
+          name: inline
+          schema: { type: string, enum: ["0", "1"] }
+      responses:
+        "200":
+          description: The transcript file
+          content:
+            application/json: {}
+            text/plain: {}
+            application/x-subrip: {}
+            text/vtt: {}
+  /api/v1/links/preview:
+    post:
+      summary: Preview a link (title, duration, price, playlist items)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url: { type: string, format: uri }
+                urls:
+                  type: array
+                  items: { type: string, format: uri }
+                turnstile_token: { type: string }
+      responses:
+        "200": { description: OK }
+  /api/v1/uploads:
+    post:
+      summary: Get a presigned R2 PUT for a media file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [filename, content_type, size]
+              properties:
+                filename: { type: string }
+                content_type: { type: string }
+                size: { type: integer }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  upload_id: { type: string }
+                  url: { type: string, format: uri }
+                  method: { type: string, enum: [PUT] }
+                  expires_in_seconds: { type: integer }
+components:
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+  responses:
+    Problem:
+      description: RFC 7807 problem document
+      content:
+        application/problem+json:
+          schema:
+            type: object
+            properties:
+              type: { type: string }
+              title: { type: string }
+              status: { type: integer }
+              code: { type: string }
+  schemas:
+    Options:
+      type: object
+      properties:
+        language: { type: string, description: "ISO language code, or omit to detect." }
+        word_timestamps: { type: boolean }
+        use_creator_captions: { type: boolean, description: "Fetch existing YouTube captions instead of transcribing." }
+        summary:
+          type: object
+          nullable: true
+          properties:
+            preset: { type: string, enum: [short, bullets, chapters, qa, filter] }
+            instruction: { type: string, description: Required when preset is filter. }
+    Job:
+      type: object
+      properties:
+        id: { type: string }
+        status:
+          type: string
+          enum: [queued, leased, preview_ready, awaiting_confirmation, succeeded, failed, cancelled, expired]
+        stage: { type: string, enum: [probe, transcribe, addons] }
+        sourceKind: { type: string }
+        title: { type: string, nullable: true }
+        durationSeconds: { type: integer, nullable: true }
+        billableMinutes: { type: integer, nullable: true }
+        free: { type: boolean }
+        credits: { type: integer }
+        chargedCredits: { type: integer }
+        formats:
+          type: array
+          items: { type: string }
+        errorCode: { type: string, nullable: true }
+    JobEnvelope:
+      type: object
+      properties:
+        transcription: { $ref: "#/components/schemas/Job" }

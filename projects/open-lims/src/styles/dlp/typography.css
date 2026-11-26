@@ -1,0 +1,64 @@
+/* Typography - scale transcribed from the Fluent Variables "Typography" collection
+   (font-size 100…1000, line-height 100…1000). Family is substituted: see readme.md.
+   Source Sans 3 is self-hosted from tokens/fonts.css. */
+
+:root {
+  /* Families. Segoe UI is the source-of-truth face and is used when installed
+     locally; Source Sans 3 is the licensed web substitute (Vietnamese subset). */
+  --font-family-base: "Segoe UI", "Source Sans 3", "Selawik", system-ui, -apple-system, sans-serif;
+  --font-family-numeric: "Segoe UI", "Source Sans 3", system-ui, sans-serif;
+  --font-family-mono: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+
+  /* Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Size ramp (px) */
+  --font-size-100: 10px;
+  --font-size-200: 12px;
+  --font-size-300: 14px;
+  --font-size-400: 16px;
+  --font-size-500: 20px;
+  --font-size-600: 24px;
+  --font-size-700: 28px;
+  --font-size-800: 32px;
+  --font-size-900: 40px;
+  --font-size-1000: 68px;
+
+  /* Line-height ramp (px) - paired 1:1 with the size ramp */
+  --line-height-100: 14px;
+  --line-height-200: 16px;
+  --line-height-300: 20px;
+  --line-height-400: 22px;
+  --line-height-450: 24px;
+  --line-height-500: 28px;
+  --line-height-600: 32px;
+  --line-height-700: 36px;
+  --line-height-800: 40px;
+  --line-height-900: 56px;
+  --line-height-1000: 92px;
+
+  /* Named ramps - the only type styles product surfaces should reach for */
+  --type-caption2-size: var(--font-size-100);
+  --type-caption2-line: var(--line-height-100);
+  --type-caption1-size: var(--font-size-200);
+  --type-caption1-line: var(--line-height-200);
+  --type-body1-size: var(--font-size-300);
+  --type-body1-line: var(--line-height-300);
+  --type-body2-size: var(--font-size-400);
+  --type-body2-line: var(--line-height-400);
+  --type-subtitle2-size: var(--font-size-400);
+  --type-subtitle2-line: var(--line-height-400);
+  --type-subtitle1-size: var(--font-size-500);
+  --type-subtitle1-line: var(--line-height-500);
+  --type-title3-size: var(--font-size-600);
+  --type-title3-line: var(--line-height-600);
+  --type-title2-size: var(--font-size-700);
+  --type-title2-line: var(--line-height-700);
+  --type-title1-size: var(--font-size-800);
+  --type-title1-line: var(--line-height-800);
+  --type-display-size: var(--font-size-900);
+  --type-display-line: var(--line-height-900);
+}

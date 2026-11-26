@@ -1,0 +1,21 @@
+---
+import { d1Db } from "@templatedesign/platform/db";
+import { listWorkspacesForUser } from "@templatedesign/platform/workspaces";
+import { runtimeEnv } from "../lib/runtime";
+
+const { user } = Astro.locals;
+if (!user) return Astro.redirect("/auth/sign-in?next=/app");
+const sites = await listWorkspacesForUser(d1Db(runtimeEnv().DB), "ota", user.id);
+if (sites.length === 0) return Astro.redirect("/onboarding");
+if (sites.length === 1) return Astro.redirect(`/${sites[0].slug}/admin`);
+---
+
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="robots" content="noindex" /><title>Your sites · Ota</title></head>
+  <body style="font:15px/1.5 system-ui,sans-serif;max-width:480px;margin:40px auto;padding:0 16px">
+    <h1>Your sites</h1>
+    <ul>{sites.map((site) => <li><a href={`/${site.slug}/admin`}>{site.name}</a> ({site.role})</li>)}</ul>
+    <p><a href="/onboarding">Create another site</a></p>
+  </body>
+</html>

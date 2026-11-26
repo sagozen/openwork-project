@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://templatedesign.zhst.app/contracts/logistics-input.schema.json",
+  "title": "Logistics waybill input",
+  "description": "Input for the logistics waybill templates. Data only; never code or expressions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tracking_code", "recipient_name", "recipient_address"],
+  "properties": {
+    "tracking_code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "pattern": "^[A-Za-z0-9-]+$",
+      "description": "Waybill number. Encoded as the Code 128 barcode and printed under it."
+    },
+    "order_code": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Optional order number printed under the barcode."
+    },
+    "sender_name": { "type": "string", "maxLength": 120 },
+    "sender_address": { "type": "string", "maxLength": 240 },
+    "return_address": {
+      "type": "string",
+      "maxLength": 240,
+      "description": "Where undeliverable parcels are returned."
+    },
+    "recipient_name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "recipient_address": { "type": "string", "minLength": 1, "maxLength": 240 },
+    "recipient_phone": { "type": "string", "maxLength": 40 },
+    "sort_code": {
+      "type": "string",
+      "maxLength": 32,
+      "description": "Hub or route sorting code printed in large type, for example HN299-00-00-01."
+    },
+    "parcel_contents": {
+      "type": "string",
+      "maxLength": 160,
+      "description": "What is inside the parcel, for example 1 paper box."
+    },
+    "order_date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 calendar date, YYYY-MM-DD."
+    },
+    "weight": { "type": "string", "maxLength": 24, "description": "Maximum weight as text, for example 1,593g." },
+    "cod_amount": {
+      "type": "string",
+      "maxLength": 32,
+      "description": "Cash to collect from the recipient, as text with currency, for example 194,000 VND. Leave empty for prepaid."
+    },
+    "qr_value": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Text encoded in the QR code. Usually the tracking code or a tracking URL."
+    },
+    "doc_language": {
+      "enum": ["en", "vi"],
+      "default": "vi",
+      "description": "Language of fixed labels inside the document. Independent of the UI language."
+    }
+  },
+  "x-td-pages": { "min": 1, "max": 1 }
+}

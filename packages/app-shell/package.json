@@ -1,0 +1,44 @@
+{
+  "name": "@templatedesign/app-shell",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Replaces the EmDash host for the mini apps: workspace routing, branding upload, security headers, scoped queries and the tenant isolation harness",
+  "exports": {
+    "./workspace-context": "./src/workspace-context.ts",
+    "./middleware": "./src/middleware.ts",
+    "./security": "./src/security.ts",
+    "./db/scoped": "./src/db/scoped.ts",
+    "./branding/upload": "./src/branding/upload.ts",
+    "./branding/serve": "./src/branding/serve.ts",
+    "./storage/r2": "./src/storage/r2.ts",
+    "./integration": "./src/integration.ts",
+    "./layouts/AdminLayout.astro": "./src/layouts/AdminLayout.astro",
+    "./testing/isolation": "./src/testing/isolation.ts",
+    "./testing/unscoped-sql": "./src/testing/unscoped-sql.ts",
+    "./types": "./src/types.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test --test-concurrency=1 tests/*.test.ts"
+  },
+  "dependencies": {
+    "@templatedesign/platform": "0.1.0"
+  },
+  "peerDependencies": {
+    "astro": "7.3.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261018.1",
+    "@types/node": "24.19.2",
+    "tsx": "4.20.6",
+    "typescript": "6.0.2"
+  },
+  "engines": {
+    "node": ">=24.21.0"
+  }
+}

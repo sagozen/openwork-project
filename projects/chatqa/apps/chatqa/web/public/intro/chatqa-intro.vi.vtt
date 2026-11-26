@@ -1,0 +1,76 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.000
+Đây là ChatQA Software, chạy ngay trên máy của bạn.
+
+00:00:05.000 --> 00:00:08.010
+Một màn hình gom đủ thiết bị:
+
+00:00:08.010 --> 00:00:13.000
+iPhone, iPad, trình duyệt và điện thoại Android.
+
+00:00:13.000 --> 00:00:16.460
+Bắt đầu từ MCP. Bật một lần,
+
+00:00:16.460 --> 00:00:24.000
+Claude Code, Codex hay Cursor gọi được 48 công cụ của ChatQA.
+
+00:00:24.000 --> 00:00:28.650
+Ở đây, Claude Code tự xem các máy đang cắm,
+
+00:00:28.650 --> 00:00:32.540
+chạy flow trên iPhone và trả kết quả
+
+00:00:32.540 --> 00:00:36.000
+bằng chính tài khoản AI của bạn.
+
+00:00:36.000 --> 00:00:39.500
+Flow cho mobile viết bằng Maestro,
+
+00:00:39.500 --> 00:00:43.000
+chạy trên máy thật hoặc simulator.
+
+00:00:43.000 --> 00:00:49.000
+Màn hình từng máy hiện trực tiếp, lượt chạy tự xếp hàng.
+
+00:00:49.000 --> 00:00:55.000
+Với web, ChatQA chạy Playwright Test trên hồ sơ trình duyệt riêng.
+
+00:00:55.000 --> 00:01:00.000
+Cả bộ flow của một app chạy liền một mạch.
+
+00:01:00.000 --> 00:01:03.150
+Mỗi lượt đều để lại bằng chứng:
+
+00:01:03.150 --> 00:01:07.820
+ảnh chụp, nhật ký và báo cáo, số đo thời gian,
+
+00:01:07.820 --> 00:01:13.000
+tỷ lệ đạt theo từng máy và những bước hay lỗi nhất.
+
+00:01:13.000 --> 00:01:16.000
+Tài liệu yêu cầu gắn với flow.
+
+00:01:16.000 --> 00:01:22.000
+Từ git diff, ChatQA chỉ ra ca nào bị ảnh hưởng cần chạy lại.
+
+00:01:22.000 --> 00:01:28.000
+Muốn giao hẳn việc, bật đội agent Google ADK và gõ một câu.
+
+00:01:28.000 --> 00:01:32.320
+Agent lên kế hoạch, chọn flow, chạy trên máy rảnh,
+
+00:01:32.320 --> 00:01:35.000
+phân loại lỗi rồi viết báo cáo.
+
+00:01:35.000 --> 00:01:40.000
+Bước nào rủi ro, agent hỏi bạn trước.
+
+00:01:40.000 --> 00:01:45.440
+ChatQA Software là mã nguồn mở. Bản MCP miễn phí.
+
+00:01:45.440 --> 00:01:48.220
+Đội agent dùng key riêng,
+
+00:01:48.220 --> 00:01:52.000
+hoặc dùng bao nhiêu trả bấy nhiêu.

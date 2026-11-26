@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import Account from '../components/Account';
+import { translator } from '../i18n';
+import { pageContext } from '../lib/page-context';
+const { locale, session, site } = await pageContext(Astro);
+if (session !== 'account') return Astro.redirect('/sign-in?next=/learn');
+const locales = site?.locales ?? ['vi', 'en'];
+---
+<Base title={translator(locale)('account.eyebrow')} privatePage localized><Account client:load locales={locales} locale={locale} /></Base>

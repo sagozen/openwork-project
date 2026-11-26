@@ -1,0 +1,30 @@
+{
+  "report": {
+    "title": "Cloudflare spend — September 2026",
+    "org_name": "Acme Studio",
+    "period_start": "2026-09-01",
+    "period_end": "2026-09-30",
+    "currency": "USD",
+    "basis": "invoice",
+    "source_label": "Cloudflare billing export, September 2026",
+    "locale": "en"
+  },
+  "totals": {
+    "current_minor": 156000,
+    "previous_minor": 120000,
+    "budget_minor": 140000
+  },
+  "services": [
+    { "name": "Workers", "actual_minor": 42000, "budget_minor": 40000, "previous_minor": 30000 },
+    { "name": "R2 Storage", "actual_minor": 38000, "budget_minor": 35000, "previous_minor": 32000 },
+    { "name": "D1", "actual_minor": 26000, "budget_minor": 25000, "previous_minor": 22000 },
+    { "name": "Queues", "actual_minor": 18000, "budget_minor": 20000, "previous_minor": 16000 },
+    { "name": "Egress", "actual_minor": 32000, "budget_minor": 20000, "previous_minor": 20000 }
+  ],
+  "allocations": [{ "label": "Platform", "amount_minor": 96000 }, { "label": "Product", "amount_minor": 60000 }],
+  "recommendations": [
+    "Move the nightly export to R2 lifecycle rules to cut egress.",
+    "Review Workers paid-plan utilisation before the next renewal."
+  ],
+  "reconciliation": "fail"
+}

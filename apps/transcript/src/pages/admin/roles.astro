@@ -1,0 +1,31 @@
+---
+import { requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { AdminRoleForm } from "../../components/AdminRoleForm.js";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+let allowed = true;
+try {
+  await requireAdmin(db, Astro.locals.user, runtimeEnv(), "admin");
+} catch {
+  allowed = false;
+}
+if (!allowed) return Astro.redirect("/admin");
+const roles = await db.all<{ email: string; role: string; created_at: string }>(
+  `SELECT u.email, r.role, r.created_at FROM admin_roles r JOIN "user" u ON u.id = r.user_id ORDER BY r.created_at DESC`,
+);
+---
+
+<AdminLayout title="Roles" current="/admin/roles/">
+  <p class="td-muted">R-ADMIN can moderate, change quotas/incidents and use break-glass. R-SUPPORT can look up accounts and adjust up to 500 credits per action. Support never sees document content.</p>
+  <AdminRoleForm csrfToken={Astro.locals.csrfToken ?? ""} client:load />
+  <div class="w-card">
+    <h2>Current roles</h2>
+    <table class="td-table td-table--dense">
+      <thead><tr><th scope="col">Email</th><th scope="col">Role</th><th scope="col">Since</th></tr></thead>
+      <tbody>{roles.map((row) => <tr><th scope="row">{row.email}</th><td>{row.role}</td><td>{new Date(row.created_at).toISOString().slice(0, 10)}</td></tr>)}</tbody>
+    </table>
+  </div>
+</AdminLayout>

@@ -1,0 +1,58 @@
+---
+import '@mytutor/plugin-mytutor-lms/tokens.css';
+import '@mytutor/plugin-mytutor-lms/ui.css';
+import '../styles/fonts.css';
+import '../styles/site.css';
+import { isReadableAccent } from '@mytutor/plugin-mytutor-lms/contrast';
+import SiteHeader from '../components/shell/SiteHeader.astro';
+import SiteFooter from '../components/shell/SiteFooter.astro';
+import { isUiLocale, translator, type UiLocale } from '../i18n';
+import { pageContext } from '../lib/page-context';
+import { SCHEME_KEY } from '../lib/scheme';
+interface Props {
+  title: string;
+  description?: string;
+  privatePage?: boolean;
+  referrerPolicy?: 'no-referrer' | 'strict-origin-when-cross-origin';
+  /**
+   * Pages whose text is in the string catalog render in the visitor's
+   * language. The rest stay English until they move to the catalog, so a
+   * page never mixes languages and <html lang> always matches it.
+   */
+  localized?: boolean;
+}
+const { title, description, privatePage = false, referrerPolicy = 'no-referrer', localized = false } = Astro.props;
+const context = await pageContext(Astro);
+const locale: UiLocale = localized ? context.locale : 'en';
+const t = translator(locale);
+const locales = localized ? (context.site?.locales ?? ['vi', 'en']).filter(isUiLocale) : [];
+const accent = context.site?.accentColor;
+const brandAccent = accent && accent !== 'oklch(0.38 0.07 155)' && isReadableAccent(accent) ? accent : null;
+Astro.response.headers.set('Referrer-Policy', referrerPolicy);
+Astro.response.headers.set('X-Content-Type-Options', 'nosniff');
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Content-Language', locale);
+// Applies the stored colour scheme before first paint (see lib/scheme.ts).
+const schemeScript = `try{var s=localStorage.getItem(${JSON.stringify(SCHEME_KEY)});if(s==="light"||s==="dark")document.documentElement.dataset.mtScheme=s}catch(e){}`;
+---
+<!doctype html>
+<html lang={locale} data-mt-scheme="auto" data-mt-brand={brandAccent ? '' : undefined} style={brandAccent ? `--mt-brand-accent: ${brandAccent}` : undefined}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={schemeScript} />
+    <title>{title} · MyTutor</title>
+    <meta name="description" content={description ?? t('shell.description')} />
+    {privatePage && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    {locale === 'vi' && <link rel="preload" href="/fonts/newsreader-vietnamese-wght-normal.woff2" as="font" type="font/woff2" crossorigin />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('shell.skip')}</a>
+    <SiteHeader locale={locale} locales={locales} session={context.session} siteName={context.site?.name ?? 'MyTutor'} />
+    <main id="main"><slot /></main>
+    <SiteFooter locale={locale} site={context.site} />
+  </body>
+</html>

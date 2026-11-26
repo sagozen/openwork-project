@@ -1,0 +1,70 @@
+---
+import { getAdminSettingValue, requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { dailyUsage, modelList } from "../../lib/llm/openrouter";
+import { runtimeEnv } from "../../lib/runtime";
+
+const env = runtimeEnv();
+const db = d1Db(env.DB);
+await requireAdmin(db, Astro.locals.user, env, "support");
+const [usage, models, enabled] = await Promise.all([
+  dailyUsage(db),
+  modelList(db, env),
+  getAdminSettingValue<boolean>(db, "llm.enabled"),
+]);
+const configured = await getAdminSettingValue<string>(db, "llm.models");
+---
+
+<AdminLayout title="LLM budget" current="/admin/llm/">
+  <p class="td-muted">
+    Summaries run on OpenRouter free models, tried in order. The add-on turns itself off when a model's daily budget
+    is used, and any failure releases the add-on credits while the transcript stays delivered.
+  </p>
+
+  <p>Add-on enabled: <strong>{enabled === false ? "no" : "yes"}</strong></p>
+
+  <table class="td-table">
+    <thead>
+      <tr><th scope="col">Model</th><th scope="col">Requests today</th></tr>
+    </thead>
+    <tbody>
+      {usage.length === 0 ? (
+        <tr><td colspan="2">No requests today.</td></tr>
+      ) : (
+        usage.map((row) => (
+          <tr><th scope="row"><code>{row.model}</code></th><td>{row.requests}</td></tr>
+        ))
+      )}
+    </tbody>
+  </table>
+
+  <section class="w-card">
+    <h2>Model fallback list</h2>
+    <p class="td-muted">One model per line. Empty means the built-in free list (or <code>OPENROUTER_MODELS</code>).</p>
+    <form id="llm-form">
+      <textarea class="td-input" id="llm-models" name="models" rows="5">{configured ?? models.join("\n")}</textarea>
+      <label class="td-check"><input type="checkbox" id="llm-enabled" checked={enabled !== false} /> Summary add-on enabled</label>
+      <button class="td-btn td-btn--primary" type="submit">Save</button>
+    </form>
+  </section>
+
+  <script is:inline>
+    const csrf = decodeURIComponent(document.cookie.match(/(?:^|; )td_csrf=([^;]+)/)?.[1] ?? "");
+    const save = async (key, value, reason) => {
+      await fetch("/api/v1/admin/settings", {
+        method: "PATCH",
+        headers: { "content-type": "application/json", "x-csrf-token": csrf },
+        body: JSON.stringify({ key, value, reason }),
+      });
+    };
+    document.getElementById("llm-form")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const models = document.getElementById("llm-models").value;
+      const enabled = document.getElementById("llm-enabled").checked;
+      await save("llm.models", models, "llm model list");
+      await save("llm.enabled", enabled, "llm toggle");
+      window.location.reload();
+    });
+  </script>
+</AdminLayout>

@@ -1,0 +1,22 @@
+{
+  "$comment": "Mẫu tệp Danh mục hàng hoá có rủi ro 2026 (.xlsx) = đầu vào tab Danh mục rủi ro của HS Desk (predeclare-check). Lập từ tệp 'Danh muc hang hóaa co rui ro - Cac Bo nganh 2026' sheet 'Danh muc tong hop' (dòng 3 là tiêu đề, 2.297 dòng dữ liệu). Cột nhận theo tiêu đề, không theo vị trí; tiêu đề so không phân biệt hoa thường, dấu, xuống dòng, khoảng trắng thừa. Ô Mã số HS chỉ gồm chữ số, dấu chấm, khoảng trắng và đủ 4, 6 hoặc 8 chữ số sau khi bỏ dấu chấm (vd 2710.12.21, 87.02, 080.2); ô khác (chữ, '—', nhiều mã) là dòng không khớp được, liệt kê khi xem trước. Mức độ rủi ro: Cao, Trung bình, Thấp; mọi giá trị khác (kể cả ô trống) tính là Cao. Khách đổi mẫu => tạo danh-muc-rui-ro.v2.json, giữ v1.",
+  "id": "danh-muc-rui-ro",
+  "version": 1,
+  "sheet": "(?i)^Danh m[uụ]c t[oổ]ng h[oợ]p$",
+  "headerScanRows": 10,
+  "headerMinMatches": 3,
+  "columns": [
+    { "field": "ministry", "headers": ["Bộ, ngành"], "required": true },
+    { "field": "docNo", "headers": ["Số văn bản DMRR"], "required": false },
+    { "field": "name", "headers": ["Tên hàng"], "required": true },
+    { "field": "description", "headers": ["Mô tả sản phẩm, hàng hóa"], "required": false },
+    { "field": "code", "headers": ["Mã số HS"], "required": true },
+    { "field": "standard", "headers": ["Quy chuẩn kỹ thuật"], "required": false },
+    { "field": "level", "headers": ["Mức độ rủi ro"], "required": true },
+    { "field": "requirement", "headers": ["Yêu cầu quản lý chất lượng tương ứng"], "required": false },
+    { "field": "legalBasis", "headers": ["Căn cứ pháp lý"], "required": false },
+    { "field": "matchNote", "headers": ["Tình trạng đối chiếu"], "required": false }
+  ],
+  "levels": { "Cao": "high", "Trung bình": "medium", "Thấp": "low", "default": "high" },
+  "codeLengths": [4, 6, 8]
+}

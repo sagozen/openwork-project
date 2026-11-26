@@ -1,0 +1,33 @@
+{
+  "$comment": "Mẫu tệp biểu thuế XNK tổng hợp (.xlsx) = đầu vào tab Biểu thuế của HS Desk (BR-tariff-apply-010). Lập từ tệp 'BIEU THUE XNK 2026 UPDATE 07.01.26' và '2026.04.05' (15/11/2026). Cột nhận theo tiêu đề, không theo vị trí: dòng tiêu đề là dòng đầu tiên trong headerScanRows dòng đầu có ít nhất headerMinMatches tiêu đề bắt buộc; so tiêu đề không phân biệt hoa thường, dấu, xuống dòng, khoảng trắng thừa. Mỗi cột có rateWithDocAndDate = true thì hai cột ngay sau là 'Văn bản' và 'Ngày hiệu lực' của nó (tiêu đề này lặp lại sau mọi cột thuế suất). Cột thuế suất khác (hiệp định khác) chỉ giữ tên để báo 'cột mới' khi xem trước. Khách đổi mẫu => tạo bieu-thue.v2.json, giữ v1.",
+  "id": "bieu-thue",
+  "version": 1,
+  "sheet": "^BT\\d{4}$",
+  "requiredSheets": ["HT"],
+  "optionalSheets": ["MT", "DB", "6QT"],
+  "headerScanRows": 10,
+  "headerMinMatches": 3,
+  "columns": [
+    { "field": "code", "headers": ["Mã HS", "Mã hàng"], "required": true },
+    { "field": "mfn", "headers": ["NK ưu đãi"], "required": true, "rateWithDocAndDate": true },
+    { "field": "vat", "headers": ["VAT"], "required": true, "rateWithDocAndDate": true },
+    { "field": "acfta", "headers": ["ACFTA"], "required": true, "rateWithDocAndDate": true },
+    { "field": "normal", "headers": ["NK TT"], "required": false, "rateWithDocAndDate": true, "note": "Thuế NK thông thường, chỉ hiện tham khảo" },
+    { "field": "ttdb", "headers": ["TT ĐB"], "required": false, "rateWithDocAndDate": true },
+    { "field": "bvmt", "headers": ["Thuế BV MT"], "required": false, "rateWithDocAndDate": true },
+    { "field": "vatReduction", "headers": ["Giảm VAT"], "required": false, "note": "Lý do không được giảm VAT (PL1, PL2)" }
+  ],
+  "rateWithDocAndDate": { "doc": "Văn bản", "date": "Ngày hiệu lực", "rule": "hai cột ngay sau cột thuế suất" },
+  "otherRateColumns": "keepNameAsNewColumn",
+  "ht": {
+    "$comment": "Sheet HT (danh mục văn bản). Một ô có thể chứa nhiều văn bản / ngày cách nhau bằng xuống dòng. 'Ngày hiệu lực' xuất hiện hai lần: lần đầu là ngày của chính văn bản, lần sau là của văn bản bị sửa đổi/thay thế.",
+    "headerScanRows": 10,
+    "columns": [
+      { "field": "abbr", "header": "Viết tắt" },
+      { "field": "form", "header": "Mẫu C/O" },
+      { "field": "docNo", "header": "Số văn bản" },
+      { "field": "docDate", "header": "Ngày văn bản" },
+      { "field": "effective", "header": "Ngày hiệu lực", "occurrence": "first" }
+    ]
+  }
+}

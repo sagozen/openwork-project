@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "id": "mytutor",
+  "kind": "theme",
+  "name": "MyTutor LMS",
+  "type": "company",
+  "emdash": "1.2.0",
+  "entry": "themes/mytutor",
+  "plugin": "mytutor-lms",
+  "capabilities": {
+    "pwa": false,
+    "publicItems": false,
+    "inquiry": false,
+    "booking": false,
+    "checkout": false,
+    "map": false,
+    "whatsapp": false
+  }
+}

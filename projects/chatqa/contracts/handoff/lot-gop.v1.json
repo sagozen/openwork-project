@@ -1,0 +1,22 @@
+{
+  "$comment": "Mẫu tệp gộp hiện hành (sheet 'Gộp lô <số>' trong lô mẫu 157) = đầu ra App 02, đầu vào App 03. Cột lệch so với tệp đã chốt (thêm cột độ dài tên + ĐVT). App 02 ghi thêm sheet 'Truy vết' (nhóm -> dòng gốc) mà tệp thủ công chưa có.",
+  "id": "lot-gop",
+  "version": 1,
+  "sheet": "^Gộp lô\\s*\\d+",
+  "headerRow": 2,
+  "firstDataRow": 3,
+  "columns": [
+    { "field": "order", "col": "E", "header": "Mã VPO", "required": false, "note": "Mã đơn của dòng đầu nhóm" },
+    { "field": "status", "col": "AQ", "header": "TRẠNG THÁI", "required": true },
+    { "field": "nameEn", "col": "AR", "header": "Tên Tiếng Anh", "required": false },
+    { "field": "name", "col": "AX", "header": "TÊN KHAI TRÊN TỜ KHAI", "required": true },
+    { "field": "unit", "col": "AY", "header": "ĐVT Vipo điền", "required": true },
+    { "field": "hs", "col": "AZ", "header": "Mã HS code", "required": true },
+    { "field": "importTax", "col": "BB", "header": "% THUẾ NHẬP KHẨU (CÓ CO)", "required": true },
+    { "field": "vat", "col": "BD", "header": "% VAT (CÓ CO)", "required": true },
+    { "field": "customsRate", "col": "BL", "header": "TỶ GIÁ USD (HẢI QUAN )", "required": false },
+    { "field": "unitPriceUsd", "col": "BM", "header": "ĐƠN GIÁ KHAI BÁO (USD)", "required": true },
+    { "field": "qty", "col": "BN", "header": "Số lượng", "required": true },
+    { "field": "valueUsd", "col": "BO", "header": "Giá trị khai báo (USD)", "required": true }
+  ]
+}

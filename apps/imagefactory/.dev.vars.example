@@ -1,0 +1,14 @@
+# Copy to .dev.vars for local Cloudflare dev. Never commit .dev.vars.
+BETTER_AUTH_SECRET=replace-with-32-or-more-random-characters
+BETTER_AUTH_URL=http://localhost:4334
+APP_ORIGIN=http://localhost:4334
+IMAGE_PUBLIC_BASE=http://localhost:4334/i
+EMAIL_PROVIDER=console
+EMAIL_FROM=ImageFactory <no-reply@localhost>
+EMAIL_DEBUG=1
+ADMIN_EMAILS=owner@example.com
+# Needed only to generate. fal.ai cannot call a localhost webhook, so local jobs finish through
+# get_job or the sweep; use a tunnel for webhook testing.
+# FAL_KEY=
+# GOOGLE_CLIENT_ID=
+# GOOGLE_CLIENT_SECRET=

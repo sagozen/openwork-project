@@ -1,0 +1,21 @@
+// Kiểm tra thao tác: bấm dòng đầu bảng 10 điểm -> bay tới điểm, hiện chi tiết; phát lại thời gian.
+import { chromium } from 'playwright-core'
+const b = await chromium.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--use-angle=metal','--enable-gpu','--ignore-gpu-blocklist'] })
+const p = await (await b.newContext({ viewport: { width: 1440, height: 900 } })).newPage()
+const errors = []
+p.on('pageerror', e => errors.push(e.message))
+await p.goto(process.env.APP_URL ?? 'http://localhost:5175/')
+await p.waitForFunction(() => window.__perf?.().mapIdleMs != null, null, { timeout: 60000 })
+const firstRow = p.locator('table.top tbody tr').first()
+const rowName = await firstRow.locator('.name').innerText()
+await firstRow.click()
+await p.waitForSelector('.detail-head h2', { timeout: 10000 })
+await p.waitForTimeout(2500)
+const detail = await p.evaluate(() => ({ title: document.querySelector('.detail-head h2').textContent, spark: document.querySelectorAll('.spark path').length, bars: document.querySelectorAll('.bar').length }))
+await p.screenshot({ path: new URL('../../bench/chi-tiet.png', import.meta.url).pathname })
+const before = await p.locator('.when').innerText()
+await p.getByLabel('Phát lại').click()
+await p.waitForTimeout(2000)
+const after = await p.locator('.when').innerText()
+console.log(JSON.stringify({ rowName, detail, playback: [before, after], errors }))
+await b.close()

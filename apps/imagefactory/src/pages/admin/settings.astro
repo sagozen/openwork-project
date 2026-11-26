@@ -1,0 +1,45 @@
+---
+import { getAdminSettings, listAudit, requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { ImageSettingsForm } from "../../components/ImageSettingsForm.js";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { MODELS } from "../../lib/images/models";
+import { creditsPerMp } from "../../lib/images/pricing";
+import { loadImageSettings } from "../../lib/images/settings";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+try {
+  await requireAdmin(db, Astro.locals.user, runtimeEnv(), "admin");
+} catch {
+  return Astro.redirect("/admin/");
+}
+const [image, platformSettings, recent] = await Promise.all([
+  loadImageSettings(db),
+  getAdminSettings(db),
+  listAudit(db, 10),
+]);
+const values = {
+  enabled: image.enabled,
+  maxImages: image.maxImagesPerCall,
+  ratePerMinute: image.ratePerMinute,
+  workerWaitSeconds: image.workerWaitSeconds,
+  generateCreditsPerMp: creditsPerMp(MODELS["qwen-image"], image.pricing),
+  editCreditsPerMp: creditsPerMp(MODELS["qwen-edit"], image.pricing),
+  freeMonthlyCredits: platformSettings.freeMonthlyCredits,
+};
+---
+
+<AdminLayout title="Settings" current="/admin/settings/">
+  <p class="td-muted">Changes apply on the next request, with no deploy. Every change is written to the audit log with its reason.</p>
+  <ImageSettingsForm values={values} csrfToken={Astro.locals.csrfToken ?? ""} client:load />
+  <div class="w-card">
+    <h2>Recent changes</h2>
+    <ul>
+      {recent
+        .filter((row) => row.action === "admin.setting.updated")
+        .map((row) => <li><code>{row.resource_id}</code> · {row.reason ?? "—"} · {new Date(row.created_at).toISOString()}</li>)}
+    </ul>
+  </div>
+</AdminLayout>

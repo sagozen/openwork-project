@@ -1,0 +1,159 @@
+---
+import { platformConfig } from "@templatedesign/platform/config";
+import { getWallet } from "@templatedesign/platform/credits";
+import { d1Db } from "@templatedesign/platform/db";
+import { t } from "@templatedesign/ui";
+import { Footer } from "../components/Footer.js";
+import { HomeApp } from "../components/HomeApp.js";
+import JobsList from "../components/JobsList.astro";
+import Base from "../layouts/Base.astro";
+import { isPrivateState, readHomeState } from "../lib/home-state";
+import { loadJobForVisitor } from "../lib/job-access";
+import { listJobs, mapJob } from "../lib/jobs";
+import { pageLocale } from "../lib/locale";
+import "../lib/platform";
+import { packSummary } from "../lib/packs";
+import { PRICING } from "../lib/pricing-core";
+import { runtimeEnv } from "../lib/runtime";
+import "../styles/home.css";
+
+const locale = pageLocale(Astro.cookies);
+const vi = locale === "vi";
+const { user, profile, tenantId, guestId, csrfToken } = Astro.locals;
+const env = runtimeEnv();
+const db = d1Db(env.DB);
+const params = Astro.url.searchParams;
+const state = readHomeState(params);
+const signedIn = Boolean(user && profile && tenantId);
+
+const [credits, rows, initialJob] = await Promise.all([
+  tenantId ? getWallet(db, tenantId).then((wallet) => wallet.available) : Promise.resolve(0),
+  tenantId || guestId ? listJobs(db, tenantId ? { tenantId } : { guestId }, 10) : Promise.resolve([]),
+  state.job ? loadJobForVisitor(env, db, Astro.locals, state.job) : Promise.resolve(undefined),
+]);
+const jobs = rows.map(mapJob);
+
+const packs = packSummary(locale, PRICING.creditsPerMinute);
+const topupPacks = packs.map((pack) => ({
+  id: pack.id,
+  name: pack.name,
+  credits: pack.credits,
+  price: pack.price,
+  perUnit: vi ? `${pack.perMinute}/phút · ${pack.minutes} phút` : `${pack.perMinute}/min · ${pack.minutes} min`,
+  featured: pack.featured,
+}));
+
+const steps = vi
+  ? ["Dán liên kết hoặc tải tệp lên.", "Xem độ dài và giá.", "Đọc, tìm và tải bản ghi."]
+  : ["Paste a link or upload a file.", "See the length and the price.", "Read, search and download."];
+
+const faq = vi
+  ? [
+      ["Có miễn phí không?", "Media dưới 3 phút miễn phí. Dài hơn tính theo phút đã bắt đầu."],
+      ["Liên kết riêng tư thì sao?", "Liên kết phải công khai. Drive và OneDrive sẽ hiện cách sửa chia sẻ."],
+      ["Có những định dạng nào?", "TXT, SRT, VTT và JSON."],
+      ["Dữ liệu được giữ bao lâu?", "Media 24 giờ, bản ghi 30 ngày."],
+    ]
+  : [
+      ["Is it free?", "Media under 3 minutes is free. Longer media is billed per started minute."],
+      ["What about private links?", "Links must be public. Drive and OneDrive show the sharing fix."],
+      ["Which formats?", "TXT, SRT, VTT and JSON."],
+      ["How long is my data kept?", "Media 24 hours, transcripts 30 days."],
+    ];
+
+const googleEnabled = Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
+const turnstileSiteKey = signedIn ? undefined : env.TURNSTILE_SITE_KEY;
+---
+
+<Base
+  title={vi ? "Bóc băng từ liên kết hoặc tệp" : "Transcribe any link or file"}
+  description={
+    vi
+      ? "Dán liên kết YouTube, Drive, OneDrive, Dropbox hoặc MP3/MP4 và nhận bản ghi kèm mốc thời gian. Tệp dưới 3 phút miễn phí."
+      : "Paste a YouTube, Drive, OneDrive, Dropbox or MP3/MP4 link and get a timestamped transcript. Media under 3 minutes is free."
+  }
+  locale={locale}
+  canonical="/"
+  noindex={isPrivateState(params)}
+>
+  <HomeApp
+    locale={locale}
+    csrfToken={csrfToken ?? ""}
+    account={signedIn && user && profile
+      ? {
+          user: { id: user.id, email: user.email, name: user.name, emailVerified: user.emailVerified },
+          profile,
+        }
+      : null}
+    credits={credits}
+    initialState={state}
+    initialJob={initialJob}
+    presetSource={params.get("link") ?? ""}
+    turnstileSiteKey={turnstileSiteKey}
+    googleEnabled={googleEnabled}
+    packs={topupPacks}
+    client:load
+  />
+
+  <main id="main">
+    {signedIn || jobs.length > 0 ? (
+      <section class="ta-band" aria-labelledby="recent-title">
+        <h2 id="recent-title">{vi ? "Bản ghi gần đây" : "Recent transcriptions"}</h2>
+        <JobsList jobs={jobs} locale={locale} />
+      </section>
+    ) : null}
+
+    <section class="ta-band" aria-labelledby="steps-title">
+      <h2 id="steps-title">{vi ? "Cách dùng" : "How it works"}</h2>
+      <ol class="ta-steps">
+        {steps.map((step) => <li>{step}</li>)}
+      </ol>
+    </section>
+
+    <section id="pricing" class="ta-band ta-band--sunk" aria-labelledby="pricing-title">
+      <div>
+        <h2 id="pricing-title">{vi ? "Bảng giá" : "Pricing"}</h2>
+        <p class="ta-muted">
+          {vi
+            ? `${PRICING.creditsPerMinute} credit mỗi phút. Dưới 3 phút miễn phí. Không thuê bao.`
+            : `${PRICING.creditsPerMinute} credits per minute. Under 3 minutes is free. No subscription.`}
+        </p>
+        <div class="td-topup">
+          {packs.map((pack) => (
+            <article class:list={["td-pack", { "td-pack--featured": pack.featured }]}>
+              <h3 class="td-pack__name">{pack.name}</h3>
+              <p class="td-pack__price"><strong>{pack.price}</strong> <span>USD</span></p>
+              <p class="td-pack__credits">{t(locale, "billing.creditsCount", { count: pack.credits })}</p>
+              <p class="td-pack__per">
+                {vi ? `${pack.perMinute}/phút · ${pack.minutes} phút` : `${pack.perMinute}/min · ${pack.minutes} min`}
+              </p>
+              <a
+                href="/?topup=1"
+                rel="nofollow"
+                class:list={["td-btn td-btn--md td-btn--full", pack.featured ? "td-btn--primary" : "td-btn--secondary"]}
+              >
+                {t(locale, "billing.buy")}
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="ta-band" aria-labelledby="faq-title">
+      <h2 id="faq-title">FAQ</h2>
+      <div class="st-faq">
+        {faq.map(([question, answer]) => (
+          <details>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer locale={locale} contactEmail={platformConfig().brand.supportEmail ?? "hello@sagozen.digital"} />
+
+  {turnstileSiteKey ? <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> : null}
+</Base>

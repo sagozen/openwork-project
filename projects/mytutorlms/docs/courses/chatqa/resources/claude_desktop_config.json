@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "chatqa": {
+      "command": "C:\\Users\\<TEN-TAI-KHOAN-WINDOWS>\\AppData\\Local\\Programs\\ChatQASoftware\\ChatQASoftware.exe",
+      "args": ["--mcp"],
+      "env": { "CHATQA_MCP_TOKEN": "<DAN-TOKEN-TU-MAN-KET-NOI-AI>" }
+    }
+  }
+}

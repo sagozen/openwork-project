@@ -1,0 +1,174 @@
+/*
+ * MyTutor design tokens: the single source for the theme and the admin.
+ * The theme applies them at :root, the admin at .mytutor-admin. Components use
+ * the semantic tokens only; reference scales exist to derive them.
+ * Dark values apply on the theme through data-mt-scheme ("dark", or "auto"
+ * with a dark OS preference). The admin stays light until EmDash exposes its
+ * host scheme.
+ * scripts/tokens-to-json.mjs mirrors this file to tokens.json for design tools.
+ */
+:root,
+.mytutor-admin {
+  /* Reference scales */
+  --mt-ref-neutral-0: oklch(0.995 0.003 85);
+  --mt-ref-neutral-1: oklch(0.975 0.009 85);
+  --mt-ref-neutral-2: oklch(0.945 0.014 85);
+  --mt-ref-neutral-3: oklch(0.88 0.012 120);
+  --mt-ref-neutral-6: oklch(0.58 0.015 150);
+  --mt-ref-neutral-9: oklch(0.48 0.02 150);
+  --mt-ref-neutral-11: oklch(0.25 0.025 155);
+  --mt-ref-neutral-12: oklch(0.2 0.012 155);
+
+  /* Semantic colour */
+  --mt-color-bg: oklch(0.975 0.009 85);
+  --mt-color-surface: oklch(0.995 0.003 85);
+  --mt-color-surface-sunken: oklch(0.945 0.014 85);
+  --mt-color-text: oklch(0.25 0.025 155);
+  --mt-color-text-muted: oklch(0.48 0.02 150);
+  --mt-color-border: oklch(0.88 0.012 120);
+  --mt-color-border-strong: oklch(0.58 0.015 150);
+  --mt-color-accent: oklch(0.38 0.07 155);
+  --mt-color-on-accent: oklch(0.985 0.006 85);
+  --mt-color-accent-hover: oklch(0.33 0.07 155);
+  --mt-color-accent-soft: oklch(0.95 0.03 155);
+  --mt-color-focus: var(--mt-color-accent);
+  --mt-color-success: oklch(0.45 0.1 150);
+  --mt-color-success-soft: oklch(0.95 0.03 150);
+  --mt-color-warning: oklch(0.5 0.1 70);
+  --mt-color-warning-soft: oklch(0.95 0.04 85);
+  --mt-color-danger: oklch(0.47 0.15 28);
+  --mt-color-danger-soft: oklch(0.96 0.025 28);
+  --mt-color-info: oklch(0.47 0.08 245);
+  --mt-color-info-soft: oklch(0.96 0.02 245);
+  --mt-color-overlay: oklch(0.2 0.02 155 / 0.45);
+  --mt-color-video-bg: oklch(0.16 0.01 155);
+
+  /* Typography */
+  --mt-font-display:
+    "Newsreader Variable", "Newsreader Fallback", Georgia, "Noto Serif", serif;
+  --mt-font-body:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --mt-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --mt-text-xs: 0.75rem;
+  --mt-text-sm: 0.875rem;
+  --mt-text-md: 1rem;
+  --mt-text-lg: 1.125rem;
+  --mt-text-h3: 1.25rem;
+  --mt-text-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --mt-text-h1: clamp(2.25rem, 4.5vw, 3.75rem);
+  --mt-text-display: clamp(2.75rem, 5.5vw, 5.25rem);
+  --mt-leading-xs: 1.5;
+  --mt-leading-sm: 1.55;
+  --mt-leading-md: 1.65;
+  --mt-leading-lg: 1.6;
+  --mt-leading-h3: 1.35;
+  --mt-leading-h2: 1.15;
+  --mt-leading-h1: 1.12;
+  --mt-leading-display: 1.08;
+  --mt-tracking-heading: -0.02em;
+  --mt-tracking-eyebrow: 0.08em;
+
+  /* Spacing, radius, elevation, layout */
+  --mt-space-1: 4px;
+  --mt-space-2: 8px;
+  --mt-space-3: 12px;
+  --mt-space-4: 16px;
+  --mt-space-5: 24px;
+  --mt-space-6: 32px;
+  --mt-space-7: 48px;
+  --mt-space-8: 64px;
+  --mt-space-9: 96px;
+  --mt-radius-sm: 6px;
+  --mt-radius-md: 10px;
+  --mt-radius-lg: 16px;
+  --mt-radius-pill: 999px;
+  --mt-shadow-overlay:
+    0 1px 2px oklch(0.2 0.02 155 / 0.08), 0 12px 32px oklch(0.2 0.02 155 / 0.18);
+  --mt-container: 1200px;
+  --mt-measure: 70ch;
+  --mt-rail-width: 300px;
+  --mt-tutor-width: 380px;
+  --mt-gutter: clamp(16px, 4vw, 56px);
+  --mt-target: 44px;
+  --mt-player-radius: var(--mt-radius-md);
+
+  /* Motion */
+  --mt-duration-fast: 120ms;
+  --mt-duration-base: 200ms;
+  --mt-duration-slow: 320ms;
+  --mt-ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --mt-ease-in: cubic-bezier(0.4, 0, 1, 1);
+}
+
+:root:lang(vi),
+.mytutor-admin:lang(vi) {
+  --mt-leading-xs: 1.6;
+  --mt-leading-sm: 1.65;
+  --mt-leading-md: 1.75;
+  --mt-leading-lg: 1.7;
+  --mt-leading-h3: 1.45;
+  --mt-leading-h2: 1.25;
+  --mt-leading-h1: 1.22;
+  --mt-leading-display: 1.2;
+}
+
+:root[data-mt-scheme="dark"] {
+  --mt-color-bg: oklch(0.2 0.012 155);
+  --mt-color-surface: oklch(0.245 0.014 155);
+  --mt-color-surface-sunken: oklch(0.17 0.01 155);
+  --mt-color-text: oklch(0.93 0.01 90);
+  --mt-color-text-muted: oklch(0.74 0.015 150);
+  --mt-color-border: oklch(0.34 0.012 155);
+  --mt-color-border-strong: oklch(0.58 0.015 150);
+  --mt-color-accent: oklch(0.8 0.09 155);
+  --mt-color-on-accent: oklch(0.2 0.012 155);
+  --mt-color-accent-hover: oklch(0.85 0.09 155);
+  --mt-color-accent-soft: oklch(0.3 0.04 155);
+  --mt-color-success: oklch(0.8 0.11 150);
+  --mt-color-success-soft: oklch(0.29 0.04 150);
+  --mt-color-warning: oklch(0.83 0.11 80);
+  --mt-color-warning-soft: oklch(0.3 0.04 75);
+  --mt-color-danger: oklch(0.75 0.13 28);
+  --mt-color-danger-soft: oklch(0.3 0.05 28);
+  --mt-color-info: oklch(0.8 0.08 245);
+  --mt-color-info-soft: oklch(0.29 0.04 245);
+  --mt-color-overlay: oklch(0 0 0 / 0.6);
+  --mt-shadow-overlay: 0 12px 32px oklch(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-mt-scheme="auto"] {
+    --mt-color-bg: oklch(0.2 0.012 155);
+    --mt-color-surface: oklch(0.245 0.014 155);
+    --mt-color-surface-sunken: oklch(0.17 0.01 155);
+    --mt-color-text: oklch(0.93 0.01 90);
+    --mt-color-text-muted: oklch(0.74 0.015 150);
+    --mt-color-border: oklch(0.34 0.012 155);
+    --mt-color-border-strong: oklch(0.58 0.015 150);
+    --mt-color-accent: oklch(0.8 0.09 155);
+    --mt-color-on-accent: oklch(0.2 0.012 155);
+    --mt-color-accent-hover: oklch(0.85 0.09 155);
+    --mt-color-accent-soft: oklch(0.3 0.04 155);
+    --mt-color-success: oklch(0.8 0.11 150);
+    --mt-color-success-soft: oklch(0.29 0.04 150);
+    --mt-color-warning: oklch(0.83 0.11 80);
+    --mt-color-warning-soft: oklch(0.3 0.04 75);
+    --mt-color-danger: oklch(0.75 0.13 28);
+    --mt-color-danger-soft: oklch(0.3 0.05 28);
+    --mt-color-info: oklch(0.8 0.08 245);
+    --mt-color-info-soft: oklch(0.29 0.04 245);
+    --mt-color-overlay: oklch(0 0 0 / 0.6);
+    --mt-shadow-overlay: 0 12px 32px oklch(0 0 0 / 0.5);
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  .mytutor-admin {
+    --mt-duration-fast: 0ms;
+    --mt-duration-base: 0ms;
+    --mt-duration-slow: 0ms;
+  }
+}

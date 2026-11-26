@@ -1,0 +1,286 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "TemplateDesign design tokens. Source of truth for CSS, TypeScript and the Typst document style. Primitive values are never consumed directly by components; semantic tokens are.",
+  "td": {
+    "color": {
+      "primitive": {
+        "paper-50": { "$type": "color", "$value": "#FAF8F4" },
+        "paper-100": { "$type": "color", "$value": "#F2EFE8" },
+        "paper-200": { "$type": "color", "$value": "#E6E1D8" },
+        "paper-300": { "$type": "color", "$value": "#DCD6CB" },
+        "paper-500": { "$type": "color", "$value": "#8C8578" },
+        "white": { "$type": "color", "$value": "#FFFFFF" },
+        "ink-900": { "$type": "color", "$value": "#1A1915" },
+        "ink-700": { "$type": "color", "$value": "#57534A" },
+        "ink-600": { "$type": "color", "$value": "#6B665C" },
+        "night-950": { "$type": "color", "$value": "#121110" },
+        "night-900": { "$type": "color", "$value": "#1B1A18" },
+        "night-800": { "$type": "color", "$value": "#25231F" },
+        "night-700": { "$type": "color", "$value": "#3A3730" },
+        "night-500": { "$type": "color", "$value": "#7A7468" },
+        "night-100": { "$type": "color", "$value": "#EDEAE3" },
+        "night-200": { "$type": "color", "$value": "#B4AEA2" },
+        "night-300": { "$type": "color", "$value": "#9A9488" },
+        "teal-700": { "$type": "color", "$value": "#0F5C57" },
+        "teal-800": { "$type": "color", "$value": "#0A4744" },
+        "teal-300": { "$type": "color", "$value": "#5BBDB4" },
+        "teal-200": { "$type": "color", "$value": "#7FD0C8" },
+        "teal-950": { "$type": "color", "$value": "#0B1F1D" },
+        "vermilion-700": { "$type": "color", "$value": "#B5400F" },
+        "vermilion-300": { "$type": "color", "$value": "#F08A5D" },
+        "green-700": { "$type": "color", "$value": "#1C6B3A" },
+        "green-300": { "$type": "color", "$value": "#5CC48A" },
+        "amber-700": { "$type": "color", "$value": "#8A5300" },
+        "amber-300": { "$type": "color", "$value": "#E0B04A" },
+        "red-700": { "$type": "color", "$value": "#B42318" },
+        "red-300": { "$type": "color", "$value": "#F27A6E" },
+        "blue-700": { "$type": "color", "$value": "#1D5C9E" },
+        "blue-300": { "$type": "color", "$value": "#7FB0EA" },
+        "violet-700": { "$type": "color", "$value": "#6B4FA0" },
+        "ochre-700": { "$type": "color", "$value": "#8A6A00" },
+        "green-tint": { "$type": "color", "$value": "#E3F1E7" },
+        "amber-tint": { "$type": "color", "$value": "#FBEFD6" },
+        "red-tint": { "$type": "color", "$value": "#FBE4E1" },
+        "blue-tint": { "$type": "color", "$value": "#E2ECF7" },
+        "neutral-tint": { "$type": "color", "$value": "#EEEAE2" }
+      },
+      "light": {
+        "bg": { "$type": "color", "$value": "{td.color.primitive.paper-50}" },
+        "surface": { "$type": "color", "$value": "{td.color.primitive.white}" },
+        "surface-sunken": { "$type": "color", "$value": "{td.color.primitive.paper-100}" },
+        "surface-raised": { "$type": "color", "$value": "{td.color.primitive.white}" },
+        "text": { "$type": "color", "$value": "{td.color.primitive.ink-900}" },
+        "text-muted": { "$type": "color", "$value": "{td.color.primitive.ink-700}" },
+        "text-subtle": { "$type": "color", "$value": "{td.color.primitive.ink-600}" },
+        "border": { "$type": "color", "$value": "{td.color.primitive.paper-300}" },
+        "border-strong": { "$type": "color", "$value": "{td.color.primitive.paper-500}" },
+        "primary": { "$type": "color", "$value": "{td.color.primitive.teal-700}" },
+        "primary-hover": { "$type": "color", "$value": "{td.color.primitive.teal-800}" },
+        "on-primary": { "$type": "color", "$value": "{td.color.primitive.white}" },
+        "accent": { "$type": "color", "$value": "{td.color.primitive.vermilion-700}" },
+        "success": { "$type": "color", "$value": "{td.color.primitive.green-700}" },
+        "warning": { "$type": "color", "$value": "{td.color.primitive.amber-700}" },
+        "danger": { "$type": "color", "$value": "{td.color.primitive.red-700}" },
+        "info": { "$type": "color", "$value": "{td.color.primitive.blue-700}" },
+        "focus": { "$type": "color", "$value": "{td.color.primitive.blue-700}" },
+        "success-bg": { "$type": "color", "$value": "{td.color.primitive.green-tint}" },
+        "warning-bg": { "$type": "color", "$value": "{td.color.primitive.amber-tint}" },
+        "danger-bg": { "$type": "color", "$value": "{td.color.primitive.red-tint}" },
+        "info-bg": { "$type": "color", "$value": "{td.color.primitive.blue-tint}" },
+        "neutral-bg": { "$type": "color", "$value": "{td.color.primitive.neutral-tint}" },
+        "scrim": { "$type": "color", "$value": "rgba(18, 17, 16, 0.5)" }
+      },
+      "dark": {
+        "bg": { "$type": "color", "$value": "{td.color.primitive.night-950}" },
+        "surface": { "$type": "color", "$value": "{td.color.primitive.night-900}" },
+        "surface-sunken": { "$type": "color", "$value": "{td.color.primitive.night-950}" },
+        "surface-raised": { "$type": "color", "$value": "{td.color.primitive.night-800}" },
+        "text": { "$type": "color", "$value": "{td.color.primitive.night-100}" },
+        "text-muted": { "$type": "color", "$value": "{td.color.primitive.night-200}" },
+        "text-subtle": { "$type": "color", "$value": "{td.color.primitive.night-300}" },
+        "border": { "$type": "color", "$value": "{td.color.primitive.night-700}" },
+        "border-strong": { "$type": "color", "$value": "{td.color.primitive.night-500}" },
+        "primary": { "$type": "color", "$value": "{td.color.primitive.teal-300}" },
+        "primary-hover": { "$type": "color", "$value": "{td.color.primitive.teal-200}" },
+        "on-primary": { "$type": "color", "$value": "{td.color.primitive.teal-950}" },
+        "accent": { "$type": "color", "$value": "{td.color.primitive.vermilion-300}" },
+        "success": { "$type": "color", "$value": "{td.color.primitive.green-300}" },
+        "warning": { "$type": "color", "$value": "{td.color.primitive.amber-300}" },
+        "danger": { "$type": "color", "$value": "{td.color.primitive.red-300}" },
+        "info": { "$type": "color", "$value": "{td.color.primitive.blue-300}" },
+        "focus": { "$type": "color", "$value": "{td.color.primitive.blue-300}" },
+        "success-bg": { "$type": "color", "$value": "rgba(92, 196, 138, 0.12)" },
+        "warning-bg": { "$type": "color", "$value": "rgba(224, 176, 74, 0.12)" },
+        "danger-bg": { "$type": "color", "$value": "rgba(242, 122, 110, 0.12)" },
+        "info-bg": { "$type": "color", "$value": "rgba(127, 176, 234, 0.12)" },
+        "neutral-bg": { "$type": "color", "$value": "rgba(180, 174, 162, 0.12)" },
+        "scrim": { "$type": "color", "$value": "rgba(0, 0, 0, 0.6)" }
+      }
+    },
+    "font": {
+      "family": {
+        "sans": {
+          "$type": "fontFamily",
+          "$value": ["Be Vietnam Pro", "BVP Fallback", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"]
+        },
+        "serif": {
+          "$type": "fontFamily",
+          "$value": ["Source Serif 4", "Georgia", "Times New Roman", "serif"]
+        },
+        "mono": {
+          "$type": "fontFamily",
+          "$value": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"]
+        }
+      },
+      "weight": {
+        "regular": { "$type": "fontWeight", "$value": 400 },
+        "medium": { "$type": "fontWeight", "$value": 500 },
+        "semibold": { "$type": "fontWeight", "$value": 600 },
+        "bold": { "$type": "fontWeight", "$value": 700 }
+      },
+      "size": {
+        "display-xl": { "$type": "dimension", "$value": "48px" },
+        "display-l": { "$type": "dimension", "$value": "36px" },
+        "heading-1": { "$type": "dimension", "$value": "30px" },
+        "heading-2": { "$type": "dimension", "$value": "24px" },
+        "heading-3": { "$type": "dimension", "$value": "20px" },
+        "body-l": { "$type": "dimension", "$value": "18px" },
+        "body": { "$type": "dimension", "$value": "16px" },
+        "body-s": { "$type": "dimension", "$value": "14px" },
+        "caption": { "$type": "dimension", "$value": "12px" },
+        "mono": { "$type": "dimension", "$value": "14px" }
+      },
+      "line-height": {
+        "display-xl": { "$type": "number", "$value": 1.25 },
+        "display-l": { "$type": "number", "$value": 1.28 },
+        "heading-1": { "$type": "number", "$value": 1.33 },
+        "heading-2": { "$type": "number", "$value": 1.42 },
+        "heading-3": { "$type": "number", "$value": 1.5 },
+        "body-l": { "$type": "number", "$value": 1.67 },
+        "body": { "$type": "number", "$value": 1.625 },
+        "body-s": { "$type": "number", "$value": 1.57 },
+        "caption": { "$type": "number", "$value": 1.5 },
+        "mono": { "$type": "number", "$value": 1.57 }
+      }
+    },
+    "space": {
+      "0-5": { "$type": "dimension", "$value": "2px" },
+      "1": { "$type": "dimension", "$value": "4px" },
+      "2": { "$type": "dimension", "$value": "8px" },
+      "3": { "$type": "dimension", "$value": "12px" },
+      "4": { "$type": "dimension", "$value": "16px" },
+      "5": { "$type": "dimension", "$value": "20px" },
+      "6": { "$type": "dimension", "$value": "24px" },
+      "8": { "$type": "dimension", "$value": "32px" },
+      "10": { "$type": "dimension", "$value": "40px" },
+      "12": { "$type": "dimension", "$value": "48px" },
+      "16": { "$type": "dimension", "$value": "64px" },
+      "20": { "$type": "dimension", "$value": "80px" },
+      "24": { "$type": "dimension", "$value": "96px" }
+    },
+    "radius": {
+      "xs": { "$type": "dimension", "$value": "2px" },
+      "sm": { "$type": "dimension", "$value": "4px" },
+      "md": { "$type": "dimension", "$value": "6px" },
+      "lg": { "$type": "dimension", "$value": "10px" },
+      "xl": { "$type": "dimension", "$value": "14px" },
+      "full": { "$type": "dimension", "$value": "999px" }
+    },
+    "elevation": {
+      "light": {
+        "0": { "$type": "shadow", "$value": "none" },
+        "1": { "$type": "shadow", "$value": "0 1px 2px rgba(26, 25, 21, 0.06), 0 1px 1px rgba(26, 25, 21, 0.04)" },
+        "2": { "$type": "shadow", "$value": "0 4px 12px rgba(26, 25, 21, 0.08)" },
+        "3": { "$type": "shadow", "$value": "0 12px 32px rgba(26, 25, 21, 0.14)" },
+        "paper": { "$type": "shadow", "$value": "0 1px 3px rgba(26, 25, 21, 0.12), 0 8px 24px rgba(26, 25, 21, 0.08)" }
+      },
+      "dark": {
+        "0": { "$type": "shadow", "$value": "none" },
+        "1": { "$type": "shadow", "$value": "0 1px 2px rgba(0, 0, 0, 0.35)" },
+        "2": { "$type": "shadow", "$value": "0 4px 12px rgba(0, 0, 0, 0.45)" },
+        "3": { "$type": "shadow", "$value": "0 12px 32px rgba(0, 0, 0, 0.55)" },
+        "paper": { "$type": "shadow", "$value": "0 1px 3px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35)" }
+      }
+    },
+    "motion": {
+      "duration": {
+        "instant": { "$type": "duration", "$value": "80ms" },
+        "fast": { "$type": "duration", "$value": "150ms" },
+        "base": { "$type": "duration", "$value": "200ms" },
+        "slow": { "$type": "duration", "$value": "300ms" },
+        "deliberate": { "$type": "duration", "$value": "450ms" }
+      },
+      "ease": {
+        "standard": { "$type": "cubicBezier", "$value": [0.2, 0, 0, 1] },
+        "enter": { "$type": "cubicBezier", "$value": [0, 0, 0, 1] },
+        "exit": { "$type": "cubicBezier", "$value": [0.4, 0, 1, 1] }
+      }
+    },
+    "breakpoint": {
+      "base": { "$type": "dimension", "$value": "320px" },
+      "sm": { "$type": "dimension", "$value": "640px" },
+      "md": { "$type": "dimension", "$value": "768px" },
+      "lg": { "$type": "dimension", "$value": "1024px" },
+      "xl": { "$type": "dimension", "$value": "1280px" },
+      "2xl": { "$type": "dimension", "$value": "1536px" }
+    },
+    "z": {
+      "base": { "$type": "number", "$value": 0 },
+      "sticky": { "$type": "number", "$value": 100 },
+      "dropdown": { "$type": "number", "$value": 200 },
+      "drawer": { "$type": "number", "$value": 300 },
+      "scrim": { "$type": "number", "$value": 400 },
+      "modal": { "$type": "number", "$value": 500 },
+      "toast": { "$type": "number", "$value": 600 },
+      "tooltip": { "$type": "number", "$value": 700 },
+      "skip": { "$type": "number", "$value": 800 }
+    },
+    "chart": {
+      "series": {
+        "1": { "$type": "color", "$value": "{td.color.primitive.teal-700}" },
+        "2": { "$type": "color", "$value": "{td.color.primitive.vermilion-700}" },
+        "3": { "$type": "color", "$value": "{td.color.primitive.violet-700}" },
+        "4": { "$type": "color", "$value": "{td.color.primitive.ochre-700}" },
+        "5": { "$type": "color", "$value": "{td.color.primitive.paper-500}" }
+      },
+      "gridline": { "$type": "color", "$value": "{td.color.primitive.paper-200}" },
+      "axis": { "$type": "color", "$value": "{td.color.primitive.ink-700}" },
+      "forecast-dash": {
+        "$type": "strokeStyle",
+        "$value": { "dashArray": ["4px", "3px"], "lineCap": "butt" }
+      },
+      "estimated-hatch": {
+        "$type": "strokeStyle",
+        "$value": { "dashArray": ["2px", "2px"], "lineCap": "butt" }
+      }
+    },
+    "component": {
+      "control-height-sm": { "$type": "dimension", "$value": "32px" },
+      "control-height-md": { "$type": "dimension", "$value": "40px" },
+      "control-height-lg": { "$type": "dimension", "$value": "48px" },
+      "target-min": { "$type": "dimension", "$value": "44px" },
+      "focus-width": { "$type": "dimension", "$value": "2px" },
+      "focus-offset": { "$type": "dimension", "$value": "2px" },
+      "container-prose": { "$type": "dimension", "$value": "720px" },
+      "container-content": { "$type": "dimension", "$value": "1200px" },
+      "app-nav-width": { "$type": "dimension", "$value": "280px" }
+    }
+  },
+  "contrast": {
+    "$description": "Pairs the token checker enforces. 'text' pairs need 4.5:1; 'ui' pairs need 3:1.",
+    "light": [
+      { "fg": "text", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "text", "bg": "surface", "min": 4.5, "kind": "text" },
+      { "fg": "text-muted", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "text-muted", "bg": "surface", "min": 4.5, "kind": "text" },
+      { "fg": "text-subtle", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "text-subtle", "bg": "surface-sunken", "min": 4.5, "kind": "text" },
+      { "fg": "border-strong", "bg": "bg", "min": 3, "kind": "ui" },
+      { "fg": "border-strong", "bg": "surface", "min": 3, "kind": "ui" },
+      { "fg": "primary", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "primary", "bg": "surface", "min": 4.5, "kind": "text" },
+      { "fg": "on-primary", "bg": "primary", "min": 4.5, "kind": "text" },
+      { "fg": "accent", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "success", "bg": "success-bg", "min": 4.5, "kind": "text" },
+      { "fg": "warning", "bg": "warning-bg", "min": 4.5, "kind": "text" },
+      { "fg": "danger", "bg": "danger-bg", "min": 4.5, "kind": "text" },
+      { "fg": "info", "bg": "info-bg", "min": 4.5, "kind": "text" },
+      { "fg": "text-muted", "bg": "neutral-bg", "min": 4.5, "kind": "text" }
+    ],
+    "dark": [
+      { "fg": "text", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "text", "bg": "surface", "min": 4.5, "kind": "text" },
+      { "fg": "text-muted", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "text-muted", "bg": "surface", "min": 4.5, "kind": "text" },
+      { "fg": "text-subtle", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "text-subtle", "bg": "surface-sunken", "min": 4.5, "kind": "text" },
+      { "fg": "border-strong", "bg": "bg", "min": 3, "kind": "ui" },
+      { "fg": "border-strong", "bg": "surface", "min": 3, "kind": "ui" },
+      { "fg": "primary", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "primary", "bg": "surface", "min": 4.5, "kind": "text" },
+      { "fg": "on-primary", "bg": "primary", "min": 4.5, "kind": "text" },
+      { "fg": "accent", "bg": "bg", "min": 4.5, "kind": "text" },
+      { "fg": "focus", "bg": "bg", "min": 3, "kind": "ui" }
+    ]
+  }
+}

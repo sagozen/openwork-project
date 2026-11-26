@@ -1,0 +1,37 @@
+---
+const next = Astro.url.searchParams.get("next") ?? "/app";
+const safeNext = next.startsWith("/") && !next.startsWith("//") ? next : "/app";
+if (Astro.locals.user) return Astro.redirect(safeNext);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Sign in · Ota</title>
+  </head>
+  <body style="font:15px/1.5 system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;margin:0">
+    <form id="form" data-next={safeNext} style="display:grid;gap:12px;width:min(360px,90vw)">
+      <h1 style="font-size:20px;margin:0">Sign in to Ota</h1>
+      <input name="email" type="email" placeholder="you@example.com" required style="padding:10px" />
+      <button type="submit" style="padding:10px">Email me a sign-in link</button>
+      <p id="status" role="status" style="margin:0;color:#78716c"></p>
+    </form>
+    <script>
+      const form = document.getElementById("form") as HTMLFormElement;
+      const status = document.getElementById("status") as HTMLElement;
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const email = String(new FormData(form).get("email"));
+        const response = await fetch("/api/auth/sign-in/magic-link", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email, callbackURL: form.dataset.next }),
+        });
+        status.textContent = response.ok ? "Check your email for the link." : "We could not send the link. Try again.";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1017 @@
+openapi: 3.1.0
+info:
+  title: TemplateDesign API
+  version: 1.0.0
+  summary: Deterministic PDF rendering from controlled certificate and CFO templates.
+  description: |
+    Public contract for the TemplateDesign rendering API. Renders use the Go + Typst renderer.
+    All timestamps are ISO 8601 UTC. Credits are integers. Money is integer minor units plus
+    an ISO 4217 currency code.
+
+    Errors use RFC 9457 `application/problem+json`; the stable member is `code`.
+  contact:
+    name: TemplateDesign
+    url: https://templatedesign.zhst.app/docs/
+  license:
+    name: MIT
+    url: https://opensource.org/license/mit
+servers:
+  - url: https://templatedesign.zhst.app/api/v1
+    description: Production
+tags:
+  - name: Meta
+  - name: Templates
+  - name: Jobs
+  - name: Outputs
+  - name: Billing
+  - name: Print
+security:
+  - bearerKey: []
+paths:
+  /capabilities:
+    get:
+      tags: [Meta]
+      operationId: getCapabilities
+      summary: Deployment capabilities
+      security: []
+      responses:
+        "200":
+          description: Supported formats, profiles and feature flags.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [outputs, profiles, locales, test_mode]
+                properties:
+                  outputs:
+                    type: array
+                    items: { enum: [pdf] }
+                  profiles:
+                    type: array
+                    items: { const: certificate-cfo-v1 }
+                  locales:
+                    type: array
+                    items: { enum: [en, vi] }
+                  test_mode: { type: boolean }
+                  max_pages: { type: integer }
+  /key:
+    get:
+      tags: [Meta]
+      operationId: getKey
+      summary: Describe the calling API key
+      responses:
+        "200":
+          description: Key metadata and today's remaining spend.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [prefix, scopes, livemode]
+                properties:
+                  prefix: { type: string, example: td_live_ab12 }
+                  scopes:
+                    type: array
+                    items: { type: string }
+                  livemode: { type: boolean }
+                  spend_cap_daily:
+                    type: [integer, "null"]
+                  remaining_today:
+                    type: [integer, "null"]
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+  /templates:
+    get:
+      tags: [Templates]
+      operationId: listTemplates
+      summary: List library and private templates
+      parameters:
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+      responses:
+        "200":
+          description: Template summaries.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, next_cursor]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/TemplateSummary" }
+                  next_cursor:
+                    type: [string, "null"]
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+    post:
+      tags: [Templates]
+      operationId: createTemplate
+      summary: Create a private template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TemplateCreate" }
+      responses:
+        "201":
+          description: Created template.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TemplateSummary" }
+        "422": { $ref: "#/components/responses/ProfileViolation" }
+  /templates/{id}:
+    parameters:
+      - { $ref: "#/components/parameters/TemplateId" }
+    get:
+      tags: [Templates]
+      operationId: getTemplate
+      summary: Get a template
+      responses:
+        "200":
+          description: Template metadata and latest version.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TemplateSummary" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /templates/{id}/versions:
+    parameters:
+      - { $ref: "#/components/parameters/TemplateId" }
+    get:
+      tags: [Templates]
+      operationId: listTemplateVersions
+      summary: List immutable versions
+      responses:
+        "200":
+          description: Versions, newest first.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/TemplateVersion" }
+    post:
+      tags: [Templates]
+      operationId: publishTemplateVersion
+      summary: Publish a new immutable version after preflight
+      responses:
+        "201":
+          description: Published version.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TemplateVersion" }
+        "422": { $ref: "#/components/responses/ProfileViolation" }
+  /templates/{id}/versions/{version}/input-schema:
+    parameters:
+      - { $ref: "#/components/parameters/TemplateId" }
+      - name: version
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    get:
+      tags: [Templates]
+      operationId: getInputSchema
+      summary: JSON Schema 2020-12 for the version input
+      responses:
+        "200":
+          description: Input schema plus page estimate metadata.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/InputSchema" }
+  /jobs:
+    post:
+      tags: [Jobs]
+      operationId: createJob
+      summary: Create a render job
+      parameters:
+        - { $ref: "#/components/parameters/IdempotencyKey" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/JobCreate" }
+      responses:
+        "202":
+          description: Job accepted. Poll the job or wait for a webhook.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "402": { $ref: "#/components/responses/InsufficientCredits" }
+        "409": { $ref: "#/components/responses/IdempotencyConflict" }
+        "413": { $ref: "#/components/responses/PayloadTooLarge" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+    get:
+      tags: [Jobs]
+      operationId: listJobs
+      summary: List jobs
+      parameters:
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+        - name: status
+          in: query
+          schema: { enum: [queued, running, succeeded, failed, cancelled] }
+      responses:
+        "200":
+          description: Jobs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Job" }
+                  next_cursor:
+                    type: [string, "null"]
+  /jobs/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Jobs]
+      operationId: getJob
+      summary: Get job status and result
+      responses:
+        "200":
+          description: Job.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /jobs/{id}/cancel:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Jobs]
+      operationId: cancelJob
+      summary: Cancel a queued job and release its reserve
+      responses:
+        "202":
+          description: Cancellation accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+        "409":
+          description: Job already reached a terminal state.
+  /outputs/{id}:
+    parameters:
+      - { $ref: "#/components/parameters/OutputId" }
+    get:
+      tags: [Outputs]
+      operationId: getOutput
+      summary: Output metadata
+      responses:
+        "200":
+          description: Output metadata.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Output" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [Outputs]
+      operationId: deleteOutput
+      summary: Delete an output now
+      responses:
+        "204": { description: Deleted. Existing share links are revoked. }
+  /outputs/{id}/download:
+    parameters:
+      - { $ref: "#/components/parameters/OutputId" }
+    get:
+      tags: [Outputs]
+      operationId: downloadOutput
+      summary: Download the PDF
+      responses:
+        "200":
+          description: PDF bytes. No credits are charged.
+          headers:
+            Content-Disposition:
+              schema: { type: string }
+            Cache-Control:
+              schema: { const: "private, no-store" }
+          content:
+            application/pdf:
+              schema: { type: string, format: binary }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "410":
+          description: Output expired or was deleted.
+  /outputs/{id}/share-links:
+    parameters:
+      - { $ref: "#/components/parameters/OutputId" }
+    post:
+      tags: [Outputs]
+      operationId: createShareLink
+      summary: Create a share link no longer than the output retention
+      parameters:
+        - { $ref: "#/components/parameters/IdempotencyKey" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShareLinkCreate" }
+      responses:
+        "201":
+          description: Share link created.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShareLink" }
+        "402": { $ref: "#/components/responses/InsufficientCredits" }
+    get:
+      tags: [Outputs]
+      operationId: listShareLinks
+      summary: List share links for an output
+      responses:
+        "200":
+          description: Share links.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ShareLink" }
+  /share-links/{id}:
+    delete:
+      tags: [Outputs]
+      operationId: revokeShareLink
+      summary: Revoke a share link immediately
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "204": { description: Revoked. The public page becomes unavailable. }
+  /usage:
+    get:
+      tags: [Billing]
+      operationId: getUsage
+      summary: Usage and credit balance
+      responses:
+        "200":
+          description: Balance, reserve and usage rows.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Usage" }
+  /packs:
+    get:
+      tags: [Billing]
+      operationId: listPacks
+      summary: Public credit packs used by the pricing page and checkout
+      security: []
+      responses:
+        "200":
+          description: Packs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CreditPack" }
+  /health:
+    get:
+      tags: [Meta]
+      operationId: getHealth
+      summary: Liveness probe
+      security: []
+      responses:
+        "200":
+          description: Service status.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status: { enum: [ok, degraded] }
+                  renderer: { enum: [ok, unavailable] }
+  /print/templates:
+    get:
+      tags: [Print]
+      operationId: listPrintTemplates
+      summary: List print templates
+      responses:
+        "200":
+          description: Print templates owned by the key's tenant.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/PrintTemplateMeta" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+    post:
+      tags: [Print]
+      operationId: createPrintTemplate
+      summary: Upload an interior PDF and optional cover PDF
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+                cover: { type: string, format: binary, description: Optional full-wrap cover PDF. }
+                title: { type: string, maxLength: 160 }
+                spineMm: { type: number, minimum: 0 }
+      responses:
+        "201":
+          description: Template created with AcroForm fields imported.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PrintTemplateMeta" }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "413": { $ref: "#/components/responses/PayloadTooLarge" }
+  /print/templates/{id}:
+    get:
+      tags: [Print]
+      operationId: getPrintTemplate
+      summary: Read a print template and its field design
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+      responses:
+        "200":
+          description: Template metadata and design.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PrintTemplateMeta" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    patch:
+      tags: [Print]
+      operationId: savePrintTemplate
+      summary: Save the field design or rename the template
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title: { type: string, maxLength: 160 }
+                template: { $ref: "#/components/schemas/PrintTemplate" }
+                baseRevision: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: Saved design.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revision: { type: integer }
+                  updatedAt: { type: string, format: date-time }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "409": { $ref: "#/components/responses/IdempotencyConflict" }
+  /print/templates/{id}/publish:
+    post:
+      tags: [Print]
+      operationId: publishPrintTemplate
+      summary: Publish an immutable print version
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [baseRevision]
+              properties:
+                baseRevision: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: Published version.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, version, publishedAt]
+                properties:
+                  id: { type: string }
+                  version: { type: integer }
+                  publishedAt: { type: string, format: date-time }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "409": { $ref: "#/components/responses/IdempotencyConflict" }
+  /print/templates/{id}/base:
+    get:
+      tags: [Print]
+      operationId: downloadPrintSource
+      summary: Download the interior or cover source PDF
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+        - name: part
+          in: query
+          schema: { enum: [interior, cover], default: interior }
+      responses:
+        "200":
+          description: Source PDF.
+          content:
+            application/pdf:
+              schema: { type: string, format: binary }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /print/assets:
+    post:
+      tags: [Print]
+      operationId: uploadPrintAsset
+      summary: Upload a customer image or a per-order base PDF
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+      responses:
+        "201":
+          description: Asset id for an order.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, contentType, bytes]
+                properties:
+                  id: { type: string }
+                  contentType: { type: string }
+                  bytes: { type: integer }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "413": { $ref: "#/components/responses/PayloadTooLarge" }
+  /print/orders:
+    get:
+      tags: [Print]
+      operationId: listPrintOrders
+      summary: List print orders
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Recent print orders.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/PrintOrder" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+    post:
+      tags: [Print]
+      operationId: createPrintOrder
+      summary: Render one interior or cover PDF for a customer order
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PrintOrderRequest" }
+      responses:
+        "202":
+          description: Order accepted and queued.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PrintOrder" }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "402": { $ref: "#/components/responses/InsufficientCredits" }
+        "409": { $ref: "#/components/responses/IdempotencyConflict" }
+  /print/orders/{id}:
+    get:
+      tags: [Print]
+      operationId: getPrintOrder
+      summary: Read a print order and its download URL
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, pattern: "^po_[A-Za-z0-9_]+$" }
+      responses:
+        "200":
+          description: Order status and files.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PrintOrder" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+components:
+  securitySchemes:
+    bearerKey:
+      type: http
+      scheme: bearer
+      bearerFormat: "td_live_* | td_test_*"
+    session:
+      type: apiKey
+      in: cookie
+      name: td_session
+  parameters:
+    TemplateId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 80 }
+    OutputId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, pattern: "^out_[A-Za-z0-9_]+$" }
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: Retained 30 days per tenant + livemode. Same body replays the original response.
+      schema: { type: string, minLength: 8, maxLength: 255 }
+    Limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+    Cursor:
+      name: cursor
+      in: query
+      schema: { type: string }
+  responses:
+    InvalidInput:
+      description: Body or input failed schema validation.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    Unauthenticated:
+      description: Missing, malformed, revoked or wrong-mode key.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    InsufficientCredits:
+      description: Available credits are below the requested max_pages.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    NotFound:
+      description: Not found, expired, or not visible to this key.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    IdempotencyConflict:
+      description: Same Idempotency-Key with a different body.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    PayloadTooLarge:
+      description: Body or asset over the plan limit.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    ProfileViolation:
+      description: Template uses a feature outside certificate-cfo-v1.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    RateLimited:
+      description: Rate, concurrency or queue cap reached. Honour Retry-After.
+      headers:
+        Retry-After:
+          schema: { type: integer }
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+  schemas:
+    Problem:
+      type: object
+      required: [type, title, status, code]
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        code:
+          type: string
+          enum:
+            [
+              invalid_input,
+              unauthenticated,
+              insufficient_credits,
+              forbidden,
+              not_found,
+              idempotency_conflict,
+              revision_conflict,
+              payload_too_large,
+              unsupported_template,
+              profile_violation,
+              rate_limited,
+              quota_exceeded,
+              busy,
+              dependency_unavailable,
+              render_failed,
+            ]
+        detail: { type: string }
+        request_id: { type: string }
+        details: { type: object, additionalProperties: true }
+    TemplateSummary:
+      type: object
+      required: [id, title, kind, profile, default_version, livemode]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        kind: { enum: [certificate, cfo] }
+        profile: { const: certificate-cfo-v1 }
+        default_version: { type: integer }
+        latest_version: { type: integer }
+        livemode: { type: boolean }
+        languages:
+          type: array
+          items: { enum: [en, vi] }
+    TemplateVersion:
+      type: object
+      required: [version, created_at, pages]
+      properties:
+        version: { type: integer, minimum: 1 }
+        created_at: { type: string, format: date-time }
+        pages: { type: object, properties: { min: { type: integer }, max: { type: integer } } }
+        render_revision: { type: string }
+        input_schema_url: { type: string, format: uri }
+    TemplateCreate:
+      type: object
+      required: [title, kind, envelope]
+      properties:
+        title: { type: string, maxLength: 160 }
+        kind: { enum: [certificate, cfo] }
+        envelope: { type: object, description: "Must validate against template-profile.schema.json." }
+    InputSchema:
+      type: object
+      required: [schema]
+      properties:
+        schema: { type: object, description: JSON Schema 2020-12 }
+        pages:
+          type: object
+          properties:
+            min: { type: integer }
+            max: { type: integer }
+    JobCreate:
+      type: object
+      required: [template_id, input]
+      properties:
+        template_id: { type: string }
+        template_version: { type: integer, minimum: 1 }
+        input: { type: object }
+        output:
+          type: object
+          properties:
+            format: { enum: [pdf], default: pdf }
+            max_pages: { type: integer, minimum: 1, maximum: 50 }
+        retention_seconds: { enum: [3600, 86400, 604800, 2592000], default: 3600 }
+        metadata: { type: object, maxProperties: 10 }
+    Job:
+      type: object
+      required: [id, status, livemode, created_at]
+      properties:
+        id: { type: string, pattern: "^job_[A-Za-z0-9_]+$" }
+        status: { enum: [queued, running, succeeded, failed, cancelled] }
+        livemode: { type: boolean }
+        created_at: { type: string, format: date-time }
+        started_at: { type: [string, "null"], format: date-time }
+        finished_at: { type: [string, "null"], format: date-time }
+        pages: { type: [integer, "null"] }
+        spineMm: { type: [number, "null"] }
+        preflight:
+          oneOf:
+            - type: array
+              items:
+                type: object
+                properties:
+                  code: { type: string }
+                  message: { type: string }
+                  severity: { type: string }
+            - type: "null"
+        credits:
+          type: object
+          properties:
+            reserved: { type: integer }
+            charged: { type: integer }
+            released: { type: integer }
+        output_id: { type: [string, "null"] }
+        delete_at: { type: [string, "null"], format: date-time }
+        error:
+          oneOf:
+            - { $ref: "#/components/schemas/Problem" }
+            - { type: "null" }
+    Output:
+      type: object
+      required: [id, job_id, format, bytes, pages, delete_at]
+      properties:
+        id: { type: string }
+        job_id: { type: string }
+        format: { enum: [pdf] }
+        bytes: { type: integer }
+        pages: { type: integer }
+        delete_at: { type: string, format: date-time }
+        filename: { type: string }
+    ShareLinkCreate:
+      type: object
+      required: [expires_in]
+      properties:
+        expires_in: { enum: [3600, 86400, 604800, 2592000] }
+        show_filename: { type: boolean, default: false }
+    ShareLink:
+      type: object
+      required: [id, url, expires_at, revoked]
+      properties:
+        id: { type: string }
+        url: { type: string, format: uri }
+        expires_at: { type: string, format: date-time }
+        revoked: { type: boolean }
+        downloads: { type: integer }
+    Usage:
+      type: object
+      properties:
+        available: { type: integer }
+        reserved: { type: integer }
+        free_remaining: { type: integer }
+        free_reset_at: { type: string, format: date-time }
+        ledger:
+          type: array
+          items:
+            type: object
+            properties:
+              at: { type: string, format: date-time }
+              kind: { enum: [grant, reserve, settle, release, refund, expiry] }
+              credits: { type: integer }
+              source: { enum: [free, purchased, test] }
+    CreditPack:
+      type: object
+      required: [id, price_minor, currency, credits]
+      properties:
+        id: { enum: [starter, builder, scale] }
+        price_minor: { type: integer }
+        currency: { enum: [USD] }
+        credits: { type: integer }
+        per_page_note: { type: string }
+    PrintField:
+      type: object
+      required: [name, type, position, width, height]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 80 }
+        type: { enum: [text, image] }
+        position:
+          type: object
+          required: [x, y]
+          properties:
+            x: { type: number }
+            y: { type: number }
+        width: { type: number, exclusiveMinimum: 0 }
+        height: { type: number, exclusiveMinimum: 0 }
+        fontName: { type: string }
+        fontSize: { type: number, minimum: 6 }
+        fontColor: { type: string, pattern: "^#[0-9A-Fa-f]{6}$" }
+        alignment: { enum: [left, center, right] }
+        verticalAlignment: { enum: [top, middle, bottom] }
+        lineHeight: { type: number }
+        td:
+          type: object
+          properties:
+            field: { type: string }
+            fit: { enum: [shrink, wrap, fail] }
+            maxLength: { type: integer, minimum: 0, maximum: 500 }
+            required: { type: boolean }
+            cover: { type: string, pattern: "^#[0-9A-Fa-f]{6}$" }
+    PrintCover:
+      type: object
+      required: [asset, schemas, pageCount, widthMm, heightMm]
+      properties:
+        asset: { type: string }
+        schemas:
+          type: array
+          items:
+            type: array
+            items: { $ref: "#/components/schemas/PrintField" }
+        pageCount: { type: integer, minimum: 1 }
+        widthMm: { type: number }
+        heightMm: { type: number }
+        spineMm: { type: number }
+        parts:
+          type: object
+          properties:
+            back: { type: string }
+            spine: { type: string }
+            front: { type: string }
+        trimWidthMm: { type: number }
+        trimHeightMm: { type: number }
+        bleedMm: { type: number }
+        paperCaliperMm: { type: number }
+    PrintTemplate:
+      type: object
+      required: [profile, source, td]
+      properties:
+        profile: { const: print-pdf-v1 }
+        source:
+          type: object
+          required: [asset, schemas]
+          properties:
+            asset: { type: string }
+            imageAssets:
+              type: object
+              additionalProperties: { type: string }
+            schemas:
+              type: array
+              items:
+                type: array
+                items: { $ref: "#/components/schemas/PrintField" }
+        td:
+          type: object
+          properties:
+            inputSchema: { type: object }
+            sampleData: { type: object }
+        cover: { $ref: "#/components/schemas/PrintCover" }
+    PrintTemplateMeta:
+      type: object
+      required: [id, title, pageCount, pageWidthMm, pageHeightMm, revision]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        pageCount: { type: integer }
+        pageWidthMm: { type: number }
+        pageHeightMm: { type: number }
+        coverPageCount: { type: [integer, "null"] }
+        coverWidthMm: { type: [number, "null"] }
+        coverHeightMm: { type: [number, "null"] }
+        coverSpineMm: { type: [number, "null"] }
+        preflight:
+          type: object
+          properties:
+            interior: { type: object }
+            cover: { type: object }
+        revision: { type: integer }
+        defaultVersion: { type: [integer, "null"] }
+        baseUrl: { type: string }
+    PrintOrderRequest:
+      type: object
+      required: [externalId, templateId, personalization]
+      properties:
+        externalId: { type: string, minLength: 1, maxLength: 120 }
+        templateId: { type: string }
+        templateVersion: { type: integer, minimum: 1 }
+        part: { enum: [interior, cover], default: interior }
+        personalization:
+          type: object
+          additionalProperties:
+            oneOf: [{ type: string }, { type: number }]
+        images:
+          type: object
+          additionalProperties: { type: string }
+        baseAssetId: { type: string, description: Optional per-order PDF asset. }
+        interiorPages: { type: integer, minimum: 1, description: Interior page count for a cover order. }
+        retentionSeconds: { enum: [3600, 86400, 604800, 2592000] }
+    PrintOrder:
+      type: object
+      required: [id, externalId, part, status, templateId, templateVersion, jobId, credits, createdAt]
+      properties:
+        id: { type: string }
+        externalId: { type: string }
+        part: { enum: [interior, cover] }
+        status: { enum: [queued, running, succeeded, failed, cancelled, expired] }
+        templateId: { type: string }
+        templateVersion: { type: integer }
+        jobId: { type: string }
+        pages: { type: [integer, "null"] }
+        spineMm: { type: [number, "null"] }
+        preflight:
+          oneOf:
+            - type: array
+              items:
+                type: object
+                properties:
+                  code: { type: string }
+                  message: { type: string }
+                  severity: { type: string }
+            - type: "null"
+        credits:
+          type: object
+          properties:
+            reserved: { type: integer }
+            charged: { type: integer }
+            released: { type: integer }
+        downloadUrl: { type: [string, "null"] }
+        createdAt: { type: string, format: date-time }
+        finishedAt: { type: [string, "null"], format: date-time }
+        error:
+          oneOf:
+            - type: object
+              properties:
+                code: { type: string }
+                detail: { type: string }
+            - type: "null"

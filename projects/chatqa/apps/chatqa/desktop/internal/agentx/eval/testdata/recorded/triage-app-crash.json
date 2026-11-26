@@ -1,0 +1,22 @@
+{
+  "case": "triage-app-crash",
+  "source": "hand-written stand-in in the recorded format; replace by running cmd/agenteval -record against the Worker",
+  "replies": {
+    "triage": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "```json\n[\n {\n  \"flow\": \"02_order/001_tao_don.yaml\",\n  \"platform\": \"android\",\n  \"category\": \"app\",\n  \"evidence\": \"Ứng dụng văng ở màn tính phí (NullPointerException)\",\n  \"confidence\": 0.9\n }\n]\n```"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ]
+  }
+}

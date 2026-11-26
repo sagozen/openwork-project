@@ -1,0 +1,197 @@
+---
+import { getAdminSettings, requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+let allowed = true;
+try {
+  await requireAdmin(db, Astro.locals.user, runtimeEnv(), "admin");
+} catch {
+  allowed = false;
+}
+if (!allowed) return Astro.redirect("/admin");
+
+const settings = await getAdminSettings(db);
+const csrf = Astro.locals.csrfToken ?? "";
+
+const [lastRun, findings, reviewPayments, resolvedCount] = await Promise.all([
+  db.first<{ run_at: string | null }>("SELECT MAX(run_at) AS run_at FROM reconciliation_findings"),
+  db.all<{
+    id: string;
+    run_at: string;
+    kind: string;
+    tenant_id: string | null;
+    payment_id: string | null;
+    detail_json: string;
+  }>(
+    "SELECT id, run_at, kind, tenant_id, payment_id, detail_json FROM reconciliation_findings WHERE resolved_at IS NULL ORDER BY run_at DESC, kind LIMIT 200",
+  ),
+  db.all<{ id: string; tenant_id: string; created_at: string; credits: number; amount_cents: number }>(
+    "SELECT id, tenant_id, created_at, credits, amount_cents FROM payments WHERE status = 'review' ORDER BY created_at DESC LIMIT 50",
+  ),
+  db.first<{ count: number }>("SELECT COUNT(*) AS count FROM reconciliation_findings WHERE resolved_at IS NOT NULL"),
+]);
+
+const byKind = new Map<string, typeof findings>();
+for (const finding of findings) {
+  const bucket = byKind.get(finding.kind) ?? [];
+  bucket.push(finding);
+  byKind.set(finding.kind, bucket);
+}
+const stamp = (value: string) => new Date(value).toISOString().replace("T", " ").slice(0, 16);
+---
+
+<AdminLayout title="Reconciliation" current="/admin/reconciliation/">
+  <div class="w-card">
+    <h2>Payment provider</h2>
+    <p>
+      Checkout is <strong>{settings.pauseCheckout ? "paused" : "enabled"}</strong>.
+      Last reconciliation run: <strong>{lastRun?.run_at ? stamp(lastRun.run_at) : "never"}</strong>.
+      Unresolved findings: <strong>{findings.length}</strong> · resolved historically: {resolvedCount?.count ?? 0}.
+    </p>
+    <p class="td-field__hint">
+      A skipped provider is not a passing check. If a provider is listed as skipped below, its secrets are missing
+      on this deployment and its payments were not compared.
+    </p>
+    <button class="td-btn td-btn--primary td-btn--sm" type="button" data-run-now>Run now</button>
+    <p class="td-field__hint" data-run-status aria-live="polite"></p>
+  </div>
+
+  {
+    findings.length === 0 ? (
+      <div class="w-card">
+        <h2>Findings</h2>
+        <p>
+          <strong>No unresolved findings.</strong> Wallet balances match the ledger per source and provider records
+          agree with <code>payments</code> for the last run.
+        </p>
+      </div>
+    ) : (
+      [...byKind.entries()].map(([kind, rows]) => (
+        <div class="w-card">
+          <h2>
+            {kind} <span class="td-muted">({rows.length})</span>
+          </h2>
+          <table class="td-table td-table--dense">
+            <thead>
+              <tr>
+                <th scope="col">When</th>
+                <th scope="col">Tenant</th>
+                <th scope="col">Payment</th>
+                <th scope="col">Detail</th>
+                <th scope="col">Resolve</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr>
+                  <th scope="row">{stamp(row.run_at)}</th>
+                  <td>
+                    {row.tenant_id ? (
+                      <a href={`/admin/accounts/?tenant=${encodeURIComponent(row.tenant_id)}`}>
+                        <code>{row.tenant_id}</code>
+                      </a>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td>{row.payment_id ? <code>{row.payment_id}</code> : "—"}</td>
+                  <td>
+                    <code>{row.detail_json}</code>
+                  </td>
+                  <td>
+                    <button class="td-btn td-btn--secondary td-btn--sm" type="button" data-resolve={row.id}>
+                      Mark resolved
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))
+    )
+  }
+
+  <div class="w-card">
+    <h2>Payments under review</h2>
+    {
+      reviewPayments.length === 0 ? (
+        <p class="td-muted">No payments are waiting for a decision.</p>
+      ) : (
+        <table class="td-table td-table--dense">
+          <thead>
+            <tr>
+              <th scope="col">When</th>
+              <th scope="col">Account</th>
+              <th scope="col" class="td-table__numeric">
+                Credits
+              </th>
+              <th scope="col" class="td-table__numeric">
+                Amount
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {reviewPayments.map((row) => (
+              <tr>
+                <th scope="row">{stamp(row.created_at)}</th>
+                <td>
+                  <a href={`/admin/accounts/?tenant=${encodeURIComponent(row.tenant_id)}`}>
+                    <code>{row.tenant_id}</code>
+                  </a>
+                </td>
+                <td class="td-table__numeric">{row.credits}</td>
+                <td class="td-table__numeric">${(row.amount_cents / 100).toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    }
+    <p class="td-field__hint">
+      Refunds and chargebacks are issued in the provider dashboard and land automatically. Never edit the ledger by
+      hand; use an audited admin credit adjustment instead.
+    </p>
+  </div>
+</AdminLayout>
+
+<script define:vars={{ csrf }}>
+  const headers = { "content-type": "application/json", "x-csrf-token": csrf };
+
+  document.querySelector("[data-run-now]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    const status = document.querySelector("[data-run-status]");
+    if (!(button instanceof HTMLButtonElement)) return;
+    button.disabled = true;
+    if (status) status.textContent = "Running reconciliation…";
+    try {
+      const response = await fetch("/api/v1/admin/reconciliation/run", { method: "POST", headers });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body?.detail ?? "Run failed");
+      if (status) status.textContent = `Done: ${JSON.stringify(body.counts)}`;
+      window.location.reload();
+    } catch (error) {
+      if (status) status.textContent = error instanceof Error ? error.message : "Run failed";
+      button.disabled = false;
+    }
+  });
+
+  for (const button of document.querySelectorAll("[data-resolve]")) {
+    button.addEventListener("click", async () => {
+      if (!(button instanceof HTMLButtonElement)) return;
+      const reason = window.prompt("Reason for resolving this finding (required, audited):");
+      if (!reason) return;
+      button.disabled = true;
+      const response = await fetch("/api/v1/admin/reconciliation/resolve", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ finding_id: button.dataset.resolve, reason }),
+      });
+      if (response.ok) window.location.reload();
+      else button.disabled = false;
+    });
+  }
+</script>

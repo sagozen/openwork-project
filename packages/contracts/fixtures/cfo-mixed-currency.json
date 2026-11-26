@@ -1,0 +1,18 @@
+{
+  "report": {
+    "title": "Mixed-currency report",
+    "org_name": "Acme Studio",
+    "period_start": "2026-09-01",
+    "period_end": "2026-09-30",
+    "currency": "USD",
+    "basis": "actual",
+    "source_label": "Manual export"
+  },
+  "totals": {
+    "current_minor": 90000
+  },
+  "services": [
+    { "name": "Workers", "actual_minor": 40000, "currency": "USD" },
+    { "name": "Support", "actual_minor": 50000, "currency": "EUR" }
+  ]
+}

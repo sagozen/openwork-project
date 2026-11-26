@@ -1,0 +1,648 @@
+{
+    "$defs": {
+        "AdminUnit": {
+            "additionalProperties": false,
+            "description": "\u0110\u01a1n v\u1ecb h\u00e0nh ch\u00ednh (m\u00f4 h\u00ecnh 2 c\u1ea5p).",
+            "properties": {
+                "boundary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "code": {
+                    "type": "string"
+                },
+                "confidence": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "entity_id": {
+                    "description": "ID th\u1ef1c th\u1ec3 \u1ed5n \u0111\u1ecbnh (UUID), gi\u1eef nguy\u00ean qua m\u1ecdi phi\u00ean b\u1ea3n.",
+                    "type": "string"
+                },
+                "level": {
+                    "description": "1 = t\u1ec9nh/th\u00e0nh, 2 = x\u00e3/ph\u01b0\u1eddng/\u0111\u1eb7c khu (m\u00f4 h\u00ecnh 2 c\u1ea5p).",
+                    "maximum": 2,
+                    "minimum": 1,
+                    "type": "integer"
+                },
+                "license": {
+                    "description": "Gi\u1ea5y ph\u00e9p c\u1ee7a ngu\u1ed3n d\u1eef li\u1ec7u (OSM, Overture, n\u1ed9i b\u1ed9).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "description": "Ng\u00e0y b\u1eaft \u0111\u1ea7u hi\u1ec7u l\u1ef1c ngo\u00e0i \u0111\u1eddi.",
+                    "format": "date",
+                    "type": "string"
+                },
+                "valid_to": {
+                    "description": "Ng\u00e0y h\u1ebft hi\u1ec7u l\u1ef1c (kh\u00f4ng t\u00ednh). Tr\u1ed1ng ngh\u0129a l\u00e0 \u0111ang hi\u1ec7u l\u1ef1c.",
+                    "format": "date",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "code",
+                "level",
+                "name",
+                "entity_id",
+                "source",
+                "valid_from",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "AdminUnit",
+            "type": "object"
+        },
+        "DataClass": {
+            "description": "",
+            "enum": [
+                "public",
+                "internal",
+                "personal"
+            ],
+            "title": "DataClass",
+            "type": "string"
+        },
+        "EventType": {
+            "description": "",
+            "enum": [
+                "accepted",
+                "arrived",
+                "sorted",
+                "departed",
+                "out_for_delivery",
+                "delivered",
+                "failed",
+                "returned"
+            ],
+            "title": "EventType",
+            "type": "string"
+        },
+        "Facility": {
+            "additionalProperties": false,
+            "description": "B\u01b0u c\u1ee5c, \u0111\u1ea1i l\u00fd, hub, kho, \u0111i\u1ec3m g\u1eedi nh\u1eadn, t\u1ee7 kho\u00e1.",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "confidence": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "entity_id": {
+                    "description": "ID th\u1ef1c th\u1ec3 \u1ed5n \u0111\u1ecbnh (UUID), gi\u1eef nguy\u00ean qua m\u1ecdi phi\u00ean b\u1ea3n.",
+                    "type": "string"
+                },
+                "facility_type": {
+                    "$ref": "#/$defs/FacilityType"
+                },
+                "in_admin_unit": {
+                    "type": "string"
+                },
+                "license": {
+                    "description": "Gi\u1ea5y ph\u00e9p c\u1ee7a ngu\u1ed3n d\u1eef li\u1ec7u (OSM, Overture, n\u1ed9i b\u1ed9).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "location": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "operated_by": {
+                    "type": "string"
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "description": "Ng\u00e0y b\u1eaft \u0111\u1ea7u hi\u1ec7u l\u1ef1c ngo\u00e0i \u0111\u1eddi.",
+                    "format": "date",
+                    "type": "string"
+                },
+                "valid_to": {
+                    "description": "Ng\u00e0y h\u1ebft hi\u1ec7u l\u1ef1c (kh\u00f4ng t\u00ednh). Tr\u1ed1ng ngh\u0129a l\u00e0 \u0111ang hi\u1ec7u l\u1ef1c.",
+                    "format": "date",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "facility_type",
+                "in_admin_unit",
+                "code",
+                "name",
+                "operated_by",
+                "entity_id",
+                "source",
+                "valid_from",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "Facility",
+            "type": "object"
+        },
+        "FacilityLink": {
+            "additionalProperties": false,
+            "description": "Li\u00ean k\u1ebft gi\u1eefa hai \u0111i\u1ec3m m\u1ea1ng l\u01b0\u1edbi (v\u00ed d\u1ee5 tuy\u1ebfn trung chuy\u1ec3n).",
+            "properties": {
+                "confidence": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "entity_id": {
+                    "description": "ID th\u1ef1c th\u1ec3 \u1ed5n \u0111\u1ecbnh (UUID), gi\u1eef nguy\u00ean qua m\u1ecdi phi\u00ean b\u1ea3n.",
+                    "type": "string"
+                },
+                "from_facility": {
+                    "type": "string"
+                },
+                "license": {
+                    "description": "Gi\u1ea5y ph\u00e9p c\u1ee7a ngu\u1ed3n d\u1eef li\u1ec7u (OSM, Overture, n\u1ed9i b\u1ed9).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "link_type": {
+                    "$ref": "#/$defs/FacilityLinkType"
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "to_facility": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "description": "Ng\u00e0y b\u1eaft \u0111\u1ea7u hi\u1ec7u l\u1ef1c ngo\u00e0i \u0111\u1eddi.",
+                    "format": "date",
+                    "type": "string"
+                },
+                "valid_to": {
+                    "description": "Ng\u00e0y h\u1ebft hi\u1ec7u l\u1ef1c (kh\u00f4ng t\u00ednh). Tr\u1ed1ng ngh\u0129a l\u00e0 \u0111ang hi\u1ec7u l\u1ef1c.",
+                    "format": "date",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "from_facility",
+                "to_facility",
+                "link_type",
+                "entity_id",
+                "source",
+                "valid_from",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "FacilityLink",
+            "type": "object"
+        },
+        "FacilityLinkType": {
+            "description": "",
+            "enum": [
+                "linehaul_to"
+            ],
+            "title": "FacilityLinkType",
+            "type": "string"
+        },
+        "FacilityType": {
+            "description": "",
+            "enum": [
+                "post_office",
+                "agent",
+                "hub",
+                "warehouse",
+                "pickup_point",
+                "locker"
+            ],
+            "title": "FacilityType",
+            "type": "string"
+        },
+        "NetworkNode": {
+            "additionalProperties": false,
+            "description": "Interface cho m\u1ecdi \u0111i\u1ec3m thu\u1ed9c m\u1ea1ng l\u01b0\u1edbi v\u1eadn h\u00e0nh.",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "operated_by": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "code",
+                "name",
+                "operated_by"
+            ],
+            "title": "NetworkNode",
+            "type": "object"
+        },
+        "Observation": {
+            "additionalProperties": false,
+            "description": "M\u1ed9t gi\u00e1 tr\u1ecb \u0111o c\u1ee7a m\u1ed9t bi\u1ebfn tr\u00ean m\u1ed9t th\u1ef1c th\u1ec3 v\u00e0o m\u1ed9t ng\u00e0y (ki\u1ec3u Data Commons).",
+            "properties": {
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "obs_date": {
+                    "format": "date",
+                    "type": "string"
+                },
+                "observation_id": {
+                    "type": "string"
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "Th\u1ef1c th\u1ec3 \u0111\u01b0\u1ee3c \u0111o (b\u01b0u c\u1ee5c, x\u00e3, t\u1ec9nh...).",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "value": {
+                    "type": "number"
+                },
+                "variable": {
+                    "description": "T\u00ean bi\u1ebfn th\u1ed1ng k\u00ea, v\u00ed d\u1ee5 daily_inbound, population.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "observation_id",
+                "subject",
+                "variable",
+                "obs_date",
+                "value",
+                "source",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "Observation",
+            "type": "object"
+        },
+        "OrgType": {
+            "description": "",
+            "enum": [
+                "carrier",
+                "government",
+                "community"
+            ],
+            "title": "OrgType",
+            "type": "string"
+        },
+        "Organization": {
+            "additionalProperties": false,
+            "description": "T\u1ed5 ch\u1ee9c v\u1eadn h\u00e0nh ho\u1eb7c s\u1edf h\u1eefu \u0111i\u1ec3m m\u1ea1ng l\u01b0\u1edbi (h\u00e3ng, c\u01a1 quan, c\u1ed9ng \u0111\u1ed3ng).",
+            "properties": {
+                "confidence": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "entity_id": {
+                    "description": "ID th\u1ef1c th\u1ec3 \u1ed5n \u0111\u1ecbnh (UUID), gi\u1eef nguy\u00ean qua m\u1ecdi phi\u00ean b\u1ea3n.",
+                    "type": "string"
+                },
+                "license": {
+                    "description": "Gi\u1ea5y ph\u00e9p c\u1ee7a ngu\u1ed3n d\u1eef li\u1ec7u (OSM, Overture, n\u1ed9i b\u1ed9).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "org_type": {
+                    "$ref": "#/$defs/OrgType"
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "description": "Ng\u00e0y b\u1eaft \u0111\u1ea7u hi\u1ec7u l\u1ef1c ngo\u00e0i \u0111\u1eddi.",
+                    "format": "date",
+                    "type": "string"
+                },
+                "valid_to": {
+                    "description": "Ng\u00e0y h\u1ebft hi\u1ec7u l\u1ef1c (kh\u00f4ng t\u00ednh). Tr\u1ed1ng ngh\u0129a l\u00e0 \u0111ang hi\u1ec7u l\u1ef1c.",
+                    "format": "date",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "org_type",
+                "entity_id",
+                "source",
+                "valid_from",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "Organization",
+            "type": "object"
+        },
+        "Place": {
+            "additionalProperties": false,
+            "description": "Interface cho m\u1ecdi v\u00f9ng c\u00f3 t\u00ean v\u00e0 ranh gi\u1edbi.",
+            "properties": {
+                "boundary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "Place",
+            "type": "object"
+        },
+        "Record": {
+            "additionalProperties": false,
+            "description": "M\u1ecdi object c\u00f3 phi\u00ean b\u1ea3n theo th\u1eddi gian hi\u1ec7u l\u1ef1c.",
+            "properties": {
+                "confidence": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "entity_id": {
+                    "description": "ID th\u1ef1c th\u1ec3 \u1ed5n \u0111\u1ecbnh (UUID), gi\u1eef nguy\u00ean qua m\u1ecdi phi\u00ean b\u1ea3n.",
+                    "type": "string"
+                },
+                "license": {
+                    "description": "Gi\u1ea5y ph\u00e9p c\u1ee7a ngu\u1ed3n d\u1eef li\u1ec7u (OSM, Overture, n\u1ed9i b\u1ed9).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "description": "Ng\u00e0y b\u1eaft \u0111\u1ea7u hi\u1ec7u l\u1ef1c ngo\u00e0i \u0111\u1eddi.",
+                    "format": "date",
+                    "type": "string"
+                },
+                "valid_to": {
+                    "description": "Ng\u00e0y h\u1ebft hi\u1ec7u l\u1ef1c (kh\u00f4ng t\u00ednh). Tr\u1ed1ng ngh\u0129a l\u00e0 \u0111ang hi\u1ec7u l\u1ef1c.",
+                    "format": "date",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "entity_id",
+                "source",
+                "valid_from",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "Record",
+            "type": "object"
+        },
+        "ServiceZone": {
+            "additionalProperties": false,
+            "description": "V\u00f9ng ph\u1ee5c v\u1ee5 c\u1ee7a m\u1ed9t \u0111i\u1ec3m m\u1ea1ng l\u01b0\u1edbi.",
+            "properties": {
+                "boundary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "confidence": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "entity_id": {
+                    "description": "ID th\u1ef1c th\u1ec3 \u1ed5n \u0111\u1ecbnh (UUID), gi\u1eef nguy\u00ean qua m\u1ecdi phi\u00ean b\u1ea3n.",
+                    "type": "string"
+                },
+                "license": {
+                    "description": "Gi\u1ea5y ph\u00e9p c\u1ee7a ngu\u1ed3n d\u1eef li\u1ec7u (OSM, Overture, n\u1ed9i b\u1ed9).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "served_by": {
+                    "type": "string"
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "description": "Ng\u00e0y b\u1eaft \u0111\u1ea7u hi\u1ec7u l\u1ef1c ngo\u00e0i \u0111\u1eddi.",
+                    "format": "date",
+                    "type": "string"
+                },
+                "valid_to": {
+                    "description": "Ng\u00e0y h\u1ebft hi\u1ec7u l\u1ef1c (kh\u00f4ng t\u00ednh). Tr\u1ed1ng ngh\u0129a l\u00e0 \u0111ang hi\u1ec7u l\u1ef1c.",
+                    "format": "date",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "served_by",
+                "name",
+                "entity_id",
+                "source",
+                "valid_from",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "ServiceZone",
+            "type": "object"
+        },
+        "ShipmentEvent": {
+            "additionalProperties": false,
+            "description": "S\u1ef1 ki\u1ec7n v\u1eadn h\u00e0nh c\u1ee7a m\u1ed9t \u0111\u01a1n, theo khung GS1 EPCIS r\u00fat g\u1ecdn.",
+            "properties": {
+                "data_class": {
+                    "$ref": "#/$defs/DataClass"
+                },
+                "event_id": {
+                    "type": "string"
+                },
+                "event_type": {
+                    "$ref": "#/$defs/EventType"
+                },
+                "facility": {
+                    "type": "string"
+                },
+                "reason_code": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "shipment_ref": {
+                    "description": "M\u00e3 \u0111\u01a1n \u0111\u00e3 b\u0103m HMAC c\u00f3 kho\u00e1; kh\u00f4ng bao gi\u1edd l\u00e0 m\u00e3 g\u1ed1c.",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "H\u1ec7 th\u1ed1ng ho\u1eb7c t\u1eadp d\u1eef li\u1ec7u ngu\u1ed3n c\u1ee7a b\u1ea3n ghi.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "ts": {
+                    "format": "date-time",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event_id",
+                "shipment_ref",
+                "event_type",
+                "facility",
+                "ts",
+                "source",
+                "tenant_id",
+                "data_class"
+            ],
+            "title": "ShipmentEvent",
+            "type": "object"
+        }
+    },
+    "$id": "https://example.org/bds/ontology",
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "additionalProperties": true,
+    "metamodel_version": "1.12.0",
+    "title": "bds",
+    "type": "object",
+    "version": null
+}
+

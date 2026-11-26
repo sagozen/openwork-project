@@ -1,0 +1,49 @@
+---
+import { adminMetrics } from "@templatedesign/platform/admin";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { d1Db } from "@templatedesign/platform/db";
+import { runtimeEnv } from "../../lib/runtime";
+
+const metrics = await adminMetrics(d1Db(runtimeEnv().DB));
+---
+
+<AdminLayout title="Jobs & failures" current="/admin/jobs/">
+  <div class="w-admin__grid">
+    <div class="w-admin__metric"><strong>{metrics.queued}</strong><span>Queued</span></div>
+    <div class="w-admin__metric"><strong>{metrics.running}</strong><span>Running</span></div>
+    <div class="w-admin__metric"><strong>{metrics.failures24h}</strong><span>Failed (24 h)</span></div>
+    <div class="w-admin__metric"><strong>{metrics.p95DurationMs ? `${Math.round(metrics.p95DurationMs)}` : "—"}</strong><span>p95 duration ms</span></div>
+    <div class="w-admin__metric"><strong>{metrics.queueAgeMs !== null ? `${Math.max(0, Math.round(metrics.queueAgeMs / 1000))}s` : "—"}</strong><span>Oldest queued</span></div>
+  </div>
+  <p class="td-muted">This view is aggregate and metadata-only. It never selects job input or PDF bytes. Viewing a specific file requires an audited break-glass action from Accounts.</p>
+
+  <div class="w-card">
+    <h2>Failures by code</h2>
+    {metrics.failureByCode.length === 0 ? <p class="td-muted">No failures.</p> : (
+      <table class="td-table td-table--dense">
+        <thead><tr><th scope="col">Code</th><th scope="col" class="td-table__numeric">Count</th></tr></thead>
+        <tbody>{metrics.failureByCode.map((row) => <tr><th scope="row"><code>{row.code}</code></th><td class="td-table__numeric">{row.count}</td></tr>)}</tbody>
+      </table>
+    )}
+  </div>
+
+  <div class="w-card">
+    <h2>Failures by template</h2>
+    {metrics.failureByLabel.length === 0 ? <p class="td-muted">No failures.</p> : (
+      <table class="td-table td-table--dense">
+        <thead><tr><th scope="col">Template</th><th scope="col" class="td-table__numeric">Count</th></tr></thead>
+        <tbody>{metrics.failureByLabel.map((row) => <tr><th scope="row"><code>{row.label}</code></th><td class="td-table__numeric">{row.count}</td></tr>)}</tbody>
+      </table>
+    )}
+  </div>
+
+  <div class="w-card">
+    <h2>Operational checks</h2>
+    <ul>
+      <li>Ledger mismatch: <strong>{metrics.ledgerMismatch}</strong> (must be 0)</li>
+      <li>Failed email outbox rows: <strong>{metrics.failedEmails}</strong></li>
+      <li>Open abuse reports: <strong>{metrics.openReports}</strong></li>
+    </ul>
+  </div>
+</AdminLayout>

@@ -1,0 +1,32 @@
+---
+import { listAudit } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { runtimeEnv } from "../../lib/runtime";
+
+const rows = await listAudit(d1Db(runtimeEnv().DB), 200);
+---
+
+<AdminLayout title="Audit log" current="/admin/audit/">
+  <p class="td-muted">Append-only. Database triggers reject UPDATE and DELETE. Metadata never contains document content, inputs or PDF bytes.</p>
+  {rows.length === 0 ? <p class="td-muted">No admin actions yet.</p> : (
+    <div class="td-table-wrap">
+      <table class="td-table td-table--dense">
+        <caption class="td-visually-hidden">Admin audit log</caption>
+        <thead><tr><th scope="col">Time</th><th scope="col">Actor</th><th scope="col">Role</th><th scope="col">Action</th><th scope="col">Resource</th><th scope="col">Reason</th></tr></thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr>
+              <td>{new Date(row.created_at).toISOString().replace("T", " ").slice(0, 19)}</td>
+              <th scope="row"><code>{row.actor_user_id}</code></th>
+              <td>{row.actor_role}</td>
+              <td><code>{row.action}</code></td>
+              <td>{row.resource_type}{row.resource_id ? ` · ${row.resource_id}` : ""}</td>
+              <td>{row.reason ?? "—"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</AdminLayout>

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://templatedesign.zhst.app/contracts/cfo-input.schema.json",
+  "title": "CFO report input",
+  "description": "Input for Cloudflare cost report templates. All money values are integer minor units. The product never connects to a Cloudflare account; data is supplied by the caller.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["report", "totals", "services"],
+  "properties": {
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "org_name", "period_start", "period_end", "currency", "basis", "source_label"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "org_name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "period_start": { "type": "string", "format": "date" },
+        "period_end": { "type": "string", "format": "date" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 4217 code, e.g. USD." },
+        "basis": {
+          "enum": ["actual", "invoice", "estimated", "forecast"],
+          "description": "Basis of every figure unless a row overrides it. Printed in the document footer with the source."
+        },
+        "source_label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "description": "How the numbers were obtained, e.g. 'Cloudflare billing export, Sep 2026'."
+        },
+        "locale": { "enum": ["en", "vi"], "default": "en" }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_minor"],
+      "properties": {
+        "current_minor": { "type": "integer" },
+        "previous_minor": { "type": ["integer", "null"], "default": null },
+        "budget_minor": { "type": ["integer", "null"], "default": null }
+      }
+    },
+    "services": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "actual_minor"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "actual_minor": { "type": "integer" },
+          "budget_minor": { "type": ["integer", "null"], "default": null },
+          "previous_minor": { "type": ["integer", "null"], "default": null },
+          "basis": { "enum": ["actual", "invoice", "estimated", "forecast"] },
+          "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+        }
+      }
+    },
+    "allocations": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "amount_minor"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "amount_minor": { "type": "integer" }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "type": "string", "minLength": 1, "maxLength": 400 },
+      "description": "User-supplied actions only. The renderer never generates recommendations."
+    },
+    "reconciliation": {
+      "enum": ["fail", "show_unallocated"],
+      "default": "fail",
+      "description": "What to do when services do not sum to totals.current_minor."
+    },
+    "fx": {
+      "type": "object",
+      "description": "Required when any row declares a currency different from report.currency.",
+      "additionalProperties": false,
+      "required": ["base", "quote", "rate", "as_of"],
+      "properties": {
+        "base": { "type": "string", "pattern": "^[A-Z]{3}$" },
+        "quote": { "type": "string", "pattern": "^[A-Z]{3}$" },
+        "rate": { "type": "number", "exclusiveMinimum": 0 },
+        "as_of": { "type": "string", "format": "date" }
+      }
+    }
+  },
+  "x-td-pages": { "min": 1, "max": 50 },
+  "x-td-rules": [
+    "Mixed row currencies require an fx object whose base/quote pair covers each row.",
+    "When reconciliation=fail, sum(services[].actual_minor) must equal totals.current_minor.",
+    "No currency inference is performed and rates are never fetched."
+  ]
+}

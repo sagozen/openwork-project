@@ -1,0 +1,93 @@
+# Lớp hành động của ontology: action type và function.
+# Mọi tham số tham chiếu slot trong ontology/bds.yaml; generator/kinetic.py kiểm tra chéo.
+# SQL dùng tham số dạng %(tên)s của psycopg; bảng nằm trong schema bds.
+
+actions:
+  register_organization:
+    description: Đăng ký một tổ chức (hãng, cơ quan, cộng đồng).
+    target: Organization
+    kind: create
+    parameters: [name, org_type, valid_from, source, tenant_id, data_class]
+    criteria: []
+
+  register_admin_unit:
+    description: Đăng ký một đơn vị hành chính (nạp từ danh mục 2 cấp).
+    target: AdminUnit
+    kind: create
+    parameters: [code, name, level, parent, boundary, valid_from, source, tenant_id, data_class, license]
+    source_key: code
+    criteria:
+      - name: cap_xa_phai_co_tinh
+        message: Đơn vị cấp xã phải có đơn vị cấp tỉnh cha đang hiệu lực.
+        sql: >-
+          SELECT %(level)s = 1 OR EXISTS (SELECT 1 FROM bds.admin_unit_at(%(valid_from)s)
+                                          WHERE entity_id = %(parent)s AND level = 1)
+
+  register_facility:
+    description: Đăng ký một điểm mạng lưới mới (bưu cục, đại lý, hub...).
+    target: Facility
+    kind: create
+    parameters: [code, name, facility_type, operated_by, in_admin_unit, location,
+                 valid_from, source, tenant_id, data_class, confidence, license]
+    source_key: code          # mã của nguồn được ghi vào bảng bridge source_ref
+    criteria:
+      - name: don_vi_hanh_chinh_cap_xa
+        message: Điểm mạng lưới phải thuộc một đơn vị hành chính cấp xã đang hiệu lực.
+        sql: >-
+          SELECT EXISTS (SELECT 1 FROM bds.admin_unit_at(%(valid_from)s)
+                         WHERE entity_id = %(in_admin_unit)s AND level = 2)
+      - name: ma_chua_ton_tai
+        message: Mã điểm mạng lưới đã tồn tại trong nguồn này.
+        sql: >-
+          SELECT NOT EXISTS (SELECT 1 FROM bds.source_ref
+                             WHERE source_system = %(source)s AND source_key = %(code)s)
+
+  relocate_facility:
+    description: Chuyển điểm mạng lưới sang vị trí hoặc đơn vị hành chính mới từ một ngày.
+    target: Facility
+    kind: new_version
+    parameters: [entity_id, location, in_admin_unit, valid_from]
+    criteria:
+      - name: don_vi_hanh_chinh_cap_xa
+        message: Đơn vị hành chính mới phải là cấp xã đang hiệu lực.
+        sql: >-
+          SELECT EXISTS (SELECT 1 FROM bds.admin_unit_at(%(valid_from)s)
+                         WHERE entity_id = %(in_admin_unit)s AND level = 2)
+
+  rename_admin_unit:
+    description: Đổi tên hoặc mã đơn vị hành chính từ một ngày (ví dụ sau sáp nhập).
+    target: AdminUnit
+    kind: new_version
+    parameters: [entity_id, name, code, valid_from]
+    criteria: []
+
+functions:
+  backlog_count:
+    description: >-
+      Số đơn đang tồn tại một điểm ở thời điểm `at`: đơn có sự kiện gần nhất (tính tới `at`)
+      xảy ra tại điểm đó và thuộc nhóm đến / đã khai thác.
+    returns: integer
+    unit: đơn
+    parameters:
+      facility: {range: Facility, required: true}
+      at: {range: datetime, required: true}
+    sql: >-
+      SELECT count(*) FROM (
+        SELECT DISTINCT ON (shipment_ref) facility, event_type
+        FROM bds.shipment_event
+        WHERE ts <= %(at)s
+        ORDER BY shipment_ref, ts DESC
+      ) last_event
+      WHERE facility = %(facility)s AND event_type IN ('arrived', 'sorted')
+
+  daily_inbound:
+    description: Số đơn đến một điểm trong một ngày theo giờ Việt Nam.
+    returns: integer
+    unit: đơn
+    parameters:
+      facility: {range: Facility, required: true}
+      day: {range: date, required: true}
+    sql: >-
+      SELECT count(DISTINCT shipment_ref) FROM bds.shipment_event
+      WHERE facility = %(facility)s AND event_type = 'arrived'
+        AND (ts AT TIME ZONE 'Asia/Ho_Chi_Minh')::date = %(day)s

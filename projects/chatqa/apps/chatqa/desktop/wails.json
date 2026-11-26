@@ -1,0 +1,17 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "ChatQASoftware",
+  "outputfilename": "ChatQASoftware",
+  "frontend:dir": "../web",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build:desktop",
+  "frontend:dev:watcher": "npm run dev:desktop",
+  "frontend:dev:serverUrl": "auto",
+  "author": { "name": "Pan" },
+  "info": {
+    "companyName": "ChatQASoftware",
+    "productName": "ChatQASoftware",
+    "productVersion": "0.1.0",
+    "comments": "Điều phối, kiểm thử và giám sát app di động trên máy cục bộ"
+  }
+}

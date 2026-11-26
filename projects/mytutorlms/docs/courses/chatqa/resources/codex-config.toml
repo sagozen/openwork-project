@@ -1,0 +1,7 @@
+# Dán vào %USERPROFILE%\.codex\config.toml (tạo file nếu chưa có).
+# Token KHÔNG nằm ở đây: đặt bằng PowerShell `setx CHATQA_MCP_TOKEN "<token>"` rồi mở Terminal mới.
+[mcp_servers.chatqa]
+url = "http://127.0.0.1:39017/mcp"
+bearer_token_env_var = "CHATQA_MCP_TOKEN"
+# Cần cho `codex exec` (không tương tác). Bỏ dòng này nếu muốn Codex hỏi trước mỗi tool trong phiên tương tác.
+default_tools_approval_mode = "approve"

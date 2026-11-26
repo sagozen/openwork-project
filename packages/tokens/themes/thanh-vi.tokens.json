@@ -1,0 +1,32 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Thanh Vị: rice paper and young leaves. Values follow BTTV.pen except ink-3, accent and amber, which are darkened toward ink by the smallest step that clears 4.5:1 on every surface they sit on (design values #8C9085, #B5573F, #9A6B1F).",
+  "theme": {
+    "color": {
+      "bg": { "$type": "color", "$value": "#F6F2E9" },
+      "surface": { "$type": "color", "$value": "#FFFDF8" },
+      "surface-2": { "$type": "color", "$value": "#EFE9DC" },
+      "line": { "$type": "color", "$value": "#E4DCCB" },
+      "ink": { "$type": "color", "$value": "#1E2721" },
+      "ink-2": { "$type": "color", "$value": "#596257" },
+      "ink-3": { "$type": "color", "$value": "#656B62" },
+      "primary": { "$type": "color", "$value": "#2F5A3C" },
+      "primary-strong": { "$type": "color", "$value": "#21422B" },
+      "primary-soft": { "$type": "color", "$value": "#E2EBDD" },
+      "accent": { "$type": "color", "$value": "#A1513B" },
+      "accent-soft": { "$type": "color", "$value": "#F6E4DB" },
+      "amber": { "$type": "color", "$value": "#8B631F" },
+      "amber-soft": { "$type": "color", "$value": "#F5EAD2" }
+    },
+    "font": {
+      "display": {
+        "$type": "fontFamily",
+        "$value": ["Lora Variable", "Lora", "Georgia", "Times New Roman", "serif"]
+      },
+      "ui": {
+        "$type": "fontFamily",
+        "$value": ["Be Vietnam Pro", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"]
+      }
+    }
+  }
+}

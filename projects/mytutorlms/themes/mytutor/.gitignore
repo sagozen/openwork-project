@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-cloudflare/
+.astro/
+.emdash/
+.wrangler/
+.data/
+.env
+.env.*
+!.env.example
+*.db
+*.db-shm
+*.db-wal
+*.tgz

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "defaultLocale": "en",
+  "meta": { "name": "MyTutor LMS", "description": "An invitation-only course school. Courses are managed in the MyTutor plugin workspace." },
+  "settings": { "title": "MyTutor", "tagline": "Structured software training and documentation." },
+  "collections": [],
+  "content": {}
+}

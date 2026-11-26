@@ -1,0 +1,5 @@
+{
+  "$comment": "Dev server cho bộ ảnh mốc (playwright.config.ts, visual/shell.spec.mjs). Cổng cố định, khác HS Desk (5198, 5199) để hai bộ chạy song song được.",
+  "desktop": { "port": 5197, "mode": "desktop", "base": "/" },
+  "pwa": { "port": 5196, "mode": "pwa", "base": "/" }
+}

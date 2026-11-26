@@ -1,0 +1,18 @@
+---
+import type { UiLocale } from '../../i18n';
+import { LOCALE_NAMES, translator } from '../../i18n';
+import AccountMenu from './AccountMenu';
+import LocaleSwitcher from './LocaleSwitcher';
+interface Props { locale: UiLocale; locales: UiLocale[]; session: 'account' | 'invitation' | null; siteName: string }
+const { locale, locales, session, siteName } = Astro.props;
+const t = translator(locale);
+---
+<header class="site-header">
+  <a class="brand" href="/" aria-label={t('shell.home', { site: siteName })}><span class="brand-mark" aria-hidden="true">m.</span>mytutor<span class="brand-note">{t('shell.tagline')}</span></a>
+  <nav aria-label={t('shell.mainNav')}>
+    <a href="/#courses" class:list={[{ "nav-secondary": session }]}>{t("shell.courses")}</a>
+    {session && <a href="/learn">{t('shell.myLearning')}</a>}
+    {locales.length > 1 && <LocaleSwitcher client:idle locale={locale} options={locales.map((value) => ({ value, label: LOCALE_NAMES[value] }))} session={session} />}
+    <AccountMenu client:idle locale={locale} session={session} />
+  </nav>
+</header>

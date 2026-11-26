@@ -1,0 +1,18 @@
+---
+/**
+ * `/{https://…}`: pasting a link into the address bar after the domain lands on the form with the
+ * link filled in. Paths that do not look like a link are a 404.
+ */
+import { linkFromPath } from "../lib/link-prefix";
+
+export const prerender = false;
+
+const link = linkFromPath(Astro.url.pathname, Astro.url.search);
+if (!link) {
+  return new Response("Not found", {
+    status: 404,
+    headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex" },
+  });
+}
+return Astro.redirect(`/?link=${encodeURIComponent(link)}`);
+---

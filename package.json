@@ -1,0 +1,54 @@
+{
+  "name": "openwork",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Workers apps (MCP connectors, OTA server, transcription) on one shared platform",
+  "engines": {
+    "node": ">=24.21.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test:platform && npm run test:imagefactory && npm run test:ota && npm run test:transcript && npm run test:myartifacts",
+    "check": "npm run check:imagefactory && npm run check:ota && npm run check:transcript && npm run check:myartifacts",
+    "lint": "biome check packages apps",
+    "lint:fix": "biome check --write packages apps",
+    "test:platform": "npm run test -w @templatedesign/platform",
+    "compose:migrations": "node packages/platform/scripts/compose-migrations.mjs all",
+    "check:migrations": "node packages/platform/scripts/compose-migrations.mjs all --check",
+    "new-app": "node scripts/new-app.mjs",
+    "dev:imagefactory": "turbo run dev --filter=@templatedesign/imagefactory",
+    "build:imagefactory": "turbo run build --filter=@templatedesign/imagefactory",
+    "check:imagefactory": "turbo run check --filter=@templatedesign/imagefactory",
+    "test:imagefactory": "turbo run test --filter=@templatedesign/imagefactory",
+    "preflight:imagefactory": "node scripts/preflight-app.mjs imagefactory",
+    "provision:imagefactory": "node scripts/provision-app.mjs imagefactory",
+    "dev:ota": "turbo run dev --filter=@templatedesign/ota",
+    "build:ota": "turbo run build --filter=@templatedesign/ota",
+    "check:ota": "turbo run check --filter=@templatedesign/ota",
+    "test:ota": "turbo run test --filter=@templatedesign/ota",
+    "preflight:ota": "node scripts/preflight-app.mjs ota",
+    "provision:ota": "node scripts/provision-app.mjs ota",
+    "dev:transcript": "turbo run dev --filter=@templatedesign/transcript",
+    "build:transcript": "turbo run build --filter=@templatedesign/transcript",
+    "check:transcript": "turbo run check --filter=@templatedesign/transcript",
+    "test:transcript": "turbo run test --filter=@templatedesign/transcript",
+    "preflight:transcript": "node scripts/preflight-app.mjs transcript",
+    "provision:transcript": "node scripts/provision-app.mjs transcript",
+    "dev:myartifacts": "turbo run dev --filter=@templatedesign/myartifacts",
+    "build:myartifacts": "turbo run build --filter=@templatedesign/myartifacts",
+    "check:myartifacts": "turbo run check --filter=@templatedesign/myartifacts",
+    "test:myartifacts": "turbo run test --filter=@templatedesign/myartifacts",
+    "preflight:myartifacts": "node scripts/preflight-app.mjs myartifacts",
+    "provision:myartifacts": "node scripts/provision-app.mjs myartifacts",
+    "test:transcriber": "cd services/transcriber && go test ./... -count=1 && go vet ./..."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.2",
+    "turbo": "2.11.10"
+  },
+  "packageManager": "npm@11.19.0"
+}

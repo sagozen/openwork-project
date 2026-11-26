@@ -1,0 +1,6 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src", "emdash-env.d.ts"],
+  "exclude": ["dist", "dist-cloudflare"],
+  "compilerOptions": { "jsx": "react-jsx", "types": ["node"] }
+}

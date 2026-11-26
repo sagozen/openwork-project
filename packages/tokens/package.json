@@ -1,0 +1,28 @@
+{
+  "name": "@templatedesign/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DTCG design tokens → CSS custom properties, TypeScript constants and Typst document style",
+  "exports": {
+    ".": "./dist/ts/tokens.ts",
+    "./css": "./dist/css/tokens.css",
+    "./typst": "./dist/typst/tokens.typ",
+    "./json": "./dist/json/tokens.json"
+  },
+  "files": [
+    "dist",
+    "tokens",
+    "scripts"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check-contrast.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "pretest": "node scripts/build.mjs",
+    "precheck": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=24.21.0"
+  }
+}

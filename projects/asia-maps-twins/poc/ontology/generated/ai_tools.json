@@ -1,0 +1,489 @@
+[
+  {
+    "name": "find_admin_unit",
+    "description": "Tìm AdminUnit: Đơn vị hành chính (mô hình 2 cấp).",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Tìm theo tên hoặc mã (không dấu cũng được)"
+        },
+        "at": {
+          "type": "string",
+          "format": "date",
+          "description": "Trạng thái tại ngày này; bỏ trống là hôm nay"
+        },
+        "parent": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của AdminUnit"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "find_organization",
+    "description": "Tìm Organization: Tổ chức vận hành hoặc sở hữu điểm mạng lưới (hãng, cơ quan, cộng đồng).",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Tìm theo tên hoặc mã (không dấu cũng được)"
+        },
+        "at": {
+          "type": "string",
+          "format": "date",
+          "description": "Trạng thái tại ngày này; bỏ trống là hôm nay"
+        },
+        "org_type": {
+          "description": "",
+          "enum": [
+            "carrier",
+            "government",
+            "community"
+          ],
+          "title": "OrgType",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "find_facility",
+    "description": "Tìm Facility: Bưu cục, đại lý, hub, kho, điểm gửi nhận, tủ khoá.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Tìm theo tên hoặc mã (không dấu cũng được)"
+        },
+        "at": {
+          "type": "string",
+          "format": "date",
+          "description": "Trạng thái tại ngày này; bỏ trống là hôm nay"
+        },
+        "facility_type": {
+          "description": "",
+          "enum": [
+            "post_office",
+            "agent",
+            "hub",
+            "warehouse",
+            "pickup_point",
+            "locker"
+          ],
+          "title": "FacilityType",
+          "type": "string"
+        },
+        "in_admin_unit": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của AdminUnit"
+        },
+        "operated_by": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của Organization"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "find_service_zone",
+    "description": "Tìm ServiceZone: Vùng phục vụ của một điểm mạng lưới.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Tìm theo tên hoặc mã (không dấu cũng được)"
+        },
+        "at": {
+          "type": "string",
+          "format": "date",
+          "description": "Trạng thái tại ngày này; bỏ trống là hôm nay"
+        },
+        "served_by": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của Facility"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "find_facility_link",
+    "description": "Tìm FacilityLink: Liên kết giữa hai điểm mạng lưới (ví dụ tuyến trung chuyển).",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Tìm theo tên hoặc mã (không dấu cũng được)"
+        },
+        "at": {
+          "type": "string",
+          "format": "date",
+          "description": "Trạng thái tại ngày này; bỏ trống là hôm nay"
+        },
+        "from_facility": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của Facility"
+        },
+        "to_facility": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của Facility"
+        },
+        "link_type": {
+          "description": "",
+          "enum": [
+            "linehaul_to"
+          ],
+          "title": "FacilityLinkType",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "backlog_count",
+    "description": "Số đơn đang tồn tại một điểm ở thời điểm `at`: đơn có sự kiện gần nhất (tính tới `at`) xảy ra tại điểm đó và thuộc nhóm đến / đã khai thác. Đơn vị: đơn.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "facility": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của Facility"
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "facility",
+        "at"
+      ]
+    }
+  },
+  {
+    "name": "daily_inbound",
+    "description": "Số đơn đến một điểm trong một ngày theo giờ Việt Nam. Đơn vị: đơn.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "facility": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của Facility"
+        },
+        "day": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "facility",
+        "day"
+      ]
+    }
+  },
+  {
+    "name": "propose_register_organization",
+    "description": "Đề xuất: Đăng ký một tổ chức (hãng, cơ quan, cộng đồng). Cần người xác nhận trước khi thực hiện.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "org_type": {
+          "description": "",
+          "enum": [
+            "carrier",
+            "government",
+            "community"
+          ],
+          "title": "OrgType",
+          "type": "string"
+        },
+        "valid_from": {
+          "description": "Ngày bắt đầu hiệu lực ngoài đời.",
+          "format": "date",
+          "type": "string"
+        },
+        "source": {
+          "description": "Hệ thống hoặc tập dữ liệu nguồn của bản ghi.",
+          "type": "string"
+        },
+        "tenant_id": {
+          "type": "string"
+        },
+        "data_class": {
+          "description": "",
+          "enum": [
+            "public",
+            "internal",
+            "personal"
+          ],
+          "title": "DataClass",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "org_type",
+        "valid_from",
+        "source",
+        "tenant_id",
+        "data_class"
+      ]
+    },
+    "x-requires-human-approval": true
+  },
+  {
+    "name": "propose_register_admin_unit",
+    "description": "Đề xuất: Đăng ký một đơn vị hành chính (nạp từ danh mục 2 cấp). Cần người xác nhận trước khi thực hiện.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "level": {
+          "description": "1 = tỉnh/thành, 2 = xã/phường/đặc khu (mô hình 2 cấp).",
+          "maximum": 2,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "parent": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của AdminUnit"
+        },
+        "boundary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "valid_from": {
+          "description": "Ngày bắt đầu hiệu lực ngoài đời.",
+          "format": "date",
+          "type": "string"
+        },
+        "source": {
+          "description": "Hệ thống hoặc tập dữ liệu nguồn của bản ghi.",
+          "type": "string"
+        },
+        "tenant_id": {
+          "type": "string"
+        },
+        "data_class": {
+          "description": "",
+          "enum": [
+            "public",
+            "internal",
+            "personal"
+          ],
+          "title": "DataClass",
+          "type": "string"
+        },
+        "license": {
+          "description": "Giấy phép của nguồn dữ liệu (OSM, Overture, nội bộ).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "name",
+        "level",
+        "valid_from",
+        "source",
+        "tenant_id",
+        "data_class"
+      ]
+    },
+    "x-requires-human-approval": true
+  },
+  {
+    "name": "propose_register_facility",
+    "description": "Đề xuất: Đăng ký một điểm mạng lưới mới (bưu cục, đại lý, hub...). Cần người xác nhận trước khi thực hiện.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "facility_type": {
+          "description": "",
+          "enum": [
+            "post_office",
+            "agent",
+            "hub",
+            "warehouse",
+            "pickup_point",
+            "locker"
+          ],
+          "title": "FacilityType",
+          "type": "string"
+        },
+        "operated_by": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của Organization"
+        },
+        "in_admin_unit": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của AdminUnit"
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "valid_from": {
+          "description": "Ngày bắt đầu hiệu lực ngoài đời.",
+          "format": "date",
+          "type": "string"
+        },
+        "source": {
+          "description": "Hệ thống hoặc tập dữ liệu nguồn của bản ghi.",
+          "type": "string"
+        },
+        "tenant_id": {
+          "type": "string"
+        },
+        "data_class": {
+          "description": "",
+          "enum": [
+            "public",
+            "internal",
+            "personal"
+          ],
+          "title": "DataClass",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "license": {
+          "description": "Giấy phép của nguồn dữ liệu (OSM, Overture, nội bộ).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "name",
+        "facility_type",
+        "operated_by",
+        "in_admin_unit",
+        "valid_from",
+        "source",
+        "tenant_id",
+        "data_class"
+      ]
+    },
+    "x-requires-human-approval": true
+  },
+  {
+    "name": "propose_relocate_facility",
+    "description": "Đề xuất: Chuyển điểm mạng lưới sang vị trí hoặc đơn vị hành chính mới từ một ngày. Cần người xác nhận trước khi thực hiện.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "entity_id": {
+          "description": "ID thực thể ổn định (UUID), giữ nguyên qua mọi phiên bản.",
+          "type": "string"
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "in_admin_unit": {
+          "type": "string",
+          "format": "uuid",
+          "description": "entity_id của AdminUnit"
+        },
+        "valid_from": {
+          "description": "Ngày bắt đầu hiệu lực ngoài đời.",
+          "format": "date",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "valid_from"
+      ]
+    },
+    "x-requires-human-approval": true
+  },
+  {
+    "name": "propose_rename_admin_unit",
+    "description": "Đề xuất: Đổi tên hoặc mã đơn vị hành chính từ một ngày (ví dụ sau sáp nhập). Cần người xác nhận trước khi thực hiện.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "entity_id": {
+          "description": "ID thực thể ổn định (UUID), giữ nguyên qua mọi phiên bản.",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "valid_from": {
+          "description": "Ngày bắt đầu hiệu lực ngoài đời.",
+          "format": "date",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "valid_from"
+      ]
+    },
+    "x-requires-human-approval": true
+  }
+]

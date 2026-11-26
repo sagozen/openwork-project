@@ -1,0 +1,44 @@
+{
+  "$comment": "Dữ liệu mẫu cho test component và ảnh mốc chat (visual/shell.spec.mjs). Mỗi kind một mẫu hợp lệ theo contracts/cqs-components.json.",
+  "items": [
+    { "role": "user", "text": "chạy flow đăng nhập trên 2 máy android, báo p95" },
+    { "role": "assistant", "text": "Có 2 máy Android rảnh. Tôi chạy flow 01_login_check_info.yaml trên cả hai." },
+    { "role": "component", "kind": "DeviceGrid", "data": [
+      { "id": "R58N123", "platform": "android", "state": "ready", "model": "SM-S918B", "osVersion": "14", "battery": 87 },
+      { "id": "emulator-5554", "platform": "android", "state": "busy", "model": "sdk gphone64", "osVersion": "15", "battery": -1 },
+      { "id": "00008101-000A7DD1020A001E", "platform": "ios", "state": "unhealthy", "model": "iPhone 12 Pro", "osVersion": "18.6.2", "problem": "chưa bật Chế độ nhà phát triển" }
+    ] },
+    { "role": "component", "kind": "RunProgress", "data": { "id": "t-261113-104200-a1b2c3", "kind": "dispatch", "status": "running", "passed": 0, "failed": 0, "createdAt": "2026-11-13T03:42:00Z" } },
+    { "role": "component", "kind": "TaskTimeline", "data": [
+      { "id": "t-261113-104200-a1b2c3", "kind": "dispatch", "status": "failed", "passed": 18, "failed": 2, "createdAt": "2026-11-13T03:42:00Z" },
+      { "id": "t-261113-101500-d4e5f6", "kind": "replay", "status": "passed", "passed": 2, "failed": 0, "createdAt": "2026-11-13T03:15:00Z" }
+    ] },
+    { "role": "component", "kind": "MetricChart", "data": {
+      "byDevice": [ { "key": "R58N123", "count": 10, "passed": 10, "p50Ms": 8200, "p95Ms": 9100, "passRate": 1 }, { "key": "emulator-5554", "count": 10, "passed": 8, "p50Ms": 11800, "p95Ms": 14250, "passRate": 0.8 } ],
+      "byDeviceCount": [ { "key": "2", "count": 20, "passed": 18, "p50Ms": 9800, "p95Ms": 13900, "passRate": 0.9 } ],
+      "coldVsWarm": [ { "key": "cold", "count": 2, "passed": 2, "p50Ms": 21000, "p95Ms": 23000, "passRate": 1 }, { "key": "warm", "count": 18, "passed": 16, "p50Ms": 8100, "p95Ms": 9500, "passRate": 0.89 } ],
+      "driverStart": { "key": "driverStart", "count": 2, "passed": 2, "p50Ms": 12600, "p95Ms": 13800, "passRate": 1 },
+      "tapSteps": { "key": "tapOn", "count": 60, "passed": 60, "p50Ms": 410, "p95Ms": 760, "passRate": 1 },
+      "stepFailures": [ { "key": "tapOn: text=\"Đăng nhập\"", "count": 20, "passed": 18, "p50Ms": 8000, "p95Ms": 8000, "passRate": 0.9 } ],
+      "maxParallelOk": 1, "maxRssMB": 61.4, "cpuMsPerRun": 900 } },
+    { "role": "component", "kind": "ReportCard", "data": {
+      "task": { "id": "t-261113-104200-a1b2c3", "kind": "dispatch", "status": "failed", "passed": 18, "failed": 2 },
+      "byDevice": [ { "key": "R58N123", "count": 10, "passed": 10, "p50Ms": 8200, "p95Ms": 9100, "passRate": 1 }, { "key": "emulator-5554", "count": 10, "passed": 8, "p50Ms": 11800, "p95Ms": 14250, "passRate": 0.8 } ],
+      "failuresByClass": { "automation": 2 },
+      "failures": [ { "deviceId": "emulator-5554", "flow": "01_login_check_info.yaml", "failureClass": "automation", "error": "element not found: Đăng nhập" } ],
+      "reports": ["a", "b", "c"], "videos": ["v1"], "videosTruncated": 0 } },
+    { "role": "component", "kind": "YamlDiff", "data": { "flaky": false, "attempts": [{}, {}], "diff": {
+      "app": "mexpress", "flow": "01_login_check_info.yaml", "before": "x", "after": "y",
+      "diff": "  - tapOn: \"Mật khẩu\"\n- - tapOn: \"Dang nhap\"\n+ - tapOn: \"Đăng nhập\"\n  - assertVisible: \"Trang chủ\"",
+      "explanation": "Nút trên màn hình có dấu: Đăng nhập.", "valid": true, "verified": true } } },
+    { "role": "component", "kind": "CostConfirm", "data": { "costVnd": 31800, "leftVnd": "412000", "token": "tok-demo", "scope": "tool", "tool": "test_compile", "args": { "app": "mexpress" } } },
+    { "role": "component", "kind": "BudgetMeter", "data": { "month": "2026-11", "spentVnd": 88000, "calls": 41, "leftVnd": 412000, "leftKnown": true, "opCeilingVnd": 20000, "machineMinutes": 96 } },
+    { "role": "component", "kind": "AlertList", "data": [ { "level": "error", "kind": "device_disconnected", "deviceId": "emulator-5554", "text": "rút cáp giữa lượt chạy" }, { "level": "warn", "kind": "battery_low", "deviceId": "R58N123", "text": "pin còn 12%" } ] },
+    { "role": "component", "kind": "DeviceCard", "data": { "device": { "id": "R58N123", "platform": "android", "state": "ready", "model": "SM-S918B", "osVersion": "14", "battery": 87 } } },
+    { "role": "component", "kind": "LiveScreen", "data": { "deviceId": "R58N123" } },
+    { "role": "component", "kind": "FlowList", "data": { "app": "mexpress", "flows": [ { "name": "01_login_check_info.yaml", "stale": false }, { "name": "02_home.yaml", "stale": true, "errors": [] } ], "secretNames": ["PASSWORD", "USERNAME"] } },
+    { "role": "component", "kind": "DeliveryLog", "data": [ { "at": "2026-11-13T03:50:00Z", "status": "passed", "target": "https://hooks.example/qa" } ] },
+    { "role": "component", "kind": "ErrorCard", "data": { "code": "permission_denied", "message": "permission_denied: cqs.run" } },
+    { "role": "component", "kind": "DeviceGrid", "data": { "html": "<img src=x onerror=alert(1)>" } }
+  ]
+}

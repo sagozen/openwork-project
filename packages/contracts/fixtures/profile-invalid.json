@@ -1,0 +1,26 @@
+{
+  "profile": "certificate-cfo-v1",
+  "kind": "certificate",
+  "page": { "size": "A4", "orientation": "portrait", "unit": "mm" },
+  "source": {
+    "schemas": [
+      [
+        {
+          "name": "danger",
+          "type": "script",
+          "position": { "x": 10, "y": 10 },
+          "width": 50,
+          "height": 10,
+          "content": "{fetch('https://example.com')}",
+          "td": { "mode": "field", "field": "recipient_name", "eval": "alert(1)" }
+        }
+      ]
+    ]
+  },
+  "td": {
+    "profileVersion": "1.0.0",
+    "docLocale": "en",
+    "inputSchema": { "type": "object" },
+    "unknownSetting": true
+  }
+}

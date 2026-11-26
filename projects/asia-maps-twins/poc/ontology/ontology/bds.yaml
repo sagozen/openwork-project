@@ -1,0 +1,222 @@
+id: https://example.org/bds/ontology
+name: bds
+title: Bản đồ số — ontology v0 (PoC)
+description: >-
+  Lớp ngữ nghĩa của ontology: object type, interface (mixin), link type, enum.
+  Lớp hành động (action, function) nằm trong kinetic.yaml.
+  Quy ước lưu trữ đọc từ annotation `storage`: versioned (có phiên bản theo thời gian hiệu lực)
+  hoặc event (append-only).
+prefixes:
+  linkml: https://w3id.org/linkml/
+  bds: https://example.org/bds/ontology/
+default_prefix: bds
+default_range: string
+imports:
+  - linkml:types
+
+types:
+  PointWKT:
+    typeof: string
+    description: Điểm ở dạng WKT, hệ toạ độ WGS84.
+    annotations:
+      postgis: geometry(Point,4326)
+  MultiPolygonWKT:
+    typeof: string
+    description: Đa giác ở dạng WKT, hệ toạ độ WGS84.
+    annotations:
+      postgis: geometry(MultiPolygon,4326)
+
+enums:
+  DataClass:
+    permissible_values:
+      public: {description: Dữ liệu công khai được}
+      internal: {description: Dữ liệu nội bộ tổ chức}
+      personal: {description: Dữ liệu cá nhân}
+  OrgType:
+    permissible_values:
+      carrier: {}
+      government: {}
+      community: {}
+  FacilityType:
+    permissible_values:
+      post_office: {description: Bưu cục}
+      agent: {description: Đại lý}
+      hub: {description: Trung tâm khai thác / hub}
+      warehouse: {description: Kho}
+      pickup_point: {description: Điểm gửi nhận}
+      locker: {description: Tủ khoá}
+  EventType:
+    permissible_values:
+      accepted: {description: Nhận hàng từ người gửi}
+      arrived: {description: Đến điểm}
+      sorted: {description: Đã khai thác tại điểm}
+      departed: {description: Rời điểm}
+      out_for_delivery: {description: Giao bưu tá đi phát}
+      delivered: {description: Phát thành công}
+      failed: {description: Phát thất bại}
+      returned: {description: Chuyển hoàn}
+  FacilityLinkType:
+    permissible_values:
+      linehaul_to: {description: Trung chuyển tới}
+
+slots:
+  # --- định danh và lineage, dùng chung ---
+  entity_id:
+    identifier: true
+    description: ID thực thể ổn định (UUID), giữ nguyên qua mọi phiên bản.
+  source:
+    required: true
+    description: Hệ thống hoặc tập dữ liệu nguồn của bản ghi.
+  confidence:
+    range: float
+    minimum_value: 0
+    maximum_value: 1
+  valid_from:
+    range: date
+    required: true
+    description: Ngày bắt đầu hiệu lực ngoài đời.
+  valid_to:
+    range: date
+    description: Ngày hết hiệu lực (không tính). Trống nghĩa là đang hiệu lực.
+  tenant_id:
+    required: true
+  data_class:
+    range: DataClass
+    required: true
+  license:
+    description: Giấy phép của nguồn dữ liệu (OSM, Overture, nội bộ).
+  # --- thuộc tính nghiệp vụ ---
+  code:
+    required: true
+  name:
+    required: true
+  location:
+    range: PointWKT
+  boundary:
+    range: MultiPolygonWKT
+  level:
+    range: integer
+    required: true
+    minimum_value: 1
+    maximum_value: 2
+    description: 1 = tỉnh/thành, 2 = xã/phường/đặc khu (mô hình 2 cấp).
+  parent:
+    range: AdminUnit
+  org_type:
+    range: OrgType
+    required: true
+  operated_by:
+    range: Organization
+    required: true
+  facility_type:
+    range: FacilityType
+    required: true
+  in_admin_unit:
+    range: AdminUnit
+    required: true
+  served_by:
+    range: Facility
+    required: true
+  from_facility:
+    range: Facility
+    required: true
+  to_facility:
+    range: Facility
+    required: true
+  link_type:
+    range: FacilityLinkType
+    required: true
+  # --- sự kiện ---
+  event_id:
+    identifier: true
+  shipment_ref:
+    required: true
+    description: Mã đơn đã băm HMAC có khoá; không bao giờ là mã gốc.
+  event_type:
+    range: EventType
+    required: true
+  facility:
+    range: Facility
+    required: true
+  ts:
+    range: datetime
+    required: true
+  reason_code: {}
+  # --- observation ---
+  observation_id:
+    identifier: true
+  subject:
+    range: Record
+    required: true
+    description: Thực thể được đo (bưu cục, xã, tỉnh...).
+  variable:
+    required: true
+    description: Tên biến thống kê, ví dụ daily_inbound, population.
+  obs_date:
+    range: date
+    required: true
+  value:
+    range: float
+    required: true
+  unit: {}
+
+classes:
+  # ---------- lớp gốc ----------
+  Record:
+    abstract: true
+    description: Mọi object có phiên bản theo thời gian hiệu lực.
+    slots: [entity_id, source, confidence, valid_from, valid_to, tenant_id, data_class, license]
+    annotations:
+      storage: versioned
+
+  # ---------- interface ----------
+  NetworkNode:
+    mixin: true
+    description: Interface cho mọi điểm thuộc mạng lưới vận hành.
+    slots: [code, name, location, operated_by]
+  Place:
+    mixin: true
+    description: Interface cho mọi vùng có tên và ranh giới.
+    slots: [name, boundary]
+
+  # ---------- object type ----------
+  AdminUnit:
+    is_a: Record
+    mixins: [Place]
+    description: Đơn vị hành chính (mô hình 2 cấp).
+    slots: [code, level, parent]
+  Organization:
+    is_a: Record
+    description: Tổ chức vận hành hoặc sở hữu điểm mạng lưới (hãng, cơ quan, cộng đồng).
+    slots: [name, org_type]
+  Facility:
+    is_a: Record
+    mixins: [NetworkNode]
+    description: Bưu cục, đại lý, hub, kho, điểm gửi nhận, tủ khoá.
+    slots: [facility_type, in_admin_unit]
+  ServiceZone:
+    is_a: Record
+    mixins: [Place]
+    description: Vùng phục vụ của một điểm mạng lưới.
+    slots: [served_by]
+
+  # ---------- link type có thuộc tính ----------
+  FacilityLink:
+    is_a: Record
+    description: Liên kết giữa hai điểm mạng lưới (ví dụ tuyến trung chuyển).
+    slots: [from_facility, to_facility, link_type]
+    annotations:
+      kind: link
+
+  # ---------- sự kiện và quan sát (append-only) ----------
+  ShipmentEvent:
+    description: Sự kiện vận hành của một đơn, theo khung GS1 EPCIS rút gọn.
+    slots: [event_id, shipment_ref, event_type, facility, ts, reason_code, source, tenant_id, data_class]
+    annotations:
+      storage: event
+      partition_by: ts
+  Observation:
+    description: Một giá trị đo của một biến trên một thực thể vào một ngày (kiểu Data Commons).
+    slots: [observation_id, subject, variable, obs_date, value, unit, source, tenant_id, data_class]
+    annotations:
+      storage: event

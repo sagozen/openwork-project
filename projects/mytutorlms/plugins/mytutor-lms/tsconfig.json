@@ -1,0 +1,14 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": ["node"],
+    // The tests read theme modules that import this package by name; CI
+    // typechecks the plugin before the theme is installed.
+    "paths": {
+      "@mytutor/plugin-mytutor-lms/model": ["./src/model.ts"]
+    }
+  },
+  "include": ["src", "tests"]
+}

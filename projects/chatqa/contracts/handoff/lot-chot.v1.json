@@ -1,0 +1,27 @@
+{
+  "$comment": "Mẫu tệp 'đã chốt' = đầu vào App 02 (Gộp lô). Lập từ lô mẫu GỘP LÔ 157--chot.xlsx (06/11/2026). App kiểm tiêu đề từng cột trước khi đọc; lệch => lỗi bad_template kèm cột sai. Khách đổi mẫu => tạo lot-chot.v2.json, giữ v1.",
+  "id": "lot-chot",
+  "version": 1,
+  "sheet": "^Lô\\s*\\d+",
+  "headerRow": 2,
+  "firstDataRow": 3,
+  "rowFilter": { "field": "status", "equals": "HOÀN THÀNH" },
+  "columns": [
+    { "field": "order", "col": "E", "header": "Mã VPO", "required": true },
+    { "field": "product", "col": "I", "header": "Tên sản phẩm", "required": false },
+    { "field": "link", "col": "V", "header": "Link sản phẩm", "required": false },
+    { "field": "status", "col": "AQ", "header": "TRẠNG THÁI", "required": true },
+    { "field": "nameEn", "col": "AR", "header": "Tên Tiếng Anh", "required": false, "note": "App 03: tên hàng tiếng Anh cho C/O, Invoice" },
+    { "field": "unit", "col": "AS", "header": "ĐVT Vipo điền", "required": true },
+    { "field": "declareMaker", "col": "AT", "header": "CẦN KHAI BÁO TÊN NHÀ SẢN XUẤT HAY KO?", "required": false, "note": "Trống = không khai NSX (điều khoản báo giá)" },
+    { "field": "maker", "col": "AU", "header": "TÊN NSX CẦN KHAI", "required": false },
+    { "field": "name", "col": "AW", "header": "TÊN KHAI TRÊN TỜ KHAI", "required": true },
+    { "field": "hs", "col": "AX", "header": "Mã HS code", "required": true },
+    { "field": "importTax", "col": "AZ", "header": "% THUẾ NHẬP KHẨU (CÓ CO)", "required": true, "unit": "tỉ lệ, 0.08 = 8%" },
+    { "field": "vat", "col": "BB", "header": "% VAT (CÓ CO)", "required": true, "unit": "tỉ lệ" },
+    { "field": "customsRate", "col": "BJ", "header": "TỶ GIÁ USD (HẢI QUAN )", "required": false },
+    { "field": "unitPriceUsd", "col": "BK", "header": "ĐƠN GIÁ KHAI BÁO (USD)", "required": false },
+    { "field": "qty", "col": "BL", "header": "Số lượng", "required": true },
+    { "field": "valueUsd", "col": "BM", "header": "Giá trị khai báo (USD)", "required": true }
+  ]
+}

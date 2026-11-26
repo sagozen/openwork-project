@@ -1,0 +1,36 @@
+---
+import { COMPANY, fillCompany } from "@templatedesign/platform/company";
+import { SiteFooter } from "@templatedesign/ui";
+import * as legal from "../content/legal.md";
+import Base from "../layouts/Base.astro";
+
+const html = fillCompany(await legal.compiledContent());
+---
+
+<Base
+  title="Legal"
+  description="TranscriptAnything terms, privacy, refunds, acceptable use, cookies and contact details."
+  locale="en"
+  canonical="/legal"
+>
+  <header class="td-header">
+    <div class="td-header__inner">
+      <a class="td-logo" href="/">
+        <span class="td-logo__seal" aria-hidden="true">TA</span>
+        <span class="td-logo__word">TranscriptAnything</span>
+      </a>
+      <nav class="td-header__nav" aria-label="Primary">
+        <a class="td-header__link" href="/docs">Docs</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="ta-main ta-main--narrow">
+    <h1>Terms, privacy and refunds</h1>
+    <nav aria-label="On this page">
+      <a href="#terms">Terms</a> · <a href="#privacy">Privacy</a> · <a href="#refunds">Refunds</a> ·
+      <a href="#acceptable-use">Acceptable use</a> · <a href="#cookies">Cookies</a> · <a href="#contact">Contact</a>
+    </nav>
+    <article set:html={html} />
+  </main>
+  <SiteFooter contactEmail={COMPANY.email} byline={COMPANY.byline} />
+</Base>

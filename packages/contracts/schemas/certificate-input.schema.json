@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://templatedesign.zhst.app/contracts/certificate-input.schema.json",
+  "title": "Certificate input",
+  "description": "Input for the certificate templates. Data only; never code or expressions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["recipient_name", "course_title", "issued_on", "issuer_name"],
+  "properties": {
+    "recipient_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Name printed on the certificate. Normalised to NFC before render."
+    },
+    "course_title": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "issued_on": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 calendar date, YYYY-MM-DD. Formatting into EN/VI patterns happens at render time."
+    },
+    "issuer_name": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "issuer_role": { "type": "string", "maxLength": 120 },
+    "serial": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[A-Za-z0-9 -]*$",
+      "description": "Optional certificate serial. Rendered as-is; not a verification claim."
+    },
+    "qr_url": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 2048,
+      "description": "Optional URL encoded in the QR element. Must be https in live mode."
+    },
+    "doc_language": {
+      "enum": ["en", "vi"],
+      "default": "en",
+      "description": "Language of fixed labels inside the document. Independent of the UI language."
+    },
+    "signatory_name": { "type": "string", "maxLength": 120 },
+    "signatory_role": { "type": "string", "maxLength": 120 }
+  },
+  "x-td-pages": { "min": 1, "max": 1 }
+}

@@ -1,0 +1,41 @@
+---
+import { resolveAdmin } from "@templatedesign/platform/admin";
+import { agentConnectorUrl } from "@templatedesign/platform/agents";
+import { getWallet, listLedger } from "@templatedesign/platform/credits";
+import { d1Db } from "@templatedesign/platform/db";
+import { listApiKeys } from "@templatedesign/platform/keys";
+import { AccountApp } from "../components/AccountApp.js";
+import SiteHeader from "../components/SiteHeader.astro";
+import Base from "../layouts/Base.astro";
+import "../lib/platform";
+import { runtimeEnv } from "../lib/runtime";
+
+const { user, tenantId, csrfToken } = Astro.locals;
+if (!user || !tenantId) return Astro.redirect("/sign-in?next=%2Faccount");
+const env = runtimeEnv();
+const db = d1Db(env.DB);
+const [wallet, ledger, keys, admin] = await Promise.all([
+  getWallet(db, tenantId),
+  listLedger(db, tenantId, 10),
+  listApiKeys(db, tenantId),
+  resolveAdmin(db, user, env),
+]);
+const { mcpUrl } = agentConnectorUrl(env);
+---
+
+<Base title="Account" noindex>
+  <SiteHeader signedIn current="account" />
+  <main id="main">
+    <AccountApp
+      email={user.email}
+      mcpUrl={mcpUrl}
+      available={wallet.available}
+      reserved={wallet.reserved}
+      ledger={ledger}
+      keys={keys}
+      csrfToken={csrfToken ?? ""}
+      isAdmin={Boolean(admin)}
+      client:load
+    />
+  </main>
+</Base>

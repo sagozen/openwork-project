@@ -1,0 +1,42 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "transcript-web",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-10-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  "routes": [{ "pattern": "transcriptanything.zhst.app", "custom_domain": true }],
+  "send_email": [{ "name": "EMAIL" }],
+  "vars": {
+    "APP_ORIGIN": "https://transcriptanything.zhst.app",
+    "BETTER_AUTH_URL": "https://transcriptanything.zhst.app",
+    "EMAIL_PROVIDER": "cloudflare",
+    "PAYMENTS_PROVIDER": "stripe",
+    "ADMIN_EMAILS": "you@example.com",
+    "EMAIL_FROM": "TranscriptAnything <no-reply@transcriptanything.zhst.app>"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "00000000000000000000000000000000"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "transcript-web",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    { "binding": "MEDIA", "bucket_name": "transcript-media" },
+    { "binding": "OUTPUTS", "bucket_name": "transcript-outputs" }
+  ],
+  "triggers": {
+    "crons": ["*/5 * * * *", "0 */6 * * *", "20 3 * * *"]
+  }
+}

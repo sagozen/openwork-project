@@ -1,0 +1,58 @@
+---
+import { requireAdmin, searchAccounts } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { AdminAccountActions } from "../../components/AdminAccountActions.js";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+const actor = await requireAdmin(db, Astro.locals.user, runtimeEnv(), "support");
+const query = Astro.url.searchParams.get("q")?.trim() ?? "";
+const accounts = query.length >= 3 ? await searchAccounts(db, actor, query) : [];
+---
+
+<AdminLayout title="Accounts" current="/admin/accounts/">
+  <form class="w-card" method="get" role="search">
+    <label class="td-field__label" for="admin-account-q">Search by email or tenant ID</label>
+    <div class="w-admin__actions">
+      <input class="td-input" id="admin-account-q" name="q" value={query} minlength={3} maxlength={200} required />
+      <button class="td-btn td-btn--primary td-btn--md" type="submit">Search</button>
+    </div>
+    <p class="td-field__hint">Exact email or tenant ID. Every lookup is audited. Prompts and image contents are never shown.</p>
+  </form>
+
+  {query && accounts.length === 0 ? <p class="td-muted">No account matched.</p> : null}
+  {accounts.map((account) => (
+    <section class="w-card" aria-label={`Account ${account.email}`}>
+      <div class="w-row w-row--between">
+        <h2>{account.displayName} <span class="td-muted">· {account.email}</span></h2>
+        {account.suspendedAt ? <span class="td-badge td-badge--danger">suspended</span> : <span class="td-badge td-badge--success">active</span>}
+      </div>
+      <p class="td-muted">Tenant <code>{account.tenantId}</code> · joined {new Date(account.createdAt).toISOString().slice(0, 10)}</p>
+      <p><strong>Credits:</strong> {account.wallet.available} available ({account.wallet.free} free, {account.wallet.purchased} purchased, {account.wallet.reserved} reserved)</p>
+
+      <h3>API keys</h3>
+      {account.keys.length === 0 ? <p class="td-muted">No keys.</p> : (
+        <table class="td-table td-table--dense">
+          <thead><tr><th scope="col">Name</th><th scope="col">Prefix</th><th scope="col">Scopes</th><th scope="col">State</th></tr></thead>
+          <tbody>{account.keys.map((key) => (
+            <tr><th scope="row">{key.name}</th><td><code>{key.prefix}…</code></td><td>{key.scopes.join(", ")}</td><td>{key.revokedAt ? "revoked" : "active"}</td></tr>
+          ))}</tbody>
+        </table>
+      )}
+
+      <h3>Recent image jobs (metadata only)</h3>
+      {account.jobs.length === 0 ? <p class="td-muted">No jobs.</p> : (
+        <table class="td-table td-table--dense">
+          <thead><tr><th scope="col">Job</th><th scope="col">Kind</th><th scope="col">State</th><th scope="col">Images</th><th scope="col">Credits</th><th scope="col">Created</th></tr></thead>
+          <tbody>{account.jobs.map((job) => (
+            <tr><th scope="row"><code>{job.id}</code></th><td>{job.label}</td><td>{job.status}</td><td class="td-table__numeric">{job.units ?? "—"}</td><td class="td-table__numeric">{job.chargedCredits}</td><td>{new Date(job.createdAt).toISOString().replace("T", " ").slice(0, 16)}</td></tr>
+          ))}</tbody>
+        </table>
+      )}
+
+      <AdminAccountActions account={account} role={actor.role} csrfToken={Astro.locals.csrfToken ?? ""} client:load />
+    </section>
+  ))}
+</AdminLayout>

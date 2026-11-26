@@ -1,0 +1,751 @@
+---
+import { requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { runtimeEnv } from "../../lib/runtime";
+import { listWorkerReleases, type WorkerReleaseRow } from "../../lib/worker-releases";
+import { mapWorker, type WorkerRow } from "../../lib/workers";
+
+const env = runtimeEnv();
+const db = d1Db(env.DB);
+await requireAdmin(db, Astro.locals.user, env, "support");
+const rows = await db.all<WorkerRow>("SELECT * FROM workers ORDER BY tier, name");
+const workers = rows.map(mapWorker);
+const health = await db.first<{ last: string | null }>(
+  "SELECT MAX(last_heartbeat_at) AS last FROM workers WHERE disabled = 0",
+);
+
+interface MetricRow {
+  worker_id: string;
+  sampled_at: string;
+  cpu_percent: number | null;
+  mem_used_bytes: number | null;
+  mem_total_bytes: number | null;
+  disk_free_bytes: number | null;
+  disk_total_bytes: number | null;
+  cpu_temp_c: number | null;
+  gpu_temp_c: number | null;
+  gpu_usage_percent: number | null;
+  active_jobs: number | null;
+}
+
+interface AlertStateRow {
+  worker_id: string;
+  metric: string;
+  severity: "ok" | "warn";
+  value: number | null;
+  threshold: number | null;
+  since: string;
+}
+
+const metricRows = await db.all<MetricRow>(
+  "SELECT * FROM worker_metrics WHERE sampled_at >= ? ORDER BY sampled_at ASC",
+  [new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()],
+);
+const byWorker = new Map<string, MetricRow[]>();
+for (const row of metricRows) {
+  const list = byWorker.get(row.worker_id);
+  if (list) list.push(row);
+  else byWorker.set(row.worker_id, [row]);
+}
+const alertStates = await db.all<AlertStateRow>("SELECT * FROM worker_alert_state");
+const stateFor = (workerId: string, metric: string) =>
+  alertStates.find((state) => state.worker_id === workerId && state.metric === metric);
+const releases = await listWorkerReleases(db, 12);
+
+// Worker alert emails link here with `?worker=<id>` (recoveries) or `&action=disable` (warnings);
+// nothing changes until a signed-in admin confirms in the panel below.
+const focusId = Astro.url.searchParams.get("worker") ?? "";
+const focus = workers.find((worker) => worker.id === focusId) ?? null;
+const askDisable = focus !== null && Astro.url.searchParams.get("action") === "disable";
+const metricLabels: Record<string, string> = {
+  cpu: "CPU usage",
+  memory: "Memory usage",
+  disk: "Free disk",
+  cpu_temp: "CPU temperature",
+  gpu_temp: "GPU temperature",
+};
+const warnings = alertStates
+  .filter((state) => state.severity === "warn")
+  .flatMap((state) => {
+    const worker = workers.find((candidate) => candidate.id === state.worker_id);
+    return worker ? [{ ...state, worker }] : [];
+  });
+
+function bytes(value: number | null | undefined): string {
+  if (typeof value !== "number" || value <= 0) return "—";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let size = value;
+  let unit = 0;
+  while (size >= 1024 && unit < units.length - 1) {
+    size /= 1024;
+    unit += 1;
+  }
+  return `${size >= 10 || unit === 0 ? Math.round(size) : size.toFixed(1)} ${units[unit]}`;
+}
+
+function percent(value: number | null | undefined): string {
+  return typeof value === "number" ? `${value.toFixed(1)}%` : "—";
+}
+
+function temperature(value: number | null | undefined): string {
+  return typeof value === "number" ? `${value.toFixed(1)}°C` : "—";
+}
+
+function alertValue(metric: string, value: number | null): string {
+  return metric.endsWith("temp") ? temperature(value) : percent(value);
+}
+
+function relative(iso: string | null | undefined): string {
+  if (!iso) return "never";
+  const delta = Date.now() - Date.parse(iso);
+  if (!Number.isFinite(delta)) return "never";
+  if (delta < 60_000) return `${Math.max(0, Math.round(delta / 1000))} s ago`;
+  if (delta < 3_600_000) return `${Math.round(delta / 60_000)} min ago`;
+  if (delta < 86_400_000) return `${Math.round(delta / 3_600_000)} h ago`;
+  return `${Math.round(delta / 86_400_000)} d ago`;
+}
+
+function memoryPercent(row: MetricRow): number | null {
+  if (!row.mem_total_bytes || row.mem_total_bytes <= 0 || row.mem_used_bytes === null) return null;
+  return (row.mem_used_bytes / row.mem_total_bytes) * 100;
+}
+
+function diskFree(row: MetricRow): number | null {
+  if (!row.disk_total_bytes || row.disk_total_bytes <= 0 || row.disk_free_bytes === null) return null;
+  return (row.disk_free_bytes / row.disk_total_bytes) * 100;
+}
+
+function spark(workerId: string, key: "cpu" | "memory" | "disk" | "cpu_temp" | "gpu_temp"): string {
+  const samples = (byWorker.get(workerId) ?? []).slice(-90);
+  const values = samples.map((sample) => {
+    switch (key) {
+      case "cpu":
+        return sample.cpu_percent;
+      case "memory":
+        return memoryPercent(sample);
+      case "disk":
+        return diskFree(sample);
+      case "cpu_temp":
+        return sample.cpu_temp_c;
+      case "gpu_temp":
+        return sample.gpu_temp_c;
+    }
+  });
+  const present = values.filter((value): value is number => typeof value === "number");
+  if (present.length < 2) return "";
+  const max = key.endsWith("temp") ? 110 : 100;
+  const step = 120 / Math.max(1, values.length - 1);
+  return values
+    .map((value, index) => {
+      if (typeof value !== "number") return null;
+      const y = 32 - Math.min(1, Math.max(0, value / max)) * 28;
+      return `${(index * step).toFixed(1)},${y.toFixed(1)}`;
+    })
+    .filter(Boolean)
+    .join(" ");
+}
+---
+
+<AdminLayout title="Workers" current="/admin/workers/">
+  <p class="td-muted">
+    The home GPU is <code>primary</code>; the VPS is <code>fallback</code> and only receives work when no primary has
+    reported for 60 s, a job has waited longer than the fallback threshold, or the job is a cheap probe.
+  </p>
+  <p>
+    Last heartbeat from any enabled worker: <strong>{health?.last ? relative(health.last) : "never"}</strong>
+    <span class="td-muted"> · host metrics arrive with every heartbeat and are kept for 14 days</span>
+  </p>
+
+  {askDisable && focus && (
+    <section class="w-card alert-panel" aria-labelledby="alert-confirm-title">
+      {focus.disabled ? (
+        <p id="alert-confirm-title"><strong>{focus.name}</strong> is already disabled and takes no new jobs.</p>
+      ) : (
+        <>
+          <h2 id="alert-confirm-title">Stop {focus.name} taking new jobs?</h2>
+          <p>Running jobs finish; the other tier takes over.</p>
+          <div class="worker__actions">
+            <button type="button" class="td-btn td-btn--primary td-btn--sm" data-alert-worker={focus.id} data-alert-action="disable">Confirm</button>
+            {focus.config.concurrency > 1 && (
+              <button type="button" class="td-btn td-btn--secondary td-btn--sm" data-alert-worker={focus.id} data-alert-action="limit">
+                Limit to 1 job at a time
+              </button>
+            )}
+            <a class="td-btn td-btn--tertiary td-btn--sm" href={`/admin/workers/?worker=${encodeURIComponent(focus.id)}`}>Dismiss</a>
+            <span class="form-status td-muted" id="alert-status" hidden></span>
+          </div>
+        </>
+      )}
+    </section>
+  )}
+
+  {warnings.length > 0 && (
+    <section class="w-card alert-panel" aria-label="Active worker warnings">
+      <h2>Active warnings</h2>
+      <ul class="alert-list">
+        {warnings.map((warning) => (
+          <li>
+            <a href={`/admin/workers/?worker=${encodeURIComponent(warning.worker.id)}`}>{warning.worker.name}</a>:
+            {" "}{metricLabels[warning.metric] ?? warning.metric} {alertValue(warning.metric, warning.value)}
+            {" "}(threshold {alertValue(warning.metric, warning.threshold)}) since {relative(warning.since)}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {workers.length === 0 && <div class="w-card"><p class="td-muted">No worker is registered yet.</p></div>}
+
+  {workers.map((worker, index) => {
+    const latest = worker.metrics;
+    const config = worker.config;
+    const cpu = latest?.cpuPercent ?? null;
+    const memory = latest?.memUsedBytes && latest?.memTotalBytes
+      ? (latest.memUsedBytes / latest.memTotalBytes) * 100
+      : null;
+    const disk = latest?.diskFreeBytes && latest?.diskTotalBytes
+      ? (latest.diskFreeBytes / latest.diskTotalBytes) * 100
+      : null;
+    const samples = byWorker.get(worker.id) ?? [];
+    const lastSample = samples[samples.length - 1];
+    const cpuWarn = stateFor(worker.id, "cpu")?.severity === "warn";
+    const memWarn = stateFor(worker.id, "memory")?.severity === "warn";
+    const diskWarn = stateFor(worker.id, "disk")?.severity === "warn";
+    const cpuTempWarn = stateFor(worker.id, "cpu_temp")?.severity === "warn";
+    const gpuTempWarn = stateFor(worker.id, "gpu_temp")?.severity === "warn";
+    const update = worker.update;
+    return (
+      <article
+        class={`w-card worker ${worker.id === focusId ? "worker--focus" : ""}`}
+        id={`worker-${worker.id}`}
+        data-worker-card={worker.id}
+      >
+        <header class="worker__head">
+          <div>
+            <h2>{worker.name}</h2>
+            <p class="td-muted">
+              <code>{worker.id}</code> · {worker.tier} · {worker.disabled ? "disabled" : worker.online ? "online" : "silent"}
+              {" · "}version {worker.version ?? "—"} · heartbeat {relative(worker.lastHeartbeatAt)}
+            </p>
+          </div>
+          <div class="worker__actions">
+            <button type="button" class="td-btn td-btn--tertiary td-btn--sm" data-worker={worker.id} data-action="toggle">
+              {worker.disabled ? "Enable" : "Disable"}
+            </button>
+            <button type="button" class="td-btn td-btn--secondary td-btn--sm" data-worker={worker.id} data-action="rotate">
+              New token
+            </button>
+          </div>
+        </header>
+
+        <div class="metrics">
+          <div class={`metric ${cpuWarn ? "metric--warn" : ""}`}>
+            <span class="metric__label">CPU</span>
+            <strong>{percent(cpu)}</strong>
+            <span class="td-muted">{latest?.cpuCount ?? "—"} cores</span>
+            <svg viewBox="0 0 120 34" preserveAspectRatio="none" class="spark" aria-hidden="true">
+              <polyline points={spark(worker.id, "cpu")} />
+            </svg>
+          </div>
+          <div class={`metric ${memWarn ? "metric--warn" : ""}`}>
+            <span class="metric__label">Memory</span>
+            <strong>{percent(memory)}</strong>
+            <span class="td-muted">{latest ? `${bytes(latest.memUsedBytes)} of ${bytes(latest.memTotalBytes)}` : "—"}</span>
+            <svg viewBox="0 0 120 34" preserveAspectRatio="none" class="spark" aria-hidden="true">
+              <polyline points={spark(worker.id, "memory")} />
+            </svg>
+          </div>
+          <div class={`metric ${diskWarn ? "metric--warn" : ""}`}>
+            <span class="metric__label">Disk free</span>
+            <strong>{percent(disk)}</strong>
+            <span class="td-muted">{latest ? `${bytes(latest.diskFreeBytes)} free` : "—"}</span>
+            <svg viewBox="0 0 120 34" preserveAspectRatio="none" class="spark" aria-hidden="true">
+              <polyline points={spark(worker.id, "disk")} />
+            </svg>
+          </div>
+          <div class={`metric ${cpuTempWarn ? "metric--warn" : ""}`}>
+            <span class="metric__label">CPU temp</span>
+            <strong>{temperature(latest?.cpuTempC)}</strong>
+            <span class="td-muted">{latest?.tempSource ?? "no sensor"}</span>
+            <svg viewBox="0 0 120 34" preserveAspectRatio="none" class="spark" aria-hidden="true">
+              <polyline points={spark(worker.id, "cpu_temp")} />
+            </svg>
+          </div>
+          <div class={`metric ${gpuTempWarn ? "metric--warn" : ""}`}>
+            <span class="metric__label">GPU temp</span>
+            <strong>{temperature(latest?.gpuTempC)}</strong>
+            <span class="td-muted">{latest?.gpuName ?? "install LibreHardwareMonitor"}</span>
+            <svg viewBox="0 0 120 34" preserveAspectRatio="none" class="spark" aria-hidden="true">
+              <polyline points={spark(worker.id, "gpu_temp")} />
+            </svg>
+          </div>
+          <div class="metric">
+            <span class="metric__label">Now</span>
+            <strong>{latest?.activeJobs ?? 0}/{config.concurrency}</strong>
+            <span class="td-muted">
+              {lastSample ? `sample ${relative(lastSample.sampled_at)}` : "no samples yet"}
+              {typeof latest?.gpuUsagePercent === "number" ? ` · GPU load ${Math.round(latest.gpuUsagePercent)}%` : ""}
+            </span>
+          </div>
+        </div>
+
+        <p class="td-muted worker__update">
+          Auto-update: {config.autoUpdate ? "on" : "off"} · config v{worker.configVersion || 0}
+          {worker.appliedConfigVersion !== worker.configVersion ? ` (worker applied v${worker.appliedConfigVersion})` : ""}
+          {update ? ` · updater ${update.state}${update.version ? ` ${update.version}` : ""}${update.error ? ` — ${update.error}` : ""}` : " · no updater state"}
+        </p>
+
+        <details class="worker__config">
+          <summary>Remote configuration</summary>
+          <p class="td-muted">
+            Applied on the next heartbeat (about 20 s). Concurrency resizes the slot supervisor without a restart.
+            Alert thresholds drive the email warnings; changes are audited.
+          </p>
+          <form class="config-grid" data-config-form={worker.id}>
+            <label class="td-field__label" for={`tier-${index}`}>Tier</label>
+            <select class="td-input" id={`tier-${index}`} name="tier">
+              <option value="primary" selected={config.tier === "primary"}>primary</option>
+              <option value="fallback" selected={config.tier === "fallback"}>fallback</option>
+            </select>
+
+            <label class="td-field__label" for={`concurrency-${index}`}>Job slots</label>
+            <input class="td-input" id={`concurrency-${index}`} name="concurrency" type="number" min="1" max="8" value={config.concurrency} />
+
+            <label class="td-field__label" for={`max-audio-${index}`}>Max audio (minutes)</label>
+            <input class="td-input" id={`max-audio-${index}`} name="maxAudioMinutes" type="number" min="1" max="720" value={Math.round(config.maxAudioSeconds / 60)} />
+
+            <label class="td-field__label" for={`min-disk-${index}`}>Min free disk (GB)</label>
+            <input class="td-input" id={`min-disk-${index}`} name="minFreeDiskGb" type="number" min="1" max="200" value={config.minFreeDiskGb} />
+
+            <span class="td-field__label">Alert thresholds</span>
+            <div class="thresholds">
+              <label>CPU % <input class="td-input" name="cpuPercent" type="number" min="50" max="100" value={config.alerts.cpuPercent} /></label>
+              <label>RAM % <input class="td-input" name="memPercent" type="number" min="50" max="100" value={config.alerts.memPercent} /></label>
+              <label>Disk free % <input class="td-input" name="diskFreePercent" type="number" min="1" max="90" value={config.alerts.diskFreePercent} /></label>
+              <label>CPU °C <input class="td-input" name="cpuTempC" type="number" min="40" max="110" value={config.alerts.cpuTempC} /></label>
+              <label>GPU °C <input class="td-input" name="gpuTempC" type="number" min="40" max="115" value={config.alerts.gpuTempC} /></label>
+            </div>
+
+            <span class="td-field__label">Switches</span>
+            <div class="switches">
+              <label><input type="checkbox" name="canDownloadYoutube" checked={config.canDownloadYoutube} /> YouTube</label>
+              <label><input type="checkbox" name="canDownloadTiktok" checked={config.canDownloadTiktok} /> TikTok</label>
+              <label><input type="checkbox" name="autoUpdate" checked={config.autoUpdate} /> Auto-update</label>
+              <label><input type="checkbox" name="alertsEnabled" checked={config.alerts.enabled} /> Alerts</label>
+            </div>
+
+            <div class="config-actions">
+              <button class="td-btn td-btn--primary td-btn--sm" type="submit">Save config</button>
+              <span class="form-status td-muted" data-status hidden></span>
+            </div>
+          </form>
+        </details>
+      </article>
+    );
+  })}
+
+  <section class="w-card">
+    <h2>Worker releases</h2>
+    <p class="td-muted">
+      Upload a <code>GOOS=windows GOARCH=amd64</code> build. The worker downloads it from a short-lived signed URL,
+      verifies the SHA-256, stages it and swaps it in only when no job is running (about a minute after an idle
+      heartbeat). The service is restarted by <code>update-worker.ps1</code>; a failed start rolls back.
+    </p>
+    <div class="td-table-wrap">
+      <table class="td-table td-table--dense">
+        <thead>
+          <tr><th scope="col">Version</th><th scope="col">Target</th><th scope="col">Size</th><th scope="col">SHA-256</th><th scope="col">Published</th><th scope="col">Status</th><th scope="col">Actions</th></tr>
+        </thead>
+        <tbody>
+          {releases.length === 0 && <tr><td colspan="7" class="td-muted">No release published yet.</td></tr>}
+          {releases.map((release: WorkerReleaseRow) => (
+            <tr>
+              <th scope="row">{release.version}</th>
+              <td>{release.platform}/{release.arch}</td>
+              <td>{bytes(release.size_bytes)}</td>
+              <td><code title={release.sha256}>{release.sha256.slice(0, 12)}…</code></td>
+              <td>{relative(release.created_at)}</td>
+              <td>{release.active ? "active" : "inactive"}</td>
+              <td>
+                <button
+                  type="button"
+                  class="td-btn td-btn--tertiary td-btn--sm"
+                  data-release-id={release.id}
+                  data-active={release.active ? "1" : "0"}
+                >
+                  {release.active ? "Deactivate" : "Activate"}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <form id="publish-release" class="release-form">
+      <label class="td-field__label" for="release-version">Version</label>
+      <input class="td-input" id="release-version" name="version" required placeholder="1.9.0" pattern="\d+\.\d+\.\d+" />
+      <label class="td-field__label" for="release-file">transcriber.exe</label>
+      <input class="td-input" id="release-file" name="file" type="file" required accept=".exe" />
+      <label class="td-field__label" for="release-notes">Notes</label>
+      <input class="td-input" id="release-notes" name="notes" maxlength="500" placeholder="What changed" />
+      <div class="config-actions">
+        <button class="td-btn td-btn--primary" type="submit">Publish windows/amd64</button>
+        <span class="form-status td-muted" id="release-status" hidden></span>
+      </div>
+    </form>
+    <p class="td-muted">
+      The R2 outputs bucket needs a CORS rule for this origin with <code>PUT</code> allowed, because the browser
+      uploads directly. The Worker only stores metadata and signs downloads.
+    </p>
+  </section>
+
+  <section class="w-card">
+    <h2>Register a worker</h2>
+    <p class="td-muted">The token is shown once. Store it as <code>TRANSCRIBER_WORKER_TOKEN</code> on the worker.</p>
+    <form id="register-worker" class="ta-formrow">
+      <label class="td-field__label" for="worker-name">Name</label>
+      <input class="td-input" id="worker-name" name="name" required placeholder="home-gpu" />
+      <label class="td-field__label" for="worker-tier">Tier</label>
+      <select class="td-input" id="worker-tier" name="tier">
+        <option value="primary">primary</option>
+        <option value="fallback">fallback</option>
+      </select>
+      <button class="td-btn td-btn--primary" type="submit">Register</button>
+    </form>
+    <pre id="worker-token" class="ta-token" hidden></pre>
+  </section>
+
+  <script is:inline>
+    const csrf = document.cookie.match(/(?:^|; )td_csrf=([^;]+)/)?.[1] ?? "";
+    const headers = { "content-type": "application/json", "x-csrf-token": decodeURIComponent(csrf) };
+    const tokenBox = document.getElementById("worker-token");
+
+    function showToken(token) {
+      if (!token || !tokenBox) return;
+      tokenBox.hidden = false;
+      tokenBox.textContent = token;
+    }
+
+    function setStatus(element, message, failed) {
+      if (!element) return;
+      element.hidden = false;
+      element.textContent = message;
+      element.classList.toggle("bad", Boolean(failed));
+    }
+
+    document.querySelectorAll("[data-config-form]").forEach((form) => {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const workerId = form.getAttribute("data-config-form");
+        const status = form.querySelector("[data-status]");
+        const data = new FormData(form);
+        const payload = {
+          config: {
+            tier: data.get("tier"),
+            concurrency: Number(data.get("concurrency")),
+            maxAudioSeconds: Math.round(Number(data.get("maxAudioMinutes")) * 60),
+            minFreeDiskGb: Number(data.get("minFreeDiskGb")),
+            canDownloadYoutube: data.get("canDownloadYoutube") === "on",
+            canDownloadTiktok: data.get("canDownloadTiktok") === "on",
+            autoUpdate: data.get("autoUpdate") === "on",
+            alerts: {
+              enabled: data.get("alertsEnabled") === "on",
+              cpuPercent: Number(data.get("cpuPercent")),
+              memPercent: Number(data.get("memPercent")),
+              diskFreePercent: Number(data.get("diskFreePercent")),
+              cpuTempC: Number(data.get("cpuTempC")),
+              gpuTempC: Number(data.get("gpuTempC")),
+            },
+          },
+          reason: "workers page configuration",
+        };
+        setStatus(status, "Saving…", false);
+        try {
+          const response = await fetch(`/api/v1/admin/workers/${workerId}`, {
+            method: "PATCH",
+            headers,
+            body: JSON.stringify(payload),
+          });
+          const body = await response.json();
+          if (!response.ok) throw new Error(body.error ?? `status ${response.status}`);
+          setStatus(status, `Saved as config v${body.configVersion}. The worker applies it within ~20 s.`, false);
+        } catch (error) {
+          setStatus(status, `Not saved: ${error.message}`, true);
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-worker][data-action]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = button.getAttribute("data-worker");
+        const action = button.getAttribute("data-action");
+        const payload =
+          action === "rotate" ? { rotate_token: true, reason: "admin rotation" } : { disabled: button.textContent.trim() === "Disable" };
+        const response = await fetch(`/api/v1/admin/workers/${id}`, {
+          method: "PATCH",
+          headers,
+          body: JSON.stringify(payload),
+        });
+        const body = await response.json();
+        if (body.token) showToken(body.token);
+        window.location.reload();
+      });
+    });
+
+    document.querySelectorAll("[data-alert-action]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = button.getAttribute("data-alert-worker");
+        const payload =
+          button.getAttribute("data-alert-action") === "limit"
+            ? { config: { concurrency: 1 }, reason: "Limited from worker alert email" }
+            : { disabled: true, reason: "Disabled from worker alert email" };
+        const status = document.getElementById("alert-status");
+        button.disabled = true;
+        const response = await fetch(`/api/v1/admin/workers/${encodeURIComponent(id)}`, {
+          method: "PATCH",
+          headers,
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+          const body = await response.json().catch(() => ({}));
+          button.disabled = false;
+          setStatus(status, `Not saved: ${body.detail ?? body.title ?? `status ${response.status}`}`, true);
+          return;
+        }
+        window.location.href = `/admin/workers/?worker=${encodeURIComponent(id)}`;
+      });
+    });
+
+    // The confirm panel sits at the top; only jump to the worker card when there is none.
+    if (!document.getElementById("alert-confirm-title")) {
+      document.querySelector(".worker--focus")?.scrollIntoView({ block: "start" });
+    }
+
+    document.querySelectorAll("[data-release-id]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = button.getAttribute("data-release-id");
+        const active = button.getAttribute("data-active") !== "1";
+        const response = await fetch(`/api/v1/admin/workers/releases/${id}`, {
+          method: "PATCH",
+          headers,
+          body: JSON.stringify({ active }),
+        });
+        if (!response.ok) {
+          const body = await response.json().catch(() => ({}));
+          alert(body.error ?? "Could not update the release.");
+          return;
+        }
+        window.location.reload();
+      });
+    });
+
+    document.getElementById("register-worker")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const response = await fetch("/api/v1/admin/workers", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ name: form.get("name"), tier: form.get("tier") }),
+      });
+      const body = await response.json();
+      showToken(body.token);
+    });
+
+    document.getElementById("publish-release")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const status = document.getElementById("release-status");
+      const data = new FormData(form);
+      const file = data.get("file");
+      const version = String(data.get("version") ?? "").trim();
+      const notes = String(data.get("notes") ?? "").trim();
+      if (!(file instanceof File) || file.size === 0) {
+        setStatus(status, "Choose a transcriber.exe first.", true);
+        return;
+      }
+      if (file.size > 200 * 1024 * 1024) {
+        setStatus(status, "The executable must be under 200 MB.", true);
+        return;
+      }
+      try {
+        setStatus(status, "Hashing…", false);
+        const digest = await crypto.subtle.digest("SHA-256", await file.arrayBuffer());
+        const sha256 = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+        setStatus(status, "Requesting an upload URL…", false);
+        const presignResponse = await fetch("/api/v1/admin/workers/releases/upload-url", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ version, platform: "windows", arch: "amd64" }),
+        });
+        const presign = await presignResponse.json();
+        if (!presignResponse.ok) throw new Error(presign.error ?? "Could not sign the upload.");
+        setStatus(status, "Uploading to R2…", false);
+        const put = await fetch(presign.url, {
+          method: "PUT",
+          body: file,
+          headers: { "content-type": "application/octet-stream" },
+        });
+        if (!put.ok) throw new Error(`R2 responded ${put.status}`);
+        setStatus(status, "Recording the release…", false);
+        const createResponse = await fetch("/api/v1/admin/workers/releases", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            version,
+            platform: "windows",
+            arch: "amd64",
+            key: presign.key,
+            sha256,
+            sizeBytes: file.size,
+            notes,
+          }),
+        });
+        const created = await createResponse.json();
+        if (!createResponse.ok) throw new Error(created.error ?? "Could not record the release.");
+        setStatus(status, "Published.", false);
+        window.location.reload();
+      } catch (error) {
+        setStatus(status, `Publish failed: ${error.message}`, true);
+      }
+    });
+  </script>
+
+  <style>
+    .worker {
+      display: grid;
+      gap: 14px;
+    }
+    .worker__head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .worker__head h2 {
+      margin: 0 0 4px;
+    }
+    .worker__actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .metric {
+      border: 1px solid var(--td-line, #e2dccf);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: grid;
+      gap: 2px;
+      font-size: 13px;
+    }
+    .metric__label {
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--td-muted, #6d675c);
+    }
+    .metric strong {
+      font-size: 22px;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+    .alert-panel {
+      border-color: #a8442a;
+      background: color-mix(in srgb, #a8442a 8%, transparent);
+    }
+    .alert-panel h2 {
+      margin-top: 0;
+    }
+    .alert-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .worker--focus {
+      outline: 2px solid #a8442a;
+      outline-offset: 2px;
+    }
+    .metric--warn {
+      border-color: #a8442a;
+      background: color-mix(in srgb, #a8442a 10%, transparent);
+    }
+    .spark {
+      width: 100%;
+      height: 34px;
+      margin-top: 4px;
+    }
+    .spark polyline {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      vector-effect: non-scaling-stroke;
+      opacity: 0.7;
+    }
+    .metric--warn .spark {
+      color: #a8442a;
+    }
+    .worker__update {
+      font-size: 12px;
+    }
+    .worker__config summary {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 4px 0;
+    }
+    .config-grid {
+      display: grid;
+      grid-template-columns: 170px minmax(200px, 1fr);
+      gap: 10px 16px;
+      align-items: center;
+      margin-top: 12px;
+    }
+    .thresholds,
+    .switches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+    }
+    .thresholds label,
+    .switches label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .thresholds .td-input {
+      width: 84px;
+    }
+    .config-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .release-form {
+      display: grid;
+      grid-template-columns: 170px minmax(200px, 1fr);
+      gap: 10px 16px;
+      align-items: center;
+      margin-top: 16px;
+    }
+    .form-status.bad {
+      color: #a8442a;
+    }
+    @media (max-width: 720px) {
+      .config-grid,
+      .release-form {
+        grid-template-columns: 1fr;
+      }
+      .config-actions {
+        grid-column: 1;
+      }
+    }
+  </style>
+</AdminLayout>

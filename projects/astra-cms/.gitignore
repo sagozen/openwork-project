@@ -1,0 +1,33 @@
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+*.mp4
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+
+# Env / secrets
+.env
+*.env
+*.pem
+*.key
+
+# Local runtime
+deploy/docker/data/
+*.log
+
+# Demo video sources and renders stay local (mp4 hosted on Cloudflare R2);
+# only docs/video/README.md and the already-tracked narration JSON are in git
+docs/video/*.mp4
+docs/video/*.wav
+docs/video/*/
+
+# Tier 1 plugin jars are built by scripts/build-plugins.sh
+astra-apps/express-integrations/plugins/

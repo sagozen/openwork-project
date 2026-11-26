@@ -1,0 +1,40 @@
+---
+import { adminMetrics, getAdminSettings } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { loadImageSettings } from "../../lib/images/settings";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+const [metrics, settings, image] = await Promise.all([adminMetrics(db), getAdminSettings(db), loadImageSettings(db)]);
+const avg = metrics.avgDurationMs ? `${(metrics.avgDurationMs / 1000).toFixed(1)} s` : "—";
+---
+
+<AdminLayout title="Overview" current="/admin/">
+  <div class="w-admin__grid">
+    <div class="w-admin__metric"><strong>{metrics.tenants}</strong><span>Accounts</span></div>
+    <div class="w-admin__metric"><strong>{metrics.jobs24h}</strong><span>Image jobs (24 h)</span></div>
+    <div class="w-admin__metric"><strong>{metrics.failures24h}</strong><span>Failures (24 h)</span></div>
+    <div class="w-admin__metric"><strong>{metrics.queued + metrics.running}</strong><span>In flight</span></div>
+  </div>
+
+  <div class="w-card">
+    <h2>Now</h2>
+    <p>
+      Generation is <strong>{image.enabled ? "on" : "paused"}</strong>.
+      Average finished job {avg}.
+      {settings.incidentActive ? " An incident banner is active." : ""}
+    </p>
+    <p>
+      <strong>Ledger check:</strong>
+      {metrics.ledgerMismatch === 0 ? <span class="td-badge td-badge--success">balanced</span> : <span class="td-badge td-badge--danger">mismatch {metrics.ledgerMismatch}</span>}
+      · {metrics.failedEmails} failed emails
+    </p>
+    <div class="w-admin__actions">
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/accounts/">Find an account</a>
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/jobs/">Image jobs</a>
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/audit/">Audit log</a>
+    </div>
+  </div>
+</AdminLayout>

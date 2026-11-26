@@ -1,0 +1,45 @@
+{
+  "name": "@templatedesign/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TemplateDesign component library: plain CSS + React components, EN/VI copy, all states",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles/index.css",
+    "./copy": "./src/copy.ts",
+    "./theme-studio.css": "./src/theme/studio.css"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "build": "node scripts/check-css.mjs",
+    "check": "node scripts/check-css.mjs && node --experimental-strip-types scripts/check-i18n.mjs && tsc --noEmit",
+    "check:i18n": "node --experimental-strip-types scripts/check-i18n.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "prebuild": "node ../tokens/scripts/build.mjs",
+    "precheck": "node ../tokens/scripts/build.mjs",
+    "pretypecheck": "node ../tokens/scripts/build.mjs",
+    "pretest": "node ../tokens/scripts/build.mjs"
+  },
+  "dependencies": {
+    "@templatedesign/tokens": "0.1.0"
+  },
+  "peerDependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "6.0.2"
+  },
+  "engines": {
+    "node": ">=24.21.0"
+  }
+}

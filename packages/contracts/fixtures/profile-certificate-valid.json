@@ -1,0 +1,74 @@
+{
+  "profile": "certificate-cfo-v1",
+  "kind": "certificate",
+  "page": {
+    "size": "A4",
+    "orientation": "landscape",
+    "unit": "mm"
+  },
+  "source": {
+    "basePdf": { "width": 297, "height": 210, "padding": [0, 0, 0, 0] },
+    "schemas": [
+      [
+        {
+          "name": "recipient",
+          "type": "text",
+          "position": { "x": 20, "y": 80 },
+          "width": 257,
+          "height": 20,
+          "fontSize": 28,
+          "alignment": "center",
+          "content": "",
+          "td": {
+            "mode": "field",
+            "field": "recipient_name",
+            "format": "asis",
+            "fit": { "policy": "shrink", "min": 12, "maxLines": 2 }
+          }
+        },
+        {
+          "name": "course",
+          "type": "text",
+          "position": { "x": 20, "y": 110 },
+          "width": 257,
+          "height": 14,
+          "fontSize": 16,
+          "alignment": "center",
+          "content": "",
+          "td": { "mode": "field", "field": "course_title", "fit": { "policy": "wrap", "maxLines": 2 } }
+        },
+        {
+          "name": "verify",
+          "type": "qrcode",
+          "position": { "x": 250, "y": 175 },
+          "width": 24,
+          "height": 24,
+          "td": { "source": "field", "field": "qr_url", "ecc": "M" }
+        }
+      ]
+    ]
+  },
+  "td": {
+    "profileVersion": "1.0.0",
+    "docLocale": "vi",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": ["recipient_name", "course_title", "issued_on", "issuer_name"],
+      "properties": {
+        "recipient_name": { "type": "string" },
+        "course_title": { "type": "string" },
+        "issued_on": { "type": "string", "format": "date" },
+        "issuer_name": { "type": "string" }
+      }
+    },
+    "sampleData": {
+      "recipient_name": "Nguyễn Thị Ánh Tuyết",
+      "course_title": "Cloudflare for Finance Teams",
+      "issued_on": "2026-10-21",
+      "issuer_name": "Trường Đại học Bách khoa"
+    },
+    "guides": [{ "axis": "x", "position": 148.5 }],
+    "locks": ["verify"]
+  }
+}

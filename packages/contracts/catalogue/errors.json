@@ -1,0 +1,158 @@
+{
+  "$id": "https://templatedesign.zhst.app/contracts/error-catalogue.json",
+  "version": "1.0.0",
+  "description": "Stable error codes shared by the web app, API and n8n node. The `code` member is the contract; title and detail may change.",
+  "forbiddenInLogs": ["document content", "CSV rows", "CFO figures", "share tokens", "API keys", "email addresses"],
+  "codes": [
+    {
+      "code": "invalid_input",
+      "http": 400,
+      "retryable": false,
+      "title": { "en": "Check the highlighted fields", "vi": "Kiểm tra các trường được đánh dấu" },
+      "detail": { "en": "Some values are missing or invalid.", "vi": "Một số giá trị bị thiếu hoặc không hợp lệ." },
+      "fix": "correct-request"
+    },
+    {
+      "code": "unauthenticated",
+      "http": 401,
+      "retryable": false,
+      "title": { "en": "Sign in to continue", "vi": "Đăng nhập để tiếp tục" },
+      "detail": {
+        "en": "Your session or API key is missing, expired or revoked.",
+        "vi": "Phiên đăng nhập hoặc API key bị thiếu, hết hạn hoặc đã thu hồi."
+      },
+      "fix": "authenticate"
+    },
+    {
+      "code": "insufficient_credits",
+      "http": 402,
+      "retryable": false,
+      "title": { "en": "Not enough credits", "vi": "Không đủ credit" },
+      "detail": {
+        "en": "Top up to continue. No credits were used.",
+        "vi": "Nạp thêm credit để tiếp tục. Chưa có credit nào bị trừ."
+      },
+      "fix": "top-up"
+    },
+    {
+      "code": "forbidden",
+      "http": 403,
+      "retryable": false,
+      "title": { "en": "You don't have access to this", "vi": "Bạn không có quyền truy cập" },
+      "detail": {
+        "en": "This action needs a different permission or account.",
+        "vi": "Hành động này cần quyền hoặc tài khoản khác."
+      },
+      "fix": "request-access"
+    },
+    {
+      "code": "not_found",
+      "http": 404,
+      "retryable": false,
+      "title": { "en": "We can't find that", "vi": "Không tìm thấy" },
+      "detail": {
+        "en": "The item may have been deleted, expired or belongs to another account.",
+        "vi": "Mục này có thể đã bị xoá, hết hạn hoặc thuộc tài khoản khác."
+      },
+      "fix": "check-id"
+    },
+    {
+      "code": "idempotency_conflict",
+      "http": 409,
+      "retryable": false,
+      "title": { "en": "This request was already used", "vi": "Yêu cầu này đã được dùng" },
+      "detail": {
+        "en": "The same Idempotency-Key was sent with a different body.",
+        "vi": "Cùng một Idempotency-Key được gửi với nội dung khác."
+      },
+      "fix": "new-idempotency-key"
+    },
+    {
+      "code": "revision_conflict",
+      "http": 409,
+      "retryable": false,
+      "title": { "en": "This draft changed somewhere else", "vi": "Bản nháp đã thay đổi ở nơi khác" },
+      "detail": {
+        "en": "Reload the latest draft and retry your edit.",
+        "vi": "Tải lại bản nháp mới nhất rồi thử lại."
+      },
+      "fix": "reload-draft"
+    },
+    {
+      "code": "payload_too_large",
+      "http": 413,
+      "retryable": false,
+      "title": { "en": "That file or input is too large", "vi": "Tệp hoặc dữ liệu quá lớn" },
+      "detail": { "en": "Reduce the size and try again.", "vi": "Giảm kích thước rồi thử lại." },
+      "fix": "reduce-payload"
+    },
+    {
+      "code": "unsupported_template",
+      "http": 422,
+      "retryable": false,
+      "title": { "en": "This template isn't available here", "vi": "Mẫu này không khả dụng ở đây" },
+      "detail": {
+        "en": "The template or output format is not supported by this deployment.",
+        "vi": "Mẫu hoặc định dạng đầu ra không được hỗ trợ trên hệ thống này."
+      },
+      "fix": "check-capabilities"
+    },
+    {
+      "code": "profile_violation",
+      "http": 422,
+      "retryable": false,
+      "title": { "en": "This template uses unsupported features", "vi": "Mẫu này dùng tính năng không được hỗ trợ" },
+      "detail": { "en": "Fix the items listed in the preflight report.", "vi": "Sửa các mục trong báo cáo kiểm tra." },
+      "fix": "fix-preflight"
+    },
+    {
+      "code": "rate_limited",
+      "http": 429,
+      "retryable": true,
+      "title": { "en": "Too many requests", "vi": "Quá nhiều yêu cầu" },
+      "detail": {
+        "en": "This is a usage limit, not a system error. Wait for the time in Retry-After, then try again, or email support.templatedesign@zhst.app to request a higher limit.",
+        "vi": "Đây là giới hạn sử dụng, không phải lỗi hệ thống. Đợi theo thời gian trong Retry-After rồi thử lại, hoặc gửi email tới support.templatedesign@zhst.app để yêu cầu tăng giới hạn."
+      },
+      "fix": "back-off"
+    },
+    {
+      "code": "quota_exceeded",
+      "http": 429,
+      "retryable": true,
+      "title": { "en": "You've reached a limit", "vi": "Bạn đã đạt giới hạn" },
+      "detail": {
+        "en": "A preview, test-mode or spending cap was reached.",
+        "vi": "Đã đạt giới hạn xem trước, chế độ thử hoặc hạn mức chi tiêu."
+      },
+      "fix": "wait-or-raise-cap"
+    },
+    {
+      "code": "busy",
+      "http": 429,
+      "retryable": true,
+      "title": { "en": "The render queue is full", "vi": "Hàng đợi render đang đầy" },
+      "detail": { "en": "No credits were held. Try again shortly.", "vi": "Chưa giữ credit nào. Thử lại sau ít phút." },
+      "fix": "back-off"
+    },
+    {
+      "code": "dependency_unavailable",
+      "http": 503,
+      "retryable": true,
+      "title": { "en": "A service we depend on is unavailable", "vi": "Một dịch vụ phụ thuộc đang không khả dụng" },
+      "detail": {
+        "en": "Try again shortly and check the status page.",
+        "vi": "Thử lại sau ít phút và kiểm tra trang trạng thái."
+      },
+      "fix": "check-status"
+    },
+    {
+      "code": "render_failed",
+      "http": 500,
+      "retryable": false,
+      "title": { "en": "We couldn't make this PDF", "vi": "Không thể tạo PDF này" },
+      "detail": { "en": "No credits are charged for failed jobs.", "vi": "Job lỗi không bị trừ credit." },
+      "fix": "fix-data-or-retry"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://templatedesign.zhst.app/contracts/problem.schema.json",
+  "title": "Problem",
+  "description": "RFC 9457 problem document with the stable TemplateDesign error code. Sent as application/problem+json.",
+  "type": "object",
+  "required": ["type", "title", "status", "code"],
+  "additionalProperties": false,
+  "properties": {
+    "type": { "type": "string", "format": "uri" },
+    "title": { "type": "string", "minLength": 1 },
+    "status": { "type": "integer", "minimum": 400, "maximum": 599 },
+    "code": {
+      "type": "string",
+      "enum": [
+        "invalid_input",
+        "unauthenticated",
+        "insufficient_credits",
+        "forbidden",
+        "not_found",
+        "idempotency_conflict",
+        "revision_conflict",
+        "payload_too_large",
+        "unsupported_template",
+        "profile_violation",
+        "rate_limited",
+        "quota_exceeded",
+        "busy",
+        "dependency_unavailable",
+        "render_failed"
+      ]
+    },
+    "detail": { "type": "string" },
+    "request_id": { "type": "string", "pattern": "^req_[A-Za-z0-9_]+$" },
+    "details": { "type": "object", "additionalProperties": true }
+  }
+}

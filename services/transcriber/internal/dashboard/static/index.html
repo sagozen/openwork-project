@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>TranscriptAnything worker</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="identity">
+      <span class="dot" id="status-dot" aria-hidden="true"></span>
+      <div>
+        <h1 id="worker-name">Worker</h1>
+        <p class="muted" id="worker-sub">loading…</p>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="pill" id="update-pill">update: —</span>
+      <button class="btn" id="check-now" type="button">Check now</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="cards" aria-label="Host metrics">
+      <article class="card" id="card-cpu">
+        <p class="label">CPU</p>
+        <p class="value"><span id="cpu-value">—</span><span class="unit">%</span></p>
+        <p class="sub" id="cpu-sub">—</p>
+        <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true"><polyline id="cpu-spark" points=""></polyline></svg>
+      </article>
+      <article class="card" id="card-mem">
+        <p class="label">Memory</p>
+        <p class="value"><span id="mem-value">—</span><span class="unit">%</span></p>
+        <p class="sub" id="mem-sub">—</p>
+        <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true"><polyline id="mem-spark" points=""></polyline></svg>
+      </article>
+      <article class="card" id="card-disk">
+        <p class="label">Disk free</p>
+        <p class="value"><span id="disk-value">—</span><span class="unit">%</span></p>
+        <p class="sub" id="disk-sub">—</p>
+        <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true"><polyline id="disk-spark" points=""></polyline></svg>
+      </article>
+      <article class="card" id="card-cpu-temp">
+        <p class="label">CPU temperature</p>
+        <p class="value"><span id="cpu-temp-value">—</span><span class="unit">°C</span></p>
+        <p class="sub" id="cpu-temp-sub">—</p>
+        <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true"><polyline id="cpu-temp-spark" points=""></polyline></svg>
+      </article>
+      <article class="card" id="card-gpu-temp">
+        <p class="label">GPU temperature</p>
+        <p class="value"><span id="gpu-temp-value">—</span><span class="unit">°C</span></p>
+        <p class="sub" id="gpu-temp-sub">—</p>
+        <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true"><polyline id="gpu-temp-spark" points=""></polyline></svg>
+      </article>
+      <article class="card" id="card-jobs">
+        <p class="label">Job slots</p>
+        <p class="value"><span id="job-value">0</span><span class="unit">/<span id="job-limit">1</span></span></p>
+        <p class="sub" id="job-sub">idle</p>
+      </article>
+    </section>
+
+    <section class="split">
+      <div class="panel">
+        <h2>Active jobs</h2>
+        <div id="active-jobs" class="empty">No job is running.</div>
+      </div>
+      <div class="panel">
+        <h2>Remote configuration</h2>
+        <dl class="config" id="config"></dl>
+        <p class="hint" id="config-note"></p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Finished jobs <span class="muted small" id="finished-count"></span></h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Job</th><th scope="col">Stage</th><th scope="col">Source</th><th scope="col">Result</th><th scope="col" class="num">Took</th><th scope="col">Ended</th></tr>
+          </thead>
+          <tbody id="finished-jobs"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="finished-empty">Nothing finished since this worker started.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Recent log</h2>
+      <pre id="logs" class="logs">—</pre>
+    </section>
+  </main>
+
+  <footer>
+    <span id="host">—</span> · version <span id="version">—</span> · dashboard bound to loopback only
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1788 @@
+{
+  "tools": [
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Ảnh màn hình hiện tại của một thiết bị (thiết bị web: trang đang mở theo viewport của hồ sơ). Mặc định thu nhỏ ngang 720px và nén JPEG để tiết kiệm ngữ cảnh; chỉ chụp khi cần nhìn màn hình (device_ui_state rẻ hơn khi chỉ cần chữ và toạ độ).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "description": "jpeg (nhẹ, mặc định) hoặc png (nguyên vẹn, nặng hơn nhiều); rỗng = jpeg",
+            "type": "string"
+          },
+          "id": {
+            "description": "Mã thiết bị",
+            "type": "string"
+          },
+          "max_width": {
+            "description": "Chiều ngang tối đa của ảnh trả về (px); 0 = 720. Chỉ thu nhỏ, không phóng to",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "max_width",
+          "format"
+        ],
+        "type": "object"
+      },
+      "name": "device_screenshot"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Vuốt giữa hai điểm (toạ độ theo tỉ lệ 0..1), trả ảnh màn hình sau khi vuốt. Thiết bị web: cuộn bằng bánh xe chuột như ngón tay (vuốt lên là cuộn xuống), bỏ qua duration_ms.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị",
+            "type": "string"
+          },
+          "duration_ms": {
+            "description": "Thời gian vuốt (ms); 0 = 400",
+            "type": "integer"
+          },
+          "format": {
+            "description": "jpeg (nhẹ, mặc định) hoặc png (nguyên vẹn, nặng hơn nhiều); rỗng = jpeg",
+            "type": "string"
+          },
+          "max_width": {
+            "description": "Chiều ngang tối đa của ảnh trả về (px); 0 = 720. Chỉ thu nhỏ, không phóng to",
+            "type": "integer"
+          },
+          "x1": {
+            "description": "Điểm đầu, ngang 0..1",
+            "type": "number"
+          },
+          "x2": {
+            "description": "Điểm cuối, ngang 0..1",
+            "type": "number"
+          },
+          "y1": {
+            "description": "Điểm đầu, dọc 0..1",
+            "type": "number"
+          },
+          "y2": {
+            "description": "Điểm cuối, dọc 0..1",
+            "type": "number"
+          }
+        },
+        "required": [
+          "device_id",
+          "x1",
+          "y1",
+          "x2",
+          "y2",
+          "duration_ms",
+          "max_width",
+          "format"
+        ],
+        "type": "object"
+      },
+      "name": "device_swipe"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Chạm vào một điểm trên màn hình (toạ độ theo tỉ lệ 0..1), trả ảnh màn hình sau khi chạm. Thiết bị web: bấm chuột tại điểm đó (ưu tiên web_click theo ref hoặc locator).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị",
+            "type": "string"
+          },
+          "format": {
+            "description": "jpeg (nhẹ, mặc định) hoặc png (nguyên vẹn, nặng hơn nhiều); rỗng = jpeg",
+            "type": "string"
+          },
+          "max_width": {
+            "description": "Chiều ngang tối đa của ảnh trả về (px); 0 = 720. Chỉ thu nhỏ, không phóng to",
+            "type": "integer"
+          },
+          "x": {
+            "description": "Toạ độ ngang theo tỉ lệ màn hình, 0..1",
+            "type": "number"
+          },
+          "y": {
+            "description": "Toạ độ dọc theo tỉ lệ màn hình, 0..1",
+            "type": "number"
+          }
+        },
+        "required": [
+          "device_id",
+          "x",
+          "y",
+          "max_width",
+          "format"
+        ],
+        "type": "object"
+      },
+      "name": "device_tap"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Cây giao diện hiện tại của một thiết bị (phần tử, chữ, id, toạ độ). Thiết bị web: dòng đầu có url, viewport và snapshotId (\u003cgen\u003e-\u003cn\u003e), sau đó là aria snapshot, mỗi phần tử có [ref=eN] và [box=x,y,w,h] theo tỉ lệ 0..1; dùng ref kèm snapshotId cho web_click, web_fill, web_select. Snapshot quá lớn được rút gọn còn các phần tử có tên.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Mã (task, thiết bị hoặc lượt chạy tuỳ tool)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "device_ui_state"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Các ca kiểm thử cần xem lại vì yêu cầu đã sửa (reason changed) hoặc đã xoá (removed) sau lần sinh hay xác nhận cuối. Sinh lại: test_compile với reqs là các mã trong reqs của ca (chỉ ca đổi mới gọi AI).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "type": "object"
+      },
+      "name": "docs_affected_cases"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Ma trận độ phủ: mỗi yêu cầu và các ca kiểm chứng nó kèm kết quả chạy gần nhất (stale = ca cần xem lại), ca chưa nối yêu cầu nào (untraced) và mã trùng. Yêu cầu không có ca là chưa được kiểm thử.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "type": "object"
+      },
+      "name": "docs_coverage"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Một tài liệu nghiệp vụ: Markdown nguyên văn kèm các yêu cầu đã phân tích (mã, tiêu đề, nội dung, dòng).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "id": {
+            "description": "Mã tài liệu: chữ thường, số, gạch nối (vd prd-checkout)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "docs_get"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Các tài liệu nghiệp vụ (PRD, BRD, URD, SRS, AC) của một app: mã, loại, tiêu đề, rev, lần sửa cuối.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "type": "object"
+      },
+      "name": "docs_list"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Mọi yêu cầu trong tài liệu nghiệp vụ của app (mã, tài liệu, tiêu đề, nội dung) và các mã bị trùng giữa nhiều tài liệu. Dùng mã ở đây cho reqs của test_compile.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "type": "object"
+      },
+      "name": "docs_requirements"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Ghi đè (hoặc tạo) một tài liệu nghiệp vụ bằng Markdown mới: tự gán mã cho tiêu đề chưa có neo, tăng rev, bản cũ vào lịch sử để khôi phục trong app. Mã trùng trong app bị từ chối. Đọc docs_get trước rồi gửi toàn bộ nội dung, giữ nguyên neo {#...} đã có. Trả tài liệu đã lưu kèm mã đã gán.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "id": {
+            "description": "Mã tài liệu: chữ thường, số, gạch nối (vd prd-checkout); chưa có thì tạo mới",
+            "type": "string"
+          },
+          "markdown": {
+            "description": "Toàn bộ nội dung Markdown mới. Front-matter tuỳ chọn (type: PRD|BRD|URD|SRS|AC, title); mỗi yêu cầu là tiêu đề cấp 2 trở xuống hoặc mục danh sách có neo {#REQ-012}; giữ nguyên neo đã có, tiêu đề mới chưa neo được tự gán mã",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "id",
+          "markdown"
+        ],
+        "type": "object"
+      },
+      "name": "docs_update"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Kéo thay đổi của người khác từ kho nhóm về máy này. Tệp đang sửa ở máy không bao giờ bị ghi đè; flow không qua kiểm tra an toàn và tệp sửa trùng nằm ở vùng xung đột, liệt kê trong conflicts (người dùng gộp trong trang Đồng bộ). merged: manifest đã gộp tự động, cần sync_push để chia sẻ.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "apps": {
+            "description": "Tên app trong kho flow; rỗng = mọi app ở máy và trên kho nhóm",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "apps"
+        ],
+        "type": "object"
+      },
+      "name": "sync_pull"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Đẩy thay đổi ở máy này (tài liệu, ca, flow, ghi chú) lên kho nhóm. Tệp đang xung đột bị bỏ qua và liệt kê trong conflicts (người dùng gộp trong trang Đồng bộ); phía xa đã đổi thì bản của người khác vào vùng xung đột, không ghi đè. Có run_id thì chia sẻ evidence của lượt đó; gói quá 200 MB trả evidence_confirm_required và không đẩy (người dùng xác nhận trong app).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "apps": {
+            "description": "Tên app trong kho flow; rỗng = mọi app ở máy",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "run_id": {
+            "description": "Mã lượt chạy: có thì chia sẻ evidence của lượt đó (ảnh, video, báo cáo đã che; không trace) thay vì đẩy tệp; rỗng = đẩy tài liệu, ca, flow, ghi chú",
+            "type": "string"
+          }
+        },
+        "required": [
+          "apps",
+          "run_id"
+        ],
+        "type": "object"
+      },
+      "name": "sync_push"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Trạng thái đồng bộ nhóm của tài liệu, ca, flow, ghi chú: số tệp theo trạng thái (synced, local_changed, remote_changed, both_changed, local_new, remote_new, local_deleted, remote_deleted, conflict), danh sách xung đột đang chờ gộp, lần đẩy/kéo cuối. Chỉ đọc.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "apps": {
+            "description": "Tên app trong kho flow; rỗng = mọi app ở máy và trên kho nhóm",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "apps"
+        ],
+        "type": "object"
+      },
+      "name": "sync_status"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Lưu bản sửa đã duyệt (từ test_repair); từ chối nếu flow đã đổi từ lúc đề xuất.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "description": "Nội dung đã sửa (từ test_repair)",
+            "type": "string"
+          },
+          "app": {
+            "description": "Tên app",
+            "type": "string"
+          },
+          "before": {
+            "description": "Nội dung flow lúc đề xuất (từ test_repair)",
+            "type": "string"
+          },
+          "explanation": {
+            "description": "Giải thích của bản sửa",
+            "type": "string"
+          },
+          "flow": {
+            "description": "Tên file flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "flow",
+          "before",
+          "after",
+          "explanation"
+        ],
+        "type": "object"
+      },
+      "name": "test_apply_repair"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "So p50/p95 và tỉ lệ đạt của bản app cũ và mới trên cùng thiết bị.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "devices": {
+            "description": "Mã thiết bị",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "env": {
+            "description": "Biến thường",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "description": "Tên biến, chữ hoa (vd MEXPRESS_APP_ID)",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Giá trị thường, không phải bí mật",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "flows": {
+            "description": "Tên file flow; rỗng = mọi flow",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "new_file": {
+            "description": "Đường dẫn file bản mới trên máy này",
+            "type": "string"
+          },
+          "new_label": {
+            "description": "Nhãn bản mới",
+            "type": "string"
+          },
+          "old_file": {
+            "description": "Đường dẫn file bản cũ (.apk/.ipa/.app) trên máy này",
+            "type": "string"
+          },
+          "old_label": {
+            "description": "Nhãn bản cũ",
+            "type": "string"
+          },
+          "repeat": {
+            "description": "Số lần mỗi bản; 0 = 5",
+            "type": "integer"
+          },
+          "secrets": {
+            "description": "Tên biến bí mật",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "app",
+          "flows",
+          "devices",
+          "env",
+          "secrets",
+          "repeat",
+          "old_label",
+          "old_file",
+          "new_label",
+          "new_file"
+        ],
+        "type": "object"
+      },
+      "name": "test_compare"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Biên dịch tài liệu thành flow (gọi AI một lần, có thể hỏi xác nhận chi phí): điện thoại thì Maestro YAML (cần app_id), hồ sơ trình duyệt thì Playwright Test .spec.ts (mở start_path, đọc aria snapshot; không cần app_id). Flow qua kiểm tra an toàn và chỉ được lưu khi chạy xác nhận đạt.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow (tạo mới nếu chưa có)",
+            "type": "string"
+          },
+          "app_id": {
+            "description": "Chỉ mobile: package/bundle id của app cần thử (vd com.example.app); thiết bị web để rỗng",
+            "type": "string"
+          },
+          "confirm_token": {
+            "description": "Mã từ lần trả confirm_required trước; rỗng ở lần đầu",
+            "type": "string"
+          },
+          "device_id": {
+            "description": "Mã thiết bị dùng lấy cây UI và chạy xác nhận; hồ sơ trình duyệt (web) thì sinh flow .spec.ts",
+            "type": "string"
+          },
+          "env": {
+            "description": "Biến thường",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "description": "Tên biến, chữ hoa (vd MEXPRESS_APP_ID)",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Giá trị thường, không phải bí mật",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "reqs": {
+            "description": "Mã yêu cầu trong tài liệu nghiệp vụ của app (từ docs_requirements, vd REQ-012): có thì nguồn là các yêu cầu đó, ca được nối mã để truy vết và source để rỗng; rỗng = biên dịch từ source",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "secrets": {
+            "description": "Tên biến bí mật flow được dùng",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "source": {
+            "description": "Tài liệu nguồn: PRD hoặc mô tả ca kiểm thử",
+            "type": "string"
+          },
+          "start_path": {
+            "description": "Chỉ web: trang mở trước khi đọc snapshot, đường dẫn theo baseURL của hồ sơ (vd /login); rỗng = /",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "source",
+          "app_id",
+          "device_id",
+          "start_path",
+          "env",
+          "secrets",
+          "confirm_token",
+          "reqs"
+        ],
+        "type": "object"
+      },
+      "name": "test_compile"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Xoá một flow của app khỏi kho (cả file ứng viên ẩn còn sót từ lần chạy xác nhận không đạt). Từ chối nếu flow khác còn gọi nó qua runFlow.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "name": {
+            "description": "Tên file flow ở gốc thư mục app, vd 01_login_check_info.yaml",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "name"
+        ],
+        "type": "object"
+      },
+      "name": "test_delete_flow"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Xuất flow web .spec.ts thành file zip chạy độc lập bằng npx playwright test ngoài app hoặc trong CI: spec nguyên văn, tests/chatqa.ts rút gọn, playwright.config.ts theo hồ sơ (device_id), package.json, README liệt kê tên biến spec đọc. Không có giá trị biến, trace hay file lượt chạy; ngoài app không có chặn host. Trả đường dẫn file (path).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "device_id": {
+            "description": "Mã hồ sơ trình duyệt (thiết bị web) lấy trình duyệt, viewport, baseURL cho playwright.config.ts; rỗng = không gắn hồ sơ (không baseURL)",
+            "type": "string"
+          },
+          "name": {
+            "description": "Tên file flow web, vd 04_dang_nhap.spec.ts",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "name",
+          "device_id"
+        ],
+        "type": "object"
+      },
+      "name": "test_export_spec"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Các flow của một app (trạng thái cũ, lỗi kiểm tra), tên các biến bí mật có sẵn và env mặc định đã đặt (envDefaults theo all/ios/android).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "type": "object"
+      },
+      "name": "test_flows"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Nguyên văn một flow đã lưu: Maestro YAML, flow con (common/\u003ctên\u003e.yaml) hoặc Playwright .spec.ts. Dùng để đọc lại và dùng tiếp các bước (vd phần đăng nhập) khi viết flow mới hoặc sửa flow; giá trị bí mật trong kết quả đã bị che.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "name": {
+            "description": "Tên file flow, vd 05_dang_nhap.spec.ts hoặc common/login.yaml",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "name"
+        ],
+        "type": "object"
+      },
+      "name": "test_get_flow"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Đánh giá ảnh hưởng thay đổi code: xuất diff gọn giữa commit_a (cũ) và commit_b (mới) của một repo git trên máy này, lưu file diff (diffPath), trả diff kèm yêu cầu phân tích (analysis). Sau khi gọi, tự phân tích theo analysis: tóm tắt, rủi ro, lỗi tiềm ẩn, kế hoạch test. Chỉ đọc git, không tốn tiền AI của app.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "commit_a": {
+            "description": "Commit, tag hoặc nhánh cũ (vd lần deploy trước); 8 ký tự đầu của mã commit là đủ",
+            "type": "string"
+          },
+          "commit_b": {
+            "description": "Commit, tag hoặc nhánh mới; rỗng = HEAD",
+            "type": "string"
+          },
+          "max_lines": {
+            "description": "Số dòng +/- tối đa mỗi file; 0 = 60",
+            "type": "integer"
+          },
+          "merge_base": {
+            "description": "So kiểu pull request (từ điểm rẽ nhánh của 2 commit); false = so trực tiếp 2 commit",
+            "type": "boolean"
+          },
+          "out_dir": {
+            "description": "Thư mục lưu file diff (tên repo + ngày giờ); rỗng = thư mục dữ liệu của app (git-impact)",
+            "type": "string"
+          },
+          "paths": {
+            "description": "Chỉ lấy các thư mục/file này (pathspec của git); rỗng = cả repo",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "repo": {
+            "description": "Đường dẫn thư mục repo git trên máy này (vd /Users/me/code/receiving)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repo",
+          "commit_a",
+          "commit_b",
+          "paths",
+          "max_lines",
+          "merge_base",
+          "out_dir"
+        ],
+        "type": "object"
+      },
+      "name": "test_git_diff"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Số đo: p50/p95 theo máy và theo số máy song song, lần đầu/dùng lại driver, bước chạm, bước hay lỗi.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Lọc theo app; rỗng = tất cả",
+            "type": "string"
+          },
+          "days": {
+            "description": "Số ngày gần nhất; 0 = 30",
+            "type": "integer"
+          },
+          "device_id": {
+            "description": "Lọc theo thiết bị; rỗng = tất cả",
+            "type": "string"
+          },
+          "flow": {
+            "description": "Lọc theo flow; rỗng = tất cả",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "flow",
+          "device_id",
+          "days"
+        ],
+        "type": "object"
+      },
+      "name": "test_metrics"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Sửa flow hỏng: chạy lại 2 lần; lỗi môi trường (thiết bị, trình duyệt, chặn host) thì dừng mà không gọi AI; vẫn hỏng thì nhờ AI đề xuất bản sửa bước hỏng (flow web: thay đúng một khối step()), đã kiểm tra an toàn và chạy thử nhưng chưa lưu, cần test_apply_repair.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "confirm_token": {
+            "description": "Mã từ lần trả confirm_required trước; rỗng ở lần đầu",
+            "type": "string"
+          },
+          "device_id": {
+            "description": "Mã thiết bị chạy lại và lấy cây UI",
+            "type": "string"
+          },
+          "env": {
+            "description": "Biến thường",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "description": "Tên biến, chữ hoa (vd MEXPRESS_APP_ID)",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Giá trị thường, không phải bí mật",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "flow": {
+            "description": "Tên file flow hỏng",
+            "type": "string"
+          },
+          "secrets": {
+            "description": "Tên biến bí mật",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "app",
+          "flow",
+          "device_id",
+          "env",
+          "secrets",
+          "confirm_token"
+        ],
+        "type": "object"
+      },
+      "name": "test_repair"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Báo cáo một lượt chạy: từng flow, từng bước, lỗi theo loại.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Mã (task, thiết bị hoặc lượt chạy tuỳ tool)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "test_report"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Chạy flow trên các thiết bị chỉ định, chờ tối đa wait_sec (mặc định 60). Xong trong hạn thì trả kết quả; chưa xong thì trả task đang chạy kèm taskId (run vẫn chạy tiếp, không mất) để dùng tower_wait_task rồi test_report.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "devices": {
+            "description": "Mã thiết bị (ít nhất một)",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "env": {
+            "description": "Biến thường cho flow",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "description": "Tên biến, chữ hoa (vd MEXPRESS_APP_ID)",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Giá trị thường, không phải bí mật",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "flows": {
+            "description": "Tên file flow; rỗng = mọi flow",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "label": {
+            "description": "Nhãn bản app; rỗng nếu không cần",
+            "type": "string"
+          },
+          "record": {
+            "description": "Quay video",
+            "enum": [
+              "",
+              "always",
+              "on-failure"
+            ],
+            "type": "string"
+          },
+          "repeat": {
+            "description": "Số lần lặp; 0 = 1",
+            "type": "integer"
+          },
+          "secrets": {
+            "description": "Tên biến bí mật lấy từ kho",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "timeout_sec": {
+            "description": "Hạn mỗi flow (giây); 0 = 600",
+            "type": "integer"
+          },
+          "typing_frequency": {
+            "description": "Tốc độ gõ inputText (phím/giây); 0 = mặc định theo nền tảng (iOS 5, Android 10)",
+            "type": "integer"
+          },
+          "wait_sec": {
+            "description": "Chờ tối đa bao nhiêu giây trước khi trả task đang chạy; 0 = 60",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "app",
+          "flows",
+          "devices",
+          "env",
+          "secrets",
+          "repeat",
+          "record",
+          "label",
+          "timeout_sec",
+          "wait_sec",
+          "typing_frequency"
+        ],
+        "type": "object"
+      },
+      "name": "test_run"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Lưu flow bạn tự viết (không gọi AI của app), đúng một trong yaml (Maestro, cho Android/iOS) hoặc script (Playwright Test .spec.ts, cho hồ sơ trình duyệt): kiểm cú pháp và an toàn, chạy xác nhận một lần trên thiết bị, chỉ lưu khi đạt. Trả invalid kèm lỗi có file và dòng để sửa, hoặc failed_verification kèm lượt chạy (xem test_report). Chạy xác nhận quá wait_sec (mặc định 60) thì trả status running kèm saveId: lượt vẫn chạy tiếp, dùng test_save_result để lấy kết quả. Dùng device_ui_state để lấy chữ và id phần tử (web: role, tên, ref) trước khi viết.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow (tạo mới nếu chưa có)",
+            "type": "string"
+          },
+          "device_id": {
+            "description": "Mã thiết bị chạy xác nhận (yaml: Android/iOS; script: hồ sơ trình duyệt)",
+            "type": "string"
+          },
+          "env": {
+            "description": "Biến thường",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "description": "Tên biến, chữ hoa (vd MEXPRESS_APP_ID)",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Giá trị thường, không phải bí mật",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "name": {
+            "description": "Tên file flow ở gốc thư mục app: .yaml cho yaml, .spec.ts cho script (vd 03_dang_xuat.yaml, 04_dang_nhap.spec.ts); rỗng = số tiếp theo",
+            "type": "string"
+          },
+          "replace": {
+            "description": "Ghi đè flow đã có cùng tên",
+            "type": "boolean"
+          },
+          "script": {
+            "description": "Flow cho hồ sơ trình duyệt: toàn bộ file Playwright Test .spec.ts. import { test, expect, step } from './chatqa'; mỗi test chỉ gồm await step('...', async () =\u003e { ... }); goto/toHaveURL chỉ với chuỗi viết thẳng (đường dẫn /... hoặc host được phép); process.env.TÊN chỉ làm giá trị của fill/pressSequentially/keyboard.type; không evaluate, route, require, import khác. Rỗng khi gửi yaml",
+            "type": "string"
+          },
+          "secrets": {
+            "description": "Tên biến bí mật flow dùng; không bao giờ gửi giá trị",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "typing_frequency": {
+            "description": "Tốc độ gõ inputText của lần chạy xác nhận (phím/giây); 0 = mặc định theo nền tảng (iOS 5, Android 10)",
+            "type": "integer"
+          },
+          "wait_sec": {
+            "description": "Chờ tối đa bao nhiêu giây trước khi trả saveId của lượt đang chạy xác nhận; 0 = 60",
+            "type": "integer"
+          },
+          "yaml": {
+            "description": "Flow cho Android/iOS: toàn bộ Maestro YAML (appId, ---, các bước). Bí mật dùng ${TÊN_BIẾN}; không runScript, evalScript, openLink, addMedia. Rỗng khi gửi script",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "name",
+          "yaml",
+          "script",
+          "device_id",
+          "env",
+          "secrets",
+          "replace",
+          "typing_frequency",
+          "wait_sec"
+        ],
+        "type": "object"
+      },
+      "name": "test_save_flow"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Kết quả của một lượt test_save_flow đã trả status running: chờ tối đa wait_sec (mặc định 60) rồi trả kết quả như test_save_flow (saved, invalid, failed_verification), hoặc lại running kèm saveId nếu chưa xong.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "saveId do test_save_flow trả khi chạy xác nhận chưa xong",
+            "type": "string"
+          },
+          "wait_sec": {
+            "description": "Chờ tối đa bao nhiêu giây; 0 = 60. Giữ dưới 70 vì client MCP thường chỉ chờ khoảng 80 giây",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "wait_sec"
+        ],
+        "type": "object"
+      },
+      "name": "test_save_result"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Đặt biến thường mặc định của app theo nền tảng (all, ios, android, web) để test_run, tower_dispatch, test_save_flow tự dùng; env truyền vào lượt chạy đè lên. Giá trị rỗng xoá biến. Không dùng cho mật khẩu: bí mật do người dùng đặt trong app và gọi theo tên qua secrets.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "env": {
+            "description": "Biến thường cần đặt; giá trị rỗng = xoá biến",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "description": "Tên biến, chữ hoa (vd MEXPRESS_APP_ID)",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Giá trị thường, không phải bí mật",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "platform": {
+            "description": "Phạm vi: all (mọi nền tảng), ios, android hoặc web",
+            "enum": [
+              "all",
+              "ios",
+              "android",
+              "web"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "platform",
+          "env"
+        ],
+        "type": "object"
+      },
+      "name": "test_set_env"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Dừng một lượt chạy giữa các bước; driver vẫn ấm.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Mã (task, thiết bị hoặc lượt chạy tuỳ tool)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "test_stop"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Kiểm tra cú pháp và flow con của các flow; lỗi kèm file và dòng.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow",
+            "type": "string"
+          },
+          "flows": {
+            "description": "Tên file flow; rỗng = cả app",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "app",
+          "flows"
+        ],
+        "type": "object"
+      },
+      "name": "test_validate"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Cảnh báo cần người xem: máy hỏng, rút cáp, pin yếu, ngân sách thấp, tỉ lệ lỗi cao.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "name": "tower_alerts"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Ngân sách AI tháng này: đã dùng, còn lại theo máy chủ, trần mỗi thao tác, phút máy.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "name": "tower_budget"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Lượt gửi webhook gần nhất: nơi nhận, sự kiện, trạng thái (đã gửi, chờ thử lại, bỏ), số lần thử, mã HTTP, độ trễ.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "name": "tower_deliveries"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Một thiết bị: thông tin và số đo 30 ngày (p50/p95, tỉ lệ đạt).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Mã (task, thiết bị hoặc lượt chạy tuỳ tool)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "tower_device_report"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Chạy flow trên các máy rảnh (chỉ định mã hoặc lọc theo nền tảng/model/số máy); chạy nền, trả task đang chạy. Dùng tower_wait_task để theo dõi.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "description": "Tên app trong kho flow (vd mexpress)",
+            "type": "string"
+          },
+          "devices": {
+            "description": "Mã thiết bị cụ thể; rỗng thì chọn theo filter",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "env": {
+            "description": "Biến thường cho flow",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "description": "Tên biến, chữ hoa (vd MEXPRESS_APP_ID)",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "Giá trị thường, không phải bí mật",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "filter": {
+            "additionalProperties": false,
+            "properties": {
+              "count": {
+                "description": "Số máy cần; 0 = mọi máy rảnh khớp",
+                "type": "integer"
+              },
+              "model": {
+                "description": "Lọc theo tên model (chứa chuỗi này); rỗng = mọi model",
+                "type": "string"
+              },
+              "platform": {
+                "description": "android, ios, web hoặc rỗng",
+                "enum": [
+                  "",
+                  "android",
+                  "ios",
+                  "web"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "platform",
+              "model",
+              "count"
+            ],
+            "type": "object"
+          },
+          "flows": {
+            "description": "Tên file flow; rỗng = mọi flow của app",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "label": {
+            "description": "Nhãn bản app đang thử; rỗng nếu không cần",
+            "type": "string"
+          },
+          "record": {
+            "description": "Quay video",
+            "enum": [
+              "",
+              "always",
+              "on-failure"
+            ],
+            "type": "string"
+          },
+          "repeat": {
+            "description": "Số lần lặp cả bộ; 0 = 1",
+            "type": "integer"
+          },
+          "secrets": {
+            "description": "Tên biến bí mật lấy từ kho (vd USERNAME, PASSWORD); không bao giờ gửi giá trị",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "timeout_sec": {
+            "description": "Hạn mỗi flow (giây); 0 = 600",
+            "type": "integer"
+          },
+          "typing_frequency": {
+            "description": "Tốc độ gõ inputText (phím/giây); 0 = mặc định theo nền tảng (iOS 5, Android 10)",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "app",
+          "flows",
+          "devices",
+          "filter",
+          "env",
+          "secrets",
+          "repeat",
+          "record",
+          "label",
+          "timeout_sec",
+          "typing_frequency"
+        ],
+        "type": "object"
+      },
+      "name": "tower_dispatch"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Danh sách thiết bị cục bộ và trạng thái (connected, ready, busy, unhealthy, disconnected), pin, model, driver. Gồm điện thoại Android/iOS và hồ sơ trình duyệt (platform web, driver playwright, model là trình duyệt và viewport); thiết bị web điều khiển bằng device_* và web_*.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "name": "tower_fleet"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Sức khoẻ 7 ngày: task đang chạy, tỉ lệ đạt, sự kiện, lỗi theo loại, thiết bị theo trạng thái.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "name": "tower_health"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Dừng tất cả: huỷ mọi lượt chạy, nhả mọi máy, dọn mọi driver. Trả các task sau khi dừng.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "name": "tower_pause_all"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Chạy lại các flow lỗi của một task, trên đúng các máy đã lỗi, cùng biến.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Mã (task, thiết bị hoặc lượt chạy tuỳ tool)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "tower_replay_failed"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Thẻ kết quả của một task: p50/p95 theo máy, lỗi theo loại, đường dẫn báo cáo và video.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Mã (task, thiết bị hoặc lượt chạy tuỳ tool)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "tower_report"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Các task điều phối gần nhất và kết quả.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "description": "Số task tối đa; 0 = 20",
+            "type": "integer"
+          },
+          "status": {
+            "description": "Lọc trạng thái; rỗng = tất cả",
+            "enum": [
+              "",
+              "running",
+              "passed",
+              "failed",
+              "canceled",
+              "error"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "limit"
+        ],
+        "type": "object"
+      },
+      "name": "tower_tasks"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Chờ một task chạy xong (hoặc hết thời gian chờ) rồi trả trạng thái.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Mã task",
+            "type": "string"
+          },
+          "timeout_sec": {
+            "description": "Chờ tối đa bao nhiêu giây; 0 = 600",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "timeout_sec"
+        ],
+        "type": "object"
+      },
+      "name": "tower_wait_task"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Thiết bị web: quay lại trang trước trong lịch sử. Trả url, snapshotId và snapshot sau thao tác.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị web (platform web trong tower_fleet, vd web-staging)",
+            "type": "string"
+          },
+          "screenshot": {
+            "description": "true = trả kèm ảnh màn hình sau thao tác (JPEG 720px, tốn ngữ cảnh); false = chỉ snapshot chữ",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "device_id",
+          "screenshot"
+        ],
+        "type": "object"
+      },
+      "name": "web_back"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Thiết bị web: bấm một phần tử theo ref + snapshot_id (từ device_ui_state hoặc kết quả web_* gần nhất) hoặc theo locator Playwright. snapshot_id cũ (trang đã đổi, sidecar khởi động lại) trả web_stale_ref: đọc lại device_ui_state. Trả locator chuẩn hoá (dùng lại được trong flow), url, snapshotId mới và snapshot.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị web (platform web trong tower_fleet, vd web-staging)",
+            "type": "string"
+          },
+          "double": {
+            "description": "true = bấm đúp",
+            "type": "boolean"
+          },
+          "locator": {
+            "description": "Locator Playwright khi không dùng ref, vd getByRole('button', { name: 'Đăng nhập' }), getByLabel('Email'), getByTestId('save'); rỗng nếu dùng ref",
+            "type": "string"
+          },
+          "ref": {
+            "description": "ref của phần tử trong snapshot (vd e12), đi cùng snapshot_id; rỗng nếu dùng locator",
+            "type": "string"
+          },
+          "screenshot": {
+            "description": "true = trả kèm ảnh màn hình sau thao tác (JPEG 720px, tốn ngữ cảnh); false = chỉ snapshot chữ",
+            "type": "boolean"
+          },
+          "snapshot_id": {
+            "description": "snapshotId của snapshot chứa ref (dạng \u003cgen\u003e-\u003cn\u003e, từ device_ui_state hoặc kết quả web_* gần nhất); rỗng nếu dùng locator",
+            "type": "string"
+          }
+        },
+        "required": [
+          "device_id",
+          "ref",
+          "snapshot_id",
+          "locator",
+          "double",
+          "screenshot"
+        ],
+        "type": "object"
+      },
+      "name": "web_click"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Thiết bị web: điền chữ vào ô nhập theo ref + snapshot_id hoặc locator (thay toàn bộ nội dung). Mật khẩu và bí mật viết ${TÊN_BIẾN} (tên trong secretNames của test_flows): app lấy giá trị từ kho, kết quả và nhật ký chỉ có mẫu ${...}; chỉ hồ sơ Chromium, Chrome hoặc Edge nhận bí mật. Trả locator chuẩn hoá, url, snapshotId và snapshot.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị web (platform web trong tower_fleet, vd web-staging)",
+            "type": "string"
+          },
+          "locator": {
+            "description": "Locator Playwright khi không dùng ref, vd getByRole('button', { name: 'Đăng nhập' }), getByLabel('Email'), getByTestId('save'); rỗng nếu dùng ref",
+            "type": "string"
+          },
+          "ref": {
+            "description": "ref của phần tử trong snapshot (vd e12), đi cùng snapshot_id; rỗng nếu dùng locator",
+            "type": "string"
+          },
+          "screenshot": {
+            "description": "true = trả kèm ảnh màn hình sau thao tác (JPEG 720px, tốn ngữ cảnh); false = chỉ snapshot chữ",
+            "type": "boolean"
+          },
+          "snapshot_id": {
+            "description": "snapshotId của snapshot chứa ref (dạng \u003cgen\u003e-\u003cn\u003e, từ device_ui_state hoặc kết quả web_* gần nhất); rỗng nếu dùng locator",
+            "type": "string"
+          },
+          "submit": {
+            "description": "true = bấm Enter sau khi điền",
+            "type": "boolean"
+          },
+          "text": {
+            "description": "Chữ cần điền (thay toàn bộ nội dung ô; rỗng = xoá ô). Bí mật viết ${TÊN_BIẾN} (vd ${PASSWORD}): app lấy giá trị từ kho, giá trị không bao giờ đi qua agent; chỉ dùng được trên hồ sơ Chromium, Chrome hoặc Edge",
+            "type": "string"
+          }
+        },
+        "required": [
+          "device_id",
+          "ref",
+          "snapshot_id",
+          "locator",
+          "text",
+          "submit",
+          "screenshot"
+        ],
+        "type": "object"
+      },
+      "name": "web_fill"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Thiết bị web: mở một URL (đường dẫn theo baseURL của hồ sơ hoặc http(s) tuyệt đối). Host ngoài allowedHosts của hồ sơ, kể cả qua chuyển hướng, popup hay WebSocket, bị chặn và trả web_host_blocked (hồ sơ Chromium, Chrome, Edge chặn ngay ở tầng DNS, trước khi request rời máy). Trả url, snapshotId và snapshot sau khi tải (tree); ảnh chỉ khi screenshot true.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị web (platform web trong tower_fleet, vd web-staging)",
+            "type": "string"
+          },
+          "screenshot": {
+            "description": "true = trả kèm ảnh màn hình sau thao tác (JPEG 720px, tốn ngữ cảnh); false = chỉ snapshot chữ",
+            "type": "boolean"
+          },
+          "url": {
+            "description": "URL http(s) tuyệt đối hoặc đường dẫn theo baseURL của hồ sơ (vd /login); host phải nằm trong allowedHosts của hồ sơ",
+            "type": "string"
+          }
+        },
+        "required": [
+          "device_id",
+          "url",
+          "screenshot"
+        ],
+        "type": "object"
+      },
+      "name": "web_navigate"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Thiết bị web: bấm một phím (Enter, Tab, Escape, ArrowDown, Control+A...) vào phần tử đang focus. Trả url, snapshotId và snapshot sau thao tác.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị web (platform web trong tower_fleet, vd web-staging)",
+            "type": "string"
+          },
+          "key": {
+            "description": "Phím theo tên của Playwright, gửi tới phần tử đang focus: Enter, Tab, Escape, ArrowDown, Backspace, Control+A...",
+            "type": "string"
+          }
+        },
+        "required": [
+          "device_id",
+          "key"
+        ],
+        "type": "object"
+      },
+      "name": "web_press"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Thiết bị web: chọn lựa chọn trong một \u003cselect\u003e theo ref + snapshot_id hoặc locator. Trả locator chuẩn hoá, url, snapshotId và snapshot.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị web (platform web trong tower_fleet, vd web-staging)",
+            "type": "string"
+          },
+          "locator": {
+            "description": "Locator Playwright khi không dùng ref, vd getByLabel('Tỉnh'); rỗng nếu dùng ref",
+            "type": "string"
+          },
+          "ref": {
+            "description": "ref của phần tử \u003cselect\u003e trong snapshot (vd e12), đi cùng snapshot_id; rỗng nếu dùng locator",
+            "type": "string"
+          },
+          "snapshot_id": {
+            "description": "snapshotId của snapshot chứa ref (dạng \u003cgen\u003e-\u003cn\u003e, từ device_ui_state hoặc kết quả web_* gần nhất); rỗng nếu dùng locator",
+            "type": "string"
+          },
+          "values": {
+            "description": "Giá trị (value) hoặc nhãn của các lựa chọn cần chọn; nhiều phần tử chỉ với select multiple",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "device_id",
+          "ref",
+          "snapshot_id",
+          "locator",
+          "values"
+        ],
+        "type": "object"
+      },
+      "name": "web_select"
+    },
+    {
+      "annotations": {
+        "openWorldHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Thiết bị web: chờ chữ hiện (text) hoặc biến mất (text_gone), tối đa sec giây (0..10), hoặc chờ đúng sec giây. Trả url, snapshotId và snapshot sau khi chờ.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "device_id": {
+            "description": "Mã thiết bị web (platform web trong tower_fleet, vd web-staging)",
+            "type": "string"
+          },
+          "sec": {
+            "description": "Chờ tối đa bao nhiêu giây (0..10); không có text/text_gone thì chờ đúng bấy nhiêu giây; 0 = hạn mặc định của thao tác",
+            "type": "number"
+          },
+          "text": {
+            "description": "Chờ đến khi chữ này hiện trên trang; rỗng nếu không dùng",
+            "type": "string"
+          },
+          "text_gone": {
+            "description": "Chờ đến khi chữ này biến mất; rỗng nếu không dùng",
+            "type": "string"
+          }
+        },
+        "required": [
+          "device_id",
+          "text",
+          "text_gone",
+          "sec"
+        ],
+        "type": "object"
+      },
+      "name": "web_wait"
+    }
+  ]
+}

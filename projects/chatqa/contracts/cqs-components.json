@@ -1,0 +1,85 @@
+{
+  "$comment": "ChatQASoftware: loại kết quả tool (kind) -> schema dữ liệu component cần để vẽ. Dùng chung Go (test hợp đồng trên kết quả tool thật, apps/chatqa/desktop/internal/tools) và React (kiểm trước khi vẽ, apps/chatqa/web/src/chat). Chỉ ghi trường component cần; trường thừa được phép. Dữ liệu không khớp schema hiện dạng JSON thô, không bao giờ vẽ HTML từ mô hình.",
+  "kinds": {
+    "DeviceGrid": {
+      "type": "array",
+      "items": { "type": "object", "required": ["id", "platform", "state"], "properties": { "id": { "type": "string" }, "platform": { "type": "string" }, "state": { "type": "string", "enum": ["connected", "preparing", "ready", "busy", "unhealthy", "disconnected"] }, "model": { "type": "string" }, "battery": { "type": "number" } } }
+    },
+    "DeviceCard": {
+      "type": "object",
+      "required": ["device"],
+      "properties": { "device": { "type": "object", "required": ["id", "state"], "properties": { "id": { "type": "string" }, "state": { "type": "string" } } }, "metrics": { "type": "object" } }
+    },
+    "LiveScreen": {
+      "type": "object",
+      "required": ["deviceId"],
+      "properties": { "deviceId": { "type": "string" }, "png": { "type": "string" }, "mime": { "type": "string" }, "tree": { "type": "string" } }
+    },
+    "TaskTimeline": {
+      "anyOf": [
+        { "type": "array", "items": { "$ref": "#/defs/task" } },
+        { "type": "object", "required": ["canceled", "tasks"], "properties": { "canceled": { "type": "integer" }, "tasks": { "type": "array", "items": { "$ref": "#/defs/task" } } } }
+      ]
+    },
+    "RunProgress": {
+      "anyOf": [
+        { "$ref": "#/defs/task" },
+        { "type": "object", "required": ["run", "flows"], "properties": { "run": { "type": "object", "required": ["id", "passed", "failed"] }, "flows": { "type": ["array", "null"] } } },
+        { "type": "object", "required": ["runId", "stopped"], "properties": { "runId": { "type": "string" }, "stopped": { "type": "boolean" } } }
+      ]
+    },
+    "MetricChart": {
+      "anyOf": [
+        { "type": "object", "required": ["byDevice", "maxParallelOk"], "properties": { "byDevice": { "type": ["array", "null"], "items": { "$ref": "#/defs/stat" } } } },
+        { "type": "object", "required": ["flows", "successRate"], "properties": { "flows": { "type": "integer" }, "successRate": { "type": "number" } } },
+        { "type": "object", "required": ["rows"], "properties": { "rows": { "type": ["array", "null"] } } }
+      ]
+    },
+    "CostConfirm": {
+      "type": "object",
+      "required": ["costVnd", "token", "scope"],
+      "properties": { "costVnd": { "type": "number" }, "leftVnd": { "type": ["string", "number"] }, "token": { "type": "string" }, "scope": { "type": "string", "enum": ["chat", "tool"] }, "tool": { "type": "string" }, "conversationId": { "type": "string" } }
+    },
+    "BudgetMeter": {
+      "type": "object",
+      "required": ["month", "spentVnd", "leftKnown", "opCeilingVnd"],
+      "properties": { "month": { "type": "string" }, "spentVnd": { "type": "number" }, "leftVnd": { "type": "number" }, "leftKnown": { "type": "boolean" }, "opCeilingVnd": { "type": "number" }, "machineMinutes": { "type": "number" } }
+    },
+    "AlertList": {
+      "type": "array",
+      "items": { "type": "object", "required": ["level", "kind", "text"], "properties": { "level": { "type": "string", "enum": ["warn", "error"] }, "kind": { "type": "string" }, "text": { "type": "string" } } }
+    },
+    "DeliveryLog": {
+      "type": "array",
+      "items": { "type": "object", "required": ["at", "status"], "properties": { "at": { "type": "string" }, "status": { "type": "string" } } }
+    },
+    "ReportCard": {
+      "anyOf": [
+        { "type": "object", "required": ["task", "failuresByClass"], "properties": { "task": { "$ref": "#/defs/task" }, "byDevice": { "type": ["array", "null"] } } },
+        { "type": "object", "required": ["run", "flows"], "properties": { "run": { "type": "object", "required": ["id"] }, "flows": { "type": ["array", "null"] } } }
+      ]
+    },
+    "YamlDiff": {
+      "type": "object",
+      "required": ["flaky", "attempts"],
+      "properties": { "flaky": { "type": "boolean" }, "attempts": { "type": ["array", "null"] }, "diff": { "type": "object", "required": ["flow", "diff", "valid", "verified"] } }
+    },
+    "ErrorCard": {
+      "type": "object",
+      "required": ["code"],
+      "properties": { "code": { "type": "string" }, "message": { "type": "string" } }
+    },
+    "FlowList": {
+      "anyOf": [
+        { "type": "object", "required": ["app", "flows"], "properties": { "app": { "type": "string" }, "flows": { "type": ["array", "null"] }, "secretNames": { "type": ["array", "null"] } } },
+        { "type": "object", "required": ["app", "valid"], "properties": { "valid": { "type": "boolean" } } },
+        { "type": "object", "required": ["sourceHash", "cases"], "properties": { "cases": { "type": ["array", "null"] } } },
+        { "type": "object", "required": ["app", "name", "hash"], "properties": { "name": { "type": "string" } } }
+      ]
+    }
+  },
+  "defs": {
+    "task": { "type": "object", "required": ["id", "kind", "status"], "properties": { "id": { "type": "string" }, "kind": { "type": "string" }, "status": { "type": "string", "enum": ["running", "passed", "failed", "canceled", "error"] }, "passed": { "type": "integer" }, "failed": { "type": "integer" } } },
+    "stat": { "type": "object", "required": ["key", "count", "p50Ms", "p95Ms", "passRate"], "properties": { "key": { "type": "string" }, "p50Ms": { "type": "number" }, "p95Ms": { "type": "number" }, "passRate": { "type": "number" } } }
+  }
+}

@@ -1,0 +1,32 @@
+BỘ CÂU LỆNH MẪU GIAO VIỆC CHO AI (Claude Desktop, Claude Code, Codex, Cursor)
+Mở đầu câu bằng "Dùng chatqa." để AI biết dùng công cụ của ChatQASoftware. Đổi tên app, tên máy, tên flow cho đúng của bạn.
+
+XEM MÁY
+- Dùng chatqa. Liệt kê các máy đang cắm, trạng thái và pin của từng máy.
+- Dùng chatqa. Chụp màn hình máy Android đầu tiên và mô tả màn hình đang hiện gì.
+
+VIẾT FLOW
+- Dùng chatqa. Trên máy Android đầu tiên, mở app Cài đặt (appId com.android.settings), đọc device_ui_state, viết flow Maestro 01_mo_cai_dat.yaml cho app caidat: mở app, chờ màn hình Cài đặt, chụp ảnh. Lưu bằng test_save_flow, sửa tối đa 2 lần nếu chưa đạt.
+- Dùng chatqa. Mở màn đăng nhập của app <appId> trên máy <tên máy>, đọc device_ui_state, viết flow đăng nhập bằng biến USERNAME và ${PASSWORD}, lưu tên 02_dang_nhap.yaml cho app <tên app>, sửa tối đa 2 lần nếu chưa đạt, rồi chạy lại một lần.
+
+CHẠY VÀ BÁO CÁO
+- Dùng chatqa. Chạy mọi flow của app caidat trên mọi máy Android, báo p50/p95 và lỗi.
+- Dùng chatqa. Chạy flow 01_mo_cai_dat.yaml 5 lần trên máy <tên máy>, báo tỉ lệ đạt.
+- Dùng chatqa. Chạy lại các flow lỗi của task gần nhất rồi tóm tắt nguyên nhân từ báo cáo.
+- Dùng chatqa. So sánh hai lượt chạy gần nhất của app caidat, flow nào chậm đi.
+
+SỬA FLOW
+- Dùng chatqa. Flow 02_dang_nhap.yaml vừa lỗi. Đọc test_report, đề xuất sửa bằng test_repair và áp dụng nếu chạy thử đạt.
+
+TRÌNH DUYỆT (sau khi cài bộ chạy trình duyệt và thêm hồ sơ)
+- Dùng chatqa. Trên máy web-staging, mở /login, đọc device_ui_state, đăng nhập bằng biến USERNAME và ${PASSWORD}, kiểm tra vào được trang chủ. Viết lại thành flow 05_dang_nhap.spec.ts, lưu bằng test_save_flow.
+
+ĐÁNH GIÁ THAY ĐỔI CODE
+- Dùng chatqa. Phân tích ảnh hưởng repo <đường dẫn repo> từ commit <commit cũ> đến <commit mới>: rủi ro, kế hoạch test, flow nào của app <tên app> nên chạy.
+
+DỪNG
+- Dùng chatqa. Dừng tất cả lượt đang chạy.
+
+NHỚ
+- Không dán mật khẩu vào câu lệnh. Đặt mật khẩu trong app (Cài đặt > Kiểm thử > Biến bí mật) rồi gọi theo tên ${PASSWORD}.
+- Dùng tài khoản test, không dùng tài khoản thật.

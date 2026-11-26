@@ -1,0 +1,63 @@
+---
+import { agentConnectorUrl } from "@templatedesign/platform/agents";
+import { ConnectorUrl } from "../components/ConnectorUrl.js";
+import SiteHeader from "../components/SiteHeader.astro";
+import Base from "../layouts/Base.astro";
+import "../lib/platform";
+import { runtimeEnv } from "../lib/runtime";
+
+const { mcpUrl } = agentConnectorUrl(runtimeEnv());
+const signedIn = Boolean(Astro.locals.user);
+---
+
+<Base title="Files from Claude and ChatGPT" noindex>
+  <SiteHeader signedIn={signedIn} />
+  <main id="main">
+    <section class="w-hero">
+      <p class="td-eyebrow">MyArtifacts</p>
+      <h1>Store files and share them by link, straight from your assistant.</h1>
+      <p>
+        MyArtifacts keeps your files in your own object storage. Ask Claude or ChatGPT to save a file, hand someone a
+        link to view or download it, and switch that link off whenever you like.
+      </p>
+      <p class="td-muted">This is a private app: only its owner can sign in or connect an assistant.</p>
+      <p>
+        {signedIn
+          ? <a class="td-btn td-btn--primary td-btn--lg" href="/account">Open your account</a>
+          : <a class="td-btn td-btn--primary td-btn--lg" href="/sign-in">Sign in</a>}
+      </p>
+    </section>
+
+    <section class="w-steps" id="connect">
+      <div class="w-card">
+        <h2>1. Copy the connector URL</h2>
+        <ConnectorUrl url={mcpUrl} client:load />
+      </div>
+      <div class="w-card">
+        <h2>2. Add it to your assistant</h2>
+        <ul class="w-checklist">
+          <li><strong>Claude (web and Chrome extension):</strong> Settings, Connectors, Add custom connector, paste the URL, then sign in when asked.</li>
+          <li><strong>Claude Desktop:</strong> the connector syncs from your Claude account once it is added on the web.</li>
+          <li><strong>Claude Code:</strong> <code>claude mcp add --transport http myartifacts {mcpUrl}</code>, then sign in from <code>/mcp</code>.</li>
+          <li><strong>ChatGPT:</strong> Settings, Apps &amp; Connectors, turn on developer mode, add the URL as an MCP server, then sign in.</li>
+        </ul>
+      </div>
+      <div class="w-card">
+        <h2>3. Ask for what you need</h2>
+        <ul class="w-checklist">
+          <li><strong>Save:</strong> “Save this CSV as report.csv.” Small content goes in directly; with a shell or n8n your assistant uploads big files straight to storage; a public link can be imported.</li>
+          <li><strong>Get it back:</strong> “Read report.csv”, or “give me a download link for it”.</li>
+          <li><strong>Share:</strong> “Share these three files with a password, valid for a week.” Links live on this site, can be revoked at any time, and files open from the storage host rather than from here.</li>
+        </ul>
+      </div>
+      <div class="w-card">
+        <h2>Privacy</h2>
+        <ul class="w-checklist">
+          <li>Files are stored in a private bucket at Contabo Object Storage. This site keeps only their names, sizes and share settings.</li>
+          <li>Files are kept until you delete them or an expiry you set passes. There is no storage limit or charge.</li>
+          <li>A share link can be revoked at any time and stops working within 5 minutes. A temporary download link cannot be revoked early; it ends on its own, by default after an hour.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</Base>

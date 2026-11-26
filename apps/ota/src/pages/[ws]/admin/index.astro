@@ -1,0 +1,5 @@
+---
+const { workspace } = Astro.locals;
+if (!workspace) return new Response("Not found", { status: 404 });
+return Astro.redirect(`/${workspace.slug}/admin/releases`);
+---

@@ -1,0 +1,20 @@
+---
+import { safeNext } from "@templatedesign/platform/legacy-redirects";
+import { SignInForm } from "../components/SignInForm.js";
+import Base from "../layouts/Base.astro";
+import { runtimeEnv } from "../lib/runtime";
+
+const next = safeNext(Astro.url.searchParams.get("next"));
+if (Astro.locals.user) return Astro.redirect(next);
+const env = runtimeEnv();
+const googleEnabled = Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
+const initialError =
+  Astro.url.searchParams.get("error") === "not_owner" || Astro.locals.nonOwner
+    ? "This account is not the owner of this app."
+    : undefined;
+Astro.response.headers.set("referrer-policy", "no-referrer");
+---
+
+<Base title="Sign in" noindex>
+  <SignInForm next={next} googleEnabled={googleEnabled} initialError={initialError} client:load />
+</Base>

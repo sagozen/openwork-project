@@ -1,0 +1,22 @@
+---
+interface Props {
+  signedIn: boolean;
+  current?: string;
+}
+const { signedIn, current } = Astro.props;
+---
+
+<header class="w-site-header">
+  <a class="td-logo" href="/">
+    <span class="td-logo__seal" aria-hidden="true">MA</span>
+    <span class="td-logo__word">MyArtifacts</span>
+  </a>
+  <nav aria-label="Main">
+    <a href="/#connect" class={current === "connect" ? "is-current" : ""}>Connect</a>
+    {signedIn ? (
+      <a href="/account" class={current === "account" ? "is-current" : ""}>Account</a>
+    ) : (
+      <a class="td-btn td-btn--primary td-btn--sm" href="/sign-in">Sign in</a>
+    )}
+  </nav>
+</header>

@@ -1,0 +1,18 @@
+{
+  "$comment": "Mẫu tệp Nạp dữ liệu lịch sử (.xlsx, .xls hoặc .csv) = đầu vào màn Nạp dữ liệu lịch sử của HS Desk (kho tri thức của AI). Lập từ tệp ECUS xuất (3 tệp DATA*.xls, 54 cột, 'Tên hàng', 'Mã HS', 'Số TK', 'Ngày ĐK', 'Xuất xứ', 'Đơn vị tính') và mẫu ecus-thaison.v1.json. Cột nhận theo tiêu đề, không theo vị trí: tiêu đề so sau khi bỏ dấu, chữ thường, gộp khoảng trắng và xuống dòng; dòng tiêu đề tìm trong headerScanRows dòng đầu. Bắt buộc: Mã HS và một trong hai cột tên (requiredGroup 'name'; có cả hai thì tên khai được dùng để đối chiếu). Không có cột thuế: dữ liệu lịch sử không dùng thuế suất. Cột 'Dòng gốc' chỉ có trong tệp dòng lỗi tải về để sửa rồi nạp lại. Khách đổi cách bố trí cột => tạo lich-su.v2.json, giữ v1.",
+  "id": "lich-su",
+  "version": 1,
+  "headerScanRows": 10,
+  "columns": [
+    { "field": "declaredName", "label": "Tên khai", "headers": ["Tên khai", "Tên hàng khai báo", "Tên khai báo", "Mô tả hàng hoá khai báo"], "required": true, "requiredGroup": "name" },
+    { "field": "goodsName", "label": "Tên hàng", "headers": ["Tên hàng", "Tên hàng (mô tả chi tiết)", "Mô tả hàng hoá", "Tên hàng hoá", "Tên sản phẩm"], "required": true, "requiredGroup": "name" },
+    { "field": "hs", "label": "Mã HS", "headers": ["Mã HS", "Mã số hàng hoá", "HS code", "Mã HS code", "Mã số HS"], "required": true },
+    { "field": "declareDate", "label": "Ngày khai", "headers": ["Ngày khai", "Ngày đăng ký", "Ngày ĐK", "Ngày khai báo"], "required": false },
+    { "field": "office", "label": "Chi cục", "headers": ["Chi cục", "Chi cục hải quan", "Mã chi cục", "Cơ quan hải quan"], "required": false },
+    { "field": "declarationNo", "label": "Số tờ khai", "headers": ["Số tờ khai", "Số TK"], "required": false },
+    { "field": "unit", "label": "ĐVT", "headers": ["ĐVT", "Đơn vị tính"], "required": false },
+    { "field": "origin", "label": "Xuất xứ", "headers": ["Xuất xứ", "Nước xuất xứ", "Mã nước xuất xứ"], "required": false },
+    { "field": "link", "label": "Link", "headers": ["Link", "Đường dẫn"], "required": false },
+    { "field": "sourceLine", "label": "Dòng gốc", "headers": ["Dòng gốc"], "required": false }
+  ]
+}

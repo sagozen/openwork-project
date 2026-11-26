@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://templatedesign.zhst.app/schemas/book-profile.schema.json",
+  "title": "TemplateDesign book profiles",
+  "description": "Renderer envelopes for KDP interiors (book-v1) and full-wrap covers (book-cover-v1).",
+  "$defs": {
+    "trim": { "enum": ["6x9", "8.5x11", "Letter", "A4"] },
+    "paper": { "enum": ["white", "cream"] },
+    "width": {
+      "oneOf": [{ "type": "number", "exclusiveMinimum": 0 }, { "const": "fill" }]
+    },
+    "block": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": ["heading", "paragraph", "list", "svg", "image", "grid", "spacer", "pagebreak", "blankPage"]
+        },
+        "level": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "text": { "type": "string", "maxLength": 20000 },
+        "align": { "enum": ["left", "center", "right", "justify"] },
+        "items": { "type": "array", "maxItems": 40, "items": { "type": "string", "maxLength": 2000 } },
+        "columns": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "svg": { "type": "string", "maxLength": 2097152 },
+        "width": { "$ref": "#/$defs/width" },
+        "asset": { "type": "string", "pattern": "^[A-Za-z0-9._/-]{1,200}$" },
+        "cells": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "array",
+            "maxItems": 40,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "svg": { "type": "string", "maxLength": 1048576 },
+                "text": { "type": "string", "maxLength": 2000 }
+              }
+            }
+          }
+        },
+        "border": { "type": "boolean" },
+        "keepWithNext": { "type": "boolean" },
+        "gap": { "type": "number", "minimum": 0, "maximum": 720 },
+        "fontSize": { "type": "number", "minimum": 7, "maximum": 200 }
+      }
+    },
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocks"],
+      "properties": {
+        "id": { "type": "string", "maxLength": 80 },
+        "numbering": { "enum": ["none", "roman", "arabic"] },
+        "startOnRight": { "type": "boolean" },
+        "expectedStartPage": { "type": "integer", "minimum": 1 },
+        "blocks": { "type": "array", "maxItems": 2000, "items": { "$ref": "#/$defs/block" } }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bodyPt", "headingPt"],
+      "properties": {
+        "family": { "type": "string", "maxLength": 80 },
+        "bodyPt": { "type": "number", "minimum": 7, "maximum": 120 },
+        "headingPt": { "type": "number", "minimum": 7, "maximum": 200 }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "trim", "pageCount", "typography", "sections"],
+      "properties": {
+        "profile": { "const": "book-v1" },
+        "trim": { "$ref": "#/$defs/trim" },
+        "printable": { "type": "boolean" },
+        "paper": { "$ref": "#/$defs/paper" },
+        "bleed": { "const": false },
+        "pageCount": { "type": "integer", "minimum": 1, "maximum": 828 },
+        "typography": { "$ref": "#/$defs/typography" },
+        "sections": { "type": "array", "maxItems": 80, "items": { "$ref": "#/$defs/section" } }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "trim", "pageCount", "typography", "front", "back", "spine"],
+      "properties": {
+        "profile": { "const": "book-cover-v1" },
+        "trim": { "$ref": "#/$defs/trim" },
+        "paper": { "$ref": "#/$defs/paper" },
+        "pageCount": { "type": "integer", "minimum": 1, "maximum": 828 },
+        "typography": { "$ref": "#/$defs/typography" },
+        "front": { "type": "array", "maxItems": 40, "items": { "$ref": "#/$defs/block" } },
+        "back": { "type": "array", "maxItems": 40, "items": { "$ref": "#/$defs/block" } },
+        "spine": { "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/block" } }
+      }
+    }
+  ]
+}

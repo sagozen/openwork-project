@@ -1,0 +1,62 @@
+---
+import type { Locale } from "@templatedesign/platform/types";
+import { LinkButton } from "@templatedesign/ui";
+
+interface Props {
+  locale: Locale;
+  signedIn?: boolean;
+  credits?: number;
+  current?: string;
+}
+
+const { locale, signedIn = false, credits, current = "/" } = Astro.props;
+const vi = locale === "vi";
+const other: Locale = vi ? "en" : "vi";
+const links = [
+  { href: "/", label: vi ? "Sản phẩm" : "Product" },
+  { href: "/pricing", label: vi ? "Bảng giá" : "Pricing" },
+  { href: "/docs/api", label: "API" },
+];
+---
+
+<header class="ta-header">
+  <div class="ta-header__inner">
+    <a class="td-logo" href="/">
+      <span class="td-logo__seal" aria-hidden="true">TA</span>
+      <span class="td-logo__word">TranscriptAnything</span>
+    </a>
+    <nav class="ta-header__nav" aria-label={vi ? "Điều hướng chính" : "Primary"}>
+      {links.map((link) => (
+        <a href={link.href} class={current === link.href ? "is-current" : undefined}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <div class="ta-header__actions">
+      <a class="ta-header__lang" href={`/api/v1/locale?to=${other}`} rel="nofollow">
+        {vi ? "EN" : "VI"}
+      </a>
+      {signedIn ? (
+        <>
+          {typeof credits === "number" ? (
+            <a class="ta-header__credits" href="/?topup=1">
+              {credits} credits
+            </a>
+          ) : null}
+          <LinkButton href="/" variant="primary" size="sm">
+            {vi ? "Bảng điều khiển" : "Dashboard"}
+          </LinkButton>
+        </>
+      ) : (
+        <>
+          <a class="ta-header__link" href="/auth/sign-in">
+            {vi ? "Đăng nhập" : "Sign in"}
+          </a>
+          <LinkButton href="/auth/sign-in" variant="primary" size="sm">
+            {vi ? "Bắt đầu miễn phí" : "Start free"}
+          </LinkButton>
+        </>
+      )}
+    </div>
+  </div>
+</header>

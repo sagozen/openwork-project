@@ -1,0 +1,18 @@
+---
+import type { PublicSite } from '@mytutor/plugin-mytutor-lms/model';
+import type { UiLocale } from '../../i18n';
+import { translator } from '../../i18n';
+interface Props { locale: UiLocale; site: PublicSite | null }
+const { locale, site } = Astro.props;
+const t = translator(locale);
+// Students never see the instructor sign-in; instructors use /_emdash/admin.
+---
+<footer class="site-footer">
+  <a class="brand" href="/">mytutor<span class="brand-dot">.</span></a>
+  <p>{t('shell.footerLine')}</p>
+  <ul class="footer-links">
+    {site?.supportEmail && <li><a href={`mailto:${site.supportEmail}`}>{t('shell.help')}</a></li>}
+    {site?.legal.termsUrl && <li><a href={site.legal.termsUrl}>{t('shell.terms')}</a></li>}
+    {site?.legal.privacyUrl && <li><a href={site.legal.privacyUrl}>{t('shell.privacy')}</a></li>}
+  </ul>
+</footer>

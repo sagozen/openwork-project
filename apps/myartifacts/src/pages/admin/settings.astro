@@ -1,0 +1,34 @@
+---
+import { listAudit } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { UploadSettingsForm } from "../../components/UploadSettingsForm.js";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { loadUploadSettings } from "../../lib/artifacts/settings";
+import "../../lib/platform";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+const [settings, recent] = await Promise.all([loadUploadSettings(db), listAudit(db, 50)]);
+const changes = recent.filter((row) => row.action === "admin.setting.updated").slice(0, 10);
+---
+
+<AdminLayout title="Settings" current="/admin/settings/">
+  <p class="td-muted">Changes apply on the next request, with no deploy. Every change is written to the audit log with its reason.</p>
+  <UploadSettingsForm
+    values={{
+      enabled: settings.enabled,
+      maxInlineBytes: settings.maxInlineBytes,
+      maxImportBytes: settings.maxImportBytes,
+    }}
+    csrfToken={Astro.locals.csrfToken ?? ""}
+    client:load
+  />
+  <div class="w-card">
+    <h2>Recent changes</h2>
+    {changes.length === 0 ? <p class="td-muted">No changes yet.</p> : (
+      <ul>
+        {changes.map((row) => <li><code>{row.resource_id}</code> · {row.reason ?? "no reason"} · {new Date(row.created_at).toISOString()}</li>)}
+      </ul>
+    )}
+  </div>
+</AdminLayout>

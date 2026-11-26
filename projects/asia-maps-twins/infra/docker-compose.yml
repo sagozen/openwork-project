@@ -1,0 +1,69 @@
+# Hạ tầng của base. Cổng cố định: API 8800, PostGIS 55433, Valhalla 8002, OSRM 5005.
+# Chạy từ thư mục gốc: make up
+name: bds
+
+services:
+  postgis:
+    # Image đa kiến trúc (postgis/postgis chưa có bản arm64). Trên server x86 có thể dùng postgis/postgis:17-3.5.
+    image: imresamu/postgis:17-3.5
+    container_name: bds-postgis
+    environment:
+      POSTGRES_DB: bds
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: bds
+    ports:
+      - "127.0.0.1:55433:5432"
+    volumes:
+      - ../data/pg:/var/lib/postgresql/data
+    command: ["postgres", "-c", "shared_buffers=1GB", "-c", "work_mem=64MB", "-c", "maintenance_work_mem=1GB"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bds"]
+      interval: 5s
+      retries: 20
+
+  valhalla:
+    # Lần chạy đầu tự dựng tile từ file .osm.pbf trong ../data/valhalla (mất vài chục phút).
+    image: ghcr.io/valhalla/valhalla-scripted:latest
+    container_name: bds-valhalla
+    environment:
+      use_tiles_ignore_pbf: "True"
+      build_elevation: "False"
+      build_admins: "True"
+      build_time_zones: "True"
+      build_transit: "False"
+      build_tar: "True"
+      server_threads: "4"
+      serve_tiles: "True"
+    ports:
+      - "127.0.0.1:8002:8002"
+    volumes:
+      - ../data/valhalla:/custom_files
+
+  osrm:
+    # Ma trận khoảng cách (MLD). Dữ liệu dựng trước bằng: make osrm-build
+    image: ghcr.io/project-osrm/osrm-backend:v6.0.0
+    container_name: bds-osrm
+    command: ["osrm-routed", "--algorithm", "mld", "--max-table-size", "10000", "/data/vietnam-latest.osrm"]
+    ports:
+      - "127.0.0.1:5005:5000"
+    volumes:
+      - ../data/osrm:/data
+
+  api:
+    build: ..
+    image: bds-api:local
+    container_name: bds-api
+    environment:
+      BDS_PG_DSN: postgresql://postgres:bds@postgis:5432/bds
+      BDS_VALHALLA_URL: http://valhalla:8002
+      BDS_OSRM_URL: http://osrm:5000
+      BDS_API_KEYS: ${BDS_API_KEYS:-}
+      BDS_GOOGLE_DRIVING_VEHICLE: ${BDS_GOOGLE_DRIVING_VEHICLE:-car}
+      BDS_RATE_LIMIT_RPS: ${BDS_RATE_LIMIT_RPS:-100}
+    ports:
+      - "127.0.0.1:8800:8800"
+    volumes:
+      - ../data/models:/app/data/models:ro
+    depends_on:
+      postgis:
+        condition: service_healthy

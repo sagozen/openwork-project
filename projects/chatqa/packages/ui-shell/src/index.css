@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+/* Phông tự host (offline) và token pen.dev (--color-*, --font-*, --shadow-*): sinh từ pen-tokens.json */
+@import './styles/fonts.css';
+@import './styles/tokens.css';
+
+@theme {
+  /* Token cũ cho các trang chưa chuyển sang pen. Màu sidebar nay lấy từ tokens.css (#14161B).
+     Component dùng bg-brand-*, bg-sidebar... không dùng mã màu trực tiếp. */
+  --color-brand-50: #fdf2ec;
+  --color-brand-100: #fbe1d3;
+  --color-brand-500: #e4672f;
+  --color-brand-600: #cc5622;
+  --color-brand-700: #a8441a;
+  --color-sidebar-muted: #8b8d94;
+  --color-sidebar-active: #2a2b31;
+  /* Chữ nhỏ mang màu nhấn (dòng trên tiêu đề trang): HS Desk dùng cam đậm (đúng giá trị orange-700 của Tailwind) cho dễ đọc;
+     sản phẩm khác đặt lại bằng màu nhấn của mình (apps/chatqa/web/src/index.css). */
+  --color-accent-ink: oklch(55.3% 0.195 38.402);
+}
+
+/* Nét viền theo pen: căn GIỮA cạnh khung (nửa trong, nửa ngoài), không chiếm chỗ trong layout và vẽ đè lên nền con.
+   Bản export của pen viết bằng outline 1px + outline-offset -0.5px; Chrome làm tròn outline về pixel nguyên nên ở đây dùng hai bóng
+   (ngoài + trong, mỗi bóng nửa độ dày) để cạnh nằm ở toạ độ lẻ giống pen. Border CSS làm lệch nội dung 1px so với toạ độ pen.
+   Màu/độ dày đổi bằng [--stroke-c:var(--color-red)] [--stroke-w:1.5px]. Dùng các biến ring của Tailwind nên ghép được với shadow-*. */
+@utility stroke-in {
+  --tw-ring-shadow: 0 0 0 calc(var(--stroke-w, 1px) / 2) var(--stroke-c, var(--color-border));
+  --tw-inset-ring-shadow: inset 0 0 0 calc(var(--stroke-w, 1px) / 2) var(--stroke-c, var(--color-border));
+  box-shadow:
+    var(--tw-inset-shadow, 0 0 #0000), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow),
+    var(--tw-shadow, 0 0 #0000);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}

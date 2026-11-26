@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import Learning from '../../components/Learning';
+import { translator } from '../../i18n';
+import { pageContext } from '../../lib/page-context';
+const { courseId = '' } = Astro.params;
+if (!/^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(courseId)) return Astro.redirect('/learn');
+const { locale, session } = await pageContext(Astro);
+if (session !== 'account') return Astro.redirect(`/sign-in?next=${encodeURIComponent(`/learn/${courseId}`)}`);
+const t = translator(locale);
+---
+<Base title={t('shell.myLearning')} privatePage referrerPolicy="strict-origin-when-cross-origin" localized>
+  <Learning client:load courseId={courseId} locale={locale} />
+  <noscript><p class="narrow">{t('classroom.noScript')}</p></noscript>
+</Base>

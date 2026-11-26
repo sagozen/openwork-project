@@ -1,0 +1,17 @@
+{
+  "$comment": "Khung danh sách tên tiếng Anh có sẵn của App Xuất ECUS và C/O (cho C/O và Invoice): một sheet 'Sheet1', tiêu đề dòng 1, dữ liệu từ dòng 2. ĐVT là ký hiệu phía Trung Quốc (Quy đổi ĐVT), trị giá là trị giá hoá đơn bằng USD. 'headers' là các tên đồng nghĩa để nhận cột khi quản lý nạp khung khác ở Thiết lập mẫu. 'format': text = ô chữ, number = ô số. 'required': cột bắt buộc khi nạp mẫu.",
+  "id": "ten-tieng-anh",
+  "version": 1,
+  "sheet": "^Sheet1$",
+  "headerRow": 1,
+  "firstDataRow": 2,
+  "headerScanRows": 10,
+  "columns": [
+    { "field": "stt", "col": "A", "header": "STT", "headers": ["STT", "Số TT", "No."], "required": false, "format": "number" },
+    { "field": "englishName", "col": "B", "header": "Tên hàng tiếng Anh", "headers": ["Tên hàng tiếng Anh", "Tên tiếng Anh", "English name", "Description of goods", "Description"], "required": true, "format": "text" },
+    { "field": "hs", "col": "C", "header": "Mã HS", "headers": ["Mã HS", "HS code"], "required": true, "format": "text" },
+    { "field": "qty", "col": "D", "header": "Lượng", "headers": ["Lượng", "Số lượng", "Quantity"], "required": true, "format": "number" },
+    { "field": "unit", "col": "E", "header": "ĐVT", "headers": ["ĐVT", "Đơn vị tính", "Unit"], "required": true, "format": "text" },
+    { "field": "invoiceValue", "col": "F", "header": "Trị giá hoá đơn (USD)", "headers": ["Trị giá hoá đơn (USD)", "Trị giá hoá đơn", "Trị giá", "Amount (USD)", "Amount"], "required": false, "format": "number" }
+  ]
+}

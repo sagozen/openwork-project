@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: astra-server
+spec:
+  selector:
+    app: astra-server
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: astra-server
+spec:
+  replicas: 2                     # two pods from the start: tenancy and naming series must be cluster-safe
+  selector:
+    matchLabels:
+      app: astra-server
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: astra-server
+    spec:
+      containers:
+        - name: astra-server
+          image: astra/server:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POD_NAME                       # canary rollout targets pods by name; also the X-Astra-Pod header
+              valueFrom: { fieldRef: { fieldPath: metadata.name } }
+            - name: ASTRA_DB_URL
+              valueFrom: { secretKeyRef: { name: astra-db, key: url } }
+            - name: ASTRA_DB_USER
+              valueFrom: { secretKeyRef: { name: astra-db, key: username } }
+            - name: ASTRA_DB_PASSWORD
+              valueFrom: { secretKeyRef: { name: astra-db, key: password } }
+            - name: ASTRA_TENANCY_MODE
+              value: multi
+            - name: ASTRA_OIDC_URL                 # in-cluster discovery and JWKS
+              value: http://keycloak:8080/auth/realms/astra
+            - name: ASTRA_OIDC_ISSUER              # issuer the clients see, advertised by /api/iam/config
+              valueFrom: { configMapKeyRef: { name: astra-public, key: oidc-issuer } }
+            - name: ASTRA_KEYCLOAK_URL
+              value: http://keycloak:8080/auth
+            - name: ASTRA_KEYCLOAK_CLIENT_SECRET
+              valueFrom: { secretKeyRef: { name: astra-keycloak, key: astra-server-client-secret } }
+            - name: ASTRA_REDIS_URL
+              value: redis://redis:6379
+            - name: ASTRA_SEATA_ENABLED              # global transactions: BMS credit (AT) + pickup slots (TCC)
+              value: "true"
+            - name: ASTRA_SEATA_SERVER
+              value: seata-server:8091
+            - name: ASTRA_BMS_DB_URL
+              value: jdbc:postgresql://postgres:5432/astra?currentSchema=bms
+          lifecycle:
+            preStop:                               # let the Service drop this pod before it stops taking requests
+              exec: { command: ["sleep", "5"] }
+          readinessProbe:
+            httpGet: { path: /q/health/ready, port: 8080 }
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /q/health/live, port: 8080 }
+            periodSeconds: 10
+          resources:
+            requests: { cpu: 250m, memory: 512Mi }
+            limits: { memory: 2Gi }      # ZGC heap is 65 % of this (Timefold); the rest is Metaspace, code cache and native memory
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: astra-server
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: astra-server
+                port:
+                  number: 80
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: astra-server
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: astra-server

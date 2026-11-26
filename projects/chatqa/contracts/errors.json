@@ -1,0 +1,1246 @@
+{
+  "$comment": "Mã lỗi dùng chung Go / Worker / Web -> câu báo lỗi tiếng Việt. Contract test quét mã nguồn: mã lỗi mới phải có ở đây. Lỗi Go có dạng \"code: chi tiết\", Worker trả {\"error\": \"code\"}. accountAccess: mã E-account-access-NNN trong spec account-access Mục 6 -> khoá lỗi (worker/test/contracts-spec.test.ts so câu với spec). Câu có {tên}, {n}, {mm}... do client thay giá trị. driveBackupSync: mã E-drive-backup-sync-NNN đợt v1 (spec drive-backup-sync Mục 6) -> các khoá theo đúng thứ tự câu trong ô Screen state; lỗi đợt lô (006, 007, 009, 023) thêm cùng các app lô. Spec ghi số đếm là N, ở đây là {n}. classificationRules: mã E-classification-rules-NNN (spec classification-rules Mục 6, cả 25 lỗi thuộc v1) -> các khoá theo đúng thứ tự câu trong ô Screen state; câu có lựa chọn {a / b} (E-017) tách thành một khoá mỗi lựa chọn; E-018 dùng lại hộp chọn xung đột của drive-backup-sync; E-022 không hiện cho người dùng, khoá giữ dòng ghi lịch sử. Các khoá rules_* ngoài Mục 6 (rules_restore_same, rules_ai_ceiling, rules_no_6qt, rules_disable_original, rules_not_numbered) ghi ở báo cáo lệch spec. hsSuggest: mã E-hs-suggest-NNN (spec hs-suggest Mục 6, trừ E-030/E-033 chưa làm) -> các khoá theo đúng thứ tự câu trong ô Screen state; E-017 dùng lại permission_denied của account-access. aiCorrectionLog: mã E-ai-correction-log-NNN (spec ai-correction-log Mục 6, phần làm ở đợt này). tariffApply: mã E-tariff-apply-NNN (spec tariff-apply Mục 6, Error Matrix, không có E-010) -> các khoá theo đúng thứ tự câu trong ô Screen state (E-003 ô VAT trống / cách ghi lạ, E-020 chưa có biểu năm sau / biểu quá cũ); câu chép nguyên văn, {…} là chỗ trống mang đúng chữ của câu (vd {mã HS}), tham số E-015 lặp {ngày} nên chỗ thứ hai là \"ngày#2\". Khoá tariff_label_* và tariff_state_* là nhãn của user flow, không có mã. Câu ĐỀ XUẤT (đặc tả chưa có câu, chờ BA duyệt, ghi ở báo cáo lệch spec tariff-apply): tariff_upcoming_banner, tariff_two_antidumping_pending, tariff_fleet_outdated, tariff_source_submitted, tariff_fleet_unknown, tariff_manual_amount_invalid, tariff_item_locked, tariff_pull_never, tariff_normal_computed (NK thông thường tính 150% MFN khi ô biểu không ghi số). Khoá declare_* và settings_* (App 3 Xuất ECUS và C/O, Quy đổi ĐVT, Thiết lập mẫu) là câu ĐỀ XUẤT chờ BA duyệt. vipoNoteExchange: mã E-vipo-note-exchange-NNN của plans/261119-1059-vipo-note-exchange (không có SRS), câu ĐỀ XUẤT chờ BA duyệt. historyImport: khoá history_* của tính năng history-import (userflow không có ma trận lỗi), câu ĐỀ XUẤT chờ BA duyệt.",
+  "errors": {
+    "account_locked": "Tài khoản đã bị khoá. Liên hệ admin.",
+    "activation_needs_network": "Cần kết nối mạng để kích hoạt bản quyền trên máy này.",
+    "agent_step_cap": "Trợ lý đã làm nhiều bước liền mà chưa xong nên tạm dừng. Gõ tiếp để chạy thêm, hoặc chia yêu cầu nhỏ hơn.",
+    "ai_budget_exceeded": "Đã dùng hết ngân sách AI tháng này. Vẫn nhập tay được; chỉ Quản lý tăng được ngân sách.",
+    "ai_credit_exhausted": "Đã dùng hết credit model cloud. Nạp thêm credit hoặc đặt khoá API riêng trong Cài đặt → Dịch vụ AI.",
+    "ai_key_invalid": "Khoá dịch vụ AI sai hoặc đã hết hạn. Liên hệ Quản lý cập nhật trong Cài đặt.",
+    "ai_low_confidence": "AI chưa chắc chắn (độ tin cậy dưới 80%) - mặt hàng được gắn \"Cần rà soát\".",
+    "thinking_binding_mismatch": "Lịch sử cuộc trò chuyện không còn khớp với phần suy luận đã lưu của AI. Hãy mở phiên mới và gửi lại.",
+    "ai_unavailable": "Dịch vụ AI chưa trả kết quả sau 2 lần thử. Dữ liệu đã nhập vẫn được giữ - thử lại hoặc nhập tay.",
+    "already_decided": "Thao tác này đã được xử lý.",
+    "app_disabled": "App {tên} đã bị tắt khỏi bản quyền. Dữ liệu vẫn được giữ. Liên hệ bên triển khai.",
+    "app_forbidden": "Bạn chưa được cấp quyền dùng {app / màn này}. Liên hệ admin.",
+    "app_install_failed": "Không cài được bản app lên thiết bị {tên}. Kiểm tra file .apk/.ipa và kết nối thiết bị.",
+    "apply_failed": "Không áp dụng được bản cập nhật. App vẫn chạy bản hiện tại.",
+    "bad_bundle": "Gói giao diện cập nhật bị hỏng - đã bỏ qua.",
+    "bad_checksum": "File tải về bị hỏng - sẽ tải lại.",
+    "bad_entitlement": "Thông tin đăng nhập offline trên máy không hợp lệ. Kết nối mạng để đăng nhập lại.",
+    "bad_kind": "Loại cập nhật không hợp lệ.",
+    "bad_response": "Máy chủ trả lời không đúng định dạng. Thử lại sau ít phút.",
+    "bad_sheet_map": "Cấu hình ánh xạ cột Sheet Vipo bị lỗi. Liên hệ quản trị.",
+    "bad_signature": "Chữ ký bản cập nhật không hợp lệ - đã huỷ.",
+    "bad_template": "Tệp không đúng mẫu: thiếu cột bắt buộc. Tải mẫu tệp hoặc chọn tệp khác.",
+    "budget_ceiling": "Thao tác này ước tính {costVnd} đ, vượt ngân sách AI còn lại của tháng ({leftVnd} đ). Người có quyền ngân sách phải tăng ngân sách trước.",
+    "busy": "Đang xử lý, vui lòng chờ.",
+    "confirm_required": "Thao tác này ước tính {costVnd} đ, vượt trần mỗi thao tác. Ngân sách còn {leftVnd} đ. Xác nhận để tiếp tục.",
+    "conflict_closed": "Xung đột này đã được chọn rồi. Mở lại danh sách để xem bản đang dùng.",
+    "device_limit_reached": "Công ty đã dùng đủ {n} máy. Nhờ admin thu hồi máy không dùng, hoặc liên hệ bên triển khai.",
+    "device_not_found": "Máy chưa được kích hoạt. Nhập lại License Key.",
+    "device_not_licensed": "Máy chưa có bản quyền hợp lệ.",
+    "device_not_ready": "Thiết bị chưa sẵn sàng để chạy: {chi tiết}.",
+    "device_revoked": "Máy này đã bị thu hồi bản quyền. Liên hệ admin.",
+    "device_tool_missing": "Máy tính chưa có {công cụ}. Cài rồi thử lại.",
+    "download_failed": "Tải bản cập nhật thất bại.",
+    "dpapi": "Không bảo vệ được dữ liệu đăng nhập trên máy này.",
+    "evidence_confirm_required": "Evidence lượt này nặng {n} MB, quá ngưỡng 200 MB. Xác nhận để đẩy cả ảnh, video lên kho nhóm.",
+    "env_missing": "Flow dùng biến chưa có giá trị: {chi tiết}. Truyền qua env, đặt mặc định bằng test_set_env, hoặc dùng secrets cho biến bí mật.",
+    "driver_bundle_unavailable": "Chưa có bộ driver thiết bị và không tải được. Kết nối mạng một lần để tải bộ driver.",
+    "driver_failed": "Driver trên thiết bị bị lỗi; lượt sau sẽ khởi động lại driver.",
+    "first_login_needs_network": "Cần kết nối mạng để đăng nhập lần đầu trên máy này.",
+    "flow_invalid": "Flow kiểm thử chưa hợp lệ: {chi tiết}. Sửa rồi lưu lại; flow lỗi không được chạy.",
+    "forbidden": "Tài khoản không có quyền thực hiện thao tác này.",
+    "forbidden_path": "Đường dẫn API không được phép.",
+    "git_failed": "Lệnh git lỗi: {chi tiết}. Kiểm tra đường dẫn repo và hai commit (thử git fetch nếu commit ở nhánh khác).",
+    "git_unavailable": "Máy này chưa cài git nên không xuất được diff. Cài git rồi thử lại.",
+    "google_not_configured": "Bên triển khai chưa cấu hình kết nối Google cho sản phẩm này. Liên hệ bên triển khai.",
+    "google_not_connected": "Chủ tài khoản chưa kết nối Google Drive.",
+    "incompatible": "Bản cập nhật không tương thích với phiên bản app này.",
+    "install_failed": "Cài bản cập nhật thất bại. App vẫn chạy bản hiện tại.",
+    "internal_error": "Máy chủ gặp lỗi. Thử lại sau ít phút.",
+    "invalid": "Dữ liệu không hợp lệ.",
+    "invalid_credentials": "Tên đăng nhập hoặc mật khẩu không đúng.",
+    "invalid_hs": "Mã HS phải gồm 8 chữ số (vd 8516.10.10).",
+    "invalid_input": "Dữ liệu nhập không hợp lệ.",
+    "invalid_item": "Không lưu được mục: dữ liệu thiếu hoặc sai (khôi phục phải ghi lý do). Kiểm tra lại rồi lưu.",
+    "invalid_json": "Dữ liệu gửi lên không đúng định dạng.",
+    "ios_team_id_missing": "Cần Apple Team ID để chạy trên iPhone thật. Nhập ở Cài đặt > Kiểm thử.",
+    "item_removed": "Mục này đã bị gỡ. Bấm \"Hoàn tác gỡ\" trước khi sửa hoặc khôi phục.",
+    "item_stale": "Mục vừa được đổi trong lúc đang lưu nên chưa lưu gì. Mở lại để xem bản mới rồi lưu lại.",
+    "last_admin": "Phải còn ít nhất một admin của công ty đang hoạt động (không tính tài khoản Bên triển khai). Gán vai admin cho người khác trước.",
+    "license_expired": "Bản quyền đã hết hạn.",
+    "license_not_found": "Mã bản quyền không đúng. Kiểm tra lại hoặc liên hệ bên triển khai.",
+    "license_suspended": "Bản quyền đang bị tạm dừng.",
+    "llm_bad_reply": "AI trả lời không đúng định dạng. Thử lại; nếu lặp lại, rút gọn tài liệu nguồn.",
+    "llm_refused": "AI từ chối xử lý yêu cầu này. Xem lại nội dung tài liệu hoặc bước cần sửa.",
+    "llm_token_cap": "Flow này đã dùng hết trần token cho lần biên dịch/sửa. Sửa tay hoặc chạy lại sau.",
+    "locked_in_use": "Tài khoản của bạn đã bị khoá lúc {dd/mm hh:mm}. Liên hệ admin.",
+    "matrix_conflict": "Bảng quyền vừa được {người} sửa lúc {hh:mm}. Tải lại rồi chỉnh tiếp.",
+    "mcp_port_busy": "Cổng {địa chỉ} đang bị chương trình khác dùng nên không bật được MCP. Đóng chương trình đó hoặc đổi cổng.",
+    "missing_fields": "Thiếu thông tin bắt buộc.",
+    "module_locked": "App {tên} chưa được kích hoạt cho công ty. Liên hệ bên triển khai.",
+    "need_network": "Cần kết nối mạng để lưu thay đổi tài khoản.",
+    "network": "Không kết nối được máy chủ. Kiểm tra mạng.",
+    "no_actor": "Thiếu thông tin người làm nên chưa lưu được thay đổi.",
+    "no_device": "Máy chưa được kích hoạt.",
+    "no_device_available": "Không có máy rảnh khớp yêu cầu. Cắm thêm máy hoặc chờ máy đang chạy xong.",
+    "no_exe": "Không tìm thấy file chương trình để cập nhật.",
+    "no_old": "Không có bản cũ để quay lại.",
+    "no_permission": "Không ghi được vào thư mục cài app. Cài lại bằng bộ cài theo user.",
+    "no_public_key": "App chưa cấu hình khoá bản quyền (bản dev).",
+    "no_release_key": "App chưa cấu hình khoá phát hành (bản dev).",
+    "no_update": "Không có bản cập nhật.",
+    "not_found": "Không tìm thấy dữ liệu.",
+    "not_signed_in": "Đăng nhập tài khoản công ty để đồng bộ nhóm. Dữ liệu trên máy vẫn dùng bình thường.",
+    "offline_attempts_exceeded": "Bạn đã nhập sai quá nhiều lần. Kết nối mạng để đăng nhập.",
+    "offline_expired": "Máy đã {n} ngày chưa kết nối. Kết nối mạng để tiếp tục làm việc. Dữ liệu trên máy vẫn được giữ.",
+    "op_pending": "Thao tác {tên} của {người} lúc {dd/mm hh:mm} đang chờ admin xem vì tài khoản bị đổi quyền khi máy mất mạng.",
+    "op_rejected": "Thao tác {tên} của {người} lúc {dd/mm hh:mm} không được công nhận vì không đủ quyền.",
+    "open_folder_failed": "Không mở được thư mục trên máy này. Mở thư mục dữ liệu của app bằng trình quản lý tệp.",
+    "password_change_required": "Cần đổi mật khẩu trước khi tiếp tục.",
+    "password_mismatch": "Mật khẩu nhập lại không khớp.",
+    "permission_denied": "Bạn không có quyền {thao tác}. Liên hệ admin.",
+    "r2_object_missing": "Chưa tải file phát hành lên kho R2.",
+    "rate_limited": "Bạn đã nhập sai quá nhiều lần. Thử lại sau {mm} phút hoặc nhờ admin đặt lại mật khẩu.",
+    "redaction_failed": "Không xuất/mở được: lượt này từng che bí mật lỗi nên gói có thể lộ giá trị bí mật. Chạy lại lượt rồi thử lại.",
+    "restart_failed": "Đã cài bản mới, hãy mở lại app.",
+    "role_not_in_product": "Tài khoản {vai} không dùng {sản phẩm}. Đăng nhập bằng app dành cho tài khoản {vai} hoặc liên hệ admin.",
+    "secret_missing": "Chưa có thông tin đăng nhập {tên} trong kho bí mật. Nhập ở Cài đặt > Kiểm thử rồi chạy lại.",
+    "secret_store_failed": "Không lưu được thông tin đăng nhập vào kho bí mật của máy (Keychain/Windows). Thử lại hoặc kiểm tra quyền truy cập.",
+    "server_unavailable": "Máy chủ tài khoản đang gián đoạn. Việc đang làm vẫn được giữ, thử lại sau ít phút.",
+    "session_expired": "Phiên đăng nhập đã hết hạn. Đăng nhập lại để tiếp tục, việc đang làm vẫn được giữ.",
+    "sheet_forbidden": "Không đọc được Google Sheet: quyền xem đã bị thu hồi hoặc Sheet đã đổi tên. Kiểm tra quyền chia sẻ với Vipo.",
+    "sync_conflict_changed": "Bản của đồng đội vừa đổi sau khi bạn mở màn gộp. Mở lại xung đột để gộp với bản mới nhất.",
+    "sync_not_configured": "Chưa cấu hình đồng bộ nhóm (S3/MinIO). Nhờ admin nhập endpoint, bucket và khoá ở Cài đặt > Kiểm thử.",
+    "takeover_timeout": "Bước đang chạy trên máy chưa xong sau 60 giây nên chưa giành được quyền điều khiển. Thử lại, hoặc bấm Esc để dừng tất cả.",
+    "teach_sheet_not_linked": "Chưa có Sheet Sổ dạy AI (chủ tài khoản khởi tạo kho dữ liệu ở Cài đặt).",
+    "temp_password_expired": "Mật khẩu tạm đã hết hạn. Nhờ admin đặt lại.",
+    "tenant_mismatch": "Tài khoản không thuộc công ty của bản quyền này.",
+    "test_engine_unavailable": "Phần kiểm thử chưa khởi động được trên máy này. Khởi động lại ChatQASoftware; nếu vẫn lỗi, gửi nhật ký cho bên triển khai.",
+    "unauthorized": "Phiên đăng nhập đã hết, vui lòng đăng nhập lại.",
+    "username_taken": "Tên đăng nhập {tên} đã được dùng. Chọn tên khác.",
+    "vipo_sheet_not_linked": "Chưa liên kết Sheet Vipo (chủ tài khoản làm ở Cài đặt).",
+    "weak_password": "Mật khẩu cần ít nhất 8 ký tự và khác mật khẩu tạm.",
+    "wrong_current_password": "Mật khẩu hiện tại không đúng.",
+    "drive_not_connected": "Chưa kết nối Drive công ty — dữ liệu chỉ lưu trên máy này",
+    "sync_offline": "Mất mạng · {n} chờ đồng bộ",
+    "drive_no_access": "Không ghi được lên Drive — báo Quản lý khai báo kết nối lại",
+    "drive_full": "Drive công ty đã đầy — dữ liệu đang giữ trên máy",
+    "sync_keep_mine": "Giữ bản của tôi",
+    "sync_take_theirs": "Lấy bản kia",
+    "close_pending": "Còn {n} mục chưa lên Drive",
+    "close_wait_sync": "Đợi đồng bộ",
+    "close_anyway": "Vẫn đóng",
+    "restore_failed": "Chưa khôi phục được, dữ liệu hiện tại giữ nguyên",
+    "previous_device_unsynced": "Lần đồng bộ cuối của máy cũ: {giờ}. Thay đổi sau giờ đó không có trên Drive",
+    "restore_not_own": "Chỉ Quản lý khai báo khôi phục được bản của người khác",
+    "backup_failed": "Chưa sao lưu được. Lần sao lưu thành công gần nhất: {giờ}",
+    "local_disk_full": "Máy hết chỗ lưu — thao tác vừa rồi CHƯA được lưu. Giải phóng ổ đĩa rồi thử lại",
+    "sync_interrupted": "Đồng bộ chưa xong · {n} chờ đồng bộ",
+    "pull_failed": "Chưa cập nhật được {loại dữ liệu} — đang dùng bản trên máy lúc {giờ}",
+    "bootstrap_needs_network": "Cần mạng để lấy dữ liệu lần đầu",
+    "bootstrap_partial": "Đã lấy {x}/{y} — sẽ tiếp tục khi có mạng",
+    "drive_admin_only": "Chỉ Quản lý khai báo kết nối được Drive công ty",
+    "sync_conflicts_open": "{n} chờ giải quyết xung đột",
+    "offline_too_long": "Máy đã mất mạng quá {n} ngày — kết nối mạng để tiếp tục",
+    "license_server_unreachable": "Chưa kết nối được máy chủ bản quyền — dữ liệu đang giữ trên máy",
+    "drive_busy": "Drive đang bận — đang thử lại",
+    "drive_other_tenant": "Drive này đã có dữ liệu HS Desk khác — chọn Drive khác hoặc liên hệ hỗ trợ",
+    "undo_remove_conflict": "Mục này đã bị sửa hoặc gỡ sau khi bạn gỡ — chọn giữ bản nào",
+    "conflict_version_lost": "{name} đã chọn bản khác cho {item}. Bản của bạn vẫn còn trong lịch sử phiên bản — mở lịch sử để xem hoặc khôi phục",
+    "sync_done": "Đã đồng bộ",
+    "sync_running": "Đang đồng bộ",
+    "sync_error": "Lỗi đồng bộ",
+    "restore_reason_required": "Nhập lý do khôi phục rồi bấm Khôi phục lại",
+    "restore_replaces": "Sẽ thay thế thay đổi của {tên} lúc {giờ}",
+    "version_restored_over": "{name} đã khôi phục {item} về bản cũ, thay thế thay đổi của bạn lúc {giờ}. Bản của bạn vẫn còn trong lịch sử phiên bản — mở lịch sử để xem hoặc khôi phục",
+    "sync_pending": "{n} chờ đồng bộ",
+    "drive_drop_alert": "Số mục {loại dữ liệu} trên Drive giảm từ {x} xuống {y} — mở thư mục HS Desk trên Drive kiểm tra, mục bị gỡ tay vẫn còn trên máy",
+    "device_stale_alert": "Máy {tên} chưa đồng bộ từ {giờ} — mở app trên máy đó khi có mạng để đẩy dữ liệu lên Drive",
+    "rules_field_missing": "Cần nhập {tên trường}.",
+    "rules_hs_format": "Nhóm HS phải gồm đúng {n} chữ số.",
+    "rules_name_limit": "Giới hạn độ dài tên khai là số nguyên từ 1 đến 200.",
+    "rules_hs_not_in_tariff": "Nhóm HS {mã} không có trong biểu thuế {tên biểu}. Quy tắc sẽ không được AI áp tới khi mã có trong biểu. Vẫn tiếp tục?",
+    "rules_no_tariff": "Chưa có biểu thuế để đối chiếu.",
+    "rules_no_samples": "Chưa có mặt hàng đã duyệt thuộc nhóm {nhóm hàng}.",
+    "rules_test_stopped": "Chạy thử dừng ở {k}/{n} mặt hàng: {lý do}.",
+    "rules_ai_budget": "Ngân sách AI không đủ cho lượt chạy thử này. Báo admin để bổ sung.",
+    "rules_unchecked_saved": "Đã lưu, chưa kiểm trùng. Bấm Kiểm lại trên sổ khi có mạng.",
+    "rules_duplicate": "Trùng với Quy tắc #{n}: {tên}.",
+    "rules_contradiction": "Mâu thuẫn với Quy tắc #{n}: điều kiện {cùng nghĩa/chồng lấn}, khác Nhóm HS.",
+    "rules_newer_version": "Quy tắc #{n} vừa được {tên} đổi lúc {giờ}.",
+    "rules_perm_lost": "Anh/chị không còn quyền sửa sổ quy tắc. Bản soạn chưa được lưu.",
+    "rules_cannot_disable": "Công thức đặt tên và quy tắc tên NSX luôn bật, chỉ sửa được.",
+    "rules_discard_changes": "Bỏ các thay đổi chưa lưu?",
+    "rules_local_write_failed": "Chưa lưu được quy tắc: {lý do}. Bản soạn vẫn giữ.",
+    "rules_forbidden": "Anh/chị không có quyền thực hiện thao tác này.",
+    "rules_change_rejected": "Thay đổi Quy tắc #{n} lúc {giờ} không được công nhận.",
+    "rules_change_pending": "Thay đổi Quy tắc #{n} lúc {giờ} đang chờ admin công nhận.",
+    "rules_group_exists": "Nhóm hàng '{tên}' đã có.",
+    "rules_reason_required": "Cần ghi lý do.",
+    "rules_unreadable": "Chưa phân tích được: không đọc được sổ quy tắc trên máy. Thử lại hoặc báo admin.",
+    "rules_version_missing": "Phiên bản v{x} chưa có trên máy này. Bấm Kéo ngay để lấy về.",
+    "rules_tariff_list_invalid": "Chưa cập nhật được nhãn mã HS theo biểu thuế mới.",
+    "rules_too_many_examples": "Tối đa 20 ví dụ cho một lượt chạy thử.",
+    "rules_flag_unsent": "Chưa báo được cờ quy tắc đã đổi sang hs-suggest; hệ thống tự gửi lại tới khi thành công.",
+    "rules_restore_same": "Phiên bản này giống bản hiện hành",
+    "rules_ai_ceiling": "Sổ quy tắc đã dùng hết phần ngân sách AI được dành ({x}% ngân sách tháng). Báo admin nâng trần trong Cài đặt → Dịch vụ AI.",
+    "rules_no_6qt": "Chưa có biểu thuế để mở sheet 6QT. Nạp biểu thuế ở tab Biểu thuế.",
+    "rules_disable_original": "Tắt quy tắc gốc #{n}?",
+    "rules_not_numbered": "Quy tắc mới (chưa có số)",
+    "suggest_store_error": "Chưa tra được kho kết quả, mặt hàng đi luồng AI.",
+    "suggest_image_format": "Ảnh {tên} không đúng định dạng, chỉ nhận JPG, PNG, WEBP.",
+    "suggest_image_too_big": "Ảnh {tên} {x} MB, tối đa 10 MB.",
+    "suggest_image_broken": "Ảnh {tên} không đọc được.",
+    "suggest_image_limit": "Mỗi mặt hàng tối đa 10 ảnh. Đã nhận {k} ảnh mới, bỏ qua {m} ảnh: {tên}.",
+    "suggest_image_required": "Cần ít nhất 1 ảnh để phân tích.",
+    "suggest_ai_failed": "AI chưa phân tích được mặt hàng này.",
+    "suggest_budget_warn": "Ngân sách AI tháng này còn {x}%. Admin bổ sung ở Cài đặt ngân sách AI.",
+    "suggest_budget_empty": "Đã hết ngân sách AI tháng này. Đang chỉ dùng được Nhập tay.",
+    "suggest_image_offline": "Mất mạng, {n} ảnh chưa tải xong.",
+    "suggest_reason_required": "Chọn lý do để lưu.",
+    "suggest_approve_blocked": "Chưa duyệt được: còn {n} trường chưa chắc ({tên trường}); thiếu {tên trường}.",
+    "suggest_tax_missing": "Chưa có thuế cho mã {mã HS}. Điền thuế tay trong Khối Thuế.",
+    "suggest_vat_missing": "Chọn mức VAT cho mã {mã HS}.",
+    "suggest_name_limit": "Tên khai {n}/200 ký tự. Nên rút gọn trước khi khai báo.",
+    "suggest_risk_unknown": "Chưa kiểm được danh mục rủi ro, mặt hàng chuyển quản lý duyệt.",
+    "suggest_unflag_reason": "Nhập lý do để gỡ cờ.",
+    "suggest_sendback_note": "Ghi rõ cần sửa gì.",
+    "suggest_presence": "Đang có {tên hiển thị} sửa từ {giờ:phút}.",
+    "suggest_item_cancelled": "Mặt hàng đã huỷ, không duyệt được.",
+    "suggest_item_cancelled_copied": "Kết quả vẫn nằm trên Sheet.",
+    "suggest_version_changed": "Mặt hàng đã được rút về để sửa, không duyệt được phiên bản này.",
+    "suggest_link_locked_waiting": "Mặt hàng đang chờ quản lý duyệt. Rút về trước khi đổi link.",
+    "suggest_link_locked_approved": "Mặt hàng đã duyệt. Dùng Sửa sau duyệt trước khi đổi link.",
+    "suggest_link_locked_busy": "Đợi tra kho hoặc phân tích xong rồi đổi link.",
+    "suggest_link_locked_cancelled": "Mặt hàng đã huỷ.",
+    "suggest_manual_tax_replace": "Thuế nhập tay sẽ bị thay bằng thuế tra theo mã mới. Tiếp tục?",
+    "suggest_edit_copied": "Mặt hàng đã sao chép lúc {giờ:phút}. Sửa sẽ cần sao chép lại. Nhập lý do để tiếp tục.",
+    "suggest_question_required": "Nhập câu hỏi (tối đa 1.000 ký tự) để tiếp tục.",
+    "suggest_manual_close_reason": "Nhập lý do chốt thủ công để tiếp tục.",
+    "suggest_offline_saved": "Đã lưu trên máy, sẽ đồng bộ khi có mạng.",
+    "suggest_budget_invalid": "Ngân sách phải là số nguyên VND lớn hơn 0 và không thấp hơn phần đã dùng ({x} VND).",
+    "suggest_bulk_partial": "Đã duyệt {a}/{n} mặt hàng; {b} mặt hàng bỏ qua: {mã dòng} - {lý do}.",
+    "suggest_relookup_failed": "Chưa tra lại được kho. Mặt hàng giữ Chờ ảnh, thử lại sau.",
+    "suggest_hs_format": "Mã HS phải gồm 8 chữ số.",
+    "suggest_link_invalid": "Link không hợp lệ, nhập đường dẫn bắt đầu bằng http hoặc https.",
+    "suggest_op_rejected": "Thao tác {tên} trên mặt hàng {mã dòng} không được công nhận vì không đủ quyền. Mặt hàng đã về {trạng thái}.",
+    "suggest_ai_overloaded": "AI đang quá tải, đang chờ lượt AI.",
+    "suggest_clock_skew": "Giờ máy đang lệch {n} phút. Chỉnh lại giờ máy để nhật ký đúng.",
+    "suggest_invoice_alert": "Hoá đơn AI tháng này cao hơn tổng ước tính quá 10%. Đối chiếu lại.",
+    "suggest_no_store": "Máy chưa có kho, đang kéo về",
+    "suggest_no_tariff": "Chưa có biểu thuế, điền thuế tay",
+    "suggest_name_missing_part": "Thiếu {thành phần} để ghép tên khai",
+    "suggest_english_name_warn": "Tên tiếng Anh nên có 2-3 từ.",
+    "suggest_maker_unverified": "NSX chưa xác minh",
+    "suggest_quote_empty": "Đợt không có mặt hàng nào để xuất.",
+    "suggest_quote_not_ready": "Chức năng xuất báo giá chưa sẵn sàng trên máy này.",
+    "suggest_quote_write_failed": "Không lưu được tệp báo giá: {lý do}.",
+    "suggest_name_formula": "Tên khai theo công thức: {tên}",
+    "suggest_name_use_formula": "Dùng bản này",
+    "suggest_name_keep_edited": "Giữ bản đã sửa",
+    "suggest_manual_badge": "Nhập tay",
+    "suggest_manual_tax_badge": "Thuế nhập tay",
+    "suggest_from_store_label": "Lấy từ mặt hàng đã duyệt ngày {ngày}",
+    "suggest_old_result": "Kết quả cũ, nên xem lại",
+    "suggest_variant_unknown": "Chưa so được thông số",
+    "suggest_missing_link": "Thiếu link",
+    "suggest_link_edited": "Link đã sửa trong app",
+    "suggest_link_changed": "Link đã đổi, nên phân tích lại",
+    "suggest_name_regenerated": "Tên khai đã ghép lại theo nhãn hiệu/NSX mới",
+    "suggest_sheet_row_changed": "Dòng đã đổi trên Sheet",
+    "suggest_sheet_update": "Cập nhật",
+    "suggest_sheet_keep": "Giữ",
+    "suggest_waiting_ai": "Đang chờ lượt AI",
+    "suggest_question_overdue": "Chờ Vipo quá hạn",
+    "suggest_vipo_answered": "Vipo đã phản hồi",
+    "suggest_tax_changed_submitted": "Thuế đã đổi sau khi nộp",
+    "suggest_lesson_unnumbered": "Bài học mới (chưa có số)",
+    "suggest_reanalyze_all_warn": "Mọi trường AI sẽ được đề xuất lại",
+    "suggest_checking": "Đang kiểm…",
+    "suggest_save_check_later": "Lưu, kiểm sau",
+    "suggest_more_contradictions": "Còn trái {k} bài khác",
+    "suggest_needs_recopy": "Cần sao chép lại",
+    "suggest_sheet_row_deleted": "Dòng Sheet không còn",
+    "suggest_copied_at": "Đã sao chép lúc {giờ:phút}",
+    "suggest_risk_unchecked": "Chưa kiểm được danh mục rủi ro",
+    "suggest_risk_flag": "Có thể thuộc danh mục rủi ro",
+    "suggest_risk_unflagged": "Không thuộc danh mục",
+    "suggest_needs_info": "Cần bổ sung",
+    "suggest_sheet_numbers_changed": "Số liệu Sheet đổi",
+    "suggest_tariff_changed": "Biểu thuế đổi",
+    "suggest_lesson_removed": "Bài học đã gỡ, nên phân tích lại",
+    "suggest_rules_changed": "Quy tắc đã đổi, nên phân tích lại",
+    "suggest_changed_since": "Có thay đổi từ lần trước",
+    "suggest_risk_changed": "Danh mục rủi ro đổi, cần xem lại",
+    "suggest_unflagged_filter": "Đã gỡ cờ rủi ro",
+    "suggest_self_approved": "Tự duyệt",
+    "suggest_unconfirmed_refill": "cần phân tích lại",
+    "suggest_analysis_failed_state": "Phân tích lỗi",
+    "suggest_cancelled_state": "Đã huỷ",
+    "lesson_difference_required": "Ghi điểm khác biệt (tối đa 500 ký tự) để lưu.",
+    "lesson_unchecked_saved": "Đã lưu bài học. Chưa kiểm được trùng với bài khác, app sẽ tự kiểm sau.",
+    "lesson_offline_saved": "Đã lưu trên máy, sẽ đồng bộ khi có mạng.",
+    "lesson_contradiction_found": "Bài học #{m} của bạn đang mâu thuẫn với bài #{n}. Mở để xử lý.",
+    "lesson_unavailable": "Lần phân tích này chưa dùng được Sổ dạy AI.",
+    "lesson_changed": "Bài học #{n} vừa thay đổi. Đã kiểm lại.",
+    "lesson_follow_old": "Theo bài học #{n}",
+    "lesson_conflict_title": "Trái với bài học #{n}",
+    "lesson_save_with_difference": "Lưu kèm điểm khác biệt",
+    "lesson_save_and_link": "Lưu và gắn mâu thuẫn",
+    "lesson_unchecked_label": "Chưa kiểm mâu thuẫn",
+    "lesson_scope_item": "Chỉ mặt hàng này",
+    "lesson_scope_similar": "Áp dụng cho hàng tương tự",
+    "lesson_unnumbered": "Bài học mới (chưa có số)",
+    "lesson_contradicts_rule": "trái quy tắc #{n}",
+    "teach_ledger_load_failed": "Chưa tải được Sổ dạy AI.",
+    "teach_ledger_empty": "Chưa có bài học. Bài học tự tạo khi nhân sự sửa tên khai hoặc mã HS kèm lý do.",
+    "teach_ledger_filtered_empty": "Không có bài khớp bộ lọc.",
+    "teach_lesson_forbidden": "Bạn chỉ xem được bài học của mình.",
+    "teach_remove_reason_required": "Ghi lý do gỡ (tối đa 500 ký tự) để gỡ.",
+    "teach_stale": "{tên} vừa {thao tác} lúc {giờ:phút}. Đã tải lại bản mới nhất.",
+    "teach_perm_lost": "Bạn không còn quyền {thao tác}. Liên hệ người quản lý.",
+    "teach_pair_duplicate": "Cặp {A} – {B} đã có trong danh sách.",
+    "teach_pair_code_format": "Mã HS phải gồm đúng 8 chữ số.",
+    "teach_pair_same_codes": "Hai mã phải khác nhau.",
+    "teach_pair_code_not_in_tariff": "Mã {mã} không có trong biểu thuế hiện hành. Vẫn lưu?",
+    "teach_locked_reviewed_owner": "Bài đã rà soát, chỉ quản lý sửa được.",
+    "teach_locked_removed_review": "Bài đã gỡ, khôi phục trước khi rà soát.",
+    "teach_rule_not_created": "Chưa tạo quy tắc. Bài học giữ nguyên.",
+    "teach_threshold_invalid": "Số lần là số nguyên từ 2 đến 20, số ngày từ 30 đến 365.",
+    "teach_pair_note_too_long": "Ghi chú tối đa 500 ký tự ({n}/500).",
+    "teach_restore_blocked": "Đã có bài #{m} thay thế cho mặt hàng này.",
+    "teach_title": "Sổ dạy AI",
+    "teach_status_unreviewed": "Chưa rà soát",
+    "teach_status_reviewed": "Đã rà soát",
+    "teach_status_removed": "Đã gỡ",
+    "teach_status_cancelled": "Đã huỷ",
+    "teach_label_contradiction": "Mâu thuẫn",
+    "teach_label_overdue": "Chưa rà soát quá 7 ngày",
+    "teach_filter_effective": "Bài hiệu lực",
+    "teach_field_declared_name": "Tên khai",
+    "teach_field_hs": "Mã HS",
+    "teach_source_card": "Thẻ hàng",
+    "teach_source_customs": "Hải quan sửa",
+    "teach_source_precheck": "Kiểm tra trước khai báo",
+    "teach_filter_author": "Người sửa",
+    "teach_filter_from": "Từ ngày",
+    "teach_filter_to": "Đến ngày",
+    "teach_search_placeholder": "Tìm theo tên hàng hoặc mã HS",
+    "teach_clear_filters": "Xoá bộ lọc",
+    "teach_retry": "Thử lại",
+    "teach_bulk_review": "Đánh dấu đã rà soát",
+    "teach_bulk_confirm": "Đánh dấu Đã rà soát cho {n} bài khớp bộ lọc?",
+    "teach_bulk_done": "Đã đánh dấu {done} bài, bỏ qua {skipped} bài không đủ điều kiện.",
+    "teach_btn_review": "Đã rà soát",
+    "teach_btn_unreview": "Bỏ đánh dấu",
+    "teach_btn_remove": "Gỡ",
+    "teach_btn_restore": "Khôi phục",
+    "teach_btn_edit": "Sửa",
+    "teach_btn_close_conflict": "Đóng mâu thuẫn",
+    "teach_btn_add_difference": "Thêm điểm khác biệt",
+    "teach_btn_withdraw": "Rút bài của tôi",
+    "teach_btn_add_rule": "Thêm quy tắc",
+    "teach_btn_open_item": "Mở mặt hàng gốc",
+    "teach_remove_title": "Gỡ bài học",
+    "teach_remove_rule_kept": "Quy tắc đã tạo từ bài này không bị gỡ",
+    "teach_note_privacy": "Không ghi giá hoặc thông tin người mua",
+    "teach_close_keep": "Giữ bài #{n}",
+    "teach_withdraw_reason": "Chủ bài rút do mâu thuẫn với bài #{n}",
+    "teach_close_keep_reason": "Đóng mâu thuẫn, giữ bài #{n}",
+    "teach_detail_applied": "Mặt hàng đã áp dụng",
+    "teach_detail_links": "Bài liên quan hoặc mâu thuẫn",
+    "teach_detail_rule": "Quy tắc đã tạo",
+    "teach_detail_removal": "Lý do gỡ",
+    "teach_detail_history": "Lịch sử bài",
+    "teach_applied_source_ai": "AI dẫn",
+    "teach_applied_source_follow": "Sửa theo bài cũ",
+    "teach_applied_source_choose": "Chọn ở Khối gợi ý",
+    "teach_history_offline": "offline",
+    "teach_badge_removed": "Bài học #{n} của bạn đã bị gỡ. Mở để xem lý do.",
+    "teach_badge_link_closed": "Mâu thuẫn của bài học #{n} đã đóng.",
+    "teach_badge_restored": "Bài học #{n} của bạn đã được khôi phục.",
+    "teach_review_banner": "Có {n} bài học chưa rà soát quá 7 ngày",
+    "teach_pairs_title": "Cặp mã dễ nhầm",
+    "teach_pair_add": "Thêm cặp",
+    "teach_pair_threshold": "Chỉnh ngưỡng",
+    "teach_pair_source_auto": "Tự gom",
+    "teach_pair_source_manual": "Thêm tay",
+    "teach_pair_on": "Bật",
+    "teach_pair_off": "Tắt",
+    "teach_pair_new": "Cặp mới",
+    "teach_pairs_no_tariff": "Chưa có biểu thuế để đối chiếu mã.",
+    "teach_threshold_label": "Cặp vào danh sách khi bị sửa từ {count} lần trong {days} ngày",
+    "teach_reasons_title": "Lý do sửa",
+    "teach_reason_add": "Thêm lý do",
+    "teach_reason_hide": "Ẩn",
+    "teach_reason_show": "Hiện",
+    "teach_reason_duplicate": "Lý do này đã có trong danh sách.",
+    "teach_reason_invalid": "Lý do dài từ 1 đến 100 ký tự.",
+    "teach_act_review": "đánh dấu Đã rà soát",
+    "teach_act_unreview": "bỏ đánh dấu",
+    "teach_act_remove": "gỡ bài",
+    "teach_act_restore": "khôi phục bài",
+    "teach_act_edit": "sửa bài",
+    "teach_act_close": "đóng mâu thuẫn",
+    "teach_act_difference": "thêm điểm khác biệt",
+    "teach_act_withdraw": "rút bài",
+    "teach_act_rule": "thêm quy tắc",
+    "teach_act_pair": "sửa cặp",
+    "teach_act_threshold": "đổi ngưỡng",
+    "teach_act_reason": "sửa danh sách lý do",
+    "teach_cancel": "Huỷ",
+    "teach_save": "Lưu",
+    "teach_close": "Đóng",
+    "teach_back": "Quay lại",
+    "teach_loading": "Đang tải…",
+    "teach_load_more": "Xem thêm",
+    "teach_col_item": "Mặt hàng",
+    "teach_col_field": "Trường",
+    "teach_col_reason": "Lý do",
+    "teach_col_scope": "Phạm vi",
+    "teach_col_source": "Nguồn",
+    "teach_col_status": "Trạng thái",
+    "teach_col_time": "Thời điểm",
+    "teach_filter_label": "Nhãn",
+    "teach_before": "Trước",
+    "teach_after": "Sau",
+    "teach_note": "Ghi chú",
+    "teach_remove_reason_label": "Lý do gỡ",
+    "teach_difference_label": "Điểm khác biệt",
+    "teach_label_customs": "Bị hải quan sửa",
+    "teach_link_closed": "Đã đóng",
+    "teach_history_device_time": "Giờ máy",
+    "teach_history_synced": "Giờ đồng bộ",
+    "teach_pair_code_a": "Mã A",
+    "teach_pair_code_b": "Mã B",
+    "teach_pair_count": "Số lần",
+    "teach_pair_days": "Số ngày",
+    "teach_pair_last": "Lần gần nhất",
+    "teach_pair_note": "Ghi chú phân biệt",
+    "teach_pair_edit_note": "Sửa ghi chú",
+    "teach_pair_fix_code": "Sửa mã",
+    "teach_pair_save_anyway": "Vẫn lưu",
+    "teach_pairs_empty": "Chưa có cặp mã dễ nhầm.",
+    "suggest_field_empty": "Trường chưa có giá trị.",
+    "suggest_field_unknown": "Trường không có trong thẻ.",
+    "suggest_tax_readonly": "Ba trường thuế chỉ điền tay khi Khối Thuế trống.",
+    "suggest_intake_empty": "Đợt chưa có dòng nào để tạo.",
+    "suggest_intake_row": "Dòng {dòng} thiếu số dòng.",
+    "suggest_intake_duplicate": "Số dòng {mã} bị lặp trong đợt.",
+    "suggest_unreadable": "Không đọc được dữ liệu mặt hàng trên máy.",
+    "suggest_no_rules": "Chưa đọc được sổ quy tắc.",
+    "append_duplicate": "Mục chỉ thêm đã có đúng bản này.",
+    "suggest_link_confirm": "Thẻ đã có trường nguồn Nhân sự; xác nhận để đổi link.",
+    "ai_overloaded": "Dịch vụ AI đang quá tải hoặc bị giới hạn tần suất. Thử lại sau ít phút.",
+    "tariff_no_schedule_for_date": "Chưa có biểu thuế hiệu lực cho ngày {ngày áp} (mã {mã HS}). Báo quản lý nạp biểu, hoặc điền tay.",
+    "tariff_code_not_in_schedule": "Mã {mã HS} không có trong biểu {tên bản}. Kiểm lại mã, hoặc điền tay thuế.",
+    "tariff_vat_empty": "Biểu không ghi VAT cho mã {mã HS}. Điền tay VAT.",
+    "tariff_vat_unreadable": "Không đọc được ô VAT '{nội dung ô}' của mã {mã HS}. Điền tay VAT.",
+    "tariff_estimate_missing": "Chưa ước tính được mã {mã HS}: thiếu {số lượng / đơn giá VNĐ / thuế NK / VAT}.",
+    "tariff_antidumping_match": "Mã {mã HS} có trong danh sách chống bán phá giá. Điền mức theo nhà sản xuất.",
+    "tariff_file_unusable": "Tệp {tên} không dùng được làm {biểu thuế / danh sách chống bán phá giá}: {không mở được / không phải .xlsx / có mật khẩu / thiếu sheet biểu / thiếu sheet HT / không có dòng hợp lệ}.",
+    "tariff_missing_columns": "Thiếu cột: {danh sách cột}. Sửa tệp rồi nạp lại.",
+    "tariff_error_rows": "{n} dòng bị bỏ qua, mã giữ thuế bản trước: {mã} - {lý do}.",
+    "tariff_same_as_current": "Bản này giống bản đang dùng, không có gì để cập nhật.",
+    "tariff_newer_arrived": "{tên} đã nạp bản {tên bản} lúc {dd/mm hh:mm}. Đang so lại tệp với bản này.",
+    "tariff_permission_denied": "Bạn không có quyền {nạp / gỡ / chọn bản} {biểu thuế / danh sách chống bán phá giá}. Liên hệ quản lý.",
+    "tariff_unload_in_use": "{n} mặt hàng đang dùng bản này ({m} đã sao chép ra Sheet). Gỡ thì tính lại theo bản trước.",
+    "tariff_only_version": "Đây là bản biểu duy nhất, không gỡ được.",
+    "tariff_older_than_current": "Tệp có văn bản mới nhất ngày {ngày}, cũ hơn bản đang dùng ({ngày}). Vẫn thay thế?",
+    "tariff_past_effective": "Có mức thuế hiệu lực từ {ngày}, ảnh hưởng {n} mặt hàng ({k} tự tính lại, {m} gắn cờ).",
+    "tariff_manual_invalid": "Thuế {loại} của mã {mã HS} phải là số từ 0 đến {100 / 1.000}%, tối đa 2 chữ số thập phân.",
+    "tariff_forme_locked": "Mặt hàng đã nộp duyệt. Rút về hoặc Sửa sau duyệt trước khi đổi Form E.",
+    "tariff_apply_date_invalid": "Ngày khai dự kiến phải từ 01/01/2020 đến {hôm nay + 366 ngày}.",
+    "tariff_stale_next_year": "Chưa có biểu thuế năm {Y+1}. Nạp biểu mới.",
+    "tariff_stale_age": "Biểu đang dùng nạp ngày {ngày}, đã quá 183 ngày. Kiểm tra có văn bản mới không.",
+    "tariff_two_versions_pending": "Đang có 2 bản biểu chờ admin chọn, app vẫn dùng {tên bản trước}.",
+    "tariff_tax_missing_one": "Chưa có mức {loại thuế} hiệu lực cho mã {mã HS} ngày {ngày áp}. Điền tay nếu cần.",
+    "tariff_mfn_instead": "Mã {mã HS} dùng MFN {x}%: {ACFTA trống / không áp cho xuất xứ CN / ACFTA {y}% cao hơn}.",
+    "tariff_pl2": "Mã {mã HS} thuộc PL2: xem lại thông số (vd BTU, cm³, hàm lượng đường) có thuộc diện không giảm VAT.",
+    "tariff_upcoming": "Từ {ngày} thuế {loại} của mã {mã HS} đổi {cũ} sang {mới}.",
+    "tariff_apply_incomplete": "Thuế mới của mã {mã HS} còn thiếu: {chọn mức VAT / điền thuế {loại}}. Hoàn tất để áp.",
+    "tariff_many_error_rows": "{n} dòng lỗi ({x}%), {m} mã hợp lệ so với {k} mã của bản đang dùng. Kiểm kỹ tệp trước khi xác nhận.",
+    "tariff_save_failed": "Lưu biểu không thành công, dữ liệu giữ nguyên bản trước. Thử lại hoặc báo bên triển khai.",
+    "tariff_pull_stale": "Biểu trên máy có thể đã cũ, lần kéo cuối {dd/mm hh:mm}. Kiểm mạng rồi bấm Kéo ngay.",
+    "tariff_antidumping_gone": "Mã {mã HS} không còn trong danh sách chống bán phá giá. Kiểm lại thuế đã điền.",
+    "tariff_version_rejected": "Bản {tên bản} do {tên} {nạp / gỡ} lúc {dd/mm hh:mm} không được công nhận vì không đủ quyền. App vẫn dùng {tên bản đang dùng}.",
+    "tariff_hs_not_8_digits": "Mã HS {mã} phải gồm 8 chữ số để tra thuế.",
+    "tariff_label_waiting_hs": "Chờ mã HS",
+    "tariff_label_manual": "Thuế nhập tay",
+    "tariff_label_updated_by": "Thuế đã cập nhật theo {văn bản}",
+    "tariff_label_changed_review": "Biểu thuế đổi, cần xem lại",
+    "tariff_label_vat_maybe": "Có thể 5% hoặc không chịu thuế",
+    "tariff_label_vat_2027": "Từ 01/01/2027 VAT 10%",
+    "tariff_label_no_antidumping": "Chưa gồm thuế chống bán phá giá",
+    "tariff_label_changed_after_submit": "Thuế đã đổi sau khi nộp",
+    "tariff_label_local_updated_at": "Biểu trên máy cập nhật lúc {dd/mm hh:mm}",
+    "tariff_label_totals_counts": "{n} mặt hàng chưa ước tính được, {k} mặt hàng tính VAT tạm",
+    "tariff_label_bvmt_maybe": "Có thể chịu thuế BVMT, cần kiểm",
+    "tariff_label_amount_per_unit": "{mức} đồng/{đơn vị}",
+    "tariff_label_bvmt_plastic": "Chỉ chịu thuế BVMT khi là túi, bao bì nhựa mỏng làm từ màng nhựa đơn HDPE, LDPE hoặc LLDPE; không chịu nếu là bao bì đóng gói sẵn hàng hóa hoặc túi đạt tiêu chí thân thiện môi trường. Không chịu thì điền 0 kèm lý do.",
+    "tariff_label_antidumping_rate": "Mã {mã HS} có trong danh sách chống bán phá giá, mức {mức}%. Hàng được loại trừ hoặc có chứng nhận xuất xứ nước khác thì điền 0 kèm lý do.",
+    "tariff_label_antidumping_note": "Phạm vi, loại trừ: {ghi chú}",
+    "tariff_label_checked": "Tôi đã kiểm",
+    "tariff_label_apply_new": "Áp thuế mới",
+    "tariff_label_keep_old": "Giữ số cũ",
+    "tariff_label_update_schedule": "Cập nhật biểu thuế",
+    "tariff_label_unload": "Gỡ",
+    "tariff_label_cancel": "Huỷ",
+    "tariff_label_unload_anyway": "Vẫn gỡ",
+    "tariff_label_agree_replace": "Đồng ý thay thế",
+    "tariff_label_use_this": "Dùng bản này",
+    "tariff_label_not_synced": "Chưa đồng bộ",
+    "tariff_label_pull_now": "Kéo ngay",
+    "tariff_label_tab_schedule": "Biểu thuế",
+    "tariff_label_tab_antidumping": "Chống bán phá giá",
+    "tariff_label_batch_dialog": "Ngày khai dự kiến và C/O",
+    "tariff_label_forme_toggle": "Có C/O Form E",
+    "tariff_state_active": "đang dùng",
+    "tariff_state_replaced": "đã thay",
+    "tariff_state_unloaded": "đã gỡ",
+    "tariff_state_dropped_by_choice": "bị bỏ khi chọn",
+    "tariff_state_not_recognized": "không được công nhận",
+    "tariff_state_not_synced": "chưa đồng bộ",
+    "tariff_upcoming_banner": "Có {n} mức thuế có hiệu lực sau hôm nay (sớm nhất {ngày}).",
+    "tariff_two_antidumping_pending": "Đang có 2 danh sách chống bán phá giá chờ admin chọn, app vẫn dùng {tên bản trước}.",
+    "tariff_fleet_outdated": "Còn {n} máy chưa cập nhật bản mới ({tên máy}). Cập nhật các máy này hoặc thu hồi máy không dùng trước khi nạp biểu thuế.",
+    "tariff_source_submitted": "bản đã nộp",
+    "tariff_normal_computed": "Tính bằng 150% mức MFN (ô biểu: {nội dung ô})",
+    "tariff_fleet_unknown": "Chưa kiểm được bản app của các máy trong công ty. Lần nạp đầu cần mạng và tài khoản xem được danh sách máy (admin).",
+    "tariff_manual_amount_invalid": "Số tiền thuế {loại} của mã {mã HS} phải là số dương, tối đa 2 chữ số thập phân, kèm đơn vị tính.",
+    "tariff_item_locked": "Mặt hàng đang ở trạng thái không sửa được thuế.",
+    "tariff_pull_never": "Máy này chưa kéo được biểu từ Drive lần nào. Kiểm mạng rồi bấm Kéo ngay."
+,
+    "vipo_no_mapping": "Chưa thiết lập ánh xạ cột. Nhờ quản lý thiết lập.",
+    "vipo_no_read_access": "Tài khoản {email} không có quyền đọc Sheet {tên}. Nhờ quản lý chia sẻ Sheet cho tài khoản này rồi Đọc lại.",
+    "vipo_sheet_missing": "Không tìm thấy Sheet hoặc tab {tên}. Nhờ quản lý chọn lại Sheet. Chưa ghi gì.",
+    "vipo_header_mismatch": "Cột {chữ cột} không còn tiêu đề '{tiêu đề}'. Báo quản lý cập nhật ánh xạ.",
+    "vipo_offline_read": "Mất mạng, đang hiện dữ liệu đọc lúc {dd/mm hh:mm}. Mặt hàng đã nhận vẫn làm tiếp được.",
+    "vipo_rate_limited": "Google đang giới hạn lượt đọc, app tự thử lại sau {n} phút.",
+    "vipo_no_new_rows": "Chưa có dòng mới từ dòng {N}. Đọc lần cuối lúc {dd/mm hh:mm}.",
+    "vipo_rows_taken": "Đã bỏ {n} dòng do {tên} nhận trước: dòng {số dòng}. Đợt tạo với {m} dòng còn lại.",
+    "vipo_many_matches": "Mặt hàng {tên} khớp {k} dòng: {số dòng}. Chọn dòng đích.",
+    "vipo_target_missing": "Không tìm thấy dòng cho mặt hàng {tên} (dòng trước đây {số dòng}). Chưa ghi gì. Kiểm tra với Vipo, hoặc chọn dòng đích tay.",
+    "vipo_target_has_value": "Dòng {số dòng} cột {chữ cột} đang có '{giá trị}'. Ghi đè bằng '{giá trị mới}'?",
+    "vipo_paste_mismatch": "Dòng {số dòng} cột {chữ cột}: Sheet là '{giá trị}', cần '{giá trị đúng}'.",
+    "vipo_permission_denied": "Bạn không có quyền {thao tác}. Liên hệ quản lý.",
+    "vipo_mapping_open_batches": "Còn {n} đợt có mặt hàng chưa sao chép. Ánh xạ mới áp cho các lần đọc và sao chép sau. Tiếp tục?",
+    "vipo_row_twice": "Dòng {số dòng} đang ở đợt của {tên A} và {tên B}. {Người nhận sau} chọn Giữ hoặc Huỷ phía mình. Chưa sao chép được dòng này.",
+    "vipo_price_deviation": "Dòng {số dòng}: đơn giá VNĐ {a} lệch {x}% so với {tệ} × {tỷ giá} = {b}. Ước tính đang dùng đơn giá VNĐ.",
+    "vipo_mapping_check": "Kiểm tra thử chưa đạt. Sửa các lỗi trong danh sách rồi Kiểm tra thử lại.",
+    "vipo_check_read_failed": "Chưa {kiểm tra dòng đích / xác nhận được} ({mất mạng / mất quyền}). {Chưa ghi gì / Dòng giữ Chờ xác nhận}.",
+    "vipo_row_changed_copy": "Dòng {số dòng} đã đổi trên Sheet mà chưa cập nhật. Vẫn sao chép kết quả hiện tại?",
+    "vipo_two_channels": "Dòng {số dòng} và yêu cầu Vipo gửi trong app trùng link. Chọn bản giữ lại.",
+    "vipo_range_invalid": "Khoảng dòng không hợp lệ, nhập từ {N} đến {dòng cuối}.",
+    "vipo_batch_failed": "Chưa tạo được đợt, không dòng nào bị nhận. Thử lại hoặc báo bên triển khai.",
+    "vipo_number_invalid": "Dòng {số dòng}: {tên cột} '{giá trị}' không phải số hợp lệ. Ước tính coi như chưa có số liệu này.",
+    "vipo_outside_changed": "Dòng {số dòng} cột {chữ cột} bị đổi khi dán. Giá trị cũ: '{giá trị cũ}'. Dán lại giá trị cũ để khôi phục.",
+    "vipo_manual_target_invalid": "Dòng {n} không hợp lệ hoặc đã gắn cho mặt hàng khác.",
+    "vipo_maybe_edited_row": "Dòng {số dòng cũ} có thể đã được sửa thành dòng {số dòng mới}. Ghép làm một?",
+    "vipo_check_expired": "Đã quá 10 phút từ lúc kiểm tra. Kiểm tra lại dòng đích trước khi dán.",
+    "vipo_vpo_missing": "Không thấy mã VPO {mã} trên Sheet, đang tìm theo link và tên.",
+    "vipo_result_edited": "Dòng {số dòng} cột {chữ cột} đã bị sửa từ '{giá trị app ghi}' thành '{giá trị hiện tại}'. Kiểm tra báo giá với Vipo.",
+    "vipo_note_full": "Ô Ghi chú dòng {số dòng} gần đầy, không nối thêm được. Trao đổi với Vipo bằng kênh khác.",
+    "vipo_mapping_tab_missing": "Không thấy tab {tên}",
+    "vipo_mapping_field_missing": "Thiếu cột {trường}",
+    "vipo_mapping_col_twice": "Cột {chữ} gán 2 lần",
+    "vipo_mapping_tail_empty": "Cột {chữ} trống ở 5 dòng cuối",
+    "vipo_mapping_out_overlaps": "Cột ghi {chữ} trùng cột đầu vào",
+    "vipo_scope_missing": "Kết nối Google chưa có quyền đọc Sheet. Admin kết nối lại Drive trong Cài đặt rồi Đọc lại.",
+    "vipo_fleet_outdated": "Còn {n} máy chưa cập nhật bản mới ({tên máy}). Cập nhật các máy này hoặc thu hồi máy không dùng trước khi lưu ánh xạ.",
+    "vipo_fleet_unknown": "Chưa kiểm được bản app của các máy trong công ty. Lần lưu ánh xạ đầu cần mạng và tài khoản xem được danh sách máy (admin).",
+    "vipo_policy_omitted": "Chưa kiểm danh mục rủi ro: ô có chính sách và hợp quy để trống.",
+    "vipo_read_too_soon": "Vừa đọc Sheet lúc {dd/mm hh:mm}. Đọc lại sau {n} giây.",
+    "vipo_read_first": "Bấm Đọc lại để đọc Sheet trước khi tạo đợt.",
+    "vipo_select_rows": "Chọn từ 1 đến {n} dòng để tạo đợt.",
+    "vipo_clipboard_failed": "Chưa sao chép được, thử lại.",
+    "vipo_mapping_untested": "Kiểm tra thử đạt rồi mới lưu được ánh xạ.",
+    "vipo_mapping_header_empty": "Cột {chữ} không có tiêu đề",
+    "vipo_mapping_role": "Cột ghi {chữ} chưa chọn nội dung hoặc trùng nội dung với cột ghi khác",
+    "vipo_mapping_number": "{lỗi}",
+    "vipo_copy_ineligible": "Mặt hàng {tên} chưa sao chép được: {lý do}.",
+    "vipo_sheet_link_invalid": "Link Sheet không đúng dạng. Dán link Google Sheet (docs.google.com/spreadsheets/d/…).",
+    "vipo_copy_round_gone": "Lượt sao chép không còn. Mở lại Sao chép về Sheet.",
+    "vipo_twin_not_yours": "Chỉ {người} hoặc quản lý chọn được cho dòng này.",
+    "vipo_label_numbers_changed": "Số liệu Sheet đổi, cần xem lại",
+    "vipo_decision_stale": "Dòng đã đổi tiếp trên Sheet hoặc đã có người chọn. Mở lại thẻ hàng.",
+    "vipo_not_ready": "Phân hệ Sheet Vipo chưa sẵn sàng. Mở lại app hoặc báo bên triển khai.",
+    "vipo_note_scope_missing": "Kết nối Google chưa có quyền ghi Sheet. Nhờ admin kết nối lại Google trong Cài đặt. Câu hỏi đã lưu, chưa gửi.",
+    "vipo_note_write_denied": "Tài khoản {email} không sửa được cột Ghi chú dòng {số dòng}. Nhờ quản lý mở quyền sửa cột này. Câu hỏi đã lưu, chưa gửi.",
+    "vipo_note_offline": "Mất mạng, chưa ghi được lên Sheet. Câu hỏi đã lưu, chưa gửi: Gửi lại khi có mạng.",
+    "vipo_note_rate_limited": "Google đang giới hạn lượt ghi. Câu hỏi đã lưu, chưa gửi: thử lại sau {n} phút.",
+    "vipo_note_changed_while_writing": "Ô Ghi chú dòng {số dòng} bị đổi trong lúc ghi. Giá trị trước khi ghi: '{giá trị cũ}'. Kiểm tra ô trên Sheet.",
+    "vipo_note_blocked": "Chưa gửi được câu hỏi cho dòng {số dòng}: {lý do}.",
+    "vipo_note_status": "Mặt hàng đang ở {trạng thái}, chưa hỏi Vipo được.",
+    "vipo_note_wrong_row": "Dòng trên Sheet dời trong lúc ghi nên câu hỏi đã ghi nhầm vào ô Ghi chú dòng {số dòng} (mặt hàng nay ở dòng {dòng mới}). Kiểm tra Ghi chú dòng {số dòng} trên Sheet, khôi phục bằng Lịch sử phiên bản nếu bị ghi đè. Câu hỏi đã lưu, chưa gửi.",
+    "accuracy_empty": "Chưa có mặt hàng nào do AI phân tích được duyệt trong 12 tuần qua.",
+    "lot_condition_diff": "Không gộp được: dòng {mã VPO} khác {điều kiện}: {giá trị} (nhóm: {giá trị nhóm}).",
+    "lot_criteria_invalid": "Tiêu chí gộp chưa hợp lệ ở ô {ô}. Sửa giá trị rồi lưu lại.",
+    "lot_criteria_stale": "Tiêu chí gộp vừa được {tên} lưu lúc {giờ}. Tải lại để xem, hoặc lưu đè bằng bản của bạn.",
+    "lot_criteria_unsaved": "Quản lý khai báo chưa lưu Tiêu chí gộp lần đầu. Nhờ Quản lý mở Tiêu chí gộp và bấm Lưu trước khi tạo lô.",
+    "lot_draft_gone": "Phiên khởi tạo lô đã hết. Đọc lại Sheet Lô.",
+    "lot_export_failed": "Không tạo được tệp: {lý do}. Bấm Thử lại.",
+    "lot_export_flagged_confirm": "Còn {n} dòng gốc đã đổi trên Sheet Lô. Xác nhận vẫn xuất?",
+    "lot_export_lost": "Bản xuất trên máy này bị mất trước khi lên Drive. Mở lại lô rồi xuất lại.",
+    "lot_export_missing_file": "Tệp {tên} không còn trên máy. Có mạng thì tải lại từ Drive.",
+    "lot_export_needs_network": "Xuất lô đang do người khác giữ cần có mạng.",
+    "lot_export_no_template": "Chưa có mẫu tệp gộp. Báo quản lý nạp mẫu ở Thiết lập mẫu.",
+    "lot_export_not_allowed": "Chỉ người giữ lô, admin hoặc quản lý được xuất lô này.",
+    "lot_export_lost_confirm": "{tên} đã xuất lô này lúc {giờ} nhưng bản xuất chưa tới Drive. Mở lại lô sẽ bỏ bản xuất đó. Vẫn mở lại?",
+    "lot_export_running": "Lô đang được xuất trên máy này, chờ xuất xong hoặc huỷ bản xuất chờ rồi thao tác tiếp.",
+    "lot_export_taken": "Lô vừa được {tên} xuất lúc {giờ}.",
+    "lot_export_void": "Bản xuất lô {mã lô} lúc {giờ} không lên Drive được vì {lý do}. Tệp vẫn ở trên máy này.",
+    "lot_exported": "Lô đã xuất, không {thao tác} được. Hàng chốt thêm vào lô mới, hoặc Mở lại lô.",
+    "lot_fleet_outdated": "Còn {n} máy chưa cập nhật bản mới ({tên máy}). Cập nhật các máy này hoặc thu hồi máy không dùng trước khi lưu Tiêu chí gộp.",
+    "lot_fleet_unknown": "Chưa kiểm được bản app của các máy trong công ty. Lần lưu Tiêu chí gộp đầu cần mạng và tài khoản admin.",
+    "lot_held": "Lô đang do {tên} giữ từ {giờ}",
+    "lot_hold_moved": "Lô đã chuyển cho {tên}. {n} thay đổi của bạn đang chờ người giữ duyệt.",
+    "lot_in_other_lot": "{n} dòng đã thuộc lô {mã lô}, đã loại ra.",
+    "lot_line_state": "Dòng {mã VPO} đang ở trạng thái {trạng thái}, không làm được thao tác này.",
+    "lot_manual_name_long": "Tên khai {n}/200 ký tự.",
+    "lot_merge_warning": "Có dòng vượt dung sai kích thước hoặc ngưỡng đơn giá. Xem từng dòng rồi chọn Vẫn gộp hoặc Bỏ chọn.",
+    "lot_missing_column": "Sheet Lô thiếu cột {tên cột}. Báo Vipo (người lập Sheet) bổ sung rồi đọc lại.",
+    "lot_module_not_ready": "Phân hệ Gộp lô chưa sẵn sàng.",
+    "lot_name_choice": "Nhóm có tên sửa tay. Chọn giữ tên sửa tay hay sinh lại.",
+    "lot_name_empty": "Tên khai không được để trống.",
+    "lot_name_too_long": "Tên khai {n}/200 ký tự — cần sửa tay.",
+    "lot_no_eligible_rows": "Chưa có dòng đã chốt nào để tạo lô.",
+    "lot_no_new_rows": "Không có dòng mới.",
+    "lot_no_quote_item": "Dòng {mã VPO} chưa có trong App Báo giá, đang dùng dữ liệu Sheet Lô.",
+    "lot_no_read_access": "Không mở được Sheet Lô. Kiểm tra quyền truy cập hoặc tên Sheet.",
+    "lot_no_tax_rate": "Không tìm thấy thuế suất cho mã {mã HS} ngày {ngày}. Biểu trên máy cập nhật ngày {ngày cập nhật}.",
+    "lot_no_valid_rows": "Chưa có dòng hợp lệ. Xử lý dòng lỗi trước.",
+    "lot_not_found": "Không tìm thấy lô hoặc nhóm này trên máy. Kéo dữ liệu mới rồi thử lại.",
+    "lot_not_held": "Lô chưa có người giữ. Bấm Nhận giữ để làm tiếp.",
+    "lot_not_ready": "Còn {n} dòng chưa xử lý: {loại vướng}.",
+    "lot_offline": "Cần có mạng để {thao tác}. Lô đang làm vẫn gộp được khi mất mạng.",
+    "lot_pending_applied": "{n} thay đổi của bạn đã được {tên} áp vào lô {mã lô}.",
+    "lot_pending_discarded": "{n} thay đổi của bạn ở lô {mã lô} đã bị {tên} bỏ.",
+    "lot_pending_invalid": "{n} thay đổi không áp được vì lô đã đổi: {lý do}.",
+    "lot_permission_denied": "Bạn không có quyền {thao tác}. Liên hệ Quản lý khai báo.",
+    "lot_ping": "{tên} nhờ bạn xem lô {mã lô}.",
+    "lot_price_warning": "Dòng {mã VPO}: đơn giá chênh {x}% (ngưỡng {y}%). Vẫn gộp?",
+    "lot_rate_limited": "Google đang giới hạn lượt đọc, app tự thử lại sau ít phút.",
+    "lot_read_too_soon": "Vừa đọc Sheet Lô. Đọc lại sau {n} giây.",
+    "lot_reason_required": "Nhập lý do để tiếp tục.",
+    "lot_reconcile_mismatch": "Lệch: {n} dòng hoặc nhóm không khớp dữ liệu gốc. Chưa xuất được.",
+    "lot_select_lines": "Chọn ít nhất một dòng.",
+    "lot_sheet_link_invalid": "Link Sheet Lô không đúng. Dán link Google Sheet dạng https://docs.google.com/spreadsheets/d/…",
+    "lot_size_warning": "Dòng {mã VPO}: kích thước lệch {x}% (dung sai {y}%). Vẫn gộp?",
+    "lot_size_warning_length": "Dòng {mã VPO}: kích thước lệch {x} (dung sai {y}). Vẫn gộp?",
+    "lot_status_invalid": "Lô đang {trạng thái}, không {thao tác} được.",
+    "lot_still_no_hs": "Dòng {mã VPO} vẫn chưa có mã HS. Kiểm tra mặt hàng đã duyệt và đồng bộ ở App Báo giá.",
+    "lot_tab_ambiguous": "Sheet có nhiều tab. Chọn tab của lô rồi đọc lại.",
+    "lot_trace_not_found": "Không tìm thấy mã dòng {mã}.",
+    "lot_two_lots": "Mã VPO cũng nằm ở lô {mã lô} do {tên} giữ.",
+    "lot_zero_price": "Có dòng đơn giá 0. Vẫn gộp?",
+    "lot_held_other_device": "Bạn đang giữ lô này trên máy khác từ {giờ}. Bấm Nhận giữ trên máy này để làm tiếp ở đây.",
+    "lot_total_overflow": "Tổng số lượng hoặc trị giá vượt giới hạn tính của app. Tách lô hoặc báo bên triển khai.",
+    "lot_claim_to_start": "Lô vừa được chuyển cho bạn. Bấm Nhận giữ để làm tiếp trên máy này.",
+    "lot_transfer_self": "Không chuyển quyền giữ lô cho chính mình. Dùng Nhận giữ (hoặc Nhận giữ thay) trên máy này.",
+    "lot_exists": "Mã lô này đã được người khác tạo. Tải lại danh sách lô.",
+    "epoch_stale": "Người giữ lô vừa thay đổi. Tải lại lô rồi thử lại.",
+    "not_holder": "Bạn không còn giữ lô này.",
+    "web_runtime_missing": "Chưa cài bộ chạy trình duyệt (Node + Playwright). Vào Cài đặt › Kiểm thử › Trình duyệt để cài một lần.",
+    "web_stale_ref": "Trang đã đổi sau lần đọc giao diện. Gọi device_ui_state lại rồi dùng ref mới.",
+    "web_host_blocked": "Địa chỉ {chi tiết} không nằm trong danh sách host được phép của hồ sơ trình duyệt.",
+    "web_sidecar_failed": "Tiến trình điều khiển trình duyệt bị lỗi: {chi tiết}. Thử lại; lỗi lặp lại thì khởi động lại app.",
+    "check_held": "Lô đang được {tên} kiểm tra từ {giờ}. Bạn chỉ xem được.",
+    "check_lot_not_exported": "Lô {mã lô} chưa xuất xong ở App Gộp lô. Chờ đồng bộ rồi mở lại.",
+    "check_export_stale": "Lô {mã lô} vừa có bản xuất mới. Đang tải lại.",
+    "check_lot_held": "Lô đang được {tên} kiểm tra từ {giờ}. Bạn chỉ xem được.",
+    "check_file_unreadable": "Tệp gộp của lô {mã lô} không mở được hoặc sai mẫu: {lý do}.",
+    "check_run_failed": "Chưa kiểm tra xong: {lý do}. Bấm Thử lại.",
+    "check_no_schedule": "Chưa có biểu thuế hiệu lực ngày {ngày}. Nạp biểu thuế hoặc đổi ngày dự kiến khai.",
+    "check_reason_required": "Nhập lý do.",
+    "check_action_not_allowed": "Dòng này không xử lý được bằng {thao tác}.",
+    "check_name_too_long": "Tên khai còn {n} ký tự, tối đa 200. Rút gọn thêm.",
+    "check_red_remaining": "Còn {n} dòng Đỏ chưa xử lý. Chưa sang xuất được.",
+    "check_stale_results": "Kết quả cũ. Bấm Kiểm tra lại trước khi sang xuất.",
+    "check_fix_syncing": "Còn {n} dòng đang đồng bộ thay đổi. Chờ đồng bộ rồi sang xuất.",
+    "check_partial_change": "Muốn đổi mã cho một phần dòng gốc thì Mở lại lô ở App Gộp lô.",
+    "check_high_risk_manager": "Hàng rủi ro mức Cao: chỉ admin hoặc quản lý được {thao tác}.",
+    "check_not_holder": "Bạn chưa giữ lô này ở App Kiểm tra. Mở lô để nhận giữ.",
+    "check_hold_changed": "Người giữ lô kiểm tra vừa thay đổi. Mở lại lô để xem.",
+    "check_results_expired": "Lô {mã lô} đã được mở lại ở App Gộp lô. Kết quả kiểm tra hết hiệu lực, chờ bản xuất mới.",
+    "check_reopen_needs_lot_app": "Mở lại lô cần quyền dùng App Gộp lô. Báo quản lý cấp app.",
+    "check_needs_network": "{thao tác} cần có mạng.",
+    "check_code_invalid": "Mã {mã} phải đủ 8 số, bắt đầu bằng {tiền tố} và có trong biểu ngày {ngày}.",
+    "check_date_invalid": "Ngày dự kiến khai không hợp lệ.",
+    "check_ping": "{tên} nhờ bạn xem lô {mã lô} ở App Kiểm tra.",
+    "check_module_not_ready": "Phân hệ Kiểm tra trước khai báo chưa sẵn sàng.",
+    "check_permission_denied": "Bạn không có quyền {thao tác}. Liên hệ Quản lý khai báo.",
+    "declare_gate_red": "Còn {n} dòng Đỏ. Về Kiểm tra trước khai báo.",
+    "declare_gate_stale": "Kết quả kiểm tra đã cũ. Kiểm tra lại trước khi xuất.",
+    "declare_gate_syncing": "Còn {n} dòng đang đồng bộ thay đổi.",
+    "declare_gate_no_handoff": "Lô chưa Sang xuất ở bước kiểm tra.",
+    "declare_lot_reopened": "Lô {mã lô} đã được mở lại ở App Gộp lô. Chưa xuất được.",
+    "declare_job_void": "Đã huỷ bản xuất v{n} của lô {mã lô}: {lý do}. Tệp đã tải lên được đổi tên \"(đã huỷ)\".",
+    "declare_job_waiting_user": "Bản xuất v{n} của {tên} đang chờ người đó đăng nhập lại trên máy này để đưa lên Drive.",
+    "declare_no_file": "Chọn ít nhất một tệp để xuất.",
+    "declare_no_template": "Chưa có mẫu {tệp}. Báo quản lý nạp mẫu ở Thiết lập mẫu.",
+    "declare_build_failed": "Không tạo được tệp: {lý do}. Bấm Thử lại.",
+    "declare_missing_file": "Tệp {tên} không còn trên máy. Có mạng thì tải lại từ Drive.",
+    "declare_running": "Lô đang được {tên} xuất trên máy này.",
+    "declare_template_sync": "Chưa có mẫu tệp gộp của lần xuất này trên máy. Chờ đồng bộ.",
+    "declare_template_changed": "Mẫu tệp gộp của lần xuất này đã bị thay đổi. Báo quản lý.",
+    "declare_rate_missing": "Nhập tỷ giá tính thuế của lô.",
+    "declare_rate_invalid": "Tỷ giá phải là số lớn hơn 0.",
+    "declare_currency_unsupported": "Chưa có tỷ giá cho tiền tệ {tiền tệ}.",
+    "declare_unit_unmapped": "ĐVT {đvt} chưa quy đổi sang mã hải quan.",
+    "declare_cn_unit_missing": "ĐVT {đvt} chưa có ký hiệu phía Trung Quốc.",
+    "declare_english_missing": "Còn {n} dòng chưa có tên tiếng Anh.",
+    "declare_name_too_long": "Tên khai dòng {stt} dài {n} ký tự, tối đa 200.",
+    "declare_value_missing": "Dòng {stt} chưa có đơn giá hoặc trị giá USD.",
+    "declare_total_mismatch": "Tổng trị giá {tiền tệ} lệch tệp gộp ({a} / {b}). Về Kiểm tra trước khai báo.",
+    "declare_hs_invalid": "Mã HS {mã} phải đủ 8 số.",
+    "declare_tax_missing": "Dòng {stt} chưa có thuế suất {loại thuế}.",
+    "declare_origin_invalid": "Xuất xứ {xuất xứ} của dòng {stt} phải là mã nước 2 chữ cái.",
+    "declare_code_missing": "Mức thuế chưa có mã biểu thuế: ô để trống.",
+    "declare_rate_old": "Tỷ giá đã {n} ngày, kiểm lại trước khi xuất.",
+    "declare_rate_deviation": "Tỷ giá lệch {x}% so với lô gần nhất.",
+    "declare_unit2_kgm": "Mã cần ĐVT 2 là KGM: nhập tay trong ECUS.",
+    "declare_nk_no_match": "Thuế NK {x}% không khớp mức nào của biểu.",
+    "declare_english_words": "Tên tiếng Anh nên có 2-3 từ.",
+    "settings_unit_duplicate": "ĐVT {đvt} bị trùng.",
+    "settings_unit_empty": "ĐVT và mã hải quan không được để trống.",
+    "settings_code_invalid": "Mã HS {mã} phải đủ 8 số.",
+    "settings_code_duplicate": "Mã HS {mã} bị trùng.",
+    "settings_tax_invalid": "Dòng {dòng} của bảng mã biểu thuế cần loại thuế (NK, VAT, TTĐB, BVMT), mức và mã.",
+    "settings_tax_duplicate": "Mức {mức} của thuế {thuế} bị trùng.",
+    "settings_template_missing_columns": "Mẫu thiếu cột bắt buộc: {cột}.",
+    "settings_template_xls": "Mẫu ECUS và mẫu tên tiếng Anh phải là tệp Excel 97-2003 (.xls) một sheet.",
+    "settings_template_unreadable": "Không đọc được tệp mẫu: {lý do}.",
+    "settings_changed": "Thiết lập vừa được {tên} đổi lúc {giờ}. Mở lại để xem bản mới.",
+    "risk_file_invalid": "Tệp không đúng mẫu Danh mục rủi ro: {lý do}.",
+    "risk_no_rows": "Tệp không có dòng nào có mã HS.",
+    "risk_save_failed": "Chưa lưu được Danh mục rủi ro: {lý do}.",
+    "risk_two_lists_pending": "Đang có 2 bản Danh mục rủi ro chờ admin chọn, app vẫn dùng {tên bản trước}.",
+    "lot_check_fix_stale": "Lô {mã lô} không còn ở bản xuất đang kiểm. Mở lại danh sách.",
+    "suggest_risk_unmatched": "Mã không có trong Danh mục rủi ro, mặt hàng chuyển quản lý duyệt.",
+    "history_file_unreadable": "Không đọc được tệp {tên}: {lý do}. Chọn tệp khác (Excel .xlsx, .xls hoặc CSV).",
+    "history_duplicate_other": "{người} vừa nạp tệp này. Tệp của bạn không nạp thêm.",
+    "history_file_too_big": "Tệp quá lớn để nạp một lần ({n} dòng). Chia nhỏ tệp rồi nạp lại.",
+    "history_process_failed": "Nạp lỗi: {lý do}. Không ghi phần dở. Thử lại hoặc Gỡ.",
+    "history_not_found": "Không tìm thấy tệp đã nạp.",
+    "history_missing_columns": "Chưa ghép cột bắt buộc: {cột}.",
+    "history_mapping_duplicate": "Một cột đang ghép cho hai trường: {cột}.",
+    "history_no_valid_rows": "Tệp không có dòng hợp lệ nào nên chưa nạp.",
+    "history_already_loaded": "Tệp này đã nạp lúc {giờ} bởi {người} (cùng nội dung).",
+    "history_drive_failed": "Chưa lưu được tệp gốc lên Drive ({lý do}). Chưa nạp gì, bấm Thử lại.",
+    "history_busy": "Tệp này đang được xử lý."
+  },
+  "accountAccess": {
+    "E-001": "invalid_credentials",
+    "E-002": "rate_limited",
+    "E-003": "account_locked",
+    "E-004": "first_login_needs_network",
+    "E-005": "session_expired",
+    "E-006": "offline_expired",
+    "E-007": "weak_password",
+    "E-008": "password_mismatch",
+    "E-009": "username_taken",
+    "E-010": "last_admin",
+    "E-011": "permission_denied",
+    "E-012": "module_locked",
+    "E-013": "app_forbidden",
+    "E-014": "license_not_found",
+    "E-015": "device_limit_reached",
+    "E-016": "device_revoked",
+    "E-017": "app_disabled",
+    "E-018": "op_rejected",
+    "E-019": "locked_in_use",
+    "E-020": "need_network",
+    "E-021": "server_unavailable",
+    "E-022": "activation_needs_network",
+    "E-023": "matrix_conflict",
+    "E-024": "wrong_current_password",
+    "E-025": "temp_password_expired",
+    "E-026": "offline_attempts_exceeded"
+  },
+  "accountAccessVariants": {
+    "E-018": [
+      "op_rejected",
+      "op_pending"
+    ]
+  },
+  "driveBackupSync": {
+    "E-001": [
+      "drive_not_connected"
+    ],
+    "E-002": [
+      "sync_offline"
+    ],
+    "E-003": [
+      "drive_no_access"
+    ],
+    "E-004": [
+      "drive_full"
+    ],
+    "E-005": [
+      "sync_keep_mine",
+      "sync_take_theirs"
+    ],
+    "E-008": [
+      "close_pending",
+      "close_wait_sync",
+      "close_anyway"
+    ],
+    "E-010": [
+      "restore_failed"
+    ],
+    "E-011": [
+      "previous_device_unsynced"
+    ],
+    "E-012": [
+      "restore_not_own"
+    ],
+    "E-013": [
+      "backup_failed"
+    ],
+    "E-014": [
+      "local_disk_full"
+    ],
+    "E-015": [
+      "sync_interrupted"
+    ],
+    "E-016": [
+      "pull_failed"
+    ],
+    "E-017": [
+      "bootstrap_needs_network",
+      "bootstrap_partial"
+    ],
+    "E-018": [
+      "drive_admin_only"
+    ],
+    "E-019": [
+      "sync_conflicts_open"
+    ],
+    "E-020": [
+      "offline_too_long"
+    ],
+    "E-021": [
+      "license_server_unreachable"
+    ],
+    "E-022": [
+      "drive_busy"
+    ],
+    "E-024": [
+      "drive_other_tenant"
+    ],
+    "E-025": [
+      "undo_remove_conflict"
+    ]
+  },
+  "classificationRules": {
+    "E-001": [
+      "rules_field_missing"
+    ],
+    "E-002": [
+      "rules_hs_format"
+    ],
+    "E-003": [
+      "rules_name_limit"
+    ],
+    "E-004": [
+      "rules_hs_not_in_tariff",
+      "rules_no_tariff"
+    ],
+    "E-005": [
+      "rules_no_samples"
+    ],
+    "E-006": [
+      "rules_test_stopped"
+    ],
+    "E-007": [
+      "rules_ai_budget"
+    ],
+    "E-008": [
+      "rules_unchecked_saved"
+    ],
+    "E-009": [
+      "rules_duplicate"
+    ],
+    "E-010": [
+      "rules_contradiction"
+    ],
+    "E-011": [
+      "rules_newer_version"
+    ],
+    "E-012": [
+      "rules_perm_lost"
+    ],
+    "E-013": [
+      "rules_cannot_disable"
+    ],
+    "E-014": [
+      "rules_discard_changes"
+    ],
+    "E-015": [
+      "rules_local_write_failed"
+    ],
+    "E-016": [
+      "rules_forbidden"
+    ],
+    "E-017": [
+      "rules_change_rejected",
+      "rules_change_pending"
+    ],
+    "E-018": [
+      "sync_keep_mine",
+      "sync_take_theirs"
+    ],
+    "E-019": [
+      "rules_group_exists"
+    ],
+    "E-020": [
+      "rules_reason_required"
+    ],
+    "E-021": [
+      "rules_unreadable"
+    ],
+    "E-022": [
+      "rules_flag_unsent"
+    ],
+    "E-023": [
+      "rules_version_missing"
+    ],
+    "E-024": [
+      "rules_tariff_list_invalid"
+    ],
+    "E-025": [
+      "rules_too_many_examples"
+    ]
+  },
+  "hsSuggest": {
+    "E-001": [
+      "suggest_store_error"
+    ],
+    "E-002": [
+      "suggest_image_format",
+      "suggest_image_too_big",
+      "suggest_image_broken"
+    ],
+    "E-003": [
+      "suggest_image_limit"
+    ],
+    "E-004": [
+      "suggest_image_required"
+    ],
+    "E-005": [
+      "suggest_ai_failed"
+    ],
+    "E-006": [
+      "suggest_budget_warn"
+    ],
+    "E-007": [
+      "suggest_budget_empty"
+    ],
+    "E-008": [
+      "suggest_image_offline"
+    ],
+    "E-009": [
+      "suggest_reason_required"
+    ],
+    "E-010": [
+      "suggest_approve_blocked"
+    ],
+    "E-011": [
+      "suggest_tax_missing",
+      "suggest_vat_missing"
+    ],
+    "E-012": [
+      "suggest_name_limit"
+    ],
+    "E-013": [
+      "suggest_risk_unknown"
+    ],
+    "E-014": [
+      "suggest_unflag_reason"
+    ],
+    "E-015": [
+      "suggest_sendback_note"
+    ],
+    "E-016": [
+      "suggest_presence"
+    ],
+    "E-017": [
+      "permission_denied"
+    ],
+    "E-018": [
+      "suggest_item_cancelled",
+      "suggest_item_cancelled_copied"
+    ],
+    "E-019": [
+      "suggest_version_changed"
+    ],
+    "E-020": [
+      "suggest_link_locked_waiting",
+      "suggest_link_locked_approved",
+      "suggest_link_locked_busy",
+      "suggest_link_locked_cancelled"
+    ],
+    "E-021": [
+      "suggest_manual_tax_replace"
+    ],
+    "E-022": [
+      "suggest_edit_copied"
+    ],
+    "E-023": [
+      "suggest_question_required",
+      "suggest_manual_close_reason"
+    ],
+    "E-024": [
+      "suggest_offline_saved"
+    ],
+    "E-025": [
+      "suggest_budget_invalid"
+    ],
+    "E-026": [
+      "suggest_bulk_partial"
+    ],
+    "E-027": [
+      "suggest_relookup_failed"
+    ],
+    "E-028": [
+      "suggest_hs_format"
+    ],
+    "E-029": [
+      "suggest_link_invalid"
+    ],
+    "E-031": [
+      "suggest_op_rejected"
+    ],
+    "E-032": [
+      "suggest_ai_overloaded"
+    ],
+    "E-034": [
+      "suggest_clock_skew"
+    ]
+  },
+  "aiCorrectionLog": {
+    "E-001": [
+      "lesson_difference_required"
+    ],
+    "E-002": [
+      "lesson_unchecked_saved"
+    ],
+    "E-009": [
+      "lesson_offline_saved"
+    ],
+    "E-024": [
+      "lesson_contradiction_found"
+    ],
+    "E-026": [
+      "lesson_unavailable"
+    ],
+    "E-027": [
+      "lesson_changed"
+    ],
+    "E-003": [
+      "teach_ledger_load_failed"
+    ],
+    "E-004": [
+      "teach_ledger_empty",
+      "teach_ledger_filtered_empty"
+    ],
+    "E-005": [
+      "teach_lesson_forbidden"
+    ],
+    "E-006": [
+      "teach_remove_reason_required"
+    ],
+    "E-007": [
+      "teach_stale"
+    ],
+    "E-008": [
+      "teach_perm_lost"
+    ],
+    "E-010": [
+      "teach_pair_duplicate"
+    ],
+    "E-011": [
+      "teach_pair_code_format",
+      "teach_pair_same_codes"
+    ],
+    "E-012": [
+      "teach_pair_code_not_in_tariff"
+    ],
+    "E-013": [
+      "teach_locked_reviewed_owner",
+      "teach_locked_removed_review"
+    ],
+    "E-014": [
+      "teach_rule_not_created"
+    ],
+    "E-015": [
+      "teach_threshold_invalid"
+    ],
+    "E-025": [
+      "teach_pair_note_too_long"
+    ],
+    "E-028": [
+      "teach_restore_blocked"
+    ]
+  },
+  "tariffApply": {
+    "E-001": [
+      "tariff_no_schedule_for_date"
+    ],
+    "E-002": [
+      "tariff_code_not_in_schedule"
+    ],
+    "E-003": [
+      "tariff_vat_empty",
+      "tariff_vat_unreadable"
+    ],
+    "E-004": [
+      "tariff_estimate_missing"
+    ],
+    "E-005": [
+      "tariff_antidumping_match"
+    ],
+    "E-006": [
+      "tariff_file_unusable"
+    ],
+    "E-007": [
+      "tariff_missing_columns"
+    ],
+    "E-008": [
+      "tariff_error_rows"
+    ],
+    "E-009": [
+      "tariff_same_as_current"
+    ],
+    "E-011": [
+      "tariff_newer_arrived"
+    ],
+    "E-012": [
+      "tariff_permission_denied"
+    ],
+    "E-013": [
+      "tariff_unload_in_use"
+    ],
+    "E-014": [
+      "tariff_only_version"
+    ],
+    "E-015": [
+      "tariff_older_than_current"
+    ],
+    "E-016": [
+      "tariff_past_effective"
+    ],
+    "E-017": [
+      "tariff_manual_invalid"
+    ],
+    "E-018": [
+      "tariff_forme_locked"
+    ],
+    "E-019": [
+      "tariff_apply_date_invalid"
+    ],
+    "E-020": [
+      "tariff_stale_next_year",
+      "tariff_stale_age"
+    ],
+    "E-021": [
+      "tariff_two_versions_pending"
+    ],
+    "E-022": [
+      "tariff_tax_missing_one"
+    ],
+    "E-023": [
+      "tariff_mfn_instead"
+    ],
+    "E-024": [
+      "tariff_pl2"
+    ],
+    "E-025": [
+      "tariff_upcoming"
+    ],
+    "E-026": [
+      "tariff_apply_incomplete"
+    ],
+    "E-027": [
+      "tariff_many_error_rows"
+    ],
+    "E-028": [
+      "tariff_save_failed"
+    ],
+    "E-029": [
+      "tariff_pull_stale"
+    ],
+    "E-030": [
+      "tariff_antidumping_gone"
+    ],
+    "E-031": [
+      "tariff_version_rejected"
+    ],
+    "E-032": [
+      "tariff_hs_not_8_digits"
+    ]
+  },
+  "vipoSheetExchange": {
+    "E-001": ["vipo_no_mapping"],
+    "E-002": ["vipo_no_read_access"],
+    "E-003": ["vipo_sheet_missing"],
+    "E-004": ["vipo_header_mismatch"],
+    "E-005": ["vipo_offline_read"],
+    "E-006": ["vipo_rate_limited"],
+    "E-007": ["vipo_no_new_rows"],
+    "E-008": ["vipo_rows_taken"],
+    "E-009": ["vipo_many_matches"],
+    "E-010": ["vipo_target_missing"],
+    "E-011": ["vipo_target_has_value"],
+    "E-012": ["vipo_paste_mismatch"],
+    "E-013": ["vipo_permission_denied"],
+    "E-014": ["vipo_mapping_open_batches"],
+    "E-015": ["vipo_row_twice"],
+    "E-016": ["vipo_price_deviation"],
+    "E-017": ["vipo_mapping_check", "vipo_mapping_tab_missing", "vipo_mapping_field_missing", "vipo_mapping_col_twice", "vipo_mapping_tail_empty", "vipo_mapping_out_overlaps"],
+    "E-018": ["vipo_check_read_failed"],
+    "E-019": ["vipo_row_changed_copy"],
+    "E-021": ["vipo_range_invalid"],
+    "E-022": ["vipo_batch_failed"],
+    "E-023": ["vipo_number_invalid"],
+    "E-024": ["vipo_outside_changed"],
+    "E-025": ["vipo_manual_target_invalid"],
+    "E-026": ["vipo_maybe_edited_row"],
+    "E-027": ["vipo_check_expired"],
+    "E-028": ["vipo_vpo_missing"],
+    "E-029": ["vipo_result_edited"],
+    "E-030": ["vipo_note_full"]
+  },
+  "vipoNoteExchange": {
+    "E-001": ["vipo_note_scope_missing"],
+    "E-002": ["vipo_note_write_denied"],
+    "E-003": ["vipo_note_offline"],
+    "E-004": ["vipo_note_rate_limited"],
+    "E-005": ["vipo_note_changed_while_writing"],
+    "E-006": ["vipo_note_blocked"],
+    "E-007": ["vipo_note_status"],
+    "E-008": ["vipo_note_wrong_row"]
+  },
+  "aiAccuracyReport": {
+    "E-001": ["accuracy_empty"]
+  },
+  "lotMerge": {
+    "E-001": ["lot_missing_column"],
+    "E-002": ["lot_no_read_access"],
+    "E-003": ["lot_no_eligible_rows"],
+    "E-004": ["lot_in_other_lot"],
+    "E-005": ["lot_no_valid_rows"],
+    "E-006": ["lot_condition_diff"],
+    "E-007": ["lot_size_warning", "lot_size_warning_length", "lot_price_warning", "lot_zero_price"],
+    "E-008": ["lot_name_too_long"],
+    "E-009": ["lot_manual_name_long"],
+    "E-010": ["lot_not_ready"],
+    "E-011": ["lot_held"],
+    "E-012": ["lot_hold_moved"],
+    "E-013": ["lot_no_new_rows"],
+    "E-014": ["lot_criteria_invalid"],
+    "E-015": ["lot_offline"],
+    "E-016": ["lot_rate_limited"],
+    "E-017": ["lot_permission_denied"],
+    "E-018": ["lot_no_quote_item"],
+    "E-019": ["lot_no_tax_rate"],
+    "E-020": ["lot_still_no_hs"],
+    "E-021": ["lot_two_lots"],
+    "E-022": ["lot_reason_required"],
+    "E-023": ["lot_exported"]
+  }
+}

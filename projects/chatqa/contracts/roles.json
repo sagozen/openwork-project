@@ -1,0 +1,12 @@
+{
+  "$comment": "5 vai cố định (BR-account-access-001). Nhãn và màu chip lấy từ pen.dev (hsapp.pen). Vai Vipo cố định, không nằm trong bảng quyền (BR-013): không app nội bộ, chỉ module vipo-sheet-exchange. products (tuỳ chọn): sản phẩm (products.json) vai này được đăng nhập; không khai = mọi sản phẩm. Vipo chỉ dùng HS Desk nên đăng nhập sản phẩm khác bị từ chối trước khi cấp phiên. owner là tên cũ của admin, chỉ còn được chấp nhận khi giải mã phiên cũ.",
+  "roles": [
+    {"code": "admin", "label": "Admin", "internal": true, "matrix": true, "deviceBound": false, "chip": {"fg": "#E0592A", "bg": "#FDEEE7"}},
+    {"code": "manager", "label": "Manager", "internal": true, "matrix": true, "deviceBound": false, "chip": {"fg": "#2563EB", "bg": "#E8F0FE"}},
+    {"code": "leader", "label": "Leader", "internal": true, "matrix": true, "deviceBound": true, "chip": {"fg": "#7C3AED", "bg": "#F5F0FF"}},
+    {"code": "staff", "label": "Nhân viên", "internal": true, "matrix": true, "deviceBound": true, "chip": {"fg": "#5B6170", "bg": "#F0F1F4"}},
+    {"code": "vipo", "label": "Vipo", "internal": false, "matrix": false, "deviceBound": true, "chip": {"fg": "#B45309", "bg": "#FEF3DF"}, "modules": ["vipo-sheet-exchange"], "products": ["hsdesk"]}
+  ],
+  "legacy": {"owner": "admin"},
+  "tags": {"deployer": "Bên triển khai", "locked": "Đã khoá"}
+}

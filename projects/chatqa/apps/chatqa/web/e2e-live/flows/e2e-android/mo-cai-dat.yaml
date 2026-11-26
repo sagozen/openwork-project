@@ -1,0 +1,6 @@
+# Chỉ mở app Cài đặt của Android và kiểm có chữ (không bấm, không nhập gì).
+appId: com.android.settings
+---
+- launchApp
+- assertVisible: "(?i).*(settings|cài đặt|wi-?fi|mạng).*"
+- stopApp

@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.data/
+.env
+.env.*
+!.env.example
+*.db
+*.db-shm
+*.db-wal
+*.tgz
+.DS_Store
+backups/
+
+# generated course media (published to R2)
+docs/courses/*/build/audio/
+docs/courses/*/build/video/
+.claude/worktrees/

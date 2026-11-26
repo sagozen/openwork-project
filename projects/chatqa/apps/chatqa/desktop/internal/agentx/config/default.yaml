@@ -1,0 +1,44 @@
+# ChatQASoftware agent configuration. Safe to edit; restart the app (or use "Tải lại cấu hình") to apply.
+#
+# This file holds NO keys or tokens. All model calls go through the Worker with the signed-in session, and the
+# admin sets the provider and key in Settings > Dịch vụ AI. A key that looks like a secret is rejected on load.
+agent:
+  enabled: false
+  engine: legacy            # legacy | adk
+  default_model: sonnet     # Worker model alias: sonnet | haiku | opus (see GET /api/v1/ai/models)
+  agents:                   # model alias per agent; an agent left out uses default_model
+    coordinator: { model: sonnet }
+    planner:     { model: haiku }
+    triage:      { model: opus }
+    reporter:    { model: haiku }
+    flowfixer:   { model: sonnet }
+    author:      { model: sonnet }   # writes new flows; the tester approves every save
+    summarizer:  { model: haiku }   # context compaction
+  limits:
+    max_steps: 30
+    tool_timeout: 120s
+    max_cost_usd: 1.0
+    max_tokens_per_run: 400000
+  memory: { driver: sqlite, path: agent.db }   # path is relative to the data directory
+  compaction: { token_threshold: 60000, event_retention: 20 }
+  flowfixer: { max_iterations: 3 }   # propose-and-validate passes of the flow fixer (1-5); it only writes drafts
+  # External MCP servers: [{name, transport: stdio|http, command, args, url, tools: [allowed tool names],
+  #   agents: [coordinator|flowfixer], risk: read|run|write|dangerous}]. Empty tools or agents = nothing is exposed.
+  # risk left out = write: every call asks first; the flowfixer accepts only risk: read servers.
+  # No keys here; a stdio server gets only PATH, HOME, locale and temp.
+  external_mcp: []
+  # Local HTTP API for CI under /agent/ on the MCP server (needs MCP on; same token): POST /agent/pipeline, adkrest.
+  http: { enabled: false }
+  # OpenTelemetry traces of agent runs: stdout = into the app log; otlp = your own collector (endpoint required).
+  # Never sent to a cloud service. Tool arguments, results and message text are left out of the spans.
+  otel: { enabled: false, exporter: stdout, endpoint: "" }
+pipeline:
+  retry_failed: 1           # re-run failed flows this many times (0-3); a flow that then passes is recorded as flaky
+safety:
+  # Agents run data-changing flows only against these post offices. Each entry is a path.Match pattern over the
+  # post-office code, the part of the value before " - " (BRANCH "GLOBAL5 - Test BAT" has the code GLOBAL5).
+  allowed_post_offices: ["GLOBAL*"]
+  post_office_vars: [BRANCH]   # flow variables that choose a post office (run env, env defaults, flow and runFlow env)
+  # A run counts as production when ENV, ENVIRONMENT, a *_ENV variable or the run label has one of these values.
+  production_env_names: [prod, production, that]
+  data_changing_flows: ["02_order/*", "*/02_order/*"]   # flows that create or change data; the pipeline waits for approval

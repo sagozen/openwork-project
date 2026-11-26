@@ -1,0 +1,16 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "types": ["@cloudflare/workers-types", "node"],
+    "paths": {
+      "@templatedesign/ui": ["../../packages/ui/src/index.ts"],
+      "@templatedesign/ui/styles.css": ["../../packages/ui/src/styles/index.css"],
+      "@templatedesign/contracts": ["../../packages/contracts/src/index.ts"],
+      "@templatedesign/platform/*": ["../../packages/platform/src/*"]
+    }
+  },
+  "include": [".astro/types.d.ts", "**/*.ts", "**/*.tsx", "**/*.astro"],
+  "exclude": ["dist", "node_modules"]
+}

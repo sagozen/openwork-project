@@ -1,0 +1,44 @@
+---
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { formatBytes, when } from "../../lib/account-format";
+import { loadUploadSettings } from "../../lib/artifacts/settings";
+import { adminOverview } from "../../lib/ops";
+import "../../lib/platform";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+const [overview, settings] = await Promise.all([adminOverview(db), loadUploadSettings(db)]);
+const sweep = overview.last_sweep;
+---
+
+<AdminLayout title="Overview" current="/admin/">
+  <div class="w-admin__grid">
+    <div class="w-admin__metric"><strong>{formatBytes(overview.bytes)}</strong><span>Stored</span></div>
+    <div class="w-admin__metric"><strong>{overview.files}</strong><span>Files</span></div>
+    <div class="w-admin__metric"><strong>{overview.active_shares}</strong><span>Active share links</span></div>
+    <div class="w-admin__metric"><strong>{overview.pending_uploads}</strong><span>Uploads in progress</span></div>
+  </div>
+
+  <div class="w-card">
+    <h2>Now</h2>
+    <p>
+      Uploads are <strong>{settings.enabled ? "on" : "switched off"}</strong>.
+      Inline limit {formatBytes(settings.maxInlineBytes)}, import limit {formatBytes(settings.maxImportBytes)}.
+    </p>
+    <p>
+      <strong>Last cleanup:</strong>
+      {sweep ? (
+        <>
+          {when(sweep.ran_at)} UTC: removed {sweep.expired_deleted} expired files and {sweep.pending_deleted} abandoned uploads
+          ({formatBytes(sweep.bytes_freed)}).
+          {sweep.storage_errors > 0 ? <span class="td-badge td-badge--danger">{sweep.storage_errors} storage errors</span> : <span class="td-badge td-badge--success">no errors</span>}
+        </>
+      ) : "has not run yet (it runs every hour)."}
+    </p>
+    <div class="w-admin__actions">
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/settings/">Settings</a>
+      <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/audit/">Audit log</a>
+    </div>
+  </div>
+</AdminLayout>

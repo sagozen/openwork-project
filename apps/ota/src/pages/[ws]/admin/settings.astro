@@ -1,0 +1,14 @@
+---
+import AdminLayout from "@templatedesign/app-shell/layouts/AdminLayout.astro";
+import { SettingsPage } from "../../../admin/pages";
+import { otaNav } from "../../../lib/nav";
+
+const { workspace, member } = Astro.locals;
+if (!workspace) return new Response("Not found", { status: 404 });
+if (member?.role !== "owner" && member?.role !== "admin")
+  return new Response("Only workspace admins can manage OTA.", { status: 403 });
+---
+
+<AdminLayout title="Settings" nav={otaNav} current="/admin/settings">
+  <SettingsPage client:load />
+</AdminLayout>

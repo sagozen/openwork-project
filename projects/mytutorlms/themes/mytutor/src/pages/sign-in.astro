@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import SignIn from '../components/SignIn';
+import { translator } from '../i18n';
+import { pageContext } from '../lib/page-context';
+import { safeNext } from '../lib/safe-next';
+const { locale } = await pageContext(Astro);
+const t = translator(locale);
+const next = safeNext(Astro.url.searchParams.get('next'));
+---
+<Base title={t('signIn.title')} privatePage localized><SignIn client:load next={next} locale={locale} invited={Astro.url.searchParams.get('invited') === '1'} /><noscript><p class="narrow">{t('signIn.noScript')}</p></noscript></Base>

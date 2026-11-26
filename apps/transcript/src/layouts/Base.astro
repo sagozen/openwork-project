@@ -1,0 +1,65 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/jetbrains-mono";
+import "@fontsource-variable/plus-jakarta-sans";
+import "@templatedesign/ui/styles.css";
+import "@templatedesign/ui/theme-studio.css";
+import "../styles/web.css";
+import { getAdminSettings } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { runtimeEnv } from "../lib/runtime";
+
+interface Props {
+  title: string;
+  description?: string;
+  locale: "en" | "vi";
+  noindex?: boolean;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = "Paste a Drive, YouTube or direct link, or upload a file, and get a transcript in seconds. Three minutes free, then pennies per minute.",
+  locale,
+  noindex = false,
+  canonical,
+} = Astro.props;
+const site = "https://transcriptanything.zhst.app";
+let incident: string | null = null;
+try {
+  const settings = await getAdminSettings(d1Db(runtimeEnv().DB));
+  if (settings.incidentActive) incident = locale === "vi" ? settings.incidentBannerVi : settings.incidentBannerEn;
+} catch {
+  // A database incident must not take down the static surface.
+}
+---
+
+<!doctype html>
+<html lang={locale} data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title} · TranscriptAnything</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
+    {canonical ? <link rel="canonical" href={`${site}${canonical}`} /> : null}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem("td-theme");
+        if (saved === "light" || saved === "dark") document.documentElement.dataset.theme = saved;
+      } catch (error) {
+        /* storage can be blocked */
+      }
+    </script>
+  </head>
+  <body>
+    {incident ? (
+      <div class="td-incident-banner" role="status">
+        <strong>{locale === "vi" ? "Thông báo hệ thống" : "Service notice"}:</strong> {incident}
+      </div>
+    ) : null}
+    <slot />
+  </body>
+</html>

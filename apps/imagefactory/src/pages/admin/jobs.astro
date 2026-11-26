@@ -1,0 +1,82 @@
+---
+import { adminMetrics } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+const metrics = await adminMetrics(db);
+const recent = await db.all<{
+  id: string;
+  tenant_id: string;
+  kind: string;
+  model: string;
+  provider: string;
+  rendered_by: string | null;
+  state: string;
+  num_images: number;
+  credits_reserved: number;
+  credits_charged: number | null;
+  error_code: string | null;
+  created_at: string;
+  finished_at: string | null;
+}>(
+  "SELECT id, tenant_id, kind, model, provider, rendered_by, state, num_images, credits_reserved, credits_charged, error_code, created_at, finished_at FROM image_jobs ORDER BY created_at DESC LIMIT 50",
+);
+const seconds = (row: (typeof recent)[number]) =>
+  row.finished_at ? ((Date.parse(row.finished_at) - Date.parse(row.created_at)) / 1000).toFixed(1) : "—";
+---
+
+<AdminLayout title="Image jobs" current="/admin/jobs/">
+  <div class="w-admin__grid">
+    <div class="w-admin__metric"><strong>{metrics.queued}</strong><span>Queued</span></div>
+    <div class="w-admin__metric"><strong>{metrics.running}</strong><span>Running</span></div>
+    <div class="w-admin__metric"><strong>{metrics.failures24h}</strong><span>Failed (24 h)</span></div>
+    <div class="w-admin__metric"><strong>{metrics.p95DurationMs ? `${(metrics.p95DurationMs / 1000).toFixed(1)} s` : "—"}</strong><span>p95 duration</span></div>
+    <div class="w-admin__metric"><strong>{metrics.queueAgeMs !== null ? `${Math.max(0, Math.round(metrics.queueAgeMs / 1000))}s` : "—"}</strong><span>Oldest queued</span></div>
+  </div>
+  <p class="td-muted">Aggregate and metadata only. Prompts and images are not shown here.</p>
+
+  <div class="w-card">
+    <h2>Failures by code</h2>
+    {metrics.failureByCode.length === 0 ? <p class="td-muted">No failures.</p> : (
+      <table class="td-table td-table--dense">
+        <thead><tr><th scope="col">Code</th><th scope="col" class="td-table__numeric">Count</th></tr></thead>
+        <tbody>{metrics.failureByCode.map((row) => <tr><th scope="row"><code>{row.code}</code></th><td class="td-table__numeric">{row.count}</td></tr>)}</tbody>
+      </table>
+    )}
+  </div>
+
+  <div class="w-card">
+    <h2>Recent jobs</h2>
+    {recent.length === 0 ? <p class="td-muted">No jobs yet.</p> : (
+      <div class="td-table-wrap">
+        <table class="td-table td-table--dense">
+          <thead><tr><th scope="col">Job</th><th scope="col">Kind</th><th scope="col">Rendered by</th><th scope="col">State</th><th scope="col" class="td-table__numeric">Images</th><th scope="col" class="td-table__numeric">Credits</th><th scope="col" class="td-table__numeric">Seconds</th><th scope="col">Error</th><th scope="col">Created</th></tr></thead>
+          <tbody>{recent.map((row) => (
+            <tr>
+              <th scope="row"><code>{row.id.slice(0, 12)}…</code></th>
+              <td>{row.kind}</td>
+              <td>{row.rendered_by ?? row.provider}</td>
+              <td>{row.state}</td>
+              <td class="td-table__numeric">{row.num_images}</td>
+              <td class="td-table__numeric">{row.credits_charged ?? row.credits_reserved}</td>
+              <td class="td-table__numeric">{seconds(row)}</td>
+              <td>{row.error_code ?? ""}</td>
+              <td>{new Date(row.created_at).toISOString().replace("T", " ").slice(0, 16)}</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+    )}
+  </div>
+
+  <div class="w-card">
+    <h2>Operational checks</h2>
+    <ul>
+      <li>Ledger mismatch: <strong>{metrics.ledgerMismatch}</strong> (must be 0)</li>
+      <li>Failed email outbox rows: <strong>{metrics.failedEmails}</strong></li>
+    </ul>
+  </div>
+</AdminLayout>

@@ -1,0 +1,6 @@
+{
+  "frozen": false,
+  "output": "migrations",
+  "sourcesDir": "migrations.src",
+  "modules": ["workspaces"]
+}

@@ -1,0 +1,38 @@
+{
+  "case": "pipeline-all-pass",
+  "source": "hand-written stand-in in the recorded format; replace by running cmd/agenteval -record against the Worker",
+  "replies": {
+    "planner": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "{\"flows\": [{\"app\": \"mexpress\", \"flow\": \"01_auth/01_login.yaml\", \"reason\": \"Đổi đăng nhập\"}], \"platforms\": [\"android\"]}"
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ],
+    "reporter": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "Báo cáo sau deploy v1.4.0..v1.5.0: đăng nhập đạt trên Android. Không có lỗi."
+            }
+          ]
+        },
+        "usage": {
+          "promptTokenCount": 1800,
+          "candidatesTokenCount": 160
+        }
+      }
+    ]
+  }
+}

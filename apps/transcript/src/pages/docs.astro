@@ -1,0 +1,129 @@
+---
+import { docsPlainText, renderDocs } from "@templatedesign/platform/docs-markdown";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import raw from "../content/docs.md?raw";
+import Base from "../layouts/Base.astro";
+import { docsSource } from "../lib/docs";
+import { pageLocale } from "../lib/locale";
+
+const locale = pageLocale(Astro.cookies);
+
+const source = docsSource(raw);
+const { html, headings } = renderDocs(source);
+const markdown = JSON.stringify(docsPlainText(source)).replace(/</g, "\\u003c");
+const [title] = headings.filter((heading) => heading.depth === 1);
+const toc = headings.filter((heading) => heading.depth === 2);
+---
+
+<Base
+  title="Docs"
+  description="Quickstart, API, webhooks, limits, sources and add-ons for TranscriptAnything, on one page."
+  locale={locale}
+  canonical="/docs"
+>
+  <SiteHeader locale={locale} signedIn={Boolean(Astro.locals.user)} current="/docs" />
+  <div class="w-docs docs-page">
+    <aside class="w-docs__nav" aria-label="On this page">
+      <nav aria-label="Sections">
+        <h2>{title?.text ?? "Docs"}</h2>
+        <ul>
+          {toc.map((heading) => (
+            <li><a href={`#${heading.id}`}>{heading.text}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <p class="td-field__hint">
+        <a href="/llms.txt">llms.txt</a> · <a href="/llms-full.txt">llms-full.txt</a> ·
+        <a href="/openapi.yaml">openapi.yaml</a>
+      </p>
+    </aside>
+    <main id="main" class="w-docs__body">
+      <div class="docs-toolbar">
+        <button type="button" class="td-btn td-btn--secondary td-btn--sm" data-copy-llm>Copy for LLM</button>
+        <a class="td-btn td-btn--tertiary td-btn--sm" href="/llms-full.txt">View as text</a>
+      </div>
+      <article class="w-docs__article" set:html={html} />
+      <footer class="w-docs__foot">
+        <a href="/">Home</a> · <a href="/legal">Legal</a> ·
+        <a href="mailto:support.transcriptanything@zhst.app">Support</a>
+      </footer>
+    </main>
+  </div>
+  <SiteFooter locale={locale} />
+  <script type="application/json" id="docs-markdown" set:html={markdown} />
+</Base>
+
+<style is:global>
+  .docs-toolbar {
+    display: flex;
+    gap: 8px;
+    max-width: 780px;
+    margin-block-end: 8px;
+  }
+  .docs-page .w-docs__nav {
+    max-height: calc(100vh - 110px);
+    overflow: auto;
+  }
+  .docs-page .w-docs__article h2,
+  .docs-page .w-docs__article h3 {
+    scroll-margin-top: 88px;
+  }
+  .docs-anchor {
+    margin-inline-start: 4px;
+    color: var(--td-color-text-muted);
+    text-decoration: none;
+    opacity: 0;
+  }
+  .w-docs__article :is(h1, h2, h3, h4):hover .docs-anchor,
+  .docs-anchor:focus-visible {
+    opacity: 1;
+  }
+  .docs-code {
+    position: relative;
+  }
+  .docs-copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 8px;
+    border: 1px solid rgb(255 255 255 / 25%);
+    border-radius: 6px;
+    background: transparent;
+    color: #f4f1e8;
+    font: 12px / 1.5 var(--td-font-family-mono, ui-monospace, monospace);
+    cursor: pointer;
+  }
+  .w-docs__article blockquote {
+    margin: 12px 0;
+    padding: 4px 16px;
+    border-inline-start: 3px solid var(--td-color-border-strong);
+    color: var(--td-color-text-muted);
+  }
+</style>
+
+<script>
+  async function copy(button: HTMLButtonElement, text: string) {
+    const label = button.textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = "Copied";
+    } catch {
+      button.textContent = "Copy failed";
+    }
+    setTimeout(() => {
+      button.textContent = label;
+    }, 1500);
+  }
+
+  document.addEventListener("click", (event) => {
+    const button = (event.target as Element | null)?.closest("button");
+    if (!button) return;
+    if (button.hasAttribute("data-copy-code")) {
+      void copy(button, button.parentElement?.querySelector("code")?.textContent ?? "");
+    } else if (button.hasAttribute("data-copy-llm")) {
+      const source = document.getElementById("docs-markdown")?.textContent ?? "";
+      void copy(button, JSON.parse(source) as string);
+    }
+  });
+</script>

@@ -1,0 +1,155 @@
+/* Alias (semantic) tokens - layer 2 of the two-layer model.
+   These describe MEANING. Components reference these and nothing else:
+   never a raw hex, never a global ramp step.
+
+   Role split follows the brand brief:
+     navy    → primary action, links, selection, focus
+     gold    → brand mark, premium highlight - never a default button fill
+     neutral → canvas, cards, borders, tables
+     semantic→ success / warning / danger / info, always paired with text or an icon */
+
+:root {
+  /* ---------- Background ---------- */
+  --background-canvas: var(--color-neutral-grey-96);
+  --background-card: var(--color-neutral-white);
+  --background-surface: var(--color-neutral-white);
+  --background-subtle: var(--color-neutral-grey-98);
+  --background-subtle-hover: var(--color-neutral-grey-94);
+  --background-subtle-pressed: var(--color-neutral-grey-92);
+  --background-selected: var(--color-navy-160);
+  --background-selected-hover: var(--color-navy-150);
+  --background-disabled: var(--color-neutral-grey-94);
+  --background-inverted: var(--color-neutral-grey-14);
+  --background-overlay: rgba(0, 0, 0, 0.4);
+  --background-brand-wash: var(--color-navy-160);
+  --background-gold-wash: var(--color-gold-160);
+
+  /* ---------- Foreground ---------- */
+  --foreground-primary: var(--color-neutral-grey-14);
+  --foreground-secondary: var(--color-neutral-grey-38);
+  --foreground-tertiary: var(--color-neutral-grey-46);
+  --foreground-disabled: var(--color-neutral-grey-74);
+  --foreground-on-accent: var(--color-neutral-white);
+  --foreground-on-inverted: var(--color-neutral-white);
+  --foreground-link: var(--color-navy-80);
+  --foreground-link-hover: var(--color-navy-60);
+  --foreground-link-visited: var(--color-navy-50);
+  --foreground-brand: var(--color-navy-80);
+
+  /* ---------- Border ---------- */
+  --border-default: var(--color-neutral-grey-82);
+  --border-subtle: var(--color-neutral-grey-88);
+  --border-strong: var(--color-neutral-grey-62);
+  --border-disabled: var(--color-neutral-grey-88);
+  --border-accent: var(--color-navy-80);
+  --border-focus: var(--color-navy-80);
+  --border-focus-outer: var(--color-neutral-white);
+
+  /* ---------- Action: primary (navy) ---------- */
+  --action-primary: var(--color-navy-80);
+  --action-primary-hover: var(--color-navy-60);
+  --action-primary-pressed: var(--color-navy-50);
+  --action-primary-disabled: var(--color-neutral-grey-94);
+  --action-primary-foreground: var(--color-neutral-white);
+
+  /* ---------- Action: secondary (outline on white) ---------- */
+  --action-secondary: var(--color-neutral-white);
+  --action-secondary-hover: var(--color-neutral-grey-96);
+  --action-secondary-pressed: var(--color-neutral-grey-92);
+  --action-secondary-foreground: var(--foreground-primary);
+
+  /* ---------- Action: subtle / transparent ---------- */
+  --action-subtle-hover: var(--color-neutral-grey-96);
+  --action-subtle-pressed: var(--color-neutral-grey-92);
+
+  /* ---------- Action: destructive ---------- */
+  --action-danger: var(--color-danger);
+  --action-danger-hover: var(--color-danger-shade);
+
+  /* ---------- Brand accent (gold - decoration and emphasis only) ---------- */
+  --brand-accent: var(--color-gold-80);
+  --brand-accent-hover: var(--color-gold-70);
+  --brand-accent-highlight: var(--color-gold-100);
+  --brand-accent-subtle: var(--color-gold-160);
+  --brand-accent-border: var(--color-gold-120);
+  --brand-accent-foreground: var(--color-gold-50);
+
+  /* ---------- Status ---------- */
+  --status-success-foreground: var(--color-success-shade);
+  --status-success-background: var(--color-success-tint);
+  --status-success-border: var(--color-success-border);
+  --status-success-icon: var(--color-success);
+
+  --status-warning-foreground: var(--color-warning-shade);
+  --status-warning-background: var(--color-warning-tint);
+  --status-warning-border: var(--color-warning-border);
+  --status-warning-icon: var(--color-warning);
+
+  --status-danger-foreground: var(--color-danger-shade);
+  --status-danger-background: var(--color-danger-tint);
+  --status-danger-border: var(--color-danger-border);
+  --status-danger-icon: var(--color-danger);
+
+  --status-info-foreground: var(--color-info-shade);
+  --status-info-background: var(--color-info-tint);
+  --status-info-border: var(--color-info-border);
+  --status-info-icon: var(--color-info);
+
+  /* ---------- Data surfaces (tables are the workhorse of this product) ---------- */
+  --datagrid-header-background: var(--color-neutral-grey-98);
+  --datagrid-header-foreground: var(--color-neutral-grey-26);
+  --datagrid-row-hover: var(--color-neutral-grey-98);
+  --datagrid-row-selected: var(--color-navy-160);
+  --datagrid-divider: var(--color-neutral-grey-90);
+}
+
+[data-theme="dark"] {
+  --background-canvas: var(--color-neutral-grey-10);
+  --background-card: var(--color-neutral-grey-16);
+  --background-surface: var(--color-neutral-grey-16);
+  --background-subtle: var(--color-neutral-grey-12);
+  --background-subtle-hover: var(--color-neutral-grey-20);
+  --background-subtle-pressed: var(--color-neutral-grey-26);
+  --background-selected: var(--color-navy-40);
+  --background-selected-hover: var(--color-navy-50);
+  --background-disabled: var(--color-neutral-grey-20);
+  --background-inverted: var(--color-neutral-grey-96);
+  --background-brand-wash: var(--color-navy-30);
+  --background-gold-wash: var(--color-gold-20);
+
+  --foreground-primary: var(--color-neutral-white);
+  --foreground-secondary: var(--color-neutral-grey-74);
+  --foreground-tertiary: var(--color-neutral-grey-62);
+  --foreground-disabled: var(--color-neutral-grey-38);
+  --foreground-on-inverted: var(--color-neutral-grey-14);
+  --foreground-link: var(--color-navy-120);
+  --foreground-link-hover: var(--color-navy-130);
+  --foreground-brand: var(--color-navy-120);
+
+  --border-default: var(--color-neutral-grey-34);
+  --border-subtle: var(--color-neutral-grey-26);
+  --border-strong: var(--color-neutral-grey-56);
+  --border-focus: var(--color-navy-120);
+  --border-focus-outer: var(--color-neutral-grey-10);
+
+  --action-primary: var(--color-navy-100);
+  --action-primary-hover: var(--color-navy-110);
+  --action-primary-pressed: var(--color-navy-120);
+  --action-secondary: var(--color-neutral-grey-16);
+  --action-secondary-hover: var(--color-neutral-grey-20);
+  --action-secondary-pressed: var(--color-neutral-grey-26);
+  --action-subtle-hover: var(--color-neutral-grey-20);
+  --action-subtle-pressed: var(--color-neutral-grey-26);
+
+  --brand-accent: var(--color-gold-100);
+  --brand-accent-hover: var(--color-gold-110);
+  --brand-accent-subtle: var(--color-gold-20);
+  --brand-accent-border: var(--color-gold-50);
+  --brand-accent-foreground: var(--color-gold-110);
+
+  --datagrid-header-background: var(--color-neutral-grey-12);
+  --datagrid-header-foreground: var(--color-neutral-grey-74);
+  --datagrid-row-hover: var(--color-neutral-grey-20);
+  --datagrid-row-selected: var(--color-navy-40);
+  --datagrid-divider: var(--color-neutral-grey-26);
+}

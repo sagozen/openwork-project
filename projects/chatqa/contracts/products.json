@@ -1,0 +1,8 @@
+{
+  "$comment": "NGUỒN DUY NHẤT danh mục sản phẩm dùng chung 1 Worker, 1 D1, 1 bộ tài khoản. Mỗi app (apps.json), quyền (permissions.json), bản quyền và bản phát hành thuộc đúng 1 sản phẩm. Thiếu product = hsdesk (dữ liệu trước khi có nhiều sản phẩm).",
+  "default": "hsdesk",
+  "products": [
+    { "code": "hsdesk", "name": "HS Desk" },
+    { "code": "chatqa", "name": "ChatQASoftware" }
+  ]
+}

@@ -1,0 +1,79 @@
+---
+import { ConsentForm } from "../../components/ConsentForm.js";
+import { SignInForm } from "../../components/SignInForm.js";
+import Base from "../../layouts/Base.astro";
+import "../../lib/platform";
+import { runtimeEnv } from "../../lib/runtime";
+
+const oauthQuery = Astro.url.search.replace(/^\?/, "");
+const env = runtimeEnv();
+const googleEnabled = Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
+Astro.response.headers.set("referrer-policy", "no-referrer");
+Astro.response.headers.set("cache-control", "no-store");
+
+let redirectHost = "";
+try {
+  redirectHost = new URL(Astro.url.searchParams.get("redirect_uri") ?? "").host;
+} catch {
+  redirectHost = "";
+}
+
+const restartCookie = "ma_oauth_restart";
+const sessionBound = Astro.url.searchParams.has("ba_pl");
+let stage: "invalid" | "not-owner" | "sign-in" | "consent" | "stuck" = "consent";
+
+if (!oauthQuery || !redirectHost) {
+  stage = "invalid";
+} else if (Astro.locals.nonOwner) {
+  // Signed in as an address that is not the owner: never show the consent screen.
+  stage = "not-owner";
+} else if (!Astro.locals.user) {
+  stage = "sign-in";
+} else if (!sessionBound) {
+  // Signed in now, but the request was made before sign-in: start it again so it binds to this session.
+  if (Astro.cookies.get(restartCookie)?.value === oauthQuery) {
+    stage = "stuck";
+  } else {
+    Astro.cookies.set(restartCookie, oauthQuery, {
+      path: "/connect",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 120,
+      secure: Astro.url.protocol === "https:",
+    });
+    return Astro.redirect(`/api/auth/oauth2/authorize?${oauthQuery}`);
+  }
+}
+---
+
+<Base title="Connect an app" noindex>
+  {stage === "invalid" ? (
+    <main id="main" class="w-auth"><div class="w-auth__card">
+      <h1>This link is not valid</h1>
+      <p>Start the connection again from Claude or ChatGPT.</p>
+      <a class="w-auth__back" href="/">← Back</a>
+    </div></main>
+  ) : stage === "not-owner" ? (
+    <main id="main" class="w-auth"><div class="w-auth__card">
+      <h1>This account can't connect apps</h1>
+      <p>MyArtifacts is a private app. Only its owner can connect an assistant.</p>
+      <a class="w-auth__back" href="/">← Back</a>
+    </div></main>
+  ) : stage === "stuck" ? (
+    <main id="main" class="w-auth"><div class="w-auth__card">
+      <h1>We could not finish connecting</h1>
+      <p>The request did not bind to your session. Start the connection again from Claude or ChatGPT.</p>
+      <a class="w-auth__back" href="/">← Back</a>
+    </div></main>
+  ) : stage === "sign-in" ? (
+    <SignInForm next={`/api/auth/oauth2/authorize?${oauthQuery}`} googleEnabled={googleEnabled} client:load />
+  ) : (
+    <ConsentForm
+      oauthQuery={oauthQuery}
+      csrfToken={Astro.locals.csrfToken ?? ""}
+      redirectHost={redirectHost}
+      email={Astro.locals.user?.email ?? ""}
+      client:load
+    />
+  )}
+</Base>

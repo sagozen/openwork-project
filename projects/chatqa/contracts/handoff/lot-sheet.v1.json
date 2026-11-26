@@ -1,0 +1,24 @@
+{
+  "$comment": "Mẫu Sheet Lô (Google Sheet, mỗi xe hàng một Sheet) = đầu vào App 02 Gộp lô. Cột nhận theo tiêu đề, không theo vị trí: dòng tiêu đề là dòng trong headerScanRows dòng đầu khớp nhiều trường bắt buộc nhất; so tiêu đề không phân biệt hoa thường, dấu, xuống dòng, khoảng trắng thừa và phần trang trí cuối ('----start', '*'). Tiêu đề lặp lại (Sheet Lô có hai cột 'Mã HS code', 'Số lượng', '% THUẾ NHẬP KHẨU (CÓ CO)', 'TRẠNG THÁI') thì occurrence 'last' lấy cột sau (cột đã chốt). Không có cột tiền tệ thì tiền tệ lấy từ tiêu đề cột trị giá, vd '(USD)'. Lập từ lô mẫu GỘP LÔ 157 (06/11/2026); đội dự án xác nhận trên Sheet Lô thật trước khi chạy thật. Khách đổi mẫu => tạo lot-sheet.v2.json, giữ v1.",
+  "id": "lot-sheet",
+  "version": 1,
+  "sheet": "^Lô",
+  "headerScanRows": 10,
+  "columns": [
+    { "field": "vpo", "headers": ["Mã VPO"], "required": true },
+    { "field": "status", "headers": ["TRẠNG THÁI", "Trạng thái dòng"], "required": true, "occurrence": "last" },
+    { "field": "product", "headers": ["Tên sản phẩm", "Tên hàng", "Tên định danh"], "required": true },
+    { "field": "spec", "headers": ["Thông số", "Đặc tính sản phẩm"], "required": false },
+    { "field": "declaredName", "headers": ["TÊN KHAI TRÊN TỜ KHAI", "Tên khai"], "required": false },
+    { "field": "hs", "headers": ["Mã HS code", "Mã HS"], "required": true, "occurrence": "last" },
+    { "field": "importTax", "headers": ["% THUẾ NHẬP KHẨU (CÓ CO)", "Thuế NK"], "required": true, "occurrence": "last" },
+    { "field": "vat", "headers": ["% VAT (CÓ CO)", "VAT"], "required": true, "occurrence": "last" },
+    { "field": "unit", "headers": ["ĐVT Vipo điền", "ĐVT"], "required": true },
+    { "field": "maker", "headers": ["TÊN NSX CẦN KHAI", "Nhà sản xuất"], "required": false },
+    { "field": "qty", "headers": ["Số lượng"], "required": true, "occurrence": "last" },
+    { "field": "unitPrice", "headers": ["ĐƠN GIÁ KHAI BÁO (USD)", "Đơn giá khai báo"], "required": false },
+    { "field": "value", "headers": ["Giá trị khai báo (USD)", "Trị giá"], "required": true },
+    { "field": "currency", "headers": ["Tiền tệ"], "required": false },
+    { "field": "link", "headers": ["Link sản phẩm"], "required": false }
+  ]
+}

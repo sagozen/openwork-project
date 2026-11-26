@@ -1,0 +1,49 @@
+---
+import { platformConfig } from "@templatedesign/platform/config";
+import { planRows } from "../plan-view";
+
+const brand = platformConfig().brand;
+const plans = planRows();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pricing · {brand.name}</title>
+    <meta name="description" content={`Plans and pricing for ${brand.name}. Start free, upgrade with credits.`} />
+    <style>
+      body { font: 16px/1.5 system-ui, sans-serif; margin: 0; background: #fafaf9; color: #1c1917; }
+      main { max-width: 880px; margin: 0 auto; padding: 48px 16px; }
+      .plans { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 24px; }
+      .plan { background: #fff; border: 1px solid #e7e5e4; border-radius: 12px; padding: 20px; }
+      .plan h2 { margin: 0 0 4px; }
+      .price { font-size: 22px; font-weight: 650; margin: 0 0 12px; }
+      ul { list-style: none; padding: 0; margin: 0 0 16px; }
+      li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid #f5f5f4; }
+      li span:last-child { color: #57534e; }
+      a.cta { display: inline-block; padding: 10px 16px; border-radius: 8px; background: #1c1917; color: #fff; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Pricing</h1>
+      <p>Start free on your own address. Upgrade any time with credits; nothing is deleted if you come back down.</p>
+      <div class="plans">
+        {plans.map((plan) => (
+          <section class="plan">
+            <h2>{plan.name}</h2>
+            <p class="price">{plan.priceCredits ? `${plan.priceCredits.toLocaleString("en-US")} credits / ${plan.periodDays} days` : "Free"}</p>
+            <ul>
+              {plan.features.map((feature) => (
+                <li><span>{feature.label}</span><span>{feature.value}</span></li>
+              ))}
+            </ul>
+            <a class="cta" href={plan.priceCredits ? "/app/credits" : "/onboarding"}>{plan.priceCredits ? "Get credits" : "Start free"}</a>
+          </section>
+        ))}
+      </div>
+    </main>
+  </body>
+</html>

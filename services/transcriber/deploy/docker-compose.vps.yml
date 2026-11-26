@@ -1,0 +1,50 @@
+# VPS fallback worker (tier=fallback). The home desktop is the primary; this container only
+# receives a job when no primary heartbeat has arrived for 60 s, the job waited longer than
+# the fallback threshold, or the job is a cheap probe.
+#
+#   docker compose -f deploy/docker-compose.vps.yml up -d
+#
+# Secrets come from a `.env` file next to this compose file (never commit it):
+#   TRANSCRIBER_API_URL=https://transcriptanything.zhst.app
+#   TRANSCRIBER_WORKER_TOKEN=wkr_…
+#   TRANSCRIBER_NAME=vps-cpu
+#   MAX_AUDIO_SECONDS=3600
+
+services:
+  transcriber:
+    build:
+      context: ..
+      dockerfile: Dockerfile.cpu
+    image: transcript-transcriber:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TRANSCRIBER_TIER: fallback
+      CONCURRENCY: "1"
+      WHISPER_THREADS: "4"
+      MIN_FREE_DISK_GB: "5"
+      CAN_DOWNLOAD_YOUTUBE: "true"
+      TRANSCRIBER_TEMP: /tmp/transcriber
+      # No local dashboard and no self-update in the container: deploy a new image instead.
+      DASHBOARD_ADDR: "off"
+      AUTO_UPDATE: "false"
+    volumes:
+      - models:/models
+      - jobtmp:/tmp/transcriber
+      # Optional YouTube cookies: put cookies.txt (Netscape format) in deploy/cookies/ and set
+      # YTDLP_COOKIES_FILE=/run/cookies/cookies.txt in .env. The worker uses a private copy.
+      - ./cookies:/run/cookies:ro
+    # 8 GB box shared with cloudflared and the edge proxy: cap the worker so the OOM killer
+    # never takes the container that keeps the tunnel alive.
+    mem_limit: 6g
+    memswap_limit: 6g
+    cpus: "4"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  models:
+  jobtmp:

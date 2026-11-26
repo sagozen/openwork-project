@@ -1,0 +1,32 @@
+---
+import { getAdminSettings, requireAdmin } from "@templatedesign/platform/admin";
+import { d1Db } from "@templatedesign/platform/db";
+import { AdminSettingsForm } from "../../components/AdminSettingsForm.js";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { runtimeEnv } from "../../lib/runtime";
+
+const db = d1Db(runtimeEnv().DB);
+let allowed = true;
+try {
+  await requireAdmin(db, Astro.locals.user, runtimeEnv(), "admin");
+} catch {
+  allowed = false;
+}
+if (!allowed) return Astro.redirect("/admin");
+const settings = await getAdminSettings(db);
+---
+
+<AdminLayout title="Incidents" current="/admin/incidents/">
+  <p class="td-muted">Admission and preview pauses keep downloads and existing share links working. The banner is rendered on the next request in the selected UI language.</p>
+  <AdminSettingsForm mode="incidents" settings={settings} csrfToken={Astro.locals.csrfToken ?? ""} client:load />
+  <div class="w-card">
+    <h2>Current state</h2>
+    <ul>
+      <li>Admission: <strong>{settings.pauseAdmission ? "paused" : "running"}</strong></li>
+      <li>Previews: <strong>{settings.pausePreview ? "paused" : "running"}</strong></li>
+      <li>Checkout: <strong>{settings.pauseCheckout ? "paused" : "running"}</strong></li>
+      <li>Webhooks: <strong>{settings.pauseWebhooks ? "paused" : "delivering"}</strong></li>
+      <li>Incident banner: <strong>{settings.incidentActive ? "shown" : "hidden"}</strong></li>
+    </ul>
+  </div>
+</AdminLayout>

@@ -1,0 +1,60 @@
+---
+import { platformConfig } from "@templatedesign/platform/config";
+import { CSRF_COOKIE } from "@templatedesign/platform/csrf";
+import { SLUG_PATTERN } from "@templatedesign/platform/workspaces";
+
+const { user } = Astro.locals;
+if (!user) return Astro.redirect("/auth/sign-in?next=/onboarding");
+const brand = platformConfig().brand;
+const host = new URL(brand.appOrigin).host;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Create your site · {brand.name}</title>
+  </head>
+  <body style="font:15px/1.5 system-ui,sans-serif;margin:0;display:grid;place-items:center;min-height:100vh;background:#fafaf9;color:#1c1917">
+    <main style="width:min(440px,90vw)">
+      <h1 style="font-size:22px">Create your site</h1>
+      <p style="color:#78716c">Pick the address your site will live at. It is free to start.</p>
+      <form id="create-form" style="display:grid;gap:14px">
+        <label>Site name
+          <input name="name" maxlength="80" required style="display:block;width:100%;padding:8px" />
+        </label>
+        <label>Address
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="color:#78716c">{host}/</span>
+            <input name="slug" required minlength="3" maxlength="40" pattern={SLUG_PATTERN.source} autocapitalize="none" style="flex:1;padding:8px" />
+          </span>
+        </label>
+        <button type="submit" style="padding:10px 16px">Create site</button>
+        <p id="create-status" role="status" style="margin:0;color:#b91c1c"></p>
+      </form>
+    </main>
+    <script define:vars={{ csrfCookie: CSRF_COOKIE }}>
+      const form = document.getElementById("create-form");
+      const status = document.getElementById("create-status");
+      const token = () => {
+        const match = document.cookie.split("; ").find((part) => part.startsWith(`${csrfCookie}=`));
+        return match ? decodeURIComponent(match.slice(csrfCookie.length + 1)) : "";
+      };
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        status.textContent = "";
+        const data = new FormData(form);
+        const response = await fetch("/api/shell/workspaces", {
+          method: "POST",
+          headers: { "content-type": "application/json", "x-csrf-token": token() },
+          body: JSON.stringify({ slug: String(data.get("slug")).toLowerCase(), name: data.get("name") }),
+        });
+        const body = await response.json().catch(() => ({}));
+        if (response.ok) location.href = body.redirect;
+        else status.textContent = body.detail ?? "Could not create the site.";
+      });
+    </script>
+  </body>
+</html>

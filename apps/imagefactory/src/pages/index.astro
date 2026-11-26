@@ -1,0 +1,55 @@
+---
+import { agentConnectorUrl } from "@templatedesign/platform/agents";
+import { ConnectorUrl } from "../components/ConnectorUrl.js";
+import SiteHeader from "../components/SiteHeader.astro";
+import Base from "../layouts/Base.astro";
+import "../lib/platform";
+import { runtimeEnv } from "../lib/runtime";
+
+const { mcpUrl } = agentConnectorUrl(runtimeEnv());
+const signedIn = Boolean(Astro.locals.user);
+---
+
+<Base title="On-brand images from Claude and ChatGPT">
+  <SiteHeader signedIn={signedIn} />
+  <main id="main">
+    <section class="w-hero">
+      <p class="td-eyebrow">ImageFactory</p>
+      <h1>Ask Claude or ChatGPT for on-brand images.</h1>
+      <p>
+        Add ImageFactory as a connector, save your brand once, then ask for things like “make 5 Pinterest pins for my
+        large-print puzzle book”. Every image comes back with a public link you can use in Pinterest, a blog post or
+        an n8n workflow.
+      </p>
+      <p>
+        {signedIn
+          ? <a class="td-btn td-btn--primary td-btn--lg" href="/account">Open your account</a>
+          : <a class="td-btn td-btn--primary td-btn--lg" href="/sign-in">Sign in to start</a>}
+      </p>
+    </section>
+
+    <section class="w-steps" id="connect">
+      <div class="w-card">
+        <h2>1. Copy the connector URL</h2>
+        <ConnectorUrl url={mcpUrl} client:load />
+      </div>
+      <div class="w-card">
+        <h2>2. Add it to your assistant</h2>
+        <ul class="w-checklist">
+          <li><strong>Claude (web and Chrome extension):</strong> Settings, Connectors, Add custom connector, paste the URL, then sign in when asked.</li>
+          <li><strong>Claude Desktop:</strong> the connector syncs from your Claude account once it is added on the web.</li>
+          <li><strong>ChatGPT:</strong> Settings, Apps &amp; Connectors, turn on developer mode, add the URL as an MCP server, then sign in.</li>
+        </ul>
+      </div>
+      <div class="w-card">
+        <h2>3. Ask for images</h2>
+        <ul class="w-checklist">
+          <li>“Create a brand kit for my puzzle book series from this website, then make 3 Pinterest pins.”</li>
+          <li>“Make a blog hero image for a post about large-print word searches, using the LargePrint brand.”</li>
+          <li>“Take the best pin and make 10 variations in the same style.”</li>
+        </ul>
+        <p class="td-muted">Automating with n8n, Make or Postiz? Create an API key on your account page and call the same service over HTTP.</p>
+      </div>
+    </section>
+  </main>
+</Base>

@@ -1,0 +1,149 @@
+---
+import {
+  USAGE_WINDOW_MS,
+  crmStages,
+  customerTimeline,
+  formatMoney,
+  listCustomers,
+  reconcileCrm,
+  stepLabels,
+  usageReport,
+} from "@templatedesign/platform/crm";
+import { d1Db } from "@templatedesign/platform/db";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import "../../lib/platform";
+import { runtimeEnv } from "../../lib/runtime";
+
+const PAGE_SIZE = 100;
+const db = d1Db(runtimeEnv().DB);
+// Idempotent: derives any journey event the records imply, so the first visit backfills history.
+await reconcileCrm(db).catch((error) => console.error(JSON.stringify({ evt: "crm_reconcile_failed", error: String(error).slice(0, 200) })));
+
+const params = Astro.url.searchParams;
+const stage = crmStages.find((value) => value === params.get("stage")) ?? undefined;
+const q = params.get("q")?.trim().slice(0, 80) ?? "";
+const filter = {
+  stage,
+  q,
+  stuck: params.get("view") === "stuck",
+  abandoned: params.get("view") === "abandoned",
+};
+const customerId = params.get("customer");
+const now = Date.now();
+
+const [report, list, timeline] = await Promise.all([
+  usageReport(db, now - USAGE_WINDOW_MS, now),
+  listCustomers(db, filter, now),
+  customerId ? customerTimeline(db, customerId, now) : Promise.resolve(null),
+]);
+const { stats, product } = report;
+const shown = list.items.slice(0, PAGE_SIZE);
+const stamp = (value: string | null) => (value ? value.replace("T", " ").slice(0, 16) : "—");
+const duration = (hours: number) => (hours >= 48 ? `${Math.floor(hours / 24)} d` : `${hours} h`);
+const stageLabel = (value: string) => stepLabels[value] ?? value;
+const detailText = (detail: Record<string, unknown>) =>
+  [
+    typeof detail.pack === "string" ? detail.pack : "",
+    typeof detail.amount_cents === "number" ? formatMoney(detail.amount_cents, String(detail.currency ?? "USD")) : "",
+    typeof detail.provider === "string" ? detail.provider : "",
+    typeof detail.template === "string" ? detail.template : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+---
+
+<AdminLayout title="Customers" current="/admin/customers/">
+  <div class="w-card">
+    <h2>Last 6 hours</h2>
+    <p class="td-muted">{stamp(stats.from)} to {stamp(stats.to)} UTC. The same numbers are emailed every 6 hours.</p>
+    <div class="w-admin__grid">
+      {product.cards.map((card) => <div class="w-admin__metric"><strong>{card.value}</strong><span>{card.label}</span></div>)}
+      <div class="w-admin__metric"><strong>{stats.signups}</strong><span>New sign-ups</span></div>
+      <div class="w-admin__metric"><strong>{stats.checkouts}</strong><span>Pressed buy</span></div>
+      <div class="w-admin__metric"><strong>{stats.purchases}</strong><span>Purchases · {formatMoney(stats.revenueCents)}</span></div>
+      <div class="w-admin__metric"><strong>{list.stuckTotal}</strong><span>Stuck before paying</span></div>
+      <div class="w-admin__metric"><strong>{list.abandonedTotal}</strong><span>Abandoned checkout</span></div>
+    </div>
+  </div>
+
+  <div class="w-card">
+    <h2>Funnel</h2>
+    <p class="td-muted">Accounts that signed up in the last 30 days, counted at every step they reached.</p>
+    <table class="td-table td-table--dense">
+      <thead><tr><th scope="col">Step</th><th scope="col" class="td-table__numeric">Accounts</th></tr></thead>
+      <tbody>
+        {list.funnel.map((row) => (
+          <tr><th scope="row">{stageLabel(row.stage)}</th><td class="td-table__numeric">{row.count}</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {timeline ? (
+    <section class="w-card" aria-label="Customer journey">
+      <div class="w-row w-row--between">
+        <h2>{timeline.customer.name || timeline.customer.email} <span class="td-muted">· {timeline.customer.email}</span></h2>
+        <a class="td-btn td-btn--secondary td-btn--sm" href="/admin/customers/">Close</a>
+      </div>
+      <p class="td-muted">
+        At <strong>{stageLabel(timeline.customer.stage)}</strong> for {duration(timeline.customer.hoursInStage)} ·
+        {timeline.customer.checkouts} checkouts · paid {formatMoney(timeline.customer.paidCents)} · tenant <code>{timeline.customer.tenantId}</code>
+      </p>
+      {timeline.customer.abandonedCheckout ? <p><span class="td-badge td-badge--danger">abandoned checkout</span></p> : timeline.customer.stuck ? <p><span class="td-badge td-badge--warning">stuck before paying</span></p> : null}
+      <table class="td-table td-table--dense">
+        <thead><tr><th scope="col">Event</th><th scope="col">When (UTC)</th><th scope="col">Detail</th></tr></thead>
+        <tbody>
+          {timeline.events.map((event) => (
+            <tr><th scope="row">{event.label}</th><td>{stamp(event.occurredAt)}</td><td>{detailText(event.detail) || "—"}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  ) : customerId ? <p class="td-muted">No journey recorded for that account.</p> : null}
+
+  <form class="w-card" method="get" role="search">
+    <label class="td-field__label" for="crm-q">Search by email or name</label>
+    <div class="w-admin__actions">
+      <input class="td-input" id="crm-q" name="q" value={q} maxlength={80} />
+      <select class="td-input" name="stage" aria-label="Step">
+        <option value="">Any step</option>
+        {crmStages.map((value) => <option value={value} selected={value === stage}>{stageLabel(value)}</option>)}
+      </select>
+      <select class="td-input" name="view" aria-label="View">
+        <option value="">All</option>
+        <option value="stuck" selected={filter.stuck}>Stuck before paying</option>
+        <option value="abandoned" selected={filter.abandoned}>Abandoned checkout</option>
+      </select>
+      <button class="td-btn td-btn--primary td-btn--md" type="submit">Filter</button>
+    </div>
+  </form>
+
+  <div class="w-card">
+    <h2>Customers <span class="td-muted">· {list.total}{list.total > PAGE_SIZE ? `, showing latest ${PAGE_SIZE}` : ""}{list.capped ? " (list capped)" : ""}</span></h2>
+    {shown.length === 0 ? <p class="td-muted">No customers match.</p> : (
+      <div class="td-table-wrap">
+        <table class="td-table td-table--dense">
+          <caption class="td-visually-hidden">Customers and where they are in the journey</caption>
+          <thead>
+            <tr>
+              <th scope="col">Customer</th><th scope="col">Step</th><th scope="col">In step</th>
+              <th scope="col">Last activity (UTC)</th><th scope="col" class="td-table__numeric">Paid</th><th scope="col">Flag</th>
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map((row) => (
+              <tr>
+                <th scope="row"><a href={`/admin/customers/?customer=${encodeURIComponent(row.tenantId)}`}>{row.email}</a><br /><span class="td-muted">{row.name}</span></th>
+                <td>{stageLabel(row.stage)}</td>
+                <td>{duration(row.hoursInStage)}</td>
+                <td>{stamp(row.lastEventAt)}</td>
+                <td class="td-table__numeric">{row.paidCents ? formatMoney(row.paidCents) : "—"}</td>
+                <td>{row.abandonedCheckout ? <span class="td-badge td-badge--danger">abandoned</span> : row.stuck ? <span class="td-badge td-badge--warning">stuck</span> : ""}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+</AdminLayout>

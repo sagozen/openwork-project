@@ -1,0 +1,621 @@
+[
+  {
+    "name": "planner-auth-login",
+    "kind": "planner",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"base\": \"v1.4.0\", \"head\": \"v1.5.0\", \"stats\": {\"files\": 1, \"add\": 12, \"del\": 3}, \"files\": [{\"path\": \"auth/login_service.go\", \"st\": \"M\", \"add\": 12, \"del\": 3, \"fn\": [\"Login\", \"validatePassword\"]}]}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "flows": [
+        "mexpress/01_auth/01_login.yaml"
+      ]
+    }
+  },
+  {
+    "name": "planner-order-create",
+    "kind": "planner",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"base\": \"v1.4.0\", \"head\": \"v1.5.0\", \"stats\": {\"files\": 1, \"add\": 30, \"del\": 8}, \"files\": [{\"path\": \"order/create_handler.go\", \"st\": \"M\", \"add\": 30, \"del\": 8, \"fn\": [\"CreateOrder\"]}]}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "flows": [
+        "mexpress/02_order/001_tao_don.yaml"
+      ]
+    }
+  },
+  {
+    "name": "planner-tracking-search",
+    "kind": "planner",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"base\": \"v1.4.0\", \"head\": \"v1.5.0\", \"stats\": {\"files\": 1, \"add\": 9, \"del\": 9}, \"files\": [{\"path\": \"tracking/search.go\", \"st\": \"M\", \"add\": 9, \"del\": 9, \"fn\": [\"SearchByCode\"]}]}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "flows": [
+        "mexpress/03_tracking/001_tra_cuu.yaml"
+      ]
+    }
+  },
+  {
+    "name": "planner-payment-cod",
+    "kind": "planner",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"base\": \"v1.4.0\", \"head\": \"v1.5.0\", \"stats\": {\"files\": 2, \"add\": 27, \"del\": 5}, \"files\": [{\"path\": \"payment/cod.go\", \"st\": \"M\", \"add\": 22, \"del\": 4, \"fn\": [\"CollectCOD\"]}, {\"path\": \"order/fee.go\", \"st\": \"M\", \"add\": 5, \"del\": 1, \"fn\": [\"CODFee\"]}]}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "flows": [
+        "mexpress/04_payment/001_cod.yaml",
+        "mexpress/02_order/001_tao_don.yaml"
+      ]
+    }
+  },
+  {
+    "name": "planner-shared-session",
+    "kind": "planner",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"base\": \"v1.4.0\", \"head\": \"v1.5.0\", \"stats\": {\"files\": 1, \"add\": 15, \"del\": 6}, \"files\": [{\"path\": \"common/session_store.go\", \"st\": \"M\", \"add\": 15, \"del\": 6, \"fn\": [\"SaveToken\", \"LoadToken\"]}]}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "flows": [
+        "mexpress/01_auth/01_login.yaml",
+        "mexpress/05_profile/001_doi_mat_khau.yaml"
+      ]
+    }
+  },
+  {
+    "name": "planner-docs-only",
+    "kind": "planner",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"base\": \"v1.4.0\", \"head\": \"v1.5.0\", \"stats\": {\"files\": 1, \"add\": 3, \"del\": 1}, \"files\": [{\"path\": \"README.md\", \"st\": \"M\", \"add\": 3, \"del\": 1}]}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "flows": []
+    }
+  },
+  {
+    "name": "triage-app-crash",
+    "kind": "triage",
+    "input": "{\"platforms\": [{\"platform\": \"android\", \"jobs\": [{\"app\": \"mexpress\", \"device\": \"emu-1\", \"runId\": \"run-7\", \"outcome\": [{\"flow\": \"02_order/001_tao_don.yaml\", \"passed\": false, \"failureClass\": \"crash\", \"error\": \"App crashed: java.lang.NullPointerException at OrderFeeView.bind\"}]}]}], \"failed\": true}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "category": "app"
+    }
+  },
+  {
+    "name": "triage-selector-renamed",
+    "kind": "triage",
+    "input": "{\"platforms\": [{\"platform\": \"android\", \"jobs\": [{\"app\": \"mexpress\", \"device\": \"emu-1\", \"runId\": \"run-7\", \"outcome\": [{\"flow\": \"01_auth/01_login.yaml\", \"passed\": false, \"failureClass\": \"assertion\", \"error\": \"Element with text 'Đăng nhập' not found after 10s\"}]}]}], \"failed\": true}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ],
+      "tools": {
+        "test_report": {
+          "run": {
+            "id": "run-7"
+          },
+          "flows": [
+            {
+              "flow": "01_auth/01_login.yaml",
+              "passed": false,
+              "steps": [
+                {
+                  "index": 4,
+                  "command": "tapOn: Đăng nhập",
+                  "ok": false,
+                  "error": "not found"
+                }
+              ],
+              "hierarchy": [
+                "Tiếp tục",
+                "Quên mật khẩu"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "expect": {
+      "category": "selector"
+    }
+  },
+  {
+    "name": "triage-data-missing-order",
+    "kind": "triage",
+    "input": "{\"platforms\": [{\"platform\": \"android\", \"jobs\": [{\"app\": \"mexpress\", \"device\": \"emu-1\", \"runId\": \"run-7\", \"outcome\": [{\"flow\": \"03_tracking/001_tra_cuu.yaml\", \"passed\": false, \"failureClass\": \"assertion\", \"error\": \"Expected 'Đang giao' but screen shows 'Không tìm thấy vận đơn'\"}]}]}], \"failed\": true}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "category": "data"
+    }
+  },
+  {
+    "name": "triage-environment-adb",
+    "kind": "triage",
+    "input": "{\"platforms\": [{\"platform\": \"android\", \"jobs\": [{\"app\": \"mexpress\", \"device\": \"emu-1\", \"runId\": \"run-7\", \"outcome\": [{\"flow\": \"04_payment/001_cod.yaml\", \"passed\": false, \"failureClass\": \"environment\", \"error\": \"adb: device emu-1 offline\"}]}]}], \"failed\": true}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "category": "environment"
+    }
+  },
+  {
+    "name": "triage-selector-moved",
+    "kind": "triage",
+    "input": "{\"platforms\": [{\"platform\": \"android\", \"jobs\": [{\"app\": \"mexpress\", \"device\": \"emu-1\", \"runId\": \"run-7\", \"outcome\": [{\"flow\": \"05_profile/001_doi_mat_khau.yaml\", \"passed\": false, \"failureClass\": \"assertion\", \"error\": \"Element id 'btn_save' not found\"}]}]}], \"failed\": true}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "category": "selector"
+    }
+  },
+  {
+    "name": "chat-login-android",
+    "kind": "chat",
+    "input": "chạy flow login trên Android",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "runs": [
+        {
+          "app": "mexpress",
+          "flows": [
+            "01_auth/01_login.yaml"
+          ],
+          "devices": [
+            "emu-1"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "chat-login-ios",
+    "kind": "chat",
+    "input": "chạy flow đăng nhập trên iPhone",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ]
+    },
+    "expect": {
+      "runs": [
+        {
+          "app": "mexpress",
+          "flows": [
+            "01_auth/01_login.yaml"
+          ],
+          "devices": [
+            "sim-1"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "pipeline-all-pass",
+    "kind": "pipeline",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"from\": \"v1.4.0\", \"to\": \"v1.5.0\"}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ],
+      "tools": {
+        "test_git_diff": {
+          "repo": "/Users/qa/code/mexpress",
+          "base": "v1.4.0",
+          "head": "v1.5.0",
+          "stats": {
+            "files": 1,
+            "add": 12,
+            "del": 3
+          },
+          "files": [
+            {
+              "path": "auth/login_service.go",
+              "st": "M",
+              "add": 12,
+              "del": 3,
+              "fn": [
+                "Login"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "expect": {
+      "status": "done",
+      "failed": false,
+      "runs": [
+        {
+          "app": "mexpress",
+          "flows": [
+            "01_auth/01_login.yaml"
+          ],
+          "devices": [
+            "emu-1"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "pipeline-one-fail",
+    "kind": "pipeline",
+    "input": "{\"repo\": \"/Users/qa/code/mexpress\", \"from\": \"v1.4.0\", \"to\": \"v1.5.0\"}",
+    "world": {
+      "flows": {
+        "mexpress": [
+          "01_auth/01_login.yaml",
+          "02_order/001_tao_don.yaml",
+          "03_tracking/001_tra_cuu.yaml",
+          "04_payment/001_cod.yaml",
+          "05_profile/001_doi_mat_khau.yaml"
+        ]
+      },
+      "devices": [
+        {
+          "id": "emu-1",
+          "platform": "android",
+          "state": "ready"
+        },
+        {
+          "id": "sim-1",
+          "platform": "ios",
+          "state": "ready"
+        }
+      ],
+      "tools": {
+        "test_git_diff": {
+          "repo": "/Users/qa/code/mexpress",
+          "base": "v1.4.0",
+          "head": "v1.5.0",
+          "stats": {
+            "files": 1,
+            "add": 12,
+            "del": 3
+          },
+          "files": [
+            {
+              "path": "auth/login_service.go",
+              "st": "M",
+              "add": 12,
+              "del": 3,
+              "fn": [
+                "Login"
+              ]
+            },
+            {
+              "path": "tracking/search.go",
+              "st": "M",
+              "add": 4,
+              "del": 2,
+              "fn": [
+                "SearchByCode"
+              ]
+            }
+          ]
+        }
+      },
+      "results": {
+        "mexpress/03_tracking/001_tra_cuu.yaml": {
+          "passed": false,
+          "failureClass": "assertion",
+          "error": "Element id 'search_box' not found"
+        }
+      }
+    },
+    "expect": {
+      "status": "done",
+      "failed": true,
+      "category": "selector",
+      "runs": [
+        {
+          "app": "mexpress",
+          "flows": [
+            "01_auth/01_login.yaml",
+            "03_tracking/001_tra_cuu.yaml"
+          ],
+          "devices": [
+            "emu-1"
+          ]
+        },
+        {
+          "app": "mexpress",
+          "flows": [
+            "03_tracking/001_tra_cuu.yaml"
+          ],
+          "devices": [
+            "emu-1"
+          ]
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "imagefactory-web",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-10-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  "routes": [{ "pattern": "imagefactory.zhst.app", "custom_domain": true }],
+  "send_email": [{ "name": "EMAIL" }],
+  "vars": {
+    "APP_ORIGIN": "https://imagefactory.zhst.app",
+    "BETTER_AUTH_URL": "https://imagefactory.zhst.app",
+    "EMAIL_PROVIDER": "cloudflare",
+    "ADMIN_EMAILS": "you@example.com",
+    "EMAIL_FROM": "ImageFactory <no-reply@imagefactory.zhst.app>",
+    "IMAGE_PUBLIC_BASE": "https://imagefactory.zhst.app/i"
+  },
+  "observability": { "enabled": true },
+  "kv_namespaces": [{ "binding": "SESSION", "id": "00000000000000000000000000000000" }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "imagefactory-web",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [{ "binding": "IMAGES", "bucket_name": "imagefactory-images" }],
+  "triggers": { "crons": ["*/5 * * * *", "0 * * * *", "20 3 * * *"] }
+}

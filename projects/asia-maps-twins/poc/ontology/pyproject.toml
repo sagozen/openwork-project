@@ -1,0 +1,16 @@
+[project]
+name = "bds-ontology-poc"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "jsonschema>=4.26.0",
+    "linkml>=1.12.1",
+    "psycopg[binary]>=3.3.8",
+    "pytest>=9.2.0",
+    "pyyaml>=6.0.3",
+]
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

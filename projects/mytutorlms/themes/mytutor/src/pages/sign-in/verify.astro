@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import VerifyLink from '../../components/VerifyLink';
+import { translator } from '../../i18n';
+import { pageContext } from '../../lib/page-context';
+const { locale } = await pageContext(Astro);
+---
+<Base title={translator(locale)('verify.eyebrow')} privatePage localized><VerifyLink client:load locale={locale} /></Base>

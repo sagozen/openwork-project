@@ -1,0 +1,38 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "myartifacts-web",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-10-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  "routes": [{ "pattern": "myartifacts.zhst.app", "custom_domain": true }],
+  "send_email": [{ "name": "EMAIL" }],
+  "vars": {
+    "APP_ORIGIN": "https://myartifacts.zhst.app",
+    "BETTER_AUTH_URL": "https://myartifacts.zhst.app",
+    "EMAIL_PROVIDER": "cloudflare",
+    "ADMIN_EMAILS": "you@example.com",
+    // Comma-separated owner addresses (same value as the tower). Only these can sign in or approve
+    // a connector. Empty means nobody can.
+    "OWNER_EMAILS": "you@example.com",
+    "EMAIL_FROM": "MyArtifacts <no-reply@myartifacts.zhst.app>",
+    // Contabo Object Storage. S3_REGION is the signing region; confirm it with
+    // scripts/contabo-s3-smoke.mjs before the first deploy. Files live in this one private bucket,
+    // not in R2. The access key id and secret are Worker secrets.
+    "S3_ENDPOINT": "https://usc1.contabostorage.com",
+    "S3_REGION": "usc1",
+    "S3_BUCKET": "myartifact"
+  },
+  "observability": { "enabled": true },
+  "kv_namespaces": [{ "binding": "SESSION", "id": "00000000000000000000000000000000" }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "myartifacts-web",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Hourly: expired-file and abandoned-upload cleanup. Daily: housekeeping.
+  "triggers": { "crons": ["0 * * * *", "20 3 * * *"] }
+}

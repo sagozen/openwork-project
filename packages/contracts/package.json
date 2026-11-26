@@ -1,0 +1,40 @@
+{
+  "name": "@templatedesign/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TemplateDesign shared contracts: JSON Schemas, OpenAPI draft, error catalogue and analytics allowlist",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schemas/*": "./schemas/*",
+    "./catalogue/*": "./catalogue/*",
+    "./openapi": "./openapi/openapi.yaml",
+    "./schemas": "./src/schemas.ts"
+  },
+  "files": [
+    "src",
+    "schemas",
+    "catalogue",
+    "openapi",
+    "fixtures",
+    "scripts"
+  ],
+  "scripts": {
+    "build": "node scripts/validate.mjs",
+    "check": "node scripts/validate.mjs && tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "typescript": "6.0.2"
+  },
+  "engines": {
+    "node": ">=24.21.0"
+  }
+}
