@@ -49,6 +49,11 @@ The app expects a REST backend. By default it calls `http://localhost:8080/api/v
 elsewhere. The backend is not part of this repository, and the sample records under `src/lib/admin/` are
 fictional. Sign-in uses Clerk: set your own publishable key in `src/lib/auth/clerk-domains.ts` before deploying.
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `bun run lint && bun test && bun run build`.
+
 ## License
 
 [MIT](LICENSE)

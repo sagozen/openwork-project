@@ -118,6 +118,11 @@ Every business table is queried with a `tenant_id` predicate, and `tests/isolati
 tool as a second account against the first account's ids and fails on any query without the predicate.
 Generated images are public by design (served with a one-year immutable cache, so a deleted image can linger in caches that already fetched it); brand reference images are private.
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `npm run check:imagefactory && npm run test:imagefactory`, run from the repository root.
+
 ## License
 
 [MIT](LICENSE)

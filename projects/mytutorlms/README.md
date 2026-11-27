@@ -149,6 +149,11 @@ Production deployment, domain and DNS changes, real student onboarding and ZeroH
 
 Original implementation against the public [community theme contract](https://github.com/ZeroHostCMS/zhst-community-themes/blob/main/CONTRIBUTING.md), [community plugin contract](https://github.com/ZeroHostCMS/zhst-community-plugins/blob/main/CONTRIBUTING.md), and [EmDash native plugin API](https://docs.emdashcms.com/plugins/creating-native-plugins/your-first-native-plugin/). No private ZeroHostCMS code, credentials, or customer exports are included. Each package includes an MIT license; dependency licenses remain their own.
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are the commands under [Verification commands](#verification-commands).
+
 ## License
 
 [MIT](LICENSE)

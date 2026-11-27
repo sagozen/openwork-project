@@ -41,6 +41,11 @@ Run `npm run preflight:ota` after pasting the ids (it catches placeholders and m
 deploy with `./deploy-cf.sh ota`. The full runbook is
 [`docs/mini-apps/deploy-and-operations.md`](../../docs/mini-apps/deploy-and-operations.md).
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `npm run check:ota && npm run test:ota`, run from the repository root.
+
 ## License
 
 [MIT](LICENSE)

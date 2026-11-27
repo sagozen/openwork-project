@@ -51,6 +51,11 @@ Step-by-step setup, measured timings and the three API contracts are in
 [docs/huong-dan-base.md](docs/huong-dan-base.md). The Google-compatible endpoints are in
 [docs/api-tuong-thich-google.md](docs/api-tuong-thich-google.md).
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `make lint && make test-unit`.
+
 ## License
 
 [MIT](LICENSE). Map data comes from OpenStreetMap contributors (ODbL) and is not included.

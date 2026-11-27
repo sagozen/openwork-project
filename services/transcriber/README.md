@@ -344,3 +344,8 @@ downloader/checksum/version comparison, the job registry and dashboard handlers.
 and the remote config/metrics/alerts contract are covered by the Worker's TypeScript tests
 (`npm run test:transcript`). Windows-only sensor and updater code is cross-compiled in CI
 (`GOOS=windows go build`).
+
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this service are `npm run test:transcriber`, run from the repository root.

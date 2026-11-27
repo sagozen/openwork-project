@@ -55,6 +55,11 @@ migrations.src/         app schema; `migrations/` is generated
 Worker service: [`services/transcriber`](../../services/transcriber/README.md).
 Shared core: [`packages/platform`](../../packages/platform/README.md).
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `npm run check:transcript && npm run test:transcript`, run from the repository root.
+
 ## License
 
 [MIT](LICENSE)

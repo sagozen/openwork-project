@@ -137,6 +137,11 @@ counts only.
 Uploaded content never runs on this origin: previews and downloads come from the storage host through presigned
 URLs, share pages carry a CSP that allows no script, and a type a browser could run is always an attachment.
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `npm run check:myartifacts && npm run test:myartifacts`, run from the repository root.
+
 ## License
 
 [MIT](LICENSE)

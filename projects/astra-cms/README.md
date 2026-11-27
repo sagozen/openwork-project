@@ -72,6 +72,11 @@ Kubernetes (k3d) with two kernel pods, Seata, the CDC worker and ingress: `make 
 Do not copy code, schema, fixtures or UI assets from ERPNext (GPL-3.0) or any GPL project. Referring to Frappe
 concepts such as "DocType" as shared vocabulary is fine; every implementation here is original.
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `make build && make test`.
+
 ## License
 
 [MIT](LICENSE)

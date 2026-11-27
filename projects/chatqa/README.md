@@ -55,6 +55,11 @@ pinned in `desktop/go.mod`.
 Working product code. Visual and live end-to-end suites (`npm run visual`, `playwright.live.config.mjs`)
 need devices and credentials and are not part of the quick check above.
 
+## Contributing
+
+Issues and pull requests are welcome. Read the [contributing guide](../../CONTRIBUTING.md) first; the checks
+for this project are `npm run check` in `apps/chatqa/web` and `go test ./...` in `apps/chatqa/desktop`.
+
 ## License
 
 [MIT](LICENSE)
